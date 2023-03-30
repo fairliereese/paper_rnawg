@@ -1,0 +1,12 @@
+encode:
+  human:
+    ab: https://www.encodeproject.org/files/ENCFF109QKT/@@download/ENCFF109QKT.tsv
+    filt_ab: https://www.encodeproject.org/files/ENCFF139IUH/@@download/ENCFF139IUH.tsv
+    read_annot: https://www.encodeproject.org/files/ENCFF857YZZ/@@download/ENCFF857YZZ.tsv
+    new_genode: https://www.encodeproject.org/files/ENCFF691CWD/@@download/ENCFF691CWD.gtf.gz
+
+data:
+  # ab: data/{species}/abundance.tsv
+  # filt_ab: data/{species}/abundance_filtered.tsv
+  # read_annot: data/{species}/read_annot.tsv
+  file: data/{species}/{file}

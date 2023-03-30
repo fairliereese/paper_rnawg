@@ -1,0 +1,97 @@
+rule merge_cage:
+    input:
+        beds = expand(config['cage']['bed'], encode_id=df_cage.index)
+    threads: 1
+    resources:
+        mem_gb = 8
+    output:
+        bed = config['cage']['merged']
+    script:
+        "../common/merge_beds.py"
+
+
+rule merge_rampage:
+    input:
+        beds = expand(config['rampage']['bed'], encode_id=df_rampage.index)
+    threads: 1
+    resources:
+        mem_gb = 8
+    output:
+        bed = config['rampage']['merged']
+    script:
+        "../common/merge_beds.py"
+
+
+def rampage_sample_encodeid(sample):
+    biosample = df_lr[df_lr['sample'] == sample]['Biosample term name'][0]
+    return df_rampage[df_rampage['Biosample term name'] == biosample].index.tolist()
+
+
+def cage_sample_encodeid(sample):
+    biosample = df_lr[df_lr['sample'] == sample]['Biosample term name'][0]
+    return df_cage[df_cage['Biosample term name'] == biosample].index.tolist()
+
+
+def rampage_bed(wildcards):
+    return expand(config['rampage']['bed'],
+                  encode_id=rampage_sample_encodeid(wildcards.sample))
+
+
+def cage_bed(wildcards):
+    return expand(config['cage']['bed'],
+                  encode_id=cage_sample_encodeid(wildcards.sample))
+
+
+rule tss_rampage_pr_curve:
+    input:
+        bed = rampage_bed,
+        tss_dir = config['lapa']['tss']
+    threads: 1
+    resources:
+        mem_gb = 8
+    output:
+        pr = config['tss']['rampage_overlap']
+    notebook:
+        "./pr_curve.ipynb"
+
+
+rule tss_cage_pr_curve:
+    input:
+        bed = cage_bed,
+        tss_dir = config['lapa']['tss']
+    threads: 1
+    resources:
+        mem_gb = 8
+    output:
+        pr = config['tss']['cage_overlap']
+    notebook:
+        "./pr_curve.ipynb"
+
+
+# intersection pared samples between long-read and rampage/cage
+cage_pairs = df_lr[df_lr['Biosample term name']
+                   .isin(set(df_cage['Biosample term name'].unique()))]['sample']
+
+rampage_pairs = df_lr[df_lr['Biosample term name']
+                      .isin(set(df_rampage['Biosample term name'].unique()))]['sample']
+
+
+rule cage_benchmark:
+    input:
+        pr = expand(rules.tss_cage_pr_curve.output, sample=cage_pairs),
+    threads: 1
+    resources:
+        mem_gb = 4
+    output:
+        fig = 'reports/tss/cage_pr_curve.png'
+    notebook:
+        "./tss_benchmark.ipynb"
+
+
+rule all_tss:
+    input:
+        expand(rules.tss_rampage_pr_curve.output, sample=rampage_pairs),
+        expand(rules.tss_cage_pr_curve.output, sample=cage_pairs)
+
+        # rules.merge_cage.output,
+        # rules.merge_rampage.output

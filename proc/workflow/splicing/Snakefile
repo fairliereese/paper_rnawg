@@ -1,0 +1,71 @@
+# IMPORTANT: external dependency need to installed
+# See: https://github.com/pervouchine/sjcount.git
+# I download sjcount to same level with sjcount
+
+rule sjcounts:
+    input:
+        bam = config['short_rna']['bam']
+    params:
+        sjcount_path = '../sjcount/sjcount'
+    log: 'logs/short_rna/sj/{encode_id}.log'
+    priority: 50
+    threads: 1
+    resources:
+        mem_gb = 4
+    output:
+        ssj = config['short_rna']['ssj'],
+        ssc = config['short_rna']['ssc']
+    shell:
+        "{params.sjcount_path} \
+        -bam {input.bam} \
+        -ssj {output.ssj} \
+        -ssc {output.ssc} \
+        -log {log}"
+
+
+rule sj_bed:
+    input:
+        ssj = config['short_rna']['ssj'],
+    threads: 1
+    resources:
+        mem_gb = 4
+    output:
+        sj = config['short_rna']['sj']
+    script:
+        "./sj_bed.py"
+
+
+def sj_from_biosample(wildcards):
+    encode_ids = df_short[df_short['Biosample term name']
+                          == wildcards.biosample].index
+    return expand(config['short_rna']['sj'], encode_id=encode_ids)
+
+
+rule agg_sj_biosample:
+    input:
+        sj = sj_from_biosample
+    threads: 1
+    resources:
+        mem_gb = 4
+    output:
+        sj = config['short_rna']['sj_biosample']
+    script:
+        "./agg_sj_bed.py"
+
+
+rule agg_sj_all:
+    input:
+        sj = expand(config['short_rna']['sj_biosample'],
+                    biosample=df_short['Biosample term name'].unique())
+    threads: 1
+    resources:
+        mem_gb = 16
+    output:
+        sj = config['short_rna']['sj_all']
+    script:
+        "./agg_sj_bed.py"
+
+
+rule all_splicing:
+    input:
+        rules.agg_sj_all.output

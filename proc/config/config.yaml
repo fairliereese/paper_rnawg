@@ -1,0 +1,80 @@
+drive_id:
+  human:
+    read_annot: 1ZBMd4p73TlYsox5KNEkqJqm_u9xvQec7
+    gtf: 1O_Vd5-SjyBE9MjxFsoLBjD43Tx7kw-T5
+    abundance: 1repLKHfQYV66MEv0FweyKJxtvvs4sFlj
+
+fasta: data/resources/common/human.fasta
+gtf_raw: data/resources/common/human.gtf
+gtf: data/resources/wg/common/human.utr_fix.gtf
+chrom_sizes: data/resources/common/human.chrom_sizes
+
+lr:
+  bam: data/resources/lr/bam/{encode_id}.bam
+  merged_bam: data/resources/lr/merged.bam
+  
+  read_counts: data/results/lr/read_counts/{encode_id}.txt
+
+talon:
+  gtf: data/resources/talon/human_talon.gtf 
+  abundance_unfiltered: data/resources/talon/human_talon_abundance.tsv
+  abundance: data/resources/talon/human_talon_abundance_filtered.tsv
+  read_annot: data/resources/talon/human_talon_read_annot.tsv
+
+  gtf_corrected: data/results/talon/human_talon.corrected.gtf
+  abundance_corrected: data/results/talon/human_talon_abundance_filtered.corrected.tsv
+
+cCREs:
+  promotors: data/resources/cCREs/GRCh38-PLS.bed
+  proximal_enhancers: data/resources/cCREs/GRCh38-ccREs.pELS.bed
+  distal_enhancers: data/resources/cCREs/GRCh38-ccREs.dELS.bed
+
+fantom: data/resources/fantom/hg38_CAGE.bed
+
+cage:
+  bed: data/resources/cage/idr_peak/{encode_id}.bed
+  merged: data/results/cage/merged.bed
+  
+rampage:
+  bed: data/resources/rampage/idr_peak/{encode_id}.bed
+  merged: data/results/rampage/merged.bed
+
+tss:
+  rampage_overlap: data/results/tss/rampage/pr_curve_{sample}.csv
+  cage_overlap: data/results/tss/cage/pr_curve_{sample}.csv
+
+miRNA:
+  exp_mibr: data/resources/miRNA/Exp-miBRS_track_information_hg38.tsv
+  all_bed: data/results/miRNA/miRNA_targets_all.bed
+  family_bed: data/results/miRNA/miRNA_targets_with_families.bed
+  sample: data/results/miRNA/{sample}_miRNA_targets_all.bed
+
+  bru_bw: data/resources/bru/bigwig/{encode_id}.bigWig
+
+  families: data/resources/targetscan/miR_Family_Info.txt
+  targetscan_hg19: data/resources/targetscan/Predicted_Target_Locations.default_predictions.hg19.bed
+  targetscan: data/results/targetscan/predicted_targets.hg38.bed
+
+  counts: configs/human_mirna_counts.tsv
+  counts_biosample: data/results/miRNA/biosample_mirna_counts.tsv
+  biosample_targets: data/results/miRNA/{biosample}_targets.bed
+
+short_rna:
+  bam: data/resources/short_rna/bam/{encode_id}.bam
+  ssj: data/resources/short_rna/ssj/{encode_id}.ssj.tsv
+  ssc: data/resources/short_rna/ssc/{encode_id}.ssc.tsv
+
+  sj: data/results/short_rna/sj/{encode_id}.sj.bed
+  sj_biosample: data/results/short_rna/biosample_sj/{biosample}.sj.bed
+  sj_all: data/results/short_rna/all.sj.bed
+
+lapa:
+  config: data/results/lapa/wg_config.csv
+  tes: data/results/lapa/tes/
+  tss: data/results/lapa/tss/
+  link: data/results/lapa/tss_to_tes_links.csv
+
+igv:
+  gtf_sorted: data/results/igv/human.utr_fix.sorted.gtf
+  gtf_talon_sorted: data/results/igv/human_talon.sorted.gtf
+  gtf_talon_corrected_sorted: data/results/igv/human_talon.corrected.sorted.gtf

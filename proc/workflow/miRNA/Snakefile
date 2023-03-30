@@ -1,0 +1,74 @@
+rule download_miRNA_targetscan:
+    params:
+        output_dir = str(Path(config['miRNA']['targetscan_hg19']).parent),
+        url = 'https://www.targetscan.org/vert_80/vert_80_data_download/Predicted_Target_Locations.default_predictions.hg19.bed.zip'
+    threads: 1
+    resources:
+        mem_gb = 4
+    output:
+        config['miRNA']['targetscan_hg19']
+    shell:
+        "wget {params.url} -O {output}.zip && unzip -o {output} -d{params.output_dir}"
+
+
+rule miRNA_bed_all_targets:
+    input:
+        tsv = config['miRNA']['exp_mibr']
+    threads: 1
+    resources:
+        mem_gb = 4
+    output:
+        all_bed = config['miRNA']['all_bed'],
+        family_bed = config['miRNA']['family_bed']
+    script:
+        "./exp_mibr_to_bed.py"
+
+
+rule liftover_targetscan:
+    input:
+        bed = config['miRNA']['targetscan_hg19']
+    threads: 1
+    resources:
+        mem_gb = 4
+    log: 'logs/miRNA/liftover.log'
+    output:
+        bed = config['miRNA']['targetscan']
+    script:
+        "./liftover_targetscan.py"
+
+
+rule miRNA_count_biosample:
+    input:
+        counts = config['miRNA']['counts'],
+    threads: 1
+    resources:
+        mem_gb = 4
+    params:
+        df_mirna = df_mirna
+    output:
+        counts = config['miRNA']['counts_biosample'],
+    script:
+        "./count_biosample.py"
+
+
+rule miRNA_filter_expression:
+    input:
+        counts = config['miRNA']['counts_biosample'],
+        targetscan = config['miRNA']['targetscan'],
+        exp_bed = config['miRNA']['all_bed'],
+        family = config['miRNA']['families']
+    threads: 1
+    resources:
+        mem_gb = 4
+    params:
+        df_miran = df_mirna
+    output:
+        bed = config['miRNA']['biosample_targets']
+    script:
+        "./biosample_targets.py"
+
+
+rule all_miRNA:
+    input:
+        expand(rules.miRNA_filter_expression.output,
+               biosample=df_mirna['Biosample.term.name'].unique())

@@ -1,0 +1,177 @@
+import pandas as pd
+import numpy as np
+import scipy.stats as st
+import seaborn as sns
+import sys
+import os
+import gseapy as gp
+import swan_vis as swan
+from scipy import sparse
+import pyranges
+
+p = os.getcwd()
+sys.path.append(p)
+
+from scripts.utils import *
+from scripts.plotting import *
+
+configfile: "configs/lr_bulk_config.yaml"
+
+rule all:
+    input:
+        config['wtc11']['cerberus']['tss'],
+        config['wtc11']['cerberus']['ref']
+
+def format_lapa_ends(bed, o):
+    df = pd.read_csv(bed, sep='\t', header=None)
+
+    # subset on specific columns
+    df = df[[0,1,2,5,7]]
+    df.columns = ['Chromosome', 'Start', 'End', 'Strand', 'gene_id']
+
+    # get stable gid
+    df = add_stable_gid(df)
+    df.rename({'gene_id': 'Name'}, axis=1, inplace=True)
+
+    # add indicator that this file came from lapa
+    df['ThickStart'] = 'lapa'
+
+    # remove regions not associated with a gene
+    df = df.loc[~df.Name.str.contains('intergenic')]
+
+    # add arbitrary unique index to name
+    df['num'] = [i for i in range(len(df.index))]
+    df['Name'] = df.Name+'_'+df.num.astype(str)
+
+    df.to_csv(o+'.tsv')
+    df = pr.PyRanges(df)
+    df.to_bed(o)
+
+rule format_lapa_tss:
+    input:
+        bed = config['wtc11']['lapa']['filt']
+    resources:
+        mem_gb = 4,
+        threads = 1
+    output:
+        bed_formatted = config['wtc11']['lapa']['format']
+    run:
+        format_lapa_ends(input.bed, output.bed_formatted)
+
+def format_weird_bed(fname, o):
+    df = pd.read_csv(fname, sep='\t', header=None).rename(columns={0: 'Chromosome', 1: 'Start', 2: 'End', 5: 'Strand'})
+    df = df[['Chromosome', 'Start', 'End', 'Strand']]
+    df = pr.PyRanges(df)
+    df.to_bed(o)
+
+rule format_cage_replicated:
+    input:
+        bed = config['wtc11']['cage']['filt']
+    resources:
+        mem_gb = 4,
+        threads = 1
+    output:
+        bed_format = config['wtc11']['cage']['format']
+    run:
+        format_weird_bed(input.bed, output.bed_format)
+
+rule download_wtc11_ccre:
+    params:
+        link = 'http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/ENCFF736FHB_ENCFF857KTM_ENCFF306ZMK.bed.gz'
+    resources:
+        mem_gb = 2,
+        threads = 1
+    output:
+        bed = config['wtc11']['ccre']['bed_zip']
+    shell:
+        "wget -O {output.bed} {params.link} "
+
+rule unzip_ccre:
+    input:
+        bed_zip = config['wtc11']['ccre']['bed_zip']
+    resources:
+        mem_gb = 2,
+        threads = 1
+    output:
+        bed = config['wtc11']['ccre']['bed']
+    shell:
+        "gunzip {input.bed_zip}"
+
+rule cerberus_agg_tss_config:
+    input:
+        v41 = expand(config['cerberus']['gtf']['ends'],
+            mode=['tss'], source=['v41']),
+        v29 = expand(config['cerberus']['gtf']['ends'],
+            mode=['tss'], source=['v29']),
+        lapa = config['wtc11']['lapa']['format'],
+        sscage_filt = config['wtc11']['cage']['format'],
+        sscage_unfilt = config['wtc11']['cage']['unfilt'],
+        encode_cage = config['cage']['merged'],
+        fantom_cage = config['fantom']['hg38'],
+        encode_rampage = config['rampage']['merged'],
+        ccre = config['wtc11']['ccre']['bed'],
+    resources:
+        mem_gb = 1,
+        threads = 1
+    params:
+        add_ends = [True, True, True, False,
+                    False, False,
+                    False,
+                    False, False],
+        sources = ['v41', 'v29', 'lapa', 'sscage_filt',
+                   'sscage_unfilt',
+                   'encode_cage', 'fantom_cage',
+                   'encode_rampage',
+                   'ccre']
+    output:
+        cfg = config['wtc11']['cerberus']['cfg']
+    run:
+        files = [input.v41,
+                 input.v29,
+                 input.lapa,
+                 input.sscage_filt,
+                 input.sscage_unfilt,
+                 input.encode_cage,
+                 input.fantom_cage,
+                 input.encode_rampage,
+                 input.ccre]
+        df = pd.DataFrame()
+        df['fname'] = files
+        df['add_ends'] = params.add_ends
+        df['sources'] = params.sources
+        df.to_csv(output.cfg, sep=',', header=None, index=False)
+
+rule cerberus_agg_tss_ends:
+    input:
+        cfg = config['wtc11']['cerberus']['cfg']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    params:
+        slack = 20
+    output:
+        bed = config['wtc11']['cerberus']['tss'],
+        source_map = config['wtc11']['cerberus']['source_map']
+    shell:
+        "cerberus agg_ends \
+            --input {input.cfg} \
+            --mode tss \
+            --slack {params.slack} \
+            -o {output.bed}"
+
+rule cerberus_write_ref:
+    input:
+        tss = config['wtc11']['cerberus']['tss'],
+        tes = config['cerberus']['tes']['agg'],
+        ics = config['cerberus']['ics']['agg']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    output:
+        ref = config['wtc11']['cerberus']['ref']
+    shell:
+        "cerberus write_reference \
+            --tss {input.tss} \
+            --tes {input.tes} \
+            --ics {input.ics} \
+            -o {output.ref}"

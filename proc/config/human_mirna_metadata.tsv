@@ -1,0 +1,222 @@
+File.accession	File.assembly	Experiment.accession	Assay	Donor.s.	Biosample.term.id	Biosample.term.name	Long_read_tissue	Long_read_biosample_name	Biosample.type	Biosample.organism	Biological.replicate.s.	Technical.replicate.s.	md5sum
+ENCFF416DBB	GRCh38	ENCSR898GHF	microRNA-seq	/human-donors/ENCDO394DKX/	NTR:0000663	stimulated activated CD4-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	1	1_1	6d05f10afdf9a9df0da03996aa716945
+ENCFF337ZCV	GRCh38	ENCSR898GHF	microRNA-seq	/human-donors/ENCDO394DKX/	NTR:0000663	stimulated activated CD4-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	2	2_1	c22719fa0c3aa8b3fc250f1ca1d15238
+ENCFF639FBD	GRCh38	ENCSR621NPL	microRNA-seq	/human-donors/ENCDO394DKX/	CL:0000624	CD4-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	1	1_1	4de19dd6a958e45804f09e0d8eabc8bc
+ENCFF965LNA	GRCh38	ENCSR621NPL	microRNA-seq	/human-donors/ENCDO394DKX/	CL:0000624	CD4-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	2	2_1	80bf3d65c4bffb435ba52f92a8cf10b1
+ENCFF434PFO	GRCh38	ENCSR200VKZ	microRNA-seq	/human-donors/ENCDO520EJG/	NTR:0000494	left ventricle myocardium superior	heart	left_ventricle_myocardium_superior	tissue	Homo sapiens	1	1_1	81ce4ffa7d0248986bf02dd9047615ef
+ENCFF567QQP	GRCh38	ENCSR591GQG	microRNA-seq	/human-donors/ENCDO411EVD/	UBERON:0008971	left colon	colon	left_colon	tissue	Homo sapiens	1	1_1	9f66783a4d9948be5977344f88adc9d2
+ENCFF622GIX	GRCh38	ENCSR812JKX	microRNA-seq	/human-donors/ENCDO575WHY/	UBERON:0000947	aorta	vessels	aorta	tissue	Homo sapiens	1	1_1	f4e951f46c4e5219d4d170ec9a77d5d2
+ENCFF141FGO	GRCh38	ENCSR796JPP	microRNA-seq	/human-donors/ENCDO856ZOJ/	UBERON:0015143	mesenteric fat pad	adipose	mesenteric_fat_pad	tissue	Homo sapiens	1	1_1	dbe5a245c7016488f1c2710f8e0c1660
+ENCFF343RGE	GRCh38	ENCSR770HBF	microRNA-seq	/human-donors/ENCDO000AAK/	EFO:0002784	GM12878	NA	gm12878	cell line	Homo sapiens	1	1_1	525b72bd87ca949a88996d0996fe59c8
+ENCFF652ODI	GRCh38	ENCSR770HBF	microRNA-seq	/human-donors/ENCDO000AAK/	EFO:0002784	GM12878	NA	gm12878	cell line	Homo sapiens	2	2_1	889b52faa8468a9ef03fef6c7f255b3b
+ENCFF520TSX	GRCh38	ENCSR527FYM	microRNA-seq	/human-donors/ENCDO336AAA/	CL:0000127	astrocyte	NA	pgp1_astro	in vitro differentiated cells	Homo sapiens	1	1_1	6e376c12484148a95326d0bed829b382
+ENCFF174IVI	GRCh38	ENCSR527FYM	microRNA-seq	/human-donors/ENCDO336AAA/	CL:0000127	astrocyte	NA	pgp1_astro	in vitro differentiated cells	Homo sapiens	2	2_1	3b34355544288811c3b9924834cc4c4f
+ENCFF045TDA	GRCh38	ENCSR153MHB	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0000138	chondrocyte	NA	h9_chondro	in vitro differentiated cells	Homo sapiens	3	3_1	df4c6b8539e5381431a9458dae87ce21
+ENCFF156WYO	GRCh38	ENCSR153MHB	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0000138	chondrocyte	NA	h9_chondro	in vitro differentiated cells	Homo sapiens	1	1_1	7d4263e1d398d2e554b65bbed7d5d630
+ENCFF596SHW	GRCh38	ENCSR153MHB	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0000138	chondrocyte	NA	h9_chondro	in vitro differentiated cells	Homo sapiens	2	2_1	f588efec69d85dc286e3873574ecbebb
+ENCFF847WMB	GRCh38	ENCSR076EJO	microRNA-seq	/human-donors/ENCDO000AAS/	CL:0002618	endothelial cell of umbilical vein	NA	huvec	primary cell	Homo sapiens	1	1_1	fc7447fab66b2a7253784c9c940b9ef8
+ENCFF559LQV	GRCh38	ENCSR076EJO	microRNA-seq	/human-donors/ENCDO000AAS/	CL:0002618	endothelial cell of umbilical vein	NA	huvec	primary cell	Homo sapiens	2	2_1	077f7f4e547c1c77fd0fbe67058d9625
+ENCFF192BYF	GRCh38	ENCSR004ACG	microRNA-seq	/human-donors/ENCDO856ZOJ/	UBERON:0002080	heart right ventricle	heart	heart_right_ventricle	tissue	Homo sapiens	1	1_1	3b3a656494196c954ba9cb23505d8029
+ENCFF008ZNM	GRCh38	ENCSR533CQQ	microRNA-seq	/human-donors/ENCDO528BHB/	UBERON:0001072	posterior vena cava	vessels	posterior_vena_cava	tissue	Homo sapiens	1	1_1	6872cb12beaf62f107f381d2ab0b8f15
+ENCFF141KTY	GRCh38	ENCSR071QRH	microRNA-seq	/human-donors/ENCDO394DKX/	CL:0000896	activated CD4-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	1	1_1	d19aa560e361a3ba8a9ce87ff5eae2be
+ENCFF229TRL	GRCh38	ENCSR071QRH	microRNA-seq	/human-donors/ENCDO394DKX/	CL:0000896	activated CD4-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	2	2_1	d30d87d51db002fa2ea41d7d45630302
+ENCFF645YXV	GRCh38	ENCSR877HZT	microRNA-seq	/human-donors/ENCDO520EJG/	UBERON:0008953	lower lobe of left lung	lung	lower_lobe_of_left_lung	tissue	Homo sapiens	1	1_1	e73522b925c6f4890f7564130c8f3b1c
+ENCFF800IDT	GRCh38	ENCSR495VFH	microRNA-seq	/human-donors/ENCDO520EJG/	UBERON:0002078	right cardiac atrium	heart	right_cardiac_atrium	tissue	Homo sapiens	1	1_1	311254884785d69337d4eaa894cd47bd
+ENCFF905HDC	GRCh38	ENCSR121NOY	microRNA-seq	/human-donors/ENCDO411EVD/	UBERON:0002078	right cardiac atrium	heart	right_cardiac_atrium	tissue	Homo sapiens	1	1_1	aa4372453fd0eb7fddeb56469630fcb8
+ENCFF992ZUY	GRCh38	ENCSR341PLF	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0011019	mesothelial cell of epicardium	NA	NA	in vitro differentiated cells	Homo sapiens	1	1_1	fb2558b8938d9289b78f2b4d0169d47e
+ENCFF252LEC	GRCh38	ENCSR341PLF	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0011019	mesothelial cell of epicardium	NA	NA	in vitro differentiated cells	Homo sapiens	2	2_1	c31ee8aac01c764db7cac14ead7cb048
+ENCFF089QGH	GRCh38	ENCSR341PLF	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0011019	mesothelial cell of epicardium	NA	NA	in vitro differentiated cells	Homo sapiens	3	3_1	57b9e4bbc885d22befe4e20168490327
+ENCFF721EFA	GRCh38	ENCSR569QVM	microRNA-seq	/human-donors/ENCDO000AAD/	EFO:0002067	K562	NA	k562	cell line	Homo sapiens	1	1_1	cf66ed1e811f65e236a61b6e714a672f
+ENCFF467CBW	GRCh38	ENCSR569QVM	microRNA-seq	/human-donors/ENCDO000AAD/	EFO:0002067	K562	NA	k562	cell line	Homo sapiens	2	2_1	0db209a46dd06a4fc6b0e77bff148f50
+ENCFF827OWX	GRCh38	ENCSR249SPI	microRNA-seq	/human-donors/ENCDO392CRK/	UBERON:0002084	heart left ventricle	heart	heart_left_ventricle	tissue	Homo sapiens	1	1_1	459c4cebfe33bcc23efa09a5414e0551
+ENCFF428XME	GRCh38	ENCSR482MHU	microRNA-seq	/human-donors/ENCDO856ZOJ/	UBERON:0002084	heart left ventricle	heart	heart_left_ventricle	tissue	Homo sapiens	1	1_1	8bb47416a60dc5158afd8bf946c2eaf1
+ENCFF213QEV	GRCh38	ENCSR151IFS	microRNA-seq	/human-donors/ENCDO791UJG/	NTR:0000498	CD4-positive, alpha-beta memory T cell	NA	NA	primary cell	Homo sapiens	1	1_1	c1c993e786625335901907d23e3e3d6d
+ENCFF656YPG	GRCh38	ENCSR151IFS	microRNA-seq	/human-donors/ENCDO791UJG/	NTR:0000498	CD4-positive, alpha-beta memory T cell	NA	NA	primary cell	Homo sapiens	2	2_1	173fc9ee46768e823e62435bdf048bc0
+ENCFF794XRI	GRCh38	ENCSR070KPQ	microRNA-seq	/human-donors/ENCDO575WHY/	UBERON:0001322	sciatic nerve	nerve	sciatic_nerve	tissue	Homo sapiens	1	1_1	7d64e0e28b69aa7d465d23195da1a12e
+ENCFF437SBD	GRCh38	ENCSR723WQE	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0001150	body of pancreas	pancreas	body_of_pancreas	tissue	Homo sapiens	1	1_1	20b4ca9837a16f031c046b0088264e05
+ENCFF702OQW	GRCh38	ENCSR723WQE	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0001150	body of pancreas	pancreas	body_of_pancreas	tissue	Homo sapiens	2	2_1	a78dff2605a9e4fda82d7f59749a497e
+ENCFF424IRB	GRCh38	ENCSR160XYB	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0002369	adrenal gland	adrenal gland	adrenal_gland	tissue	Homo sapiens	2	2_1	473f6dfd50b89978d40dde2bca6f0de6
+ENCFF420OMK	GRCh38	ENCSR982DED	microRNA-seq	/human-donors/ENCDO027VXA/	EFO:0002106	A673	NA	a673	cell line	Homo sapiens	1	1_1	091f9e1acba252e27842be08dee6f143
+ENCFF392ZGJ	GRCh38	ENCSR982DED	microRNA-seq	/human-donors/ENCDO027VXA/	EFO:0002106	A673	NA	a673	cell line	Homo sapiens	2	2_1	c9e8f3896754c98ac5d0f80f0bb54fb1
+ENCFF067MGG	GRCh38	ENCSR493KWZ	microRNA-seq	/human-donors/ENCDO271OUW/	UBERON:0006631	right atrium auricular region	heart	right_atrium_auricular_region	tissue	Homo sapiens	1	1_1	130c1032f1ac0ff0e7e45ba6a838fb8a
+ENCFF729CFS	GRCh38	ENCSR493KWZ	microRNA-seq	/human-donors/ENCDO271OUW/	UBERON:0006631	right atrium auricular region	heart	right_atrium_auricular_region	tissue	Homo sapiens	2	2_1	776d18daebbf10f5531537fa26929621
+ENCFF755NNR	GRCh38	ENCSR913DCT	microRNA-seq	/human-donors/ENCDO271OUW/	UBERON:0000996	vagina	vagina	vagina	tissue	Homo sapiens	1	1_1	7fbf6f8a368be8a544b4221eaede5f5f
+ENCFF253JUY	GRCh38	ENCSR913DCT	microRNA-seq	/human-donors/ENCDO271OUW/	UBERON:0000996	vagina	vagina	vagina	tissue	Homo sapiens	2	2_1	6e0769add53400f301724bc0ec61f0bc
+ENCFF074PXG	GRCh38	ENCSR088SDZ	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0000473	testis	testis	testis	tissue	Homo sapiens	1	1_1	41df605b50365b82aab01210cb1c8bd1
+ENCFF565UUV	GRCh38	ENCSR088SDZ	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0000473	testis	testis	testis	tissue	Homo sapiens	2	2_1	e0c3bef07ea84d34642732e981cf2451
+ENCFF601QBC	GRCh38	ENCSR589PZB	microRNA-seq	/human-donors/ENCDO392CRK/	UBERON:0004992	mucosa of descending colon	colon	mucosa_of_descending_colon	tissue	Homo sapiens	1	1_1	b9e8c1fa230cc2a26a2e8563b846da0d
+ENCFF613KZJ	GRCh38	ENCSR875UFE	microRNA-seq	/human-donors/ENCDO793LXB/	UBERON:0001114	right lobe of liver	liver	right_lobe_of_liver	tissue	Homo sapiens	1	1_1	770965a06c24fa57c011350eed415dce
+ENCFF874LJS	GRCh38	ENCSR875UFE	microRNA-seq	/human-donors/ENCDO793LXB/	UBERON:0001114	right lobe of liver	liver	right_lobe_of_liver	tissue	Homo sapiens	2	2_1	205dcecbbf2d5853e40e2d25b0bb0343
+ENCFF375GZN	GRCh38	ENCSR491VSN	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0011907	gastrocnemius medialis	muscle	gastrocnemius_medialis	tissue	Homo sapiens	1	1_1	fe86ee5f2ecb557544f0c46ad344965a
+ENCFF443YAW	GRCh38	ENCSR491VSN	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0011907	gastrocnemius medialis	muscle	gastrocnemius_medialis	tissue	Homo sapiens	2	2_1	8ad7ce15db6180c8ee49c146d0baf210
+ENCFF385QYX	GRCh38	ENCSR543MWW	microRNA-seq	/human-donors/ENCDO793LXB/	UBERON:0006631	right atrium auricular region	heart	right_atrium_auricular_region	tissue	Homo sapiens	2	2_1	9c3dd18017be49f731a3621c38f6170f
+ENCFF928HTH	GRCh38	ENCSR895DRP	microRNA-seq	/human-donors/ENCDO575WHY/	UBERON:0001114	right lobe of liver	liver	right_lobe_of_liver	tissue	Homo sapiens	1	1_1	2cb76821a42f0500a795fb3299109082
+ENCFF467YZL	GRCh38	ENCSR400OKQ	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0001150	body of pancreas	pancreas	body_of_pancreas	tissue	Homo sapiens	2	2_1	f472bffbab500ba844c49d11d333b448
+ENCFF296NWQ	GRCh38	ENCSR400OKQ	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0001150	body of pancreas	pancreas	body_of_pancreas	tissue	Homo sapiens	1	1_1	172c1254fb76c3e153f361d13e538721
+ENCFF238YTG	GRCh38	ENCSR349RCY	microRNA-seq	/human-donors/ENCDO647UHQ/	EFO:0002847	PC-9	NA	pc9	cell line	Homo sapiens	1	1_1	8ed24444bfcb9308c28b576a29c47c78
+ENCFF093TOS	GRCh38	ENCSR349RCY	microRNA-seq	/human-donors/ENCDO647UHQ/	EFO:0002847	PC-9	NA	pc9	cell line	Homo sapiens	2	2_1	2d777416e1d8d00f995102bc272e9b6f
+ENCFF222NAC	GRCh38	ENCSR022IFZ	microRNA-seq	/human-donors/ENCDO343AAA/	CL:0002327	mammary epithelial cell	NA	hmec	primary cell	Homo sapiens	1	1_1	b5c2ae9f302b8e8f6f42e53521dd7d15
+ENCFF164YOM	GRCh38	ENCSR022IFZ	microRNA-seq	/human-donors/ENCDO343AAA/	CL:0002327	mammary epithelial cell	NA	hmec	primary cell	Homo sapiens	2	2_1	d044a614f4ba417e1e15231ac018e2f4
+ENCFF062GEP	GRCh38	ENCSR122DIB	microRNA-seq	/human-donors/ENCDO520EJG/	NTR:0000493	left ventricle myocardium inferior	heart	left_ventricle_myocardium_inferior	tissue	Homo sapiens	1	1_1	5c4ef6eed45907f8b5455798341d9a42
+ENCFF991OTZ	GRCh38	ENCSR228XLW	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0000223	endodermal cell	NA	h9_de	in vitro differentiated cells	Homo sapiens	1	1_1	07f37b2310470070a8d289d59b43dfcd
+ENCFF492AZH	GRCh38	ENCSR155HYM	microRNA-seq	/human-donors/ENCDO575EGL/	UBERON:0001114	right lobe of liver	liver	right_lobe_of_liver	tissue	Homo sapiens	1	1_1	518c17c1b3d5eb247f607402d16fedfe
+ENCFF029ISG	GRCh38	ENCSR201MAS	microRNA-seq	/human-donors/ENCDO000AAC/	EFO:0001187	HepG2	NA	hepg2	cell line	Homo sapiens	1	1_1	866a820b9d0bcd6bf28d1307a8ce52e3
+ENCFF249CRJ	GRCh38	ENCSR071LFN	microRNA-seq	/human-donors/ENCDO222AAA/	EFO:0003045	H9	NA	h9	cell line	Homo sapiens	1	1_1	26c98fed7550ca460220432489c4e4ae
+ENCFF412MPY	GRCh38	ENCSR071LFN	microRNA-seq	/human-donors/ENCDO222AAA/	EFO:0003045	H9	NA	h9	cell line	Homo sapiens	2	2_1	40d70c90227b6cd68356268f6c5aa355
+ENCFF221TXA	GRCh38	ENCSR123QKC	microRNA-seq	/human-donors/ENCDO000AAX/	EFO:0001196	IMR-90	NA	imr90	cell line	Homo sapiens	1	1_1	f90a61fff52b4f214f027fd9f02e23b4
+ENCFF889KIG	GRCh38	ENCSR701ZTJ	microRNA-seq	/human-donors/ENCDO186XRB/	UBERON:0001264	pancreas	pancreas	pancreas	tissue	Homo sapiens	1	1_1	333b50728f2a7dc8e93129bebf00637f
+ENCFF956BAL	GRCh38	ENCSR820BMF	microRNA-seq	/human-donors/ENCDO000AAW/	CL:0000223	endodermal cell	NA	h1_de	in vitro differentiated cells	Homo sapiens	1	1_1	0b4f1a9746071e930498ffff1aadd62b
+ENCFF498GDT	GRCh38	ENCSR820BMF	microRNA-seq	/human-donors/ENCDO000AAW/	CL:0000223	endodermal cell	NA	h1_de	in vitro differentiated cells	Homo sapiens	3	3_1	d33b40e7d23019b9e4395699b70f5d82
+ENCFF385QZD	GRCh38	ENCSR820BMF	microRNA-seq	/human-donors/ENCDO000AAW/	CL:0000223	endodermal cell	NA	h1_de	in vitro differentiated cells	Homo sapiens	2	2_1	18168b5f3abb4e9a99d6a466f4eab079
+ENCFF423HWS	GRCh38	ENCSR688RNO	microRNA-seq	/human-donors/ENCDO793LXB/	UBERON:0002084	heart left ventricle	heart	heart_left_ventricle	tissue	Homo sapiens	2	2_1	f237c39ace139d661cf0ac4acc5195ed
+ENCFF753UVR	GRCh38	ENCSR688RNO	microRNA-seq	/human-donors/ENCDO793LXB/	UBERON:0002084	heart left ventricle	heart	heart_left_ventricle	tissue	Homo sapiens	1	1_1	11f8f28e66299848db78ed2e07871038
+ENCFF344UVE	GRCh38	ENCSR915GVH	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0000473	testis	testis	testis	tissue	Homo sapiens	1	1_1	b29c0d96fd8040883045d1962bf4b519
+ENCFF614WZC	GRCh38	ENCSR915GVH	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0000473	testis	testis	testis	tissue	Homo sapiens	2	2_1	49ff096f6271085d655a3f3831f72299
+ENCFF959RYF	GRCh38	ENCSR314AYC	microRNA-seq	/human-donors/ENCDO520EJG/	UBERON:0002079	left cardiac atrium	heart	left_cardiac_atrium	tissue	Homo sapiens	1	1_1	b3628a96173eabcc2b91e32117390258
+ENCFF018VLM	GRCh38	ENCSR550GPA	microRNA-seq	/human-donors/ENCDO271OUW/	UBERON:0000995	uterus	uterus	uterus	tissue	Homo sapiens	2	2_1	748375254127fdfae7a33bcd3e694cdc
+ENCFF730IMW	GRCh38	ENCSR550GPA	microRNA-seq	/human-donors/ENCDO271OUW/	UBERON:0000995	uterus	uterus	uterus	tissue	Homo sapiens	1	1_1	97149dd3f1638fec7c637f8ddc459f48
+ENCFF119HDC	GRCh38	ENCSR792MDW	microRNA-seq	/human-donors/ENCDO793LXB/	UBERON:0002084	heart left ventricle	heart	heart_left_ventricle	tissue	Homo sapiens	1	1_1	021d7929feda33f9ee1c0f1871c60a36
+ENCFF993DXL	GRCh38	ENCSR312RZV	microRNA-seq	/human-donors/ENCDO336AAA/	CL:0000103	bipolar neuron	NA	NA	in vitro differentiated cells	Homo sapiens	1	1_1	22491a327b769b06aca025095fd04472
+ENCFF584KCO	GRCh38	ENCSR312RZV	microRNA-seq	/human-donors/ENCDO336AAA/	CL:0000103	bipolar neuron	NA	NA	in vitro differentiated cells	Homo sapiens	2	2_1	c9e4d34fc33f062e0809f8eec8cc44b8
+ENCFF686YKV	GRCh38	ENCSR155LSV	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0000192	smooth muscle cell	NA	NA	in vitro differentiated cells	Homo sapiens	2	2_1	053255e73a003b91fffeee3638511f85
+ENCFF076HOW	GRCh38	ENCSR155LSV	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0000192	smooth muscle cell	NA	NA	in vitro differentiated cells	Homo sapiens	1	1_1	3ff9b2440202403a94f52c5a8c541434
+ENCFF087HIG	GRCh38	ENCSR782FPG	microRNA-seq	/human-donors/ENCDO271OUW/	UBERON:0000992	ovary	ovary	ovary	tissue	Homo sapiens	2	2_1	0a934157b55b948fc0d3bc615696a733
+ENCFF840BXH	GRCh38	ENCSR782FPG	microRNA-seq	/human-donors/ENCDO271OUW/	UBERON:0000992	ovary	ovary	ovary	tissue	Homo sapiens	1	1_1	510514f88d4fc8ba0914fa0c7ddca9da
+ENCFF378UCJ	GRCh38	ENCSR157VHD	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl-60	cell line	Homo sapiens	2	2_1	e58944da4e378a6de412696b2f648513
+ENCFF862HPX	GRCh38	ENCSR157VHD	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl-60	cell line	Homo sapiens	1	1_1	78eac46e95bcc477517ea33f23ba6343
+ENCFF754CFM	GRCh38	ENCSR183WRP	microRNA-seq	/human-donors/ENCDO856ZOJ/	UBERON:0008953	lower lobe of left lung	lung	lower_lobe_of_left_lung	tissue	Homo sapiens	1	1_1	6e83a129c0a8341939a3ab53b8f3828d
+ENCFF806AZX	GRCh38	ENCSR343HIX	microRNA-seq	/human-donors/ENCDO000AAE/	EFO:0001203	MCF-7	NA	mcf7	cell line	Homo sapiens	2	2_1	18a33071e9d0eba172225722d4395994
+ENCFF102FBO	GRCh38	ENCSR343HIX	microRNA-seq	/human-donors/ENCDO000AAE/	EFO:0001203	MCF-7	NA	mcf7	cell line	Homo sapiens	1	1_1	b4da009c92c9d3356c187a77d43feba8
+ENCFF394ILT	GRCh38	ENCSR705STY	microRNA-seq	/human-donors/ENCDO271OUW/	UBERON:0002084	heart left ventricle	heart	heart_left_ventricle	tissue	Homo sapiens	2	2_1	4dc254d967d0dcd3e85faa1cf26800df
+ENCFF855XWL	GRCh38	ENCSR705STY	microRNA-seq	/human-donors/ENCDO271OUW/	UBERON:0002084	heart left ventricle	heart	heart_left_ventricle	tissue	Homo sapiens	1	1_1	eb46965c36e7b75cdb258c7b75f4d6dd
+ENCFF346AVD	GRCh38	ENCSR848SBA	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0002369	adrenal gland	adrenal gland	adrenal_gland	tissue	Homo sapiens	1	1_1	ee2b73ef128aca33d7b0ac6aed8f7b07
+ENCFF983TON	GRCh38	ENCSR848SBA	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0002369	adrenal gland	adrenal gland	adrenal_gland	tissue	Homo sapiens	2	2_1	ee9369ca1c991b5b4e320c602fb2a872
+ENCFF416PRK	GRCh38	ENCSR697KHQ	microRNA-seq	/human-donors/ENCDO336AAA/	EFO:0005723	GM23248	NA	NA	cell line	Homo sapiens	2	2_1	7c6a8bcbe4e2e1bd33d9d80db139ea05
+ENCFF019UKW	GRCh38	ENCSR697KHQ	microRNA-seq	/human-donors/ENCDO336AAA/	EFO:0005723	GM23248	NA	NA	cell line	Homo sapiens	1	1_1	02b23f93a73346e7feb16a3e4b47e080
+ENCFF589FYO	GRCh38	ENCSR185LOQ	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0002367	prostate gland	prostate gland	prostate_gland	tissue	Homo sapiens	1	1_1	27148228b889ac0d42722046fdcb2b0b
+ENCFF494FJB	GRCh38	ENCSR185LOQ	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0002367	prostate gland	prostate gland	prostate_gland	tissue	Homo sapiens	2	2_1	238e81d8c4e08416f7e7104139a99b77
+ENCFF688ZST	GRCh38	ENCSR674ESK	microRNA-seq	/human-donors/ENCDO793LXB/	UBERON:0000996	vagina	vagina	vagina	tissue	Homo sapiens	1	1_1	a956cd3432a29fb4d6e790c8b22ece83
+ENCFF837PEP	GRCh38	ENCSR674ESK	microRNA-seq	/human-donors/ENCDO793LXB/	UBERON:0000996	vagina	vagina	vagina	tissue	Homo sapiens	2	2_1	386a3fb6fa67407c1214612f35d3120d
+ENCFF392GLP	GRCh38	ENCSR373CTA	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0002367	prostate gland	prostate gland	prostate_gland	tissue	Homo sapiens	2	2_1	5976c11d1e8e83784bfa6608ad51dcbd
+ENCFF946HWJ	GRCh38	ENCSR373CTA	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0002367	prostate gland	prostate gland	prostate_gland	tissue	Homo sapiens	1	1_1	45b30eb0e0f1b8d07b06d7165bc597fe
+ENCFF231XZY	GRCh38	ENCSR582UOM	microRNA-seq	/human-donors/ENCDO411EVD/	UBERON:0002080	heart right ventricle	heart	heart_right_ventricle	tissue	Homo sapiens	1	1_1	3ea43dfd58e8a7a358613c871921bbeb
+ENCFF154DXX	GRCh38	ENCSR650SEP	microRNA-seq	/human-donors/ENCDO000ABE/	EFO:0002824	HCT116	NA	hct116	cell line	Homo sapiens	2	2_1	bcf0c222ab2fe9b7905301c384d9d416
+ENCFF572XTJ	GRCh38	ENCSR650SEP	microRNA-seq	/human-donors/ENCDO000ABE/	EFO:0002824	HCT116	NA	hct116	cell line	Homo sapiens	1	1_1	e3dbbc28f7adf293a4811ab383fa9942
+ENCFF849AXD	GRCh38	ENCSR430YFL	microRNA-seq	/human-donors/ENCDO000AAW/	EFO:0003042	H1	NA	h1	cell line	Homo sapiens	2	2_1	44caecbfb36fa40ad4177240c9a5ce75
+ENCFF404KPA	GRCh38	ENCSR430YFL	microRNA-seq	/human-donors/ENCDO000AAW/	EFO:0003042	H1	NA	h1	cell line	Homo sapiens	1	1_1	a9fbeca6394a47135060cb6ac4abca41
+ENCFF611QTT	GRCh38	ENCSR566RDG	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0002046	thyroid gland	thyroid gland	thyroid_gland	tissue	Homo sapiens	1	1_1	af27a1017bb672244e652a250f7d652c
+ENCFF873NQS	GRCh38	ENCSR566RDG	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0002046	thyroid gland	thyroid gland	thyroid_gland	tissue	Homo sapiens	2	2_1	3530d5d80ec195b12e8fe591d4f46e4d
+ENCFF375BRV	GRCh38	ENCSR958UOC	microRNA-seq	/human-donors/ENCDO336AAA/	EFO:0007950	GM23338	NA	pgp1	cell line	Homo sapiens	1	1_1	076feadcc573d715ac7d32ef5b1e4caf
+ENCFF985RQJ	GRCh38	ENCSR958UOC	microRNA-seq	/human-donors/ENCDO336AAA/	EFO:0007950	GM23338	NA	pgp1	cell line	Homo sapiens	2	2_1	b4f35648ef3ce9705d87643f5bdea3b4
+ENCFF012JGW	GRCh38	ENCSR750ZGO	microRNA-seq	/human-donors/ENCDO737WWC/	EFO:0009318	HFFc6	NA	hffc6	cell line	Homo sapiens	1	1_1	88cafa09d472fcec047a585dfa6c52e0
+ENCFF242CUN	GRCh38	ENCSR750ZGO	microRNA-seq	/human-donors/ENCDO737WWC/	EFO:0009318	HFFc6	NA	hffc6	cell line	Homo sapiens	2	2_1	f9e33ecb970e4d3673fe7a2a9baa0946
+ENCFF827ROM	GRCh38	ENCSR750ZGO	microRNA-seq	/human-donors/ENCDO737WWC/	EFO:0009318	HFFc6	NA	hffc6	cell line	Homo sapiens	3	3_1	b81abd3f5a7a489120fce8e8ac1ed7b7
+ENCFF021WXP	GRCh38	ENCSR240RLZ	microRNA-seq	/human-donors/ENCDO793LXB/	UBERON:0000995	uterus	uterus	uterus	tissue	Homo sapiens	1	1_1	9ce9d4d985fa304b0135d106a65c4e1b
+ENCFF545SIA	GRCh38	ENCSR240RLZ	microRNA-seq	/human-donors/ENCDO793LXB/	UBERON:0000995	uterus	uterus	uterus	tissue	Homo sapiens	2	2_1	f94df52f777370152dff7e9fd0ca3a73
+ENCFF951IAB	GRCh38	ENCSR983OQS	microRNA-seq	/human-donors/ENCDO392CRK/	UBERON:0002078	right cardiac atrium	heart	right_cardiac_atrium	tissue	Homo sapiens	1	1_1	dfa3e2df118d9addd6b7da49fbe95a99
+ENCFF470PDD	GRCh38	ENCSR219YHR	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0004264	lower leg skin	skin	lower_leg_skin	tissue	Homo sapiens	1	1_1	10c6b1c2ff258be8200e61044e56bb24
+ENCFF995TKW	GRCh38	ENCSR219YHR	microRNA-seq	/human-donors/ENCDO451RUA/	UBERON:0004264	lower leg skin	skin	lower_leg_skin	tissue	Homo sapiens	2	2_1	7f61d56dcd581df2c46da322080be287
+ENCFF601YUN	GRCh38	ENCSR292QOC	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0011907	gastrocnemius medialis	muscle	gastrocnemius_medialis	tissue	Homo sapiens	2	2_1	3c37963fdd2d60e281b966ed54915ffc
+ENCFF559ZBP	GRCh38	ENCSR292QOC	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0011907	gastrocnemius medialis	muscle	gastrocnemius_medialis	tissue	Homo sapiens	1	1_1	e6508a9e2d77f49cd0e4bf31278b5468
+ENCFF042BAS	GRCh38	ENCSR439LGW	microRNA-seq	/human-donors/ENCDO000ACW/	CL:0000187	myocyte	NA	NA	in vitro differentiated cells	Homo sapiens	1	1_1	6c7d04e791cfcd6ef5bbc3b3f291d0c6
+ENCFF317BBO	GRCh38	ENCSR439LGW	microRNA-seq	/human-donors/ENCDO000ACW/	CL:0000187	myocyte	NA	NA	in vitro differentiated cells	Homo sapiens	2	2_1	5932ecd64ece71757bfbdc4a9414116a
+ENCFF463OCW	GRCh38	ENCSR819AXA	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0004264	lower leg skin	skin	lower_leg_skin	tissue	Homo sapiens	2	2_1	07dfdb5e8d178b0e86caa295f1db28cd
+ENCFF625JKM	GRCh38	ENCSR819AXA	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0004264	lower leg skin	skin	lower_leg_skin	tissue	Homo sapiens	1	1_1	5bf17d73e53630602e359238b6f01d52
+ENCFF118WQY	GRCh38	ENCSR009LCI	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0000137	osteocyte	NA	h9_osteocyte	in vitro differentiated cells	Homo sapiens	1	1_1	6ae6fbadafc2fed2e154f574c4759fb5
+ENCFF493QIX	GRCh38	ENCSR155IQU	microRNA-seq	/human-donors/ENCDO000AAE/	EFO:0001203	MCF-7	NA	h9_osteocyte	cell line	Homo sapiens	1	1_1	1803f7051ee741949de0c9b5f4b958ae
+ENCFF513ONW	GRCh38	ENCSR664CDH	microRNA-seq	/human-donors/ENCDO186XRB/	UBERON:0004992	mucosa of descending colon	colon	mucosa_of_descending_colon	tissue	Homo sapiens	1	1_1	2fc42c21395e947ab152aa77466147a7
+ENCFF576ASU	GRCh38	ENCSR503DWS	microRNA-seq	/human-donors/ENCDO336AAA/	CL:0000115	endothelial cell	NA	pgp1_endo	in vitro differentiated cells	Homo sapiens	1	1_1	da0bf0d6667cffba714cacd919fef5f4
+ENC4_100	GRCh38	ENCSR503DWS	microRNA-seq	/human-donors/ENCDO336AAA/	CL:0000115	endothelial cell	NA	pgp1_endo	in vitro differentiated cells	Homo sapiens	1	1_2	6ea83d28965780a2bef18c6f9f2aad38
+ENCFF161OLK	GRCh38	ENCSR730NEO	microRNA-seq	/human-donors/ENCDO000AAC/	EFO:0001187	HepG2	NA	hepg2	cell line	Homo sapiens	1	1_1	216cb55c4f989979dd891416a1b581bc
+ENCFF671ZNH	GRCh38	ENCSR730NEO	microRNA-seq	/human-donors/ENCDO000AAC/	EFO:0001187	HepG2	NA	hepg2	cell line	Homo sapiens	2	2_1	b0a008966f965cc2ca6f4ebbc077433a
+ENCFF697HYA	GRCh38	ENCSR466AZX	microRNA-seq	/human-donors/ENCDO000AAK/	EFO:0002784	GM12878	NA	gm12878	cell line	Homo sapiens	1	1_1	d0c3fdfc2590a93b2f67106d440d9a8f
+ENCFF564OCC	GRCh38	ENCSR678BDA	microRNA-seq	/human-donors/ENCDO575WHY/	UBERON:0002106	spleen	spleen	spleen	tissue	Homo sapiens	1	1_1	ed430515dddac593746d533450abba2d
+ENCFF399REE	GRCh38	ENCSR272WXU	microRNA-seq	/human-donors/ENCDO528BHB/	UBERON:0002113	kidney	kidney	kidney	tissue	Homo sapiens	1	1_1	f0844d162abff5d0f2950f8854055d73
+ENCFF006ELI	GRCh38	ENCSR026WQC	microRNA-seq	/human-donors/ENCDO520EJG/	NTR:0000491	Right ventricle myocardium inferior	heart	right_ventricle_myocardium_inferior	tissue	Homo sapiens	1	1_1	d108872381d5ed5dfd2f66131775c437
+ENCFF517MBY	GRCh38	ENCSR957UVO	microRNA-seq	/human-donors/ENCDO186XRB/	UBERON:0000992	ovary	ovary	ovary	tissue	Homo sapiens	1	1_1	d10d559e492e5e2b73266f44c802489b
+ENCFF588XBZ	GRCh38	ENCSR425WZE	microRNA-seq	/human-donors/ENCDO336AAA/	CL:0008030	excitatory neuron	NA	pgp1_excite_neuron	in vitro differentiated cells	Homo sapiens	1	1_1	21ee4a09c78ace8bfff53a29c9b3053e
+ENC4_98	GRCh38	ENCSR425WZE	microRNA-seq	/human-donors/ENCDO336AAA/	CL:0008030	excitatory neuron	NA	pgp1_excite_neuron	in vitro differentiated cells	Homo sapiens	1	1_2	e6e1b5b1155b7b7187f6b036232aeec7
+ENCFF026RES	GRCh38	ENCSR684FLE	microRNA-seq	/human-donors/ENCDO575WHY/	UBERON:0000992	ovary	ovary	ovary	tissue	Homo sapiens	1	1_1	142120ee83e57ae63c560f88f94db238
+ENCFF461VEI	GRCh38	ENCSR064DFT	microRNA-seq	/human-donors/ENCDO520EJG/	NTR:0000492	Right ventricle myocardium superior	heart	right_ventricle_myocardium_superior	tissue	Homo sapiens	1	1_1	f4cd46d0c2ac07a2d2c0323b88b4c0af
+ENCFF554FMF	GRCh38	ENCSR165HDP	microRNA-seq	/human-donors/ENCDO000AAP/	EFO:0001200	MCF 10A	NA	mcf10a	cell line	Homo sapiens	2	2_1	3b4e8506f464a116b882677c0d2a8b79
+ENCFF313OAQ	GRCh38	ENCSR165HDP	microRNA-seq	/human-donors/ENCDO000AAP/	EFO:0001200	MCF 10A	NA	mcf10a	cell line	Homo sapiens	1	1_1	6de85c3366122984b2b8ba45c8b1c97e
+ENCFF817OKW	GRCh38	ENCSR649MMJ	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0002369	adrenal gland	adrenal gland	adrenal_gland	tissue	Homo sapiens	1	1_1	53480ea7c2a65cb9cef7752143c41aa1
+ENCFF850VDF	GRCh38	ENCSR373HRP	microRNA-seq	/human-donors/ENCDO575WHY/	UBERON:0002099	cardiac septum	heart	cardiac_septum	tissue	Homo sapiens	1	1_1	741f7f5b807d0b1918d47adc6863d4db
+ENCFF080DVI	GRCh38	ENCSR763RNR	microRNA-seq	/human-donors/ENCDO520EJG/	UBERON:0002171	lower lobe of right lung	lung	lower_lobe_of_right_lung	tissue	Homo sapiens	1	1_1	2ed00422fa0544619bec37dfcebefd02
+ENCFF434PBY	GRCh38	ENCSR151ZUP	microRNA-seq	/human-donors/ENCDO392CRK/	UBERON:0002168	left lung	lung	left_lung	tissue	Homo sapiens	1	1_1	69d273737cc4decd40b4c0490bfeb7a9
+ENCFF631TZS	GRCh38	ENCSR638OIX	microRNA-seq	/human-donors/ENCDO000ACR/	EFO:0001099	Caco-2	NA	caco2	cell line	Homo sapiens	1	1_1	eddc8812a3b43b2d87aef8c4686b1a82
+ENCFF419EMB	GRCh38	ENCSR638OIX	microRNA-seq	/human-donors/ENCDO000ACR/	EFO:0001099	Caco-2	NA	caco2	cell line	Homo sapiens	2	2_1	69ddf5bf2b46bc7643f4b47adb14244c
+ENCFF443XEO	GRCh38	ENCSR934NMC	microRNA-seq	/human-donors/ENCDO109DGE/	EFO:0002819	Calu3	NA	calu3	cell line	Homo sapiens	1	1_1	8076b9c5feb59cd6b6c06411069ebe70
+ENCFF513NJC	GRCh38	ENCSR934NMC	microRNA-seq	/human-donors/ENCDO109DGE/	EFO:0002819	Calu3	NA	calu3	cell line	Homo sapiens	2	2_1	c2b7df5c626cd7e0511a62a8b806b4eb
+ENCFF682HIM	GRCh38	ENCSR281KFH	microRNA-seq	/human-donors/ENCDO845WKR/	UBERON:0002046	thyroid gland	thyroid gland	thyroid_gland	tissue	Homo sapiens	1	1_1	d085e6948bd9babfebf592b23bdb8983
+ENCFF123PWO	GRCh38	ENCSR511YYU	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0011020	neural progenitor cell	NA	NA	in vitro differentiated cells	Homo sapiens	1	1_1	07c6b8cc927a2fe56458ea89c15ab3e5
+ENCFF723WVP	GRCh38	ENCSR511YYU	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0011020	neural progenitor cell	NA	NA	in vitro differentiated cells	Homo sapiens	2	2_1	22638fbe1affb93b51c2897e7b532958
+ENCFF495VKU	GRCh38	ENCSR008VSP	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0011012	neural crest cell	NA	h9_neural_crest	in vitro differentiated cells	Homo sapiens	1	1_1	36eda3020a59579bf4232eb553efdd3a
+ENCFF376TSX	GRCh38	ENCSR008VSP	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0011012	neural crest cell	NA	h9_neural_crest	in vitro differentiated cells	Homo sapiens	2	2_1	43bb08aa9f864f7d50c3a8314f8b4301
+ENCFF445FDO	GRCh38	ENCSR638BGL	microRNA-seq	/human-donors/ENCDO000AAD/	EFO:0002067	K562	NA	k562	cell line	Homo sapiens	1	1_1	7089269abee37a28f818e2ac56092b70
+ENCFF538RSM	GRCh38	ENCSR128VGG	microRNA-seq	/human-donors/ENCDO575WHY/	UBERON:0000317	colonic mucosa	colon	colonic_mucosa	tissue	Homo sapiens	1	1_1	b086dfaa28b05dad70088342d8aac33b
+ENCFF025FWJ	GRCh38	ENCSR436ZRS	microRNA-seq	/human-donors/ENCDO000ABE/	EFO:0002824	HCT116	NA	hct116	cell line	Homo sapiens	1	1_1	c4b0b97b82029086f094a952cdfc2f82
+ENCFF544EMI	GRCh38	ENCSR616TOP	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0000182	hepatocyte	NA	NA	in vitro differentiated cells	Homo sapiens	2	2_1	1b4d26a97e8241116fa863a8333632cd
+ENCFF971DKB	GRCh38	ENCSR616TOP	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0000182	hepatocyte	NA	NA	in vitro differentiated cells	Homo sapiens	1	1_1	57261b12d8613fe9e08038432bb92a18
+ENCFF354BKY	GRCh38	ENCSR637DRN	microRNA-seq	/human-donors/ENCDO520EJG/	UBERON:0002170	upper lobe of right lung	lung	upper_lobe_of_right_lung	tissue	Homo sapiens	1	1_1	8c1de012d0226db2672e444bbf4387b0
+ENCFF243NHM	GRCh38	ENCSR931OFX	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0002351	progenitor cell of endocrine pancreas	NA	h9_panc_progen	in vitro differentiated cells	Homo sapiens	1	1_1	71bbe3a4b31ca8f26a513571854ad2cd
+ENCFF766VLD	GRCh38	ENCSR630APF	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0000169	type B pancreatic cell	NA	h9_panc_beta	in vitro differentiated cells	Homo sapiens	2	2_1	59f8bf66df802e6fc3cc9a3d8540272d
+ENCFF813YRI	GRCh38	ENCSR630APF	microRNA-seq	/human-donors/ENCDO222AAA/	CL:0000169	type B pancreatic cell	NA	h9_panc_beta	in vitro differentiated cells	Homo sapiens	1	1_1	0cbb84c63f9c8d948c3cb866e07a8b7a
+ENCFF101KOX	GRCh38	ENCSR407CTE	microRNA-seq	/human-donors/ENCDO856ZOJ/	UBERON:0001072	posterior vena cava	vessels	posterior_vena_cava	tissue	Homo sapiens	1	1_1	e074d4980e02906f6e60459ab3cf1c15
+ENCFF330FJJ	GRCh38	ENCSR804CAP	microRNA-seq	/human-donors/ENCDO336AAA/	EFO:0007950	GM23338	NA	pgp1	cell line	Homo sapiens	1	1_1	ce751ab762628c81860e2730712d5195
+ENC4_96	GRCh38	ENCSR804CAP	microRNA-seq	/human-donors/ENCDO336AAA/	EFO:0007950	GM23338	NA	pgp1	cell line	Homo sapiens	1	 1_2	354742b358fcb7819223c8dce181b387
+ENCFF065WRR	GRCh38	ENCSR086DQY	microRNA-seq	/human-donors/ENCDO000ABB/	EFO:0002713	Panc1	NA	panc1	cell line	Homo sapiens	1	1_1	8023f131f60fcac3d315b39a988f14b5
+ENCFF585ZQW	GRCh38	ENCSR387TQN	microRNA-seq	/human-donors/ENCDO349AAA/	EFO:0002074	PC-3	NA	pc3	cell line	Homo sapiens	1	1_1	65b24ea39155d59821ae413b9c42940d
+ENCFF379DIZ	GRCh38	ENCSR588ZRK	microRNA-seq	/human-donors/ENCDO000AAW/	EFO:0003042	H1	NA	h1	cell line	Homo sapiens	2	2_1	b15dee317e2740c9f9976cd82b8224b4
+ENCFF165FED	GRCh38	ENCSR588ZRK	microRNA-seq	/human-donors/ENCDO000AAW/	EFO:0003042	H1	NA	h1	cell line	Homo sapiens	1	1_1	c1e09d6a8d5b9f4db9906b61eee63dbc
+ENCFF851ANC	GRCh38	ENCSR588ZRK	microRNA-seq	/human-donors/ENCDO000AAW/	EFO:0003042	H1	NA	h1	cell line	Homo sapiens	3	3_1	f7cb14a9108bed282d3201c5ac3af252
+ENCFF141QVV	GRCh38	ENCSR586WVD	microRNA-seq	/human-donors/ENCDO856ZOJ/	UBERON:0000947	aorta	vessels	aorta	tissue	Homo sapiens	1	1_1	ed6108f42e58093280538d0973a5e676
+ENCFF187MBB	GRCh38	ENCSR224HDT	microRNA-seq	/human-donors/ENCDO856ZOJ/	UBERON:0000992	ovary	ovary	ovary	tissue	Homo sapiens	1	1_1	c59387bd740697333ee019ff55b7b217
+ENCFF811GWB	GRCh38	ENCSR086SWA	microRNA-seq	/human-donors/ENCDO186XRB/	UBERON:0002106	spleen	spleen	spleen	tissue	Homo sapiens	1	1_1	492789534ac8d4dbf9f6af7933d794ce
+ENCFF945PKC	GRCh38	ENCSR333JBN	microRNA-seq	/human-donors/ENCDO575WHY/	UBERON:0002369	adrenal gland	adrenal gland	adrenal_gland	tissue	Homo sapiens	1	1_1	5dd3c928791c910923379088ea695d6c
+ENCFF538UNB	GRCh38	ENCSR001HGI	microRNA-seq	/human-donors/ENCDO575WHY/	UBERON:0001264	pancreas	pancreas	pancreas	tissue	Homo sapiens	1	1_1	02f591d94086f7a85606d5d67815b714
+ENCFF865DDB	GRCh38	ENCSR454RTD	microRNA-seq	/human-donors/ENCDO856ZOJ/	UBERON:0002079	left cardiac atrium	heart	left_cardiac_atrium	tissue	Homo sapiens	1	1_1	ff194554a349b31dce62cdeaa6a43866
+ENCFF977LKL	GRCh38	ENCSR005GLZ	microRNA-seq	/human-donors/ENCDO856ZOJ/	UBERON:0002106	spleen	spleen	spleen	tissue	Homo sapiens	1	1_1	9c55e700d9e37bb0a686539df4c1f7f5
+ENCFF785XEV	GRCh38	ENCSR183LLK	microRNA-seq	/human-donors/ENCDO575EGL/	UBERON:0002168	left lung	lung	left_lung	tissue	Homo sapiens	1	1_1	f39eb8da235213b8892104e49075f0cc
+ENCFF075BWE	GRCh38	ENCSR152XXM	microRNA-seq	/human-donors/ENCDO856ZOJ/	UBERON:0008971	left colon	colon	left_colon	tissue	Homo sapiens	1	1_1	1a6265745aab0d8e18ebce6654315680
+ENCFF077WSJ	GRCh38	ENCSR783JQT	microRNA-seq	/human-donors/ENCDO912EIY/	UBERON:0001114	right lobe of liver	liver	right_lobe_of_liver	tissue	Homo sapiens	1	1_1	2962f2da5b2743cdc0a7471e98fd6077
+ENCFF064RYZ	GRCh38	ENCSR645VXJ	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m0	cell line	Homo sapiens	2	2_1	e425cd414086686f4bfaea79938117e6
+ENCFF087HBE	GRCh38	ENCSR641JYN	microRNA-seq	/human-donors/ENCDO166AGR/	CL:0000900	naive thymus-derived CD8-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	2	2_1	e6c6402dff0568db00e8fa56ad20d836
+ENCFF122EOZ	GRCh38	ENCSR828OKX	microRNA-seq	/human-donors/ENCDO781BMZ/	NTR:0000500	activated CD8-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	1	1_1	a9e12d894b40adcb67e28c356eaafddd
+ENCFF123UQX	GRCh38	ENCSR583BQO	microRNA-seq	/human-donors/ENCDO781BMZ/	CL:0000625	CD8-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	2	2_1	b9a39adb076a734e4c4c540d948f2ea5
+ENCFF140UJW	GRCh38	ENCSR158OEV	microRNA-seq	/human-donors/ENCDO258GJF/	UBERON:0006483	middle frontal area 46	brain	alzheimers_brain	tissue	Homo sapiens	1	1_1	13e8c59bb831350cf56eeb6532a99c30
+ENCFF147DOW	GRCh38	ENCSR211KOS	microRNA-seq	/human-donors/ENCDO730UYW/	UBERON:0006483	middle frontal area 46	brain	alzheimers_brain	tissue	Homo sapiens	1	1_1	0ffc1ac20e0616f6b9bc13e23db32606
+ENCFF167XZW	GRCh38	ENCSR617YSI	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m2_12hr	cell line	Homo sapiens	2	2_1	98c984be7f2e6437b046b1b26c1dffb0
+ENCFF176ICG	GRCh38	ENCSR077VTG	microRNA-seq	/human-donors/ENCDO791UJG/	NTR:0000497	activated naive CD4-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	1	1_1	97f9dddbfe62100c355ede783baae0f9
+ENCFF218CHC	GRCh38	ENCSR235AGT	microRNA-seq	/human-donors/ENCDO166AGR/	NTR:0000502	activated naive CD8-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	1	1_1	1f3e8c13585c12ad2e1ca7493533c118
+ENCFF230PHI	GRCh38	ENCSR617YSI	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m2_12hr	cell line	Homo sapiens	1	1_1	40e29ca7943d0e3b02481657bf8bbfab
+ENCFF254YZD	GRCh38	ENCSR865XJM	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m2_24hr	cell line	Homo sapiens	3	3_1	a4cd044af702c837a55be32d9258a34d
+ENCFF285PFB	GRCh38	ENCSR645VXJ	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m0	cell line	Homo sapiens	1	1_1	b52b1cb2bc771d1ea3d1eabe51a29eaf
+ENCFF340KPX	GRCh38	ENCSR522TYY	microRNA-seq	/human-donors/ENCDO791UJG/	NTR:0000497	activated naive CD4-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	2	2_1	30d33c11e44feef43cb3ad09b4bd16fa
+ENCFF365RRS	GRCh38	ENCSR596ZXX	microRNA-seq	/human-donors/ENCDO351AAA/	EFO:0006711	OCI-LY7	NA	ocily7	cell line	Homo sapiens	2	2_1	5bedc2fffa2bb1b1af4bcc97b57c00d4
+ENCFF368DCR	GRCh38	ENCSR291HNO	microRNA-seq	/human-donors/ENCDO882UJI/	EFO:0009747	WTC11	NA	wtc11	cell line	Homo sapiens	3	3_1	454fc85d92801449ada7e0dd7ae88896
+ENCFF412YZO	GRCh38	ENCSR828OKX	microRNA-seq	/human-donors/ENCDO781BMZ/	NTR:0000500	activated CD8-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	2	2_1	272843c88bd072a5774b4fc5f8c4ce0a
+ENCFF458EIY	GRCh38	ENCSR291HNO	microRNA-seq	/human-donors/ENCDO882UJI/	EFO:0009747	WTC11	NA	wtc11	cell line	Homo sapiens	2	2_1	a7db90677e21a6328fd3af33002b73f8
+ENCFF473NCU	GRCh38	ENCSR645VXJ	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m0	cell line	Homo sapiens	3	3_1	a43f5d9703c3cbaa1f07844ba07bf257
+ENCFF517CHI	GRCh38	ENCSR522TYY	microRNA-seq	/human-donors/ENCDO791UJG/	NTR:0000497	activated naive CD4-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	1	1_1	09f16b0aa775ab662f05c09f3133bbde
+ENCFF528KOK	GRCh38	ENCSR496QLS	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m1_12hr	cell line	Homo sapiens	1	1_1	e0b2d512ff0df38edc49af8b22455333
+ENCFF540NGR	GRCh38	ENCSR965INY	microRNA-seq	/human-donors/ENCDO166AGR/	NTR:0000504	activated CD8-positive, alpha-beta memory T cell	NA	NA	primary cell	Homo sapiens	2	2_1	5ef991bb7385edb71b1edf03493d664e
+ENCFF559LSB	GRCh38	ENCSR153LFS	microRNA-seq	/human-donors/ENCDO218FFZ/	UBERON:0006483	middle frontal area 46	brain	alzheimers_brain	tissue	Homo sapiens	1	1_1	158f38fd0a2beeb10fe06ca785e67700
+ENCFF559ZUD	GRCh38	ENCSR020RPU	microRNA-seq	/human-donors/ENCDO223NTQ/	UBERON:0006483	middle frontal area 46	brain	alzheimers_brain	tissue	Homo sapiens	1	1_1	f8580170cacafdbf816ce322a5f562eb
+ENCFF574EPF	GRCh38	ENCSR350OBF	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m1_24hr	cell line	Homo sapiens	3	3_1	307a53dcbb810ca0c8a583bc3060ef83
+ENCFF582CNA	GRCh38	ENCSR596ZXX	microRNA-seq	/human-donors/ENCDO351AAA/	EFO:0006711	OCI-LY7	NA	ocily7	cell line	Homo sapiens	1	1_1	009a48c2b4653f799aa286dcde22ba80
+ENCFF596FVR	GRCh38	ENCSR350OBF	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m1_24hr	cell line	Homo sapiens	2	2_1	6b14fd1fe41c0bf3d025be2141e1734d
+ENCFF617ZHY	GRCh38	ENCSR379NYN	microRNA-seq	/human-donors/ENCDO250PFZ/	UBERON:0006483	middle frontal area 46	brain	alzheimers_brain	tissue	Homo sapiens	1	1_1	dbf90a4da6504296956f737499785eef
+ENCFF656RXF	GRCh38	ENCSR291HNO	microRNA-seq	/human-donors/ENCDO882UJI/	EFO:0009747	WTC11	NA	wtc11	cell line	Homo sapiens	1	1_1	3214c5f00e2f875411040c47611ee6d8
+ENCFF668UHF	GRCh38	ENCSR092HEE	microRNA-seq	/human-donors/ENCDO781BMZ/	NTR:0000666	stimulated activated CD8-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	2	2_1	71f38746cb5571d69e08987603241e0e
+ENCFF720CKX	GRCh38	ENCSR350OBF	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m1_24hr	cell line	Homo sapiens	1	1_1	8238742126e9ecca8a02ff1005d195ef
+ENCFF735STY	GRCh38	ENCSR384ONW	microRNA-seq	/human-donors/ENCDO791UJG/	NTR:0000499	activated CD4-positive, alpha-beta memory T cell	NA	NA	primary cell	Homo sapiens	2	2_1	58b760574a3a2eeef800538c306b4e4f
+ENCFF739LCZ	GRCh38	ENCSR630RSK	microRNA-seq	/human-donors/ENCDO197QVG/	UBERON:0006483	middle frontal area 46	brain	alzheimers_brain	tissue	Homo sapiens	1	1_1	d87fb40a579cd8b1cc4231d08e433cbe
+ENCFF742QKR	GRCh38	ENCSR461TSM	microRNA-seq	/human-donors/ENCDO609ZOG/	UBERON:0006483	middle frontal area 46	brain	alzheimers_brain	tissue	Homo sapiens	1	1_1	b873f300529290605014e28e5abf38af
+ENCFF750OSB	GRCh38	ENCSR389QNT	microRNA-seq	/human-donors/ENCDO791UJG/	CL:0000895	naive thymus-derived CD4-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	1	1_1	daba013258f9d6b7f259bcec6b8c9d17
+ENCFF810PWB	GRCh38	ENCSR865XJM	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m2_24hr	cell line	Homo sapiens	1	1_1	108fa2c643813d3844fb444afbee660c
+ENCFF892ITG	GRCh38	ENCSR496QLS	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m1_12hr	cell line	Homo sapiens	2	2_1	527a3ec70955812ae43d15e757953c2c
+ENCFF894YJT	GRCh38	ENCSR496QLS	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m1_12hr	cell line	Homo sapiens	3	3_1	50422a2c0bdc27e2bce9bc247e6ea587
+ENCFF902OYG	GRCh38	ENCSR384ONW	microRNA-seq	/human-donors/ENCDO791UJG/	NTR:0000499	activated CD4-positive, alpha-beta memory T cell	NA	NA	primary cell	Homo sapiens	1	1_1	6e37c206b93f0a3dbaf40451a7ffb7db
+ENCFF907BQU	GRCh38	ENCSR077VTG	microRNA-seq	/human-donors/ENCDO791UJG/	NTR:0000497	activated naive CD4-positive, alpha-beta T cell	NA	NA	primary cell	Homo sapiens	2	2_1	9ab477f1746e1a6336b7b779b69a13c3
+ENCFF949PXQ	GRCh38	ENCSR865XJM	microRNA-seq	/human-donors/ENCDO000AAM/	EFO:0002793	HL-60	NA	hl60_m2_24hr	cell line	Homo sapiens	2	2_1	29b54ce6c541fe7aa4090fbb954e9adf

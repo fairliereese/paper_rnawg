@@ -1,0 +1,47 @@
+rule plot_tss_to_tes_links:
+    input:
+        config['lapa']['link']
+    output:
+        'reports/wg/figures/tss_tes_links.png'
+    notebook:
+        './tss_to_tes_links.ipynb'
+
+
+rule human_theme3_tss:
+    input:
+        gtf = config['gtf'].format(specie='human'),
+        gtf_talon = config['talon']['gtf'].format(specie='human'),
+        gtf_talon_corrected = config['talon']['gtf_corrected'].format(
+            specie='human'),
+        abundance = config['talon']['abundance'].format(
+            specie='human'),
+        ccres_promotors = config['cCREs']['promotors'],
+        ccres_proximal_enhancers = config['cCREs']['proximal_enhancers'],
+        ccres_distal_enhancers = config['cCREs']['distal_enhancers'],
+        # fantom = config['fantom'] # TODO: add fantom
+    output:
+        fig = 'reports/wg/figures/ccres/human/overlap_ccres.png'
+    notebook:
+        '../wg_encode/theme3_tss.ipynb'
+
+
+rule human_tes:
+    input:
+        gtf = config['gtf'].format(specie='human'),
+        gtf_talon = config['talon']['gtf'].format(specie='human'),
+        gtf_talon_corrected = config['talon']['gtf_corrected'].format(
+            specie='human'),
+        abundance = config['talon']['abundance_corrected'].format(
+            specie='human'),
+        tss_dir = config['lapa']['tss'].format(specie='human'),
+        tes_dir = config['lapa']['tes'].format(specie='human'),
+        links = config['lapa']['link'].format(specie='human')
+    output:
+        fig = 'reports/figures/tes.png'
+    notebook:
+        './tes.ipynb'
+
+
+rule all_plot:
+    input:
+        rules.human_theme3_tss.output

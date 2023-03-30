@@ -1,0 +1,45 @@
+import pandas as pd
+import cerberus
+import warnings
+warnings.filterwarnings('ignore')
+
+configfile: 'snakemake/config.yml'
+
+# species = ['human', 'mouse']
+species = ['human']
+
+# dl_files = ['ab', 'filt_ab', 'read_annot']
+dl_files = ['ab', 'filt_ab']
+
+
+def get_dl_link(wildcards):
+    link = config['encode'][wildcards.species][wildcards.file]
+    return link
+
+# def get_dl_ofile(wildcards):
+#     ofile = expand(config['data'][wildcards.file],
+#                   species=wildcards.species)
+#     return ofile
+
+rule all:
+    input:
+        expand(config['data']['file'], species=species, file=dl_files)
+
+# rule dl:
+#     resources:
+#         mem_gb = 4,
+#         threads = 1
+#     shell:
+#         "wget -O {output.out} {params.link}"
+
+
+rule dl:
+  params:
+    link = lambda w:config['encode'][w.species][w.file]
+  resources:
+    mem_gb = 4,
+    threads = 1
+  output:
+    out = config['data']['file']
+  shell:
+    "wget -O {output.out} {params.link}"

@@ -1,0 +1,69 @@
+rule wg_utr_fix:
+    input:
+        gtf = config['gtf_raw']
+    output:
+        gtf = config['gtf']
+    shell:
+        "gencode_utr_fix --input_gtf {input.gtf} --output_gtf {output.gtf}"
+
+
+rule bam_index:
+    input:
+        bam = config['lr']['bam']
+    threads: 1
+    resources:
+        mem_gb = 4
+    output:
+        bai = config['lr']['bam'] + '.bai'
+    shell:
+        "samtools index {input.bam}"
+
+
+rule bam_read_count:
+    input:
+        bam = config['lr']['bam']
+    output:
+        txt = config['lr']['read_counts']
+    threads: 1
+    resources:
+        mem_gb = 4
+    shell:
+        "samtools view -F 4 -F 256 -F 2048 -q 10 -c {input.bam} > {output.txt}"
+
+
+rule merge_bams:
+    input:
+        expand(config['lr']['bam'] + '.bai', encode_id=df_lr.index),
+        bams = expand(config['lr']['bam'], encode_id=df_lr.index)
+    output:
+        bam = config['lr']['merged_bam']
+    threads: 16
+    resources:
+        mem_gb = 64
+    run:
+        import os
+        tmpdir = f'{resources.tmpdir}/mcelik_merge_bams'
+
+        if os.path.exists(tmpdir):
+            shell('rm -rf {tmpdir}')
+        os.mkdir(tmpdir)
+
+        bams_txt = f'{tmpdir}/batches.txt'
+
+        with open(bams_txt, 'w') as f:
+            for line in input.bams:
+                f.write(line + '\n')
+
+        shell(f"samtools merge - -b {bams_txt} --no-PG -@ {threads} \
+        | samtools sort -@ {threads} -T {tmpdir} \
+        | samtools view -bS > {output.bam}")
+
+        shell(f'rm -rf {tmpdir}')
+        shell("samtools index -@ {threads} {output.bam}")
+
+
+rule all_common:
+    input:
+        expand(config['lr']['read_counts'], encode_id=df_lr.index)
+        # config['lr']['merged_bam'],
+        # expand(config['lr']['bam'] + '.bai', encode_id=df_lr.index)

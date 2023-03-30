@@ -1,0 +1,5 @@
+figures/data/*
+*ipynb_checkpoints*
+*.snakemake*
+*DS_*tore*
+*__pycache__*

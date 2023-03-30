@@ -1,0 +1,1045 @@
+import pandas as pd
+import numpy as np
+import scipy.stats as st
+import seaborn as sns
+import sys
+import os
+import gseapy as gp
+import swan_vis as swan
+from scipy import sparse
+import cerberus
+from itertools import combinations
+
+
+p = os.getcwd()
+sys.path.append(p)
+
+from scripts.utils import *
+from scripts.plotting import *
+
+import pyranges as pr
+
+configfile: "configs/mouse_lr_bulk_config.yaml"
+
+
+def get_comparisons(how='age'):
+    if how == 'age':
+        conds = [['4d', '10d', '14d', '25d',
+                 '36d', '2mo', '18-20mo']]
+    c1 = []
+    c2 = []
+    for group in conds:
+        comps = [i for i in combinations(group,2)]
+        c1 += [c[0] for c in comps]
+        c2 += [c[1] for c in comps]
+    return c1, c2
+
+def swan_die_test(sg, tissue, kind, gb, cond1, cond2, rc, o):
+    # gb = gb.replace('-', '_')
+    # cond1 = cond1.replace('-', '_')
+    # cond2 = cond2.replace('-', '_')
+    cond1 = '{}_{}'.format(tissue, cond1)
+    cond2 = '{}_{}'.format(tissue, cond2)
+    df, df2 = sg.die_gene_test(kind=kind,
+                            obs_col='sample',
+                            obs_conditions=[cond1, cond2],
+                            rc_thresh=rc)
+    df.to_csv(o, sep='\t')
+    df2.to_csv(o+'_test_results', sep='\t')
+
+# get samples
+samples = pd.read_csv(config['meta']['file_to_hr'],
+    header=None, names=['fname', 'hr']).hr.tolist()
+new_samples = ['f1219-1-1', 'f1219-1-2', 'f1219-1-3']
+
+rule all:
+    input:
+        # expand(config['talon']['sam'], sample=new_samples),
+        # # config['talon']['db_update'],
+        # config['talon']['known_nic_nnc_gtf'],
+        # config['talon']['filt_ab'],
+        # config['talon']['ab'],
+        # config['talon']['filt_gtf'],
+        # config['talon']['read_annot'],
+        # config['ref']['vM21']['gtf'],
+        # config['ref']['vM25']['gtf'],
+        # config['cerberus']['update_gtf'],
+        # config['cerberus']['update_ab'],
+        # config['ref']['vM25']['cerberus']['g_info'],
+        # config['ref']['vM25']['cerberus']['t_info'],
+        # config['ref']['vM21']['cerberus']['t_info'],
+        # config['ref']['vM25']['cerberus']['gtf'],
+        # config['ref']['vM21']['cerberus']['gtf'],
+        # config['swan']['meta'],
+        # config['talon']['gene_ab'],
+        config['talon']['known_novel_gtf']
+        # config['swan']['sg_unfilt']
+        # expand(
+        #   expand(config['swan']['die'], zip,
+        #          cond1=get_comparisons('age')[0],
+        #          cond2=get_comparisons('age')[1],
+        #          allow_missing=True),
+        #      gb='age',
+        #      tissue='adrenal',
+        #      kind=['iso'])
+
+
+
+##########################
+##### Running TALON ######
+##########################
+rule talon_label:
+    input:
+        sam = config['raw']['bam']
+    params:
+        genome = config['ref']['mm10']['fa'],
+        opref = config['talon']['sam'].rsplit('_labeled.sam', maxsplit=1)[0]
+    resources:
+        mem_gb = 16,
+        threads = 1
+    output:
+        label_sam = config['talon']['sam']
+    shell: """talon_label_reads \
+        --f {input.sam} \
+        --g {params.genome} \
+        --tmpDir {params.opref}_tmp/ \
+        --ar 20  \
+        --deleteTmp  \
+        --o {params.opref}
+        """
+
+rule talon:
+    input:
+        db = config['talon']['db'],
+        config = config['talon']['cfg_6']
+    params:
+        opref = config['talon']['db_update'].split('.db')[0],
+        build = 'mm10'
+    resources:
+        mem_gb = 256,
+        threads = 16
+    output:
+        db = config['talon']['db_update']
+    shell:"""talon \
+      --f {input.config} \
+      --db {input.db} \
+      --build {params.build} \
+      -t 32 \
+      --o {params.opref}
+    """
+
+#### Post-TALON stuff ####
+rule talon_annot:
+    input:
+        db = config['talon']['db']
+    params:
+        prefix = config['talon']['prefix'],
+        build = 'mm10'
+    output:
+        read_annot = config['talon']['read_annot']
+    resources:
+        mem_gb = 128,
+        threads = 1
+    shell:
+        "talon_fetch_reads \
+            --db {input.db} \
+            --build {params.build} \
+            --o {params.prefix}"
+
+rule talon_abundance:
+    input:
+        db = config['talon']['db']
+    params:
+        prefix = config['talon']['prefix'],
+        annot = 'gencode_vM21',
+        build = 'mm10'
+    output:
+        ab = config['talon']['ab']
+    resources:
+        mem_gb = 128,
+        threads = 1
+    shell:
+        "talon_abundance \
+            --db {input.db} \
+            -a {params.annot} \
+            -b {params.build} \
+            --o {params.prefix}"
+
+rule talon_known_filter:
+    input:
+        db = config['talon']['db']
+    params:
+        annot = 'gencode_vM21',
+        build = 'mm10'
+    output:
+        pass_list = config['talon']['known_novel_pass_list']
+    resources:
+        mem_gb = 128,
+        threads = 1
+    shell:
+        "talon_filter_transcripts \
+            --db {input.db} \
+            -a {params.annot} \
+            --includeAnnot \
+            --maxFracA 0.5 \
+            --minCount 5 \
+            --minDatasets 2 \
+            --o {output.pass_list}"
+
+rule talon_known_gtf:
+    input:
+        db = config['talon']['db'],
+        pass_list = config['talon']['known_novel_pass_list']
+    params:
+        prefix = config['talon']['known_novel_gtf'].split('_talon.gtf')[0],
+        annot = 'gencode_vM21',
+        build = 'mm10'
+    output:
+        filt_gtf = config['talon']['known_novel_gtf']
+    resources:
+        mem_gb = 128,
+        threads = 1
+    shell:
+        "talon_create_GTF \
+            --db {input.db} \
+            -a {params.annot} \
+            -b {params.build} \
+            --whitelist {input.pass_list} \
+            --o {params.prefix}"
+
+rule talon_filter:
+    input:
+        db = config['talon']['db']
+    params:
+        annot = 'gencode_vM21',
+        build = 'mm10'
+    output:
+        pass_list = config['talon']['pass_list']
+    resources:
+        mem_gb = 128,
+        threads = 1
+    shell:
+        "talon_filter_transcripts \
+            --db {input.db} \
+            -a {params.annot} \
+            --maxFracA 0.5 \
+            --minCount 5 \
+            --minDatasets 2 \
+            --o {output.pass_list}"
+
+rule talon_filtered_abundance:
+    input:
+        db = config['talon']['db'],
+        pass_list = config['talon']['pass_list']
+    params:
+        prefix = config['talon']['prefix'],
+        annot = 'gencode_vM21',
+        build = 'mm10'
+    output:
+        ab = config['talon']['filt_ab']
+    resources:
+        mem_gb = 128,
+        threads = 1
+    shell:
+        "talon_abundance \
+            --db {input.db} \
+            -a {params.annot} \
+            -b {params.build} \
+            --whitelist {input.pass_list} \
+            --o {params.prefix}"
+
+rule talon_gtf:
+    input:
+        db = config['talon']['db'],
+        pass_list = config['talon']['pass_list']
+    params:
+        prefix = config['talon']['prefix'],
+        annot = 'gencode_vM21',
+        build = 'mm10'
+    output:
+        filt_gtf = config['talon']['filt_gtf']
+    resources:
+        mem_gb = 128,
+        threads = 1
+    shell:
+        "talon_create_GTF \
+            --db {input.db} \
+            -a {params.annot} \
+            -b {params.build} \
+            --whitelist {input.pass_list} \
+            --o {params.prefix}"
+
+rule talon_known_nic_nnc_filter:
+    input:
+        filt_ab = config['talon']['filt_ab'],
+        pass_list = config['talon']['pass_list']
+    output:
+        pass_list = config['talon']['known_nic_nnc_pass_list']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    run:
+        get_known_nic_nnc_pass_list(input.filt_ab, \
+            input.pass_list, \
+            output.pass_list)
+
+rule talon_known_nic_nnc_gtf:
+    input:
+        db = config['talon']['db'],
+        known_nic_nnc_pass_list = config['talon']['known_nic_nnc_pass_list']
+    params:
+        prefix = config['talon']['known_nic_nnc_gtf'].replace('_talon.gtf', ''),
+        annot = 'gencode_vM21',
+        build = 'mm10'
+    output:
+        known_nic_nnc_gtf = config['talon']['known_nic_nnc_gtf']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    shell:
+        "talon_create_GTF \
+            --db {input.db} \
+            -a {params.annot} \
+            -b {params.build} \
+            --whitelist {input.known_nic_nnc_pass_list} \
+            --o {params.prefix}"
+
+
+rule talon_gene_counts:
+    input:
+        ab = config['talon']['ab']
+    output:
+        gene_ab = config['talon']['gene_ab']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    run:
+        get_gene_counts_matrix(input.ab, output.gene_ab)
+
+##############
+#### swan die ####
+#################
+
+rule swan_die_tests:
+    input:
+         sg = config['swan']['sg']
+    params:
+        reads = 10
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        tsv = config['swan']['die']
+    run:
+        sg = swan.read(input.sg)
+        swan_die_test(sg,
+                   wildcards.tissue,
+                   wildcards.kind,
+                   wildcards.gb,
+                   wildcards.cond1,
+                   wildcards.cond2,
+                   params.reads,
+                   output.tsv)
+
+
+rule dl_vM25:
+    params:
+        link = config['ref']['vM25']['link']
+    resources:
+        mem_gb = 4,
+        threads = 1
+    output:
+        gz = config['ref']['vM25']['gz']
+    shell:
+        "wget -O {output.gz} {params.link}"
+
+rule gunzip_vM25:
+    input:
+        gz = config['ref']['vM25']['gz']
+    resources:
+        mem_gb = 4,
+        threads = 1
+    output:
+        gtf = config['ref']['vM25']['gtf']
+    shell:
+        "gunzip {input.gz}"
+
+rule dl_vM21:
+    params:
+        link = config['ref']['vM21']['link']
+    resources:
+        mem_gb = 4,
+        threads = 1
+    output:
+        gz = config['ref']['vM21']['gz']
+    shell:
+        "wget -O {output.gz} {params.link}"
+
+rule gunzip_vM21:
+    input:
+        gz = config['ref']['vM21']['gz']
+    resources:
+        mem_gb = 4,
+        threads = 1
+    output:
+        gtf = config['ref']['vM21']['gtf']
+    shell:
+        "gunzip {input.gz}"
+
+### lapa
+rule copy_lapa_stuff_gtf:
+    input:
+        gtf = config['lapa']['hasan_gtf']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        lapa_gtf = config['lapa']['gtf']
+    shell:
+        "cp {input.gtf} {output.lapa_gtf}"
+
+rule copy_lapa_stuff_ab:
+    input:
+        ab = config['lapa']['hasan_ab']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        lapa_ab = config['lapa']['ab']
+    shell:
+        "cp {input.ab} {output.lapa_ab}"
+
+# update lapa gtf w/ novelty category "ISM_rescue"
+rule update_lapa_gtf:
+    input:
+        lapa_gtf = config['lapa']['gtf']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        nov_gtf = config['lapa']['nov_gtf']
+    run:
+        gtf = pr.read_gtf(input.lapa_gtf, as_df=True)
+        gtf.loc[(gtf.transcript_id.str.contains('#'))&(gtf.ISM_transcript=='TRUE'),
+                 'transcript_novelty'] = 'ISM_rescue'
+        gtf = gtf.loc[~(gtf.Chromosome.str.contains('ERCC')&~(gtf.Chromosome.str.contains('SIRV')))]
+        gtf = pr.PyRanges(gtf)
+        gtf.to_gtf(output.nov_gtf)
+
+# update lapa abundance file w/ novelty category "ISM_rescue"
+rule update_lapa_ab:
+    input:
+        lapa_ab = config['lapa']['ab']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        nov_ab = config['lapa']['nov_ab']
+    run:
+        df = pd.read_csv(input.lapa_ab, sep='\t')
+        df.loc[(df.annot_transcript_id.str.contains('#'))&(df.transcript_novelty=='ISM'), 'transcript_novelty'] = 'ISM_rescue'
+        df.to_csv(output.nov_ab, sep='\t', index=False)
+
+def filter_lapa(ab):
+    df = pd.read_csv(ab, sep='\t')
+    novs = ['Known', 'NIC', 'NNC', 'ISM_rescue']
+    df = df.loc[df.transcript_novelty.isin(novs)]
+    tids = df.annot_transcript_id.tolist()
+    return tids
+
+def filter_spikes(df):
+    df = df.loc[~df.Chromosome.str.contains('SIRV')]
+    df = df.loc[~df.Chromosome.str.contains('ERCC')]
+    return df
+
+
+def filter_no_t_genes(df):
+    gids = df.loc[df.Feature == 'transcript', 'gene_id'].unique().tolist()
+    df = df.loc[df.gene_id.isin(gids)]
+    return df
+
+def filter_novel_genes(df):
+    df = df.loc[df.gene_novelty=='Known']
+    return df
+
+# create gtf only with novelty categories we want
+rule filter_lapa_gtf:
+    input:
+        nov_gtf = config['lapa']['nov_gtf'],
+        nov_ab = config['lapa']['nov_ab']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        filt_gtf = config['lapa']['filt_gtf']
+    run:
+        tids = filter_lapa(input.nov_ab)
+        gtf = pr.read_gtf(input.nov_gtf).df
+        gtf = gtf.loc[(gtf.transcript_id.isin(tids))|(gtf.Feature=='gene')]
+
+        # remove sirvs / erccs
+        gtf = filter_spikes(gtf)
+
+        # remove genes with no transcripts
+        gtf = filter_no_t_genes(gtf)
+
+        gtf = pr.PyRanges(gtf)
+        gtf.to_gtf(output.filt_gtf)
+
+# create abundance file only with novelty categories we want
+rule filter_lapa_ab:
+    input:
+        nov_ab = config['lapa']['nov_ab']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        filt_ab = config['lapa']['filt_ab']
+    run:
+        tids = filter_lapa(input.nov_ab)
+        df = pd.read_csv(input.nov_ab, sep='\t')
+        df = df.loc[df.annot_transcript_id.isin(tids)]
+        df.to_csv(output.filt_ab, sep='\t', index=False)
+
+
+
+### cerberus
+def get_cerberus_gtf_input(wildcards):
+    if 'vM25' == wildcards.source:
+        gtf = config['ref']['vM25']['gtf']
+    elif 'vM21' == wildcards.source:
+        gtf = config['ref']['vM21']['gtf']
+    elif 'lapa' == wildcards.source:
+        gtf = config['lapa']['filt_gtf']
+    return gtf
+
+rule cerberus_gtf_to_ics:
+    input:
+        gtf = get_cerberus_gtf_input
+    resources:
+        mem_gb = 28,
+        threads = 1
+    output:
+        ics = config['cerberus']['gtf']['ics'],
+    shell:
+        "cerberus gtf_to_ics \
+            --gtf {input.gtf} \
+            -o {output.ics}"
+
+rule cerberus_gtf_to_ends:
+    input:
+        gtf = get_cerberus_gtf_input
+    params:
+        slack =  50,
+        dist = 50
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        bed = config['cerberus']['gtf']['ends']
+    shell:
+        "cerberus gtf_to_bed \
+            --gtf {input.gtf} \
+            --mode {wildcards.mode} \
+            --dist {params.dist} \
+            --slack {params.slack} \
+            -o {output.bed}"
+
+def format_lapa_ends(bed, o):
+    df = pd.read_csv(bed, sep='\t', header=None)
+
+    # subset on specific columns
+    df = df[[0,1,2,5,7]]
+    df.columns = ['Chromosome', 'Start', 'End', 'Strand', 'gene_id']
+
+    # get stable gid
+    df = cerberus.add_stable_gid(df)
+    df.rename({'gene_id': 'Name'}, axis=1, inplace=True)
+
+    # add indicator that this file came from lapa
+    df['ThickStart'] = 'lapa'
+
+    # remove regions not associated with a gene
+    df = df.loc[~df.Name.str.contains('intergenic')]
+
+    # add arbitrary unique index to name
+    df['ThickEnd'] = [i for i in range(len(df.index))]
+    df['Name'] = df.Name+'_'+df.ThickEnd.astype(str)
+    df.drop('ThickEnd', axis=1, inplace=True)
+    df = pr.PyRanges(df)
+    df = df.to_bed(o, chain=True)
+    return df
+
+rule format_lapa_tss:
+    input:
+        bed = config['lapa']['tss']
+    resources:
+        mem_gb = 4,
+        threads = 1
+    output:
+        bed_formatted = config['cerberus']['tss']['lapa']
+    run:
+        format_lapa_ends(input.bed, output.bed_formatted)
+
+rule format_lapa_tes:
+    input:
+        bed = config['lapa']['tes']
+    resources:
+        mem_gb = 4,
+        threads = 1
+    output:
+        bed_formatted = config['cerberus']['tes']['lapa']
+    run:
+        format_lapa_ends(input.bed, output.bed_formatted)
+
+rule format_polya_atlas:
+    input:
+        bed = config['polyasite_atlas']['original']
+    resources:
+        mem_gb = 2,
+        threads = 1
+    output:
+        fmt_bed = config['polyasite_atlas']['formatted']
+    run:
+        # remove noncanonical chromosomes, add 'chr' prefix
+        df = pr.read_bed(input.bed, as_df=True)
+        df.Chromosome = df.Chromosome.astype(str)
+        drop_chr_prefs = ['GL', 'KI']
+        for pref in drop_chr_prefs:
+            df = df.loc[~df.Chromosome.str.startswith(pref)]
+        df.Chromosome = 'chr'+df.Chromosome
+        df = pr.PyRanges(df)
+        df.to_bed(output.fmt_bed)
+
+rule cerberus_agg_tss_config:
+    input:
+        vM25 = expand(config['cerberus']['gtf']['ends'],
+            mode=['tss'], source=['vM25']),
+        vM21 = expand(config['cerberus']['gtf']['ends'],
+            mode=['tss'], source=['vM21']),
+        lapa_gtf = expand(config['cerberus']['gtf']['ends'],
+            mode=['tss'], source=['lapa']),
+        pls = config['cCREs']['promoters'],
+        pels = config['cCREs']['proximal_enhancers'],
+        dels = config['cCREs']['distal_enhancers']
+    resources:
+        mem_gb = 1,
+        threads = 1
+    params:
+        add_ends = [True, True, True,
+                    False, False, False],
+        refs = [True, True, False,
+                    False, False, False],
+        sources = ['vM25', 'vM21', 'lapa',
+                   'pls', 'pels', 'dels']
+    output:
+        cfg = config['cerberus']['tss']['cfg']
+    run:
+        files = [input.vM25,
+                 input.vM21,
+                 input.lapa_gtf,
+                 input.pls,
+                 input.pels,
+                 input.dels]
+        df = pd.DataFrame()
+        df['fname'] = files
+        df['add_ends'] = params.add_ends
+        df['refs'] = params.refs
+        df['sources'] = params.sources
+        df.to_csv(output.cfg, sep=',', header=None, index=False)
+
+rule cerberus_agg_tes_config:
+    input:
+        vM25 = expand(config['cerberus']['gtf']['ends'],
+            mode=['tes'], source=['vM25']),
+        vM21 = expand(config['cerberus']['gtf']['ends'],
+            mode=['tes'], source=['vM21']),
+        lapa_gtf = expand(config['cerberus']['gtf']['ends'],
+            mode=['tes'], source=['lapa']),
+        atlas = config['polyasite_atlas']['formatted']
+    resources:
+        mem_gb = 1,
+        threads = 1
+    params:
+        add_ends = [True, True, True,
+                    False],
+        refs = [True, True, False,
+                    False],
+        sources = ['vM25', 'vM21', 'lapa',
+                    'polya_atlas']
+    output:
+        cfg = config['cerberus']['tes']['cfg']
+    run:
+        files = [input.vM25,
+                 input.vM21,
+                 input.lapa_gtf,
+                 input.atlas]
+        df = pd.DataFrame()
+        df['fname'] = files
+        df['add_ends'] = params.add_ends
+        df['refs'] = params.refs
+        df['sources'] = params.sources
+        df.to_csv(output.cfg, sep=',', header=None, index=False)
+
+rule cerberus_agg_tss_ends:
+    input:
+        cfg = config['cerberus']['tss']['cfg']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    params:
+        slack = 20
+    output:
+        bed = config['cerberus']['tss']['agg'],
+        source_map = config['cerberus']['tss']['source_map']
+    shell:
+        "cerberus agg_ends \
+            --input {input.cfg} \
+            --mode tss \
+            --slack {params.slack} \
+            -o {output.bed}"
+
+rule cerberus_agg_tes_ends:
+    input:
+        cfg = config['cerberus']['tes']['cfg']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    params:
+        slack = 20
+    output:
+        bed = config['cerberus']['tes']['agg'],
+        source_map = config['cerberus']['tes']['source_map']
+    shell:
+        "cerberus agg_ends \
+            --input {input.cfg} \
+            --mode tes \
+            --slack {params.slack} \
+            -o {output.bed}"
+
+rule cerberus_agg_ics_config:
+    input:
+        vM25_ics = expand(config['cerberus']['gtf']['ics'], source=['vM25']),
+        vM21_ics = expand(config['cerberus']['gtf']['ics'], source=['vM21']),
+        lapa_ics = expand(config['cerberus']['gtf']['ics'], source=['lapa'])
+    params:
+        sources = ['vM25', 'vM21', 'lapa'],
+        refs = [True, True, False]
+    resources:
+        mem_gb = 1,
+        threads = 1
+    output:
+        cfg = config['cerberus']['ics']['cfg']
+    run:
+        files = [input.vM25_ics, input.vM21_ics, input.lapa_ics]
+        refs = params.refs
+        sources = params.sources
+        df = pd.DataFrame()
+        df['fname'] = files
+        df['refs'] = refs
+        df['source'] = sources
+        df.to_csv(output.cfg, header=None, index=False, sep=',')
+
+
+rule cerberus_agg_ics:
+    input:
+        cfg = config['cerberus']['ics']['cfg']
+    resources:
+        mem_gb = 28,
+        threads = 1
+    output:
+        agg_ics = config['cerberus']['ics']['agg']
+    shell:
+        "cerberus agg_ics \
+            --input {input.cfg} \
+            -o {output.agg_ics}"
+
+rule cerberus_write_ref:
+    input:
+        tss = config['cerberus']['tss']['agg'],
+        tes = config['cerberus']['tes']['agg'],
+        ics = config['cerberus']['ics']['agg']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    output:
+        ref = config['cerberus']['ref']
+    shell:
+        "cerberus write_reference \
+            --tss {input.tss} \
+            --tes {input.tes} \
+            --ics {input.ics} \
+            -o {output.ref}"
+
+rule cerberus_annotate_vM25:
+    input:
+        gtf = config['ref']['vM25']['gtf'],
+        ref = config['cerberus']['ref']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    params:
+        source = 'vM25'
+    output:
+        annot = config['ref']['vM25']['cerberus']['annot']
+    shell:
+        "cerberus annotate_transcriptome \
+            --gtf {input.gtf} \
+            --h5 {input.ref} \
+            --source {params.source} \
+            -o {output.annot}"
+
+rule cerberus_annotate_vM21:
+    input:
+        gtf = config['ref']['vM21']['gtf'],
+        ref = config['ref']['vM25']['cerberus']['annot']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    params:
+        source = 'vM21',
+        gene_source = 'vM25'
+    output:
+        annot = config['ref']['vM21']['cerberus']['annot']
+    shell:
+        "cerberus annotate_transcriptome \
+            --gtf {input.gtf} \
+            --h5 {input.ref} \
+            --gene_source {params.gene_source} \
+            --source {params.source} \
+            -o {output.annot}"
+
+rule cerberus_annotate_transcriptome:
+    input:
+        gtf = config['lapa']['filt_gtf'],
+        ref = config['ref']['vM25']['cerberus']['annot']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    params:
+        source = 'lapa',
+        gene_source = 'vM25'
+    output:
+        annot = config['cerberus']['annot']
+    shell:
+        "cerberus annotate_transcriptome \
+            --gtf {input.gtf} \
+            --h5 {input.ref} \
+            --gene_source {params.gene_source} \
+            --source {params.source} \
+            -o {output.annot}"
+
+rule cerberus_update_abundance:
+    input:
+        annot = config['cerberus']['annot'],
+        ab = config['lapa']['filt_ab']
+    resources:
+        mem_gb = 28,
+        threads = 1
+    params:
+        source = 'lapa'
+    output:
+        update_ab = config['cerberus']['update_ab']
+    shell:
+        "cerberus replace_ab_ids \
+            --h5 {input.annot} \
+            --ab {input.ab} \
+            --source {params.source} \
+            --collapse \
+            -o {output.update_ab}"
+
+rule cerberus_update_gtf:
+    input:
+        annot = config['cerberus']['annot'],
+        gtf = config['lapa']['filt_gtf']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    params:
+        source = 'lapa'
+    output:
+        update_gtf = config['cerberus']['update_gtf']
+    shell:
+        "cerberus replace_gtf_ids \
+            --h5 {input.annot} \
+            --gtf {input.gtf} \
+            --source {params.source} \
+            --update_ends \
+            --collapse \
+            -o {output.update_gtf}"
+
+rule cerberus_update_vM21_gtf:
+    input:
+        annot = config['ref']['vM21']['cerberus']['annot'],
+        gtf = config['ref']['vM21']['gtf']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    params:
+        source = 'vM21'
+    output:
+        update_gtf = config['ref']['vM21']['cerberus']['gtf']
+    shell:
+        "cerberus replace_gtf_ids \
+            --h5 {input.annot} \
+            --gtf {input.gtf} \
+            --source {params.source} \
+            --update_ends \
+            --collapse \
+            -o {output.update_gtf}"
+
+rule cerberus_update_vM25_gtf:
+    input:
+        annot = config['ref']['vM25']['cerberus']['annot'],
+        gtf = config['ref']['vM25']['gtf']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    params:
+        source = 'vM25'
+    output:
+        update_gtf = config['ref']['vM25']['cerberus']['gtf']
+    shell:
+        "cerberus replace_gtf_ids \
+            --h5 {input.annot} \
+            --gtf {input.gtf} \
+            --source {params.source} \
+            --update_ends \
+            --collapse \
+            -o {output.update_gtf}"
+
+rule cerberus_get_t_info_vM21:
+    input:
+        gtf = config['ref']['vM21']['cerberus']['gtf'],
+        tfs = config['ref']['tf']['gid']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    output:
+        o = config['ref']['vM21']['cerberus']['t_info']
+    run:
+        get_transcript_info(input.gtf, output.o)
+
+rule cerberus_get_t_info_vM25:
+    input:
+        gtf = config['ref']['vM25']['cerberus']['gtf'],
+        tfs = config['ref']['tf']['gid']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    output:
+        o = config['ref']['vM25']['cerberus']['t_info']
+    run:
+        get_transcript_info(input.gtf, output.o)
+
+rule cerberus_get_g_info_vM25:
+    input:
+        gtf = config['ref']['vM25']['cerberus']['gtf'],
+        tfs = config['ref']['tf']['gid']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    output:
+        o = config['ref']['vM25']['cerberus']['g_info']
+    run:
+        get_gene_info(input.gtf, output.o)
+
+def make_mouse_metadata(ab, hr_file, meta_file, o):
+
+    df = pd.read_csv(ab, sep='\t')
+    df = get_mouse_metadata_from_ab(df)
+    print(df.columns)
+
+    # create sample level metadata
+    df['sample'] = False
+
+    # for timecourse+forelimb use tissue + age
+    inds = df.loc[(df.b6cast)|(df.forelimb)].index
+    df.loc[inds, 'sample'] = df.loc[inds, 'tissue']+'_'+df.loc[inds, 'age']
+
+    # for c2c12,  use tissue
+    inds = df.loc[df.c2c12==True].index
+    df.loc[inds, 'sample'] = df.loc[inds, 'tissue']
+
+    # for adrenal, hc, ctx from 5x, use tissue
+    inds = df.loc[(df['5x_v_wt']==True)|(df.adrenal==True)].index
+    df.loc[inds, 'sample'] = df.loc[inds, 'tissue']
+
+    # for f1219 use tissue
+    inds = df.loc[df['f1219']==True].index
+    df.loc[inds, 'sample'] = df.loc[inds, 'tissue']
+
+    # add cell line / tissue classification
+
+    # dataset id --> file id
+    file_ids = pd.read_csv(hr_file, sep='\t',
+                           header=None,
+                           names=['file_id', 'hr'])
+    file_ids['hr'] = file_ids.hr.str.replace('-', '_')
+    file_ids['hr'] = file_ids.hr.str.replace('18_20', '18-20')
+
+    # dataset id --> classification
+    meta = pd.read_csv(meta_file, sep='\t')
+    meta = meta[['File accession', 'Biosample type']]
+    meta.columns = ['file_id', 'classification']
+    class_map = get_tissue_cell_line_map()
+    meta.classification = meta.classification.map(class_map)
+
+    file_ids = file_ids.merge(meta, on='file_id')
+    df = df.merge(file_ids, left_on='dataset', right_on='hr')
+    df.drop('file_id', axis=1, inplace=True)
+
+    # save
+    df.to_csv(o, sep='\t', index=False)
+
+rule get_swan_metadata:
+    input:
+        ab = config['talon']['filt_ab'],
+        hr = config['meta']['file_to_hr'],
+        meta = config['meta']['meta']
+    resources:
+        mem_gb = 4,
+        threads = 1
+    output:
+        o = config['swan']['meta']
+    run:
+        make_mouse_metadata(input.ab, input.hr, input.meta, output.o)
+
+
+def make_sg(input, params):
+
+    # initialize
+    sg = swan.SwanGraph()
+    sg.add_annotation(input.annot)
+    sg.add_transcriptome(input.gtf, include_isms=True)
+    sg.add_abundance(input.ab)
+    sg.add_abundance(input.gene_ab, how='gene')
+
+    # add metadata and add colors
+    sg.add_metadata(input.meta)
+    # c_dict, order = get_biosample_colors()
+    # sg.set_metadata_colors('sample', c_dict)
+    # c_dict, order = get_ad_colors()
+    # sg.set_metadata_colors('health_status', c_dict)
+
+    # save
+    sg.save_graph(params.prefix)
+
+# unfiltered swan -- all isoforms from cerberus;
+# not filtered for abundance at all
+rule swan_unfilt:
+    input:
+        annot = config['ref']['vM25']['cerberus']['gtf'],
+        ab = config['cerberus']['update_ab'],
+        gene_ab = config['talon']['ab'],
+        gtf = config['cerberus']['update_gtf'],
+        meta = config['swan']['meta']
+    params:
+        prefix = config['swan']['sg_unfilt'].replace('.p', '')
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        sg = config['swan']['sg_unfilt']
+    run:
+        make_sg(input, params)

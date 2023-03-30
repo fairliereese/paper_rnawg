@@ -1,0 +1,177 @@
+ref:
+  v29:
+      gtf: refs/gencode_v29_sirv4_ercc.gtf
+      gtf_no_sirv: refs/gencode.v29.annotation.gtf
+      cerberus:
+          annot: refs/cerberus/v29_cerberus.h5
+          gtf: refs/cerberus/v29_cerberus.gtf
+          t_info: refs/cerberus/v29_transcript_metadata.tsv
+  v40:
+      link: https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_40/gencode.v40.annotation.gtf.gz
+      gz: refs/gencode.v40.annotation.gtf.gz
+      gtf: refs/gencode.v40.annotation.gtf
+      t_info: refs/v40_transcript_metadata.tsv
+      cerberus:
+          annot: refs/cerberus/v40_cerberus.h5
+          gtf: refs/cerberus/v40_cerberus.gtf
+          t_info: refs/cerberus/v40_transcript_metadata.tsv
+          g_info: refs/cerberus/v40_gene_metadata.tsv
+
+  hg38: refs/hg38_sirv4_ercc.fa
+  pc_prefix: refs/gencode.v29.pc_translations
+  tf:
+    gid: refs/biomart_tf_gids.tsv
+
+gtex:
+  link: https://storage.googleapis.com/gtex_analysis_v9/long_read_data/flair_filter_transcripts.gtf.gz
+  gz: lr_bulk/gtex/flair_filter_transcripts.gtf.gz
+  gtf: lr_bulk/gtex/flair_filter_transcripts.gtf
+  filt_gtf: lr_bulk/gtex/flair_filter_transcripts_no_novel_genes.gtf
+  cerberus:
+    annot: lr_bulk/gtex/gtex_cerberus.h5
+
+talon:
+  prefix: lr_bulk/talon/human
+  db: lr_bulk/talon/human.db
+  read_annot: lr_bulk/talon/human_talon_read_annot.tsv
+  pass_list: lr_bulk/talon/human_pass_list.csv
+  ab: lr_bulk/talon/human_talon_abundance.tsv
+  gene_ab: lr_bulk/talon/human_talon_gene_abundance.tsv
+  filt_ab: lr_bulk/talon/human_talon_abundance_filtered.tsv
+  filt_gtf: lr_bulk/talon/human_talon.gtf
+  known_nic_nnc_pass_list: lr_bulk/talon/human_known_nic_nnc_pass_list.csv
+  known_nic_nnc_gtf: lr_bulk/talon/human_known_nic_nnc_talon.gtf
+
+
+bru:
+  meta:
+    exp: bru/exp_metadata.tsv
+  datasets: bru/ljungman_datasets.tsv
+
+# lr bulk metadata
+meta:
+  file_to_hr: lr_bulk/file_to_hr.tsv
+
+
+swan:
+  # pass_list: lr_bulk/swan/human_talon_swan_pass_list.csv
+  # gtf: lr_bulk/swan/human_swan_talon.gtf
+  meta: lr_bulk/cerberus/swan/swan_metadata.tsv
+  sg_unfilt: lr_bulk/cerberus/swan/swan.p
+  sg_unfilt_meta: lr_bulk/cerberus/swan/swan_meta.p
+  major_isos: lr_bulk/cerberus/swan/major_isos.tsv
+  major_isos_library: lr_bulk/cerberus/swan/major_isos_library.tsv
+
+pp:
+  gtf_to_bed: ~/mortazavi_lab/bin/tama/tama_go/format_converter/tama_format_gtf_to_bed12_ensembl.py
+  orf_nmd: ~/mortazavi_lab/bin/tama/tama_go/orf_nmd_predictions/tama_orf_seeker.py
+  blastp: ~/mortazavi_lab/bin/ncbi-blast-2.12.0+/bin/./blastp
+  blastp_parse: ~/mortazavi_lab/bin/tama/tama_go/orf_nmd_predictions/tama_orf_blastp_parser.py
+  gtf_bed: lr_bulk/protein_pred/human_tama.bed
+  fa: lr_bulk/protein_pred/human.fa
+  orf_fa: lr_bulk/protein_pred/human_orf.fa
+  blastp_out: lr_bulk/protein_pred/human_blastp.out
+  blastp_parsed: lr_bulk/protein_pred/human_blastp_parsed.tsv
+
+lapa:
+    # paths to hasan's material
+    hasan_gtf: /dfs7/samlab/mcelik/rnawg/data/results/talon/human_talon.corrected.gtf
+    hasan_ab: /dfs7/samlab/mcelik/rnawg/data/results/talon/human_talon_abundance_filtered.corrected.tsv
+
+    # corrected output right from lapa
+    gtf: lr_bulk/lapa/human_talon.corrected.gtf
+    ab: lr_bulk/lapa/human_talon_abundance_filtered.corrected.tsv
+
+    # output with ISM_rescue category added
+    nov_ab: lr_bulk/lapa/human_talon_abundance_filtered.nov_corrected.tsv
+    nov_gtf: lr_bulk/lapa/human_talon.nov_corrected.gtf
+
+    # output filtered for the relevant novelty categories,
+    # removed novel genes and spike ins
+    filt_ab: lr_bulk/lapa/human_abundance_filtered.tsv
+    filt_gtf: lr_bulk/lapa/human_lapa.gtf
+
+    # tss / tes clusters from lapa
+    tss: /dfs7/samlab/mcelik/rnawg/data/results/lapa/tss/tss_clusters.bed
+    tes: /dfs7/samlab/mcelik/rnawg/data/results/lapa/tes/polyA_clusters.bed
+
+cerberus:
+  gtf:
+    ends: lr_bulk/cerberus/{source}_{mode}.bed
+    ics: lr_bulk/cerberus/{source}_ics.tsv
+  tss:
+    lapa: lr_bulk/lapa/lapa_tss.bed
+    cfg: lr_bulk/cerberus/agg_tss_config.csv
+    agg: lr_bulk/cerberus/agg_tss.bed
+    source_map: lr_bulk/cerberus/agg_tss_source_map.bed
+  tes:
+    lapa: lr_bulk/lapa/lapa_tes.bed
+    pas: lr_bulk/lapa/pas_tes.bed
+    cfg: lr_bulk/cerberus/agg_tes_config.csv
+    agg: lr_bulk/cerberus/agg_tes.bed
+    source_map: lr_bulk/cerberus/agg_tes_source_map.bed
+  ics:
+    cfg: lr_bulk/cerberus/agg_ics_config.csv
+    agg: lr_bulk/cerberus/agg_ics.tsv
+  ref: lr_bulk/cerberus/cerberus_ref.h5
+  annot: lr_bulk/cerberus/cerberus_annot.h5
+  update_ab: lr_bulk/cerberus/cerberus_filtered_abundance.tsv
+  update_gtf: lr_bulk/cerberus/cerberus.gtf
+  t_info: lr_bulk/cerberus/cerberus_transcript_metadata.tsv
+  triplets:
+    h5: lr_bulk/cerberus/triplets/cerberus_annot_triplets.h5
+    tsv: lr_bulk/cerberus/triplets/triplets.tsv
+  suppa:
+    psi: lr_bulk/cerberus/suppa/cerberus_psi.tsv
+
+wtc11:
+  cage:
+    unfilt: /dfs7/samlab/mcelik/lapa/data/resources/cage/GSM5625727.count.bed
+    filt: /dfs7/samlab/mcelik/lapa/data/results/cage/wtc11_replicated.bed
+    format: refs/wtc11_cage.bed
+  lapa:
+    filt: /dfs7/samlab/mcelik/rnawg/data/results/lapa/tss/dataset/ENCSR507JOF.bed
+    format: lr_bulk/lapa/wtc11_lapa_tss.bed
+  ccre:
+    bed_zip: refs/wtc11_ccre.bed.gz
+    bed: refs/wtc11_ccre.bed
+  cerberus:
+    cfg: lr_bulk/cerberus/wtc11_tss_config.csv
+    tss: lr_bulk/cerberus/wtc11_tss_agg.bed
+    source_map: lr_bulk/cerberus/wtc11_tss_source_map.bed
+    ref: lr_bulk/cerberus/wtc11_ref.h5
+
+
+
+polyasite_atlas:
+  original: /dfs7/samlab/mcelik/rnawg/data/resources/polyasite_atlas/atlas.clusters.2.0.GRCh38.96.bed
+  formatted: /dfs7/samlab/mcelik/rnawg/data/resources/polyasite_atlas/atlas.clusters_formatted.bed
+
+pas:
+  tes: /dfs7/samlab/mcelik/rnawg/data/results/pas/lapa/polyA_clusters.bed
+
+fantom:
+  hg19: /dfs7/samlab/mcelik/rnawg/data/resources/fantom/hg19.cage_peak_phase1and2combined_coord.bed
+  hg38: /dfs7/samlab/mcelik/rnawg/data/results/fantom/hg38_fantom.bed
+
+cage:
+  bed: /dfs7/samlab/mcelik/rnawg/data/resources/cage/idr_peak/{encode_id}.bed
+  merged: /dfs7/samlab/mcelik/rnawg/data/results/cage/merged.bed
+
+rampage:
+  bed: /dfs7/samlab/mcelik/rnawg/data/resources/rampage/idr_peak/{encode_id}.bed
+  merged: /dfs7/samlab/mcelik/rnawg/data/results/rampage/merged.bed
+
+cCREs:
+  all: /dfs7/samlab/mcelik/rnawg/data/resource/cCREs/all.cCREs.bed
+  promoters: /dfs7/samlab/mcelik/rnawg/data/resources/cCREs/GRCh38-PLS.bed
+  proximal_enhancers: /dfs7/samlab/mcelik/rnawg/data/resources/cCREs/GRCh38-ccREs.pELS.bed
+  distal_enhancers: /dfs7/samlab/mcelik/rnawg/data/resources/cCREs/GRCh38-ccREs.dELS.bed
+  CA_H3K4me3: /dfs7/samlab/mcelik/rnawg/data/resources/cCREs/GRCh38-CA-H3K4me3.V4.bed
+  CA_CTCF: /dfs7/samlab/mcelik/rnawg/data/resources/cCREs/GRCh38-CA-CTCF.V4.bed
+  CA_TF: /dfs7/samlab/mcelik/rnawg/data/resources/cCREs/GRCh38-CA-TF.V4.bed
+  CA: /dfs7/samlab/mcelik/rnawg/data/resources/cCREs/GRCh38-CA.V4.bed
+  TF: /dfs7/samlab/mcelik/rnawg/data/resources/cCREs/GRCh38-TF.V4.bed
+
+
+script_dir: scripts/

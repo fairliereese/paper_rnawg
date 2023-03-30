@@ -1,0 +1,61 @@
+rule igv_gtf_sort:
+    input:
+        gtf = config['gtf']
+    threads: 1
+    resources:
+        mem_gb = 16
+    output:
+        gtf = config['igv']['gtf_sorted']
+    shell:
+        "igvtools sort -t {resources.tmpdir} {input.gtf} {output.gtf}"
+
+
+rule igv_gtf_talon_sort:
+    input:
+        gtf = config['talon']['gtf']
+    threads: 1
+    resources:
+        mem_gb = 16
+    output:
+        gtf = config['igv']['gtf_talon_sorted']
+    shell:
+        "igvtools sort -t {resources.tmpdir} {input.gtf} {output.gtf}"
+
+
+rule igv_gtf_corrected_talon_sort:
+    input:
+        gtf = config['talon']['gtf_corrected']
+    threads: 1
+    resources:
+        mem_gb = 16
+    output:
+        gtf = config['igv']['gtf_talon_corrected_sorted']
+    shell:
+        "igvtools sort -t {resources.tmpdir} {input.gtf} {output.gtf}"
+
+rule igv_index_gtf:
+    input:
+        gtf = 'data/results/igv/{filename}.gtf'
+    threads: 1
+    resources:
+        mem_gb = 16
+    output:
+        index = 'data/results/igv/{filename}.gtf.idx'
+    shell:
+        "igvtools index {input.gtf}"
+
+
+rule igv_visualize:
+    input:
+        gtf = config['igv']['gtf_sorted'],
+        gtf_talon_sorted = config['igv']['gtf_talon_sorted'],
+        gtf_talon_corrected_sorted = config['igv']['gtf_talon_corrected_sorted'],
+
+        gtf_index = config['igv']['gtf_sorted'] + '.idx',
+        gtf_talon_sorted_index = config['igv']['gtf_talon_sorted'] + '.idx',
+        gtf_talon_corrected_sorted_index = config['igv']['gtf_talon_corrected_sorted'] + '.idx'
+
+
+rule all_igv:
+    input:
+        expand(rules.igv_visualize.input, specie='human')

@@ -1,6 +1,15 @@
 import pandas as pd
 import cerberus
 import warnings
+import os
+import sys
+
+p = os.path.dirname(os.getcwd())
+sys.path.append(p)
+
+from scripts.utils import *
+from scripts.plotting import *
+
 warnings.filterwarnings('ignore')
 
 configfile: 'snakemake/config.yml'
@@ -11,35 +20,209 @@ species = ['human']
 # dl_files = ['ab', 'filt_ab', 'read_annot']
 dl_files = ['ab', 'filt_ab']
 
-
-def get_dl_link(wildcards):
-    link = config['encode'][wildcards.species][wildcards.file]
-    return link
-
-# def get_dl_ofile(wildcards):
-#     ofile = expand(config['data'][wildcards.file],
-#                   species=wildcards.species)
-#     return ofile
-
 rule all:
     input:
-        expand(config['data']['file'], species=species, file=dl_files)
+        expand(config['data']['ab'], species=species),
+        expand(config['data']['filt_ab'], species=species),
+        expand(config['data']['cerb_annot'], species=species),
+        expand(config['data']['cerb_gtf'], species=species),
+        expand(config['ref']['new_gencode_gtf'], species=species),
+        expand(config['ref']['cerberus']['gtf'], species=species),
+        expand(config['ref']['cerberus']['t_info'], species=species),
+        expand(config['ref']['cerberus']['g_info'], species=species), #,
+        expand(config['data']['t_info'], species=species),
+        expand(config['data']['major_isos'], species=species, obs_col='sample')
+        # expand(config['data']['sg'], species='human')
 
-# rule dl:
-#     resources:
-#         mem_gb = 4,
-#         threads = 1
-#     shell:
-#         "wget -O {output.out} {params.link}"
 
 
 rule dl:
+    resources:
+        mem_gb = 4,
+        threads = 1
+    shell:
+        "wget -O {output.out} {params.link}"
+
+rule gunzip:
+    resources:
+        mem_gb = 4,
+        threads = 1
+    shell:
+        "gunzip -c {input.gz} > {output.out}"
+
+################################################################################
+########################### Data download ######################################
+################################################################################
+
+use rule dl as dl_ab with:
   params:
-    link = lambda w:config['encode'][w.species][w.file]
-  resources:
-    mem_gb = 4,
-    threads = 1
+    link = lambda w:config['encode'][w.species]['ab']
   output:
-    out = config['data']['file']
-  shell:
-    "wget -O {output.out} {params.link}"
+    out = config['data']['ab']
+
+use rule dl as dl_filt_ab with:
+  params:
+    link = lambda w:config['encode'][w.species]['filt_ab']
+  output:
+    out = config['data']['filt_ab']
+
+use rule dl as dl_read_annot with:
+  params:
+    link = lambda w:config['encode'][w.species]['read_annot']
+  output:
+    out = config['data']['read_annot']
+
+use rule dl as dl_cerb_annot with:
+  params:
+    link = lambda w:config['encode'][w.species]['cerb_annot']
+  output:
+    out = config['data']['cerb_annot']
+
+use rule dl as dl_gencode_gtf with:
+  params:
+    link = lambda w:config['encode'][w.species]['new_gencode_gtf_gz']
+  output:
+    out = config['ref']['new_gencode_gtf_gz']
+
+use rule gunzip as gunzip_gencode with:
+  input:
+    gz = config['ref']['new_gencode_gtf_gz']
+  output:
+    out = config['ref']['new_gencode_gtf']
+
+use rule dl as dl_cerb_gtf with:
+  params:
+    link = lambda w:config['encode'][w.species]['cerb_gtf_gz']
+  output:
+    out = config['data']['cerb_gtf_gz']
+
+use rule gunzip as gunzip_cerb with:
+  input:
+    gz = config['data']['cerb_gtf_gz']
+  output:
+    out = config['data']['cerb_gtf']
+
+
+################################################################################
+############################# Data processing ##################################
+################################################################################
+def get_new_gencode_source(wildcards):
+    if wildcards.species == 'human':
+        source = 'v40'
+    elif wildcards.species == 'mouse':
+        source = 'vM25'
+    return source
+
+# annotate gencode gtf w/ cerberus
+rule cerberus_update_gtf:
+    input:
+        annot = config['data']['cerb_annot'],
+        gtf = config['ref']['new_gencode_gtf']
+    output:
+        update_gtf = config['ref']['cerberus']['gtf']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    params:
+        source = get_new_gencode_source
+    shell:
+        "cerberus replace_gtf_ids \
+            --h5 {input.annot} \
+            --gtf {input.gtf} \
+            --source {params.source} \
+            --update_ends \
+            --collapse \
+            -o {output.update_gtf}"
+
+# get transcript info
+rule cerberus_get_t_info:
+    resources:
+        mem_gb = 56,
+        threads = 1
+    run:
+        get_transcript_info(input.gtf, output.o)
+
+use rule cerberus_get_t_info as ref_t_info with:
+    input:
+        gtf = config['ref']['cerberus']['gtf']
+    output:
+        o = config['ref']['cerberus']['t_info']
+
+use rule cerberus_get_t_info as cerb_t_info with:
+    input:
+        gtf = config['data']['cerb_gtf']
+    output:
+        o = config['data']['t_info']
+
+# get gene info
+rule cerberus_get_g_info:
+    resources:
+        mem_gb = 56,
+        threads = 1
+    run:
+        get_gene_info(input.gtf, output.o)
+
+use rule cerberus_get_g_info as ref_g_info with:
+    input:
+        gtf = config['ref']['cerberus']['gtf']
+    output:
+        o = config['ref']['cerberus']['g_info']
+
+################################################################################
+################################## Swan ########################################
+################################################################################
+def make_sg(input, params):
+
+    # initialize
+    sg = swan.SwanGraph()
+    sg.add_annotation(input.annot)
+    sg.add_transcriptome(input.gtf, include_isms=True)
+    sg.add_abundance(input.ab)
+    sg.add_abundance(input.gene_ab, how='gene')
+    sg.save_graph(params.prefix)
+
+    # add metadata and add colors
+    sg.add_metadata(input.meta)
+    c_dict, order = get_biosample_colors()
+    sg.set_metadata_colors('sample', c_dict)
+    c_dict, order = get_ad_colors()
+    sg.set_metadata_colors('health_status', c_dict)
+    # save
+    sg.save_graph(params.prefix)
+
+rule swan_init:
+    input:
+        annot = config['ref']['cerberus']['gtf'],
+        ab = config['data']['filt_ab'],
+        gene_ab = config['data']['ab'],
+        gtf = config['data']['cerb_gtf'],
+        meta = config['data']['meta']
+    params:
+        prefix = config['data']['sg'].replace('.p', '')
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        sg = config['data']['sg']
+    run:
+        make_sg(input, params)
+
+rule major_isos:
+    input:
+        sg = config['data']['sg'],
+        filt_ab = config['data']['filt_ab']
+    resources:
+        mem_gb = 16,
+        threads = 8
+    params:
+        min_tpm = 1,
+        gene_subset = 'polya'
+    output:
+        ofile = config['data']['major_isos']
+    run:
+        get_major_isos(input.sg,
+                       input.filt_ab,
+                       wildcards.obs_col,
+                       output.ofile,
+                       min_tpm=params.min_tpm,
+                       gene_subset=params.gene_subset)

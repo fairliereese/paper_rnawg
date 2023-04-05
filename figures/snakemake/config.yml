@@ -3,10 +3,34 @@ encode:
     ab: https://www.encodeproject.org/files/ENCFF109QKT/@@download/ENCFF109QKT.tsv
     filt_ab: https://www.encodeproject.org/files/ENCFF139IUH/@@download/ENCFF139IUH.tsv
     read_annot: https://www.encodeproject.org/files/ENCFF857YZZ/@@download/ENCFF857YZZ.tsv
-    new_genode: https://www.encodeproject.org/files/ENCFF691CWD/@@download/ENCFF691CWD.gtf.gz
+    new_gencode_gtf_gz: https://www.encodeproject.org/files/ENCFF691CWD/@@download/ENCFF691CWD.gtf.gz
+    cerb_gtf_gz: https://www.encodeproject.org/files/ENCFF232ABR/@@download/ENCFF232ABR.gtf.gz
+    cerb_annot: https://www.encodeproject.org/files/ENCFF229IBK/@@download/ENCFF229IBK.h5
+  mouse:
+    ab: https://www.encodeproject.org/files/ENCFF811SVZ/@@download/ENCFF811SVZ.tsv
+    filt_ab: https://www.encodeproject.org/files/ENCFF759BBW/@@download/ENCFF759BBW.tsv
+    read_annot: https://www.encodeproject.org/files/ENCFF283TZF/@@download/ENCFF283TZF.tsv
+    new_gencode_gtf_gz: https://www.encodeproject.org/files/ENCFF060VNF/@@download/ENCFF060VNF.gtf.gz
+    cerb_gtf_gz: https://www.encodeproject.org/files/ENCFF200RSU/@@download/ENCFF200RSU.gtf.gz
+    cerb_annot: https://www.encodeproject.org/files/ENCFF999KXH/@@download/ENCFF999KXH.h5
 
 data:
-  # ab: data/{species}/abundance.tsv
-  # filt_ab: data/{species}/abundance_filtered.tsv
-  # read_annot: data/{species}/read_annot.tsv
-  file: data/{species}/{file}
+  ab: data/{species}/abundance.tsv
+  filt_ab: data/{species}/abundance_filtered.tsv
+  read_annot: data/{species}/read_annot.tsv
+  cerb_gtf_gz: data/{species}/cerberus.gtf.gz
+  cerb_gtf: data/{species}/cerberus.gtf
+  cerb_annot: data/{species}/cerberus_annot.h5
+  t_info: data/{species}/cerberus_t_metadata.tsv
+  meta: ref/{species}/lr_{species}_library_data_summary.tsv
+  sg: data/{species}/swan_graph.p
+  major_isos: data/{species}/{obs_col}_major_isos.tsv
+
+# this will be vM21 for mouse and v40 for human
+ref:
+  new_gencode_gtf_gz: ref/{species}/gencode_annotation.gtf.gz
+  new_gencode_gtf: ref/{species}/gencode_annotation.gtf
+  cerberus:
+    gtf: ref/{species}/cerberus/cerberus.gtf
+    t_info: ref/{species}/cerberus/cerberus_t_metadata.tsv
+    g_info: ref/{species}/cerberus/cerberus_g_metadata.tsv

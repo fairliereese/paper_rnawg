@@ -2,6 +2,9 @@ Before generating any of the figures, you will need to download data from the EN
 
 There is some overlap between the processing code here and in the raw data processing directory.
 
+Notes on pre-generated files included in this directory:
+* Biomart TF ids generated using [this](http://www.ensembl.org/biomart/martview/9ae34b91ac4887f7cb4e59a962bf8f87?VIRTUALSCHEMANAME=default&ATTRIBUTES=hsapiens_gene_ensembl.default.feature_page.ensembl_gene_id|hsapiens_gene_ensembl.default.feature_page.ensembl_gene_id_version|hsapiens_gene_ensembl.default.feature_page.ensembl_transcript_id|hsapiens_gene_ensembl.default.feature_page.ensembl_transcript_id_version&FILTERS=hsapiens_gene_ensembl.default.filters.go_parent_term."GO:0003700"&VISIBLEPANEL=resultspane) query.
+
 ```bash
 snakemake \
   -s snakemake/human_snakefile.smk \

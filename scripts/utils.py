@@ -14,6 +14,24 @@ import scipy.stats as st
 import swan_vis as swan
 from pandarallel import pandarallel
 
+def get_datasets(species='human',
+                 classification=None,
+                 mouse_match=None):
+    """
+    Get list of dataset IDs matching filters
+    """
+    d = os.path.dirname(__file__)
+    fname = f'{d}/../figures/ref/{species}/lr_{species}_library_data_summary.tsv'
+    df = pd.read_csv(fname, sep='\t')
+
+    if classification:
+        df = df.loc[df.classification==classification]
+    if mouse_match:
+        df = df.loc[~df.matching_mouse_samples.isnull()]
+
+    datasets = df.dataset.tolist()
+    return datasets
+
 def get_lr_samples():
     """
     Get colors for each biosample
@@ -274,7 +292,7 @@ def get_gene_info(gtf, o):
     # add TF info
     df['tf'] = False
     d = os.path.dirname(__file__)
-    tf_df = pd.read_csv('{}/../refs/biomart_tf_gids.tsv'.format(d), sep='\t')
+    tf_df = pd.read_csv('{}/../figures/ref/human/biomart_tf_gids.tsv'.format(d), sep='\t')
     tf_gids = tf_df['Gene stable ID'].unique().tolist()
     df['gid_stable'] = df['gid'].str.split('.', expand=True)[0]
     df.loc[df.gid_stable.isin(tf_gids), 'tf'] = True
@@ -352,7 +370,7 @@ def get_transcript_info(gtf, o):
     # add TF info
     df['tf'] = False
     d = os.path.dirname(__file__)
-    tf_df = pd.read_csv('{}/../refs/biomart_tf_gids.tsv'.format(d), sep='\t')
+    tf_df = pd.read_csv('{}/../figures/ref/human/biomart_tf_gids.tsv'.format(d), sep='\t')
     tf_gids = tf_df['Gene stable ID'].unique().tolist()
     df['gid_stable'] = df['gid'].str.split('.', expand=True)[0]
     df.loc[df.gid_stable.isin(tf_gids), 'tf'] = True
@@ -394,7 +412,9 @@ def get_tissue_cell_line_map():
          'primary cells': 'cell_line'}
     return m
 
-def get_sample_datasets(sample=None, groupby=None):
+def get_sample_datasets(species='human',
+                        sample=None,
+                        groupby=None):
     """
     Get the human-readable names of the datasets belonging
     to the input sample type.
@@ -407,55 +427,33 @@ def get_sample_datasets(sample=None, groupby=None):
         datasets (list of str): List of datasets belonging to that specific sample type
     """
     d = os.path.dirname(__file__)
-    # fname = '{}/../lr_bulk/hr_to_biosample_type_back.tsv'.format(d)
-    # print('Warning: using old hr_to_biosample_type, is this OK?')
-    fname = '{}/../lr_bulk/hr_to_biosample_type.tsv'.format(d)
+    fname = f'{d}/../figures/ref/{species}/lr_{species}_library_data_summary.tsv'
     df = pd.read_csv(fname, sep='\t')
-    if sample == 'all':
-        datasets = df.hr.tolist()
-    elif sample == 'tissue' or sample == 'cell_line':
-        datasets = df.loc[df.biosample_type == sample, 'hr'].tolist()
-    elif sample == 'mouse_match':
-        tissues = get_mouse_match_samples()
-        tissue_df = get_tissue_metadata()
-        df['biosample'] = df.hr.str.rsplit('_', n=2, expand=True)[0]
-        df = df.merge(tissue_df, how='left', on='biosample')
-        datasets = df.loc[df.tissue.isin(tissues), 'hr'].tolist()
-    elif sample == 'heart':
-        tissues = ['heart']
-        tissue_df = get_tissue_metadata()
-        df['biosample'] = df.hr.str.rsplit('_', n=2, expand=True)[0]
-        df = df.merge(tissue_df, how='left', on='biosample')
-        datasets = df.loc[df.tissue.isin(tissues), 'hr'].tolist()
-    elif sample == 'ljungman':
-        fname = '{}/../bru/ljungman_datasets.tsv'.format(d)
-        sample_df = pd.read_csv(fname, sep='\t', header=None, names=['dataset'])
-        df = df.merge(sample_df, how='inner', left_on='hr', right_on='dataset')
-        datasets = df.hr.tolist()
-    elif sample == 'mouse':
-        fname = '{}/../mouse/lr_bulk/file_to_hr.tsv'.format(d)
-        df = pd.read_csv(fname, sep='\t', header=None)
-        datasets = df[1].tolist()
-        datasets = [d.replace('-', '_') for d in datasets]
-        datasets = [d.replace('18_20', '18-20') for d in datasets]
-    else:
-        datasets = df.hr.tolist()
 
+    if species == 'human':
+        if sample == 'all':
+            datasets = df.dataset.tolist()
+        elif sample == 'tissue' or sample == 'cell_line':
+            datasets = df.loc[df.tissue_or_cell_line == sample, 'dataset'].tolist()
+        elif sample == 'mouse_match':
+            df = df.loc[~df.matching_mouse_samples.isnull()]
+            datasets = df.dataset.tolist()
+        elif sample == 'heart':
+            df = df.loc[df['sample']=='heart']
+            datasets = df.dataset.tolist()
+        else:
+            datasets = df.dataset.tolist()
+        # elif sample == 'ljungman':
+        #     fname = '{}/../bru/ljungman_datasets.tsv'.format(d)
+        #     sample_df = pd.read_csv(fname, sep='\t', header=None, names=['dataset'])
+        #     df = df.merge(sample_df, how='inner', left_on='hr', right_on='dataset')
+        #     datasets = df.hr.tolist()
+    elif species == 'mouse':
+        datasets = df.dataset.tolist()
 
     if groupby == 'sample':
-        df = pd.DataFrame(columns=['dataset'], data=datasets)
-        # add biosample name (ie without rep information)
-        df['biosample'] = df['dataset'].str.rsplit('_', n=2, expand=True)[0]
-        df.drop(['dataset'], axis=1, inplace=True)
-
-        tissue_df = get_tissue_metadata()
-        tissue_df = tissue_df[['tissue', 'biosample']]
-
-        df = df.merge(tissue_df, how='left', on='biosample')
-        df.loc[df.tissue.isnull(), 'tissue'] = df.loc[df.tissue.isnull(), 'biosample']
-        df.drop('biosample', axis=1, inplace=True)
-        df.rename({'tissue': 'biosample'}, axis=1, inplace=True)
-        datasets = df.biosample.unique().tolist()
+        df = pd.read_csv(fname, sep='\t')
+        datasets = df.loc[df.dataset.isin(datasets), 'sample'].unique().tolist()
 
     return datasets
 
@@ -620,7 +618,7 @@ def get_tissue_metadata():
     """
 
     d = os.path.dirname(__file__)
-    fname = '{}/../refs/tissue_metadata.csv'.format(d)
+    fname = f'{d}/../figures/ref/human/tissue_metadata.csv'
     tissue = pd.read_csv(fname)
     return tissue
 
@@ -1234,19 +1232,15 @@ def get_gtf_info(how='gene',
     # automatically pull the file we need, otherwise use the user-specified file
     if not fname:
         d = os.path.dirname(__file__)
-        if how == 'gene' and ver == 'v29':
-            fname = '{}/../refs/gencode_v29_gene_metadata.tsv'.format(d)
-        elif how in iso_hows and ver == 'v29':
-            fname = '{}/../refs/gencode_v29_transcript_metadata.tsv'.format(d)
-        elif how == 'gene' and ver == 'v40_cerberus':
-            fname = '{}/../refs/cerberus/v40_gene_metadata.tsv'.format(d)
+        if how == 'gene' and ver == 'v40_cerberus':
+            fname = '{}/../figures/ref/human/cerberus/cerberus_g_metadata.tsv'.format(d)
         elif how in iso_hows and ver == 'v40_cerberus':
-            fname = '{}/../refs/cerberus/v40_transcript_metadata.tsv'.format(d)
+            fname = '{}/../figures/ref/human/cerberus/cerberus_t_metadata.tsv'.format(d)
 
         elif how == 'gene' and ver == 'vM25_cerberus':
-            fname = '/Users/fairliereese/Documents/programming/mortazavi_lab/data/mousewg/refs/cerberus/vM25_gene_metadata.tsv'
+            fname = '{}/../figures/ref/mouse/cerberus/cerberus_g_metadata.tsv'.format(d)
         elif how in iso_hows and ver == 'vM25_cerberus':
-            fname = '/Users/fairliereese/Documents/programming/mortazavi_lab/data/mousewg/refs/cerberus/vM25_transcript_metadata.tsv'
+            fname = '{}/../figures/ref/mouse/cerberus/cerberus_t_metadata.tsv'.format(d)
 
     df = pd.read_csv(fname, sep='\t')
 
@@ -1941,10 +1935,7 @@ def get_tpm_table(df,
         if sample == 'cell_line' or sample == 'tissue':
             print('Subsetting for {} datasets'.format(sample))
 
-        if species == 'human':
-            dataset_cols = get_sample_datasets(sample)
-        elif species == 'mouse':
-            dataset_cols = get_sample_datasets('mouse')
+        dataset_cols = get_datasets(species=species)
         df = rm_sirv_ercc(df)
         df['gid_stable'] = cerberus.get_stable_gid(df, 'annot_gene_id')
 
@@ -3255,4 +3246,3 @@ def get_human_mouse_gid_table(fname):
     df = df.loc[~df['Mouse gene stable ID'].duplicated(keep=False)]
 
     return df
-

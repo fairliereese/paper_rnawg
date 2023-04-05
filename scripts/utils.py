@@ -412,9 +412,7 @@ def get_tissue_cell_line_map():
          'primary cells': 'cell_line'}
     return m
 
-def get_sample_datasets(species='human',
-                        sample=None,
-                        groupby=None):
+def get_sample_datasets(sample=None, groupby=None):
     """
     Get the human-readable names of the datasets belonging
     to the input sample type.
@@ -427,33 +425,55 @@ def get_sample_datasets(species='human',
         datasets (list of str): List of datasets belonging to that specific sample type
     """
     d = os.path.dirname(__file__)
-    fname = f'{d}/../figures/ref/{species}/lr_{species}_library_data_summary.tsv'
+    # fname = '{}/../lr_bulk/hr_to_biosample_type_back.tsv'.format(d)
+    # print('Warning: using old hr_to_biosample_type, is this OK?')
+    fname = '{}/../lr_bulk/hr_to_biosample_type.tsv'.format(d)
     df = pd.read_csv(fname, sep='\t')
+    if sample == 'all':
+        datasets = df.hr.tolist()
+    elif sample == 'tissue' or sample == 'cell_line':
+        datasets = df.loc[df.biosample_type == sample, 'hr'].tolist()
+    elif sample == 'mouse_match':
+        tissues = get_mouse_match_samples()
+        tissue_df = get_tissue_metadata()
+        df['biosample'] = df.hr.str.rsplit('_', n=2, expand=True)[0]
+        df = df.merge(tissue_df, how='left', on='biosample')
+        datasets = df.loc[df.tissue.isin(tissues), 'hr'].tolist()
+    elif sample == 'heart':
+        tissues = ['heart']
+        tissue_df = get_tissue_metadata()
+        df['biosample'] = df.hr.str.rsplit('_', n=2, expand=True)[0]
+        df = df.merge(tissue_df, how='left', on='biosample')
+        datasets = df.loc[df.tissue.isin(tissues), 'hr'].tolist()
+    elif sample == 'ljungman':
+        fname = '{}/../bru/ljungman_datasets.tsv'.format(d)
+        sample_df = pd.read_csv(fname, sep='\t', header=None, names=['dataset'])
+        df = df.merge(sample_df, how='inner', left_on='hr', right_on='dataset')
+        datasets = df.hr.tolist()
+    elif sample == 'mouse':
+        fname = '{}/../mouse/lr_bulk/file_to_hr.tsv'.format(d)
+        df = pd.read_csv(fname, sep='\t', header=None)
+        datasets = df[1].tolist()
+        datasets = [d.replace('-', '_') for d in datasets]
+        datasets = [d.replace('18_20', '18-20') for d in datasets]
+    else:
+        datasets = df.hr.tolist()
 
-    if species == 'human':
-        if sample == 'all':
-            datasets = df.dataset.tolist()
-        elif sample == 'tissue' or sample == 'cell_line':
-            datasets = df.loc[df.tissue_or_cell_line == sample, 'dataset'].tolist()
-        elif sample == 'mouse_match':
-            df = df.loc[~df.matching_mouse_samples.isnull()]
-            datasets = df.dataset.tolist()
-        elif sample == 'heart':
-            df = df.loc[df['sample']=='heart']
-            datasets = df.dataset.tolist()
-        else:
-            datasets = df.dataset.tolist()
-        # elif sample == 'ljungman':
-        #     fname = '{}/../bru/ljungman_datasets.tsv'.format(d)
-        #     sample_df = pd.read_csv(fname, sep='\t', header=None, names=['dataset'])
-        #     df = df.merge(sample_df, how='inner', left_on='hr', right_on='dataset')
-        #     datasets = df.hr.tolist()
-    elif species == 'mouse':
-        datasets = df.dataset.tolist()
 
     if groupby == 'sample':
-        df = pd.read_csv(fname, sep='\t')
-        datasets = df.loc[df.dataset.isin(datasets), 'sample'].unique().tolist()
+        df = pd.DataFrame(columns=['dataset'], data=datasets)
+        # add biosample name (ie without rep information)
+        df['biosample'] = df['dataset'].str.rsplit('_', n=2, expand=True)[0]
+        df.drop(['dataset'], axis=1, inplace=True)
+
+        tissue_df = get_tissue_metadata()
+        tissue_df = tissue_df[['tissue', 'biosample']]
+
+        df = df.merge(tissue_df, how='left', on='biosample')
+        df.loc[df.tissue.isnull(), 'tissue'] = df.loc[df.tissue.isnull(), 'biosample']
+        df.drop('biosample', axis=1, inplace=True)
+        df.rename({'tissue': 'biosample'}, axis=1, inplace=True)
+        datasets = df.biosample.unique().tolist()
 
     return datasets
 

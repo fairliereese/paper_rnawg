@@ -4608,7 +4608,7 @@ def plot_obs_human_simplex_with_centroid(h5, gene, fig_dir, **kwargs):
                 legend=False,
                 jitter=True,
                 subset={'source': ['v40', 'obs_det', 'sample_det', 'sample_det_centroid']},
-                size_scale=0.2,
+                size_scale=0.5,
                 fname=fname)
 
 def plot_density_simplices(h5,

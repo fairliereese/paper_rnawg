@@ -9,32 +9,38 @@ sys.path.append(p)
 
 from scripts.utils import *
 from scripts.plotting import *
+from scripts.mane_utils import *
 
 warnings.filterwarnings('ignore')
 
 configfile: 'snakemake/config.yml'
 
-# species = ['human', 'mouse']
-species = ['human']
+species = ['human', 'mouse']
+# species = ['human']
 
 # dl_files = ['ab', 'filt_ab', 'read_annot']
 dl_files = ['ab', 'filt_ab']
 
 rule all:
     input:
-        expand(config['data']['ab'], species=species),
-        expand(config['data']['filt_ab'], species=species),
-        expand(config['data']['cerb_annot'], species=species),
-        expand(config['data']['cerb_gtf'], species=species),
-        expand(config['ref']['new_gencode_gtf'], species=species),
-        expand(config['ref']['cerberus']['gtf'], species=species),
-        expand(config['ref']['cerberus']['t_info'], species=species),
-        expand(config['ref']['cerberus']['g_info'], species=species), #,
-        expand(config['data']['t_info'], species=species),
-        expand(config['data']['major_isos'], species=species, obs_col='sample')
-        # expand(config['data']['sg'], species='human')
-
-
+        # expand(config['data']['ab'], species=species),
+        # expand(config['data']['filt_ab'], species=species),
+        # expand(config['data']['cerb_annot'], species=species),
+        # expand(config['data']['cerb_gtf'], species=species),
+        # expand(config['ref']['new_gencode_gtf'], species=species),
+        # expand(config['ref']['cerberus']['gtf'], species=species),
+        # expand(config['ref']['cerberus']['t_info'], species=species),
+        # expand(config['ref']['cerberus']['g_info'], species=species), #,
+        # expand(config['data']['t_info'], species=species),
+        # expand(config['data']['major_isos'], species=species, obs_col='sample'),
+        expand(config['data']['exp_gene_subset'], species='human', obs_col=['sample', 'dataset']),
+        expand(config['data']['pi_tpm']['tss'], species='human', obs_col=['sample', 'dataset']),
+        expand(config['data']['pi_tpm']['ic'], species='human', obs_col=['sample', 'dataset']),
+        expand(config['data']['pi_tpm']['tes'], species='human', obs_col=['sample', 'dataset']),
+        expand(config['data']['pi_tpm']['triplet'], species='human', obs_col=['sample', 'dataset']),
+        expand(config['ref']['t_info'], species=species),
+        expand(config['ref']['g_info'], species=species),
+        expand(config['data']['sg'], species=species)
 
 rule dl:
     resources:
@@ -135,43 +141,55 @@ rule cerberus_update_gtf:
             -o {output.update_gtf}"
 
 # get transcript info
-rule cerberus_get_t_info:
+rule get_t_info:
     resources:
         mem_gb = 56,
         threads = 1
     run:
         get_transcript_info(input.gtf, output.o)
 
-use rule cerberus_get_t_info as ref_t_info with:
+use rule get_t_info as ref_cerb_t_info with:
     input:
         gtf = config['ref']['cerberus']['gtf']
     output:
         o = config['ref']['cerberus']['t_info']
 
-use rule cerberus_get_t_info as cerb_t_info with:
+use rule get_t_info as ref_t_info with:
+    input:
+        gtf = config['ref']['new_gencode_gtf']
+    output:
+        o = config['ref']['t_info']
+
+use rule get_t_info as cerb_t_info with:
     input:
         gtf = config['data']['cerb_gtf']
     output:
         o = config['data']['t_info']
 
 # get gene info
-rule cerberus_get_g_info:
+rule get_g_info:
     resources:
         mem_gb = 56,
         threads = 1
     run:
         get_gene_info(input.gtf, output.o)
 
-use rule cerberus_get_g_info as ref_g_info with:
+use rule get_g_info as cerb_ref_g_info with:
     input:
         gtf = config['ref']['cerberus']['gtf']
     output:
         o = config['ref']['cerberus']['g_info']
 
+use rule get_g_info as ref_g_info with:
+    input:
+        gtf = config['ref']['new_gencode_gtf']
+    output:
+        o = config['ref']['g_info']
+
 ################################################################################
 ################################## Swan ########################################
 ################################################################################
-def make_sg(input, params):
+def make_sg(input, params, wildcards):
 
     # initialize
     sg = swan.SwanGraph()
@@ -183,10 +201,13 @@ def make_sg(input, params):
 
     # add metadata and add colors
     sg.add_metadata(input.meta)
-    c_dict, order = get_biosample_colors()
+    c_dict, order = get_biosample_colors(wildcards.species)
     sg.set_metadata_colors('sample', c_dict)
-    c_dict, order = get_ad_colors()
-    sg.set_metadata_colors('health_status', c_dict)
+
+    # human only settings
+    if wildcards.species == 'human':
+        c_dict, order = get_ad_colors()
+        sg.set_metadata_colors('health_status', c_dict)
     # save
     sg.save_graph(params.prefix)
 
@@ -205,7 +226,7 @@ rule swan_init:
     output:
         sg = config['data']['sg']
     run:
-        make_sg(input, params)
+        make_sg(input, params, wildcards)
 
 rule major_isos:
     input:
@@ -226,3 +247,40 @@ rule major_isos:
                        output.ofile,
                        min_tpm=params.min_tpm,
                        gene_subset=params.gene_subset)
+
+################################################################################
+################################## MANE ########################################
+################################################################################
+rule get_exp_genes:
+    input:
+        ab = config['data']['ab']
+    resources:
+        mem_gb = 16,
+        threads = 8
+    params:
+        min_tpm = 1,
+        gene_subset = 'polya',
+    output:
+        ofile = config['data']['exp_gene_subset']
+    run:
+        get_exp_gene_subset(input.ab,
+                            params.min_tpm,
+                            wildcards.obs_col,
+                            output.ofile)
+
+rule get_pi_tpm:
+    input:
+        swan_file = config['data']['sg']
+    resources:
+        mem_gb = 32,
+        threads = 8
+    params:
+        odir = config['data']['pi_tpm']['tss'].rsplit('/', maxsplit=1)[0]
+    output:
+        config['data']['pi_tpm']['tss'],
+        config['data']['pi_tpm']['ic'],
+        config['data']['pi_tpm']['tes'],
+        config['data']['pi_tpm']['triplet']
+    run:
+        sg = swan.read(input.swan_file)
+        get_pi_tpm_tables(sg, wildcards.obs_col, pararms.odir)

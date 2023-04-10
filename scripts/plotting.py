@@ -55,7 +55,7 @@ def get_tissue_age_colors():
 
 def get_tissue_colors(cats=None, rgb=False):
     d = os.path.dirname(__file__)
-    fname = '{}/../mouse/refs/tissue_colors.tsv'.format(d)
+    fname = f'{d}/../figures/ref/mouse/tissue_colors.tsv'
     df = pd.read_csv(fname, sep='\t')
     c_dict = {}
     for ind, entry in df.iterrows():
@@ -3614,7 +3614,8 @@ def plot_mouse_sample_legend(swan_file, ofile):
 
     df = swan.read(swan_file).adata.obs.copy(deep=True)
 
-    c_dict, order = get_lr_bulk_sample_colors()
+    _, order = get_lr_bulk_sample_colors()
+    c_dict, _ = get_biosample_colors('mouse')
     df['sample'] = df['sample'].astype('category')
     sample_order = df['sample'].cat.categories.tolist()
     sample_colors = [c_dict[s] for s in sample_order]
@@ -5533,3 +5534,63 @@ def plot_perc_mane_det_by_len(ab,
     plt.savefig(fname, dpi=500, bbox_inches='tight')
 
     return det_df
+
+def plot_exp_v_iso_biotype_boxplot(h5,
+                                   ver,
+                                   ofile):
+    ca = cerberus.read(h5) 
+    
+    # limit to the sample dets
+    df = ca.triplets.loc[ca.triplets.source=='sample_det'].copy(deep=True)
+    
+    # tpm bins
+    tpm_bins = [1, 10, 100, df.gene_tpm.max()]
+    labels = ['Low (1-10)', 'Medium (10-100)', 'High (100-max)']
+    
+    # get the most highly-expressed sample per gene
+    df = df.sort_values(by=['gid', 'gene_tpm'], ascending=[False,False])
+    df = df.drop_duplicates(subset='gid', keep='first')
+
+    # group into bins
+    df['tpm_bin'] = pd.cut(df.gene_tpm, tpm_bins, labels=labels)
+    df['other_tpm_bin'] = pd.cut(df.gene_tpm, tpm_bins)
+    print(df.other_tpm_bin.unique())
+
+    # add gene biotypes
+    gene_df, _, _ = get_gtf_info(how='gene', ver=ver)
+    gene_df['gid'] = cerberus.get_stable_gid(gene_df, col='gid')
+    df = df.merge(gene_df[['gid', 'biotype_category']], how='left', on='gid')
+    
+    order = get_polya_cats()
+    disp_dict = {'protein_coding': 'Protein coding',
+                 'lncRNA': 'lncRNA',
+                 'pseudogene': 'Pseudogene'}
+    order = [disp_dict[b] for b in order]
+    df['biotype_category_disp'] = df.biotype_category.map(disp_dict)
+
+    c = get_talon_nov_colors()[0]['Known']
+    c_dict, order = get_shade_colors(c, order)
+
+    sns.set_context('paper', font_scale=1.8)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+
+    ax = sns.catplot(data=df,
+                     x='tpm_bin',
+                     y='n_iso',
+                     hue='biotype_category_disp',
+                     kind='box',
+                     hue_order=order,
+                     palette = c_dict,
+                     fliersize=1,
+                     linewidth=1,
+                     height=4, aspect=(5/4),
+                     saturation=1)
+   
+    ax.set(ylim=(0,50), xlabel='Max. gene expression (TPM)', ylabel='# transcripts / gene')
+    ax.tick_params(axis="x", rotation=45)
+
+    fname = ofile
+    plt.savefig(fname, dpi=500, bbox_inches='tight')
+    
+    return df

@@ -1,5 +1,9 @@
+*gtf.gz
 figures/data/*
 *ipynb_checkpoints*
 *.snakemake*
 *DS_*tore*
 *__pycache__*
+*.gtf
+*g_*metadata*tsv
+*t_*metadata*tsv

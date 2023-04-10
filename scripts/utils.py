@@ -37,9 +37,9 @@ def get_lr_samples():
     Get colors for each biosample
     """
     d = os.path.dirname(__file__)
-    fname = '{}/../refs/biosample_colors.tsv'.format(d)
+    fname = f'{d}/../figures/ref/human/lr_human_library_data_summary.tsv'
     df = pd.read_csv(fname, sep='\t')
-    samples = df['biosample'].unique().tolist()
+    samples = df['sample'].unique().tolist()
     return samples
 
 def get_polya_cats():
@@ -1801,7 +1801,7 @@ def get_sr_tpm_table(df,
     df.drop('biotype_category', axis=1, inplace=True)
 
     d = os.path.dirname(__file__)
-    fname = '{}/../sr_bulk/metadata_polyA_corrected.tsv'.format(d)
+    fname = f'{d}/../figures/data/sr/metadata.tsv'
     meta = pd.read_csv(fname, sep='\t')
 
     id_col = 'gid_stable'
@@ -1991,6 +1991,7 @@ def get_tpm_table(df,
             df = add_feat(df, kind=how, col='annot_transcript_id')
 
         # filter on novelty
+        
         if nov:
             print('Subsetting for novelty categories {}'.format(nov))
             nov_inds = df.loc[df[nov_col].isin(nov), id_col].tolist()

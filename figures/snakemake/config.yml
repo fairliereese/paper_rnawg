@@ -14,6 +14,10 @@ encode:
     cerb_gtf_gz: https://www.encodeproject.org/files/ENCFF200RSU/@@download/ENCFF200RSU.gtf.gz
     cerb_annot: https://www.encodeproject.org/files/ENCFF999KXH/@@download/ENCFF999KXH.h5
 
+sr:
+  ab: data/sr/abundance.tsv
+  meta: data/sr/metadata.tsv
+
 data:
   ab: data/{species}/abundance.tsv
   filt_ab: data/{species}/abundance_filtered.tsv
@@ -25,11 +29,19 @@ data:
   meta: ref/{species}/lr_{species}_library_data_summary.tsv
   sg: data/{species}/swan_graph.p
   major_isos: data/{species}/{obs_col}_major_isos.tsv
+  exp_gene_subset: data/{species}/exp_gids_{obs_col}.tsv
+  pi_tpm:
+    tss: data/{species}/tss_{obs_col}_pi_tpm.tsv
+    ic: data/{species}/ic_{obs_col}_pi_tpm.tsv
+    tes: data/{species}/tes_{obs_col}_pi_tpm.tsv
+    triplet: data/{species}/triplet_{obs_col}_pi_tpm.tsv
 
 # this will be vM21 for mouse and v40 for human
 ref:
   new_gencode_gtf_gz: ref/{species}/gencode_annotation.gtf.gz
   new_gencode_gtf: ref/{species}/gencode_annotation.gtf
+  t_info: ref/{species}/gencode_t_metadata.tsv
+  g_info: ref/{species}/gencode_g_metadata.tsv
   cerberus:
     gtf: ref/{species}/cerberus/cerberus.gtf
     t_info: ref/{species}/cerberus/cerberus_t_metadata.tsv

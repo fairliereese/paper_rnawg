@@ -1,20 +1,25 @@
-Before generating any of the figures, you will need to download data from the ENCODE portal and process it to generate some additional files used.
-
 There is some overlap between the processing code here and in the raw data processing directory.
 
 Notes on pre-generated files included in this directory:
-* Biomart TF ids generated using [this](http://www.ensembl.org/biomart/martview/9ae34b91ac4887f7cb4e59a962bf8f87?VIRTUALSCHEMANAME=default&ATTRIBUTES=hsapiens_gene_ensembl.default.feature_page.ensembl_gene_id|hsapiens_gene_ensembl.default.feature_page.ensembl_gene_id_version|hsapiens_gene_ensembl.default.feature_page.ensembl_transcript_id|hsapiens_gene_ensembl.default.feature_page.ensembl_transcript_id_version&FILTERS=hsapiens_gene_ensembl.default.filters.go_parent_term."GO:0003700"&VISIBLEPANEL=resultspane) query.
+* Transcription factor ids generated using [this](http://www.ensembl.org/biomart/martview/9ae34b91ac4887f7cb4e59a962bf8f87?VIRTUALSCHEMANAME=default&ATTRIBUTES=hsapiens_gene_ensembl.default.feature_page.ensembl_gene_id|hsapiens_gene_ensembl.default.feature_page.ensembl_gene_id_version|hsapiens_gene_ensembl.default.feature_page.ensembl_transcript_id|hsapiens_gene_ensembl.default.feature_page.ensembl_transcript_id_version&FILTERS=hsapiens_gene_ensembl.default.filters.go_parent_term."GO:0003700"&VISIBLEPANEL=resultspane) Biomart query.
+* Human-mouse ortholog gene ids generated using [this](http://www.ensembl.org/biomart/martview/7207f9a6b715260989ef4d6aa3c1205f?VIRTUALSCHEMANAME=default&ATTRIBUTES=hsapiens_gene_ensembl.default.homologs.ensembl_gene_id|hsapiens_gene_ensembl.default.homologs.ensembl_gene_id_version|hsapiens_gene_ensembl.default.homologs.ensembl_transcript_id|hsapiens_gene_ensembl.default.homologs.ensembl_transcript_id_version|hsapiens_gene_ensembl.default.homologs.mmusculus_homolog_ensembl_gene|hsapiens_gene_ensembl.default.homologs.mmusculus_homolog_associated_gene_name&FILTERS=&VISIBLEPANEL=attributepanel) Biomart query.
+
+Before generating any of the figures, you will need to download data from the ENCODE portal and process it to generate some additional files used. Use the following Snakemake code to do so. Please note that the `read_annot` files are big (>20 GB each for both human and mouse).
 
 ```bash
-snakemake \
-  -s snakemake/human_snakefile.smk \
-  -j 10 \
-  --latency-wait 120 \
-  --cluster "sbatch -A seyedam_lab --partition=highmem --mem={resources.mem_gb}GB -c {resources.threads} --mail-user=freese@uci.edu --mail-type=START,END, --time=72:00:00" -n
-
 snakemake \
   -s snakemake/Snakefile \
   -j 10 \
   --latency-wait 120 \
   -n
 ```
+
+Currently, the figures and numbers generated for the paper are in Python notebooks roughly split by section of the paper.
+
+Table of contents:
+* [Figure 1 (S1, S2)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig1/fig1.ipynb)
+* [Figure 2 (S5, S6)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig2/fig2.ipynb)
+* [Figure 3 (S10)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig3/fig3.ipynb)
+* [Figure 4](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig4.ipynb)
+* [Figure 4: MANE analyses (S11)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig_mane.ipynb)
+* [Figure 5 (S12)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig5/fig5.ipynb)

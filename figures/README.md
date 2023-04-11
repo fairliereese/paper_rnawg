@@ -23,3 +23,7 @@ Table of contents:
 * [Figure 4](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig4.ipynb)
 * [Figure 4: MANE analyses (S11)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig_mane.ipynb)
 * [Figure 5 (S12)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig5/fig5.ipynb)
+
+Requirements:
+* [Swan](https://github.com/fairliereese/paper_rnawg/tree/master/proc)
+* [Cerberus](https://github.com/fairliereese/cerberus)

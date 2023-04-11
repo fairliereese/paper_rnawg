@@ -16,7 +16,10 @@ sys.path.append(p)
 from scripts.utils import *
 from scripts.plotting import *
 
-def get_exp_gene_subset(ab, min_tpm, obs_col, ofile):
+def get_exp_gene_subset(ab, min_tpm,
+                        obs_col,
+                        ofile,
+                        species):
     df = pd.read_csv(ab, sep='\t')
     if obs_col == 'dataset':
         gb = 'library'
@@ -26,7 +29,8 @@ def get_exp_gene_subset(ab, min_tpm, obs_col, ofile):
                   groupby=gb,
                   how='gene',
                   min_tpm=min_tpm,
-                  gene_subset='polya')
+                  gene_subset='polya',
+                  species=species)
 
     df = df.melt(ignore_index=False, var_name='gid', value_name='detected').reset_index()
     df.rename({'library': 'dataset', 'biosample':'sample'}, axis=1, inplace=True)
@@ -499,11 +503,16 @@ def mane_analysis(sg, ca,
         id_col_2 = id_cols_2[feat]
         t_df = t_df.copy(deep=True)
 
-        # get pi / tpm table
+        # get exp gene file
         d = os.path.dirname(__file__)
         config_file = f'{d}/../figures/snakemake/config.yml'
         with open(config_file) as f:
             config = yaml.safe_load(f)
+
+        exp_gene_fname = f'{d}/../figures/'+expand(config['data']['exp_gene_subset'], species='human', obs_col=obs_col)[0]
+
+        # get pi / tpm table
+
         fname = f'{d}/../figures/'+expand(config['data']['pi_tpm'][feat], species='human', obs_col=obs_col)[0]
         df = pd.read_csv(fname, sep='\t')
 
@@ -520,7 +529,9 @@ def mane_analysis(sg, ca,
         mp_df['{}_tpm_sec'.format(feat)].fillna(0, inplace=True)
 
         # remove genes that don't have annotated, expressed MANE genes in this sample
-        exp_mane_genes = get_exp_mane_genes(obs_col=obs_col, mane_file=mane_file)
+        exp_mane_genes = get_exp_mane_genes(obs_col=obs_col,
+                                            g_info=mane_file,
+                                            exp_gene_file=exp_gene_fname)
         mp_df = mp_df.merge(exp_mane_genes, how='inner', on=['gid', obs_col])
 
         # threshold on tpm

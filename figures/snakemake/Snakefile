@@ -33,14 +33,16 @@ rule all:
         # expand(config['ref']['cerberus']['g_info'], species=species), #,
         # expand(config['data']['t_info'], species=species),
         # expand(config['data']['major_isos'], species=species, obs_col='sample'),
-        expand(config['data']['exp_gene_subset'], species='human', obs_col=['sample', 'dataset']),
-        expand(config['data']['pi_tpm']['tss'], species='human', obs_col=['sample', 'dataset']),
-        expand(config['data']['pi_tpm']['ic'], species='human', obs_col=['sample', 'dataset']),
-        expand(config['data']['pi_tpm']['tes'], species='human', obs_col=['sample', 'dataset']),
-        expand(config['data']['pi_tpm']['triplet'], species='human', obs_col=['sample', 'dataset']),
-        expand(config['ref']['t_info'], species=species),
-        expand(config['ref']['g_info'], species=species),
-        expand(config['data']['sg'], species=species)
+        # expand(config['data']['exp_gene_subset'], species='human', obs_col=['sample', 'dataset']),
+        expand(config['data']['exp_gene_subset'], species='mouse', obs_col=['sample']),
+        # expand(config['data']['pi_tpm']['tss'], species='human', obs_col=['sample', 'dataset']),
+        # expand(config['data']['pi_tpm']['ic'], species='human', obs_col=['sample', 'dataset']),
+        # expand(config['data']['pi_tpm']['tes'], species='human', obs_col=['sample', 'dataset']),
+        # expand(config['data']['pi_tpm']['triplet'], species='human', obs_col=['sample', 'dataset']),
+        expand(config['data']['pi_tpm']['triplet'], species='mouse', obs_col=['sample']),
+        # expand(config['ref']['t_info'], species=species),
+        # expand(config['ref']['g_info'], species=species),
+        # expand(config['data']['sg'], species=species)
 
 rule dl:
     resources:
@@ -266,7 +268,8 @@ rule get_exp_genes:
         get_exp_gene_subset(input.ab,
                             params.min_tpm,
                             wildcards.obs_col,
-                            output.ofile)
+                            output.ofile,
+                            wildcards.species)
 
 rule get_pi_tpm:
     input:
@@ -283,4 +286,4 @@ rule get_pi_tpm:
         config['data']['pi_tpm']['triplet']
     run:
         sg = swan.read(input.swan_file)
-        get_pi_tpm_tables(sg, wildcards.obs_col, pararms.odir)
+        get_pi_tpm_tables(sg, wildcards.obs_col, params.odir)

@@ -5032,7 +5032,9 @@ def human_v_mouse_sectors(h_h5, m_h5, h_source, m_source,
         m_df = m_df.loc[m_df.biotype_category.isin(gene_subset)]
 
     # get matching gids from human and mouse
-    df = get_human_mouse_gid_table('../../refs/biomart_human_to_mouse.tsv')
+    d = os.path.dirname(__file__)
+    fname = f'{d}/../figures/ref/biomart_human_to_mouse.tsv'
+    df = get_human_mouse_gid_table(fname)
 
     df = df.merge(h_df, how='right', left_on='Gene stable ID',
                   right_on='gid')
@@ -5197,7 +5199,7 @@ def get_counts_per_sample_per_gene(filt_ab, obs_col, feat, min_tpm, gene_subset)
 
     return df
 
-def plot_feats_per_sample_gene(temp, feat, obs_col):
+def plot_feats_per_sample_gene(temp, feat, obs_col, fig_dir):
     sns.set_context('paper', font_scale=2)
     mpl.rcParams['font.family'] = 'Arial'
     mpl.rcParams['pdf.fonttype'] = 42
@@ -5208,23 +5210,23 @@ def plot_feats_per_sample_gene(temp, feat, obs_col):
         x_hr = 'isoform'
     c_dict, order = get_feat_triplet_colors_2(feat)
     color = c_dict[feat]
-
+    
     # get each df
     temp1 = temp.loc[temp.source == 'Sample']
     temp1, order, col = renum_max_feats(temp1, 'counts', 10)
     temp1 = temp1[[col, 'biosample', 'gid']].groupby([col, 'biosample']).count().reset_index()
     temp1.rename({'gid': 'n_feats'}, axis=1, inplace=True)
     temp1_max = temp1['n_feats'].max()
-
+    
     temp2 = temp.loc[temp.source == 'Observed']
     temp2, order, col = renum_max_feats(temp2, 'counts', 10)
     temp2 = temp2[[col, 'gid']].groupby([col]).count().reset_index()
     temp2.rename({'gid': 'n_feats'}, axis=1, inplace=True)
     temp2_max = temp2['n_feats'].max()
-
+    
     ymax = max(temp1_max, temp2_max)
     ylim = (0, ymax)
-
+    
     # feats / sample / gene
     ax = sns.catplot(data=temp1, y='n_feats', x=col, kind='bar',
                      edgecolor=None, saturation=1,
@@ -5246,7 +5248,7 @@ def plot_feats_per_sample_gene(temp, feat, obs_col):
     fname = f'{fig_dir}/{feat}_gene_hist.pdf'
     plt.savefig(fname, dpi=500)
 
-def plot_feats_per_sample_gene_ecdf(temp, feat, obs_col):
+def plot_feats_per_sample_gene_ecdf(temp, feat, obs_col, fig_dir):
     from matplotlib.lines import Line2D
 
     c_dict, order = get_feat_triplet_colors_2(feat)

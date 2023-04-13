@@ -21,28 +21,43 @@ species = ['human', 'mouse']
 # dl_files = ['ab', 'filt_ab', 'read_annot']
 dl_files = ['ab', 'filt_ab']
 
+def get_mirna_ids(config):
+    df = pd.read_csv(expand(config['data']['mirna']['files'],
+                species='human')[0],
+                sep='\t',
+                header=None)
+    df.columns = ['link']
+
+    # remove first line
+    df = df.loc[~df.link.str.contains('metadata')]
+
+    df['id'] = df.link.str.rsplit('/', expand=True, n=1)[1]
+    df['id'] = df['id'].str.split('.tsv', expand=True, n=1)[0]
+    return df['id'].tolist()
+
 rule all:
     input:
-        expand(config['data']['ab'], species=species),
-        expand(config['data']['filt_ab'], species=species),
-        expand(config['data']['cerb_annot'], species=species),
-        expand(config['data']['cerb_gtf'], species=species),
-        expand(config['ref']['new_gencode_gtf'], species=species),
-        expand(config['ref']['cerberus']['gtf'], species=species),
-        expand(config['ref']['cerberus']['t_info'], species=species),
-        expand(config['ref']['cerberus']['g_info'], species=species), #,
-        expand(config['data']['t_info'], species=species),
-        expand(config['data']['major_isos'], species=species, obs_col='sample'),
-        expand(config['data']['exp_gene_subset'], species='human', obs_col=['sample', 'dataset']),
-        expand(config['data']['exp_gene_subset'], species='mouse', obs_col=['sample']),
-        expand(config['data']['pi_tpm']['tss'], species='human', obs_col=['sample', 'dataset']),
-        expand(config['data']['pi_tpm']['ic'], species='human', obs_col=['sample', 'dataset']),
-        expand(config['data']['pi_tpm']['tes'], species='human', obs_col=['sample', 'dataset']),
-        expand(config['data']['pi_tpm']['triplet'], species='human', obs_col=['sample', 'dataset']),
-        expand(config['data']['pi_tpm']['triplet'], species='mouse', obs_col=['sample']),
-        expand(config['ref']['t_info'], species=species),
-        expand(config['ref']['g_info'], species=species),
-        expand(config['data']['sg'], species=species)
+        # expand(config['data']['ab'], species=species),
+        # expand(config['data']['filt_ab'], species=species),
+        # expand(config['data']['cerb_annot'], species=species),
+        # expand(config['data']['cerb_gtf'], species=species),
+        # expand(config['ref']['new_gencode_gtf'], species=species),
+        # expand(config['ref']['cerberus']['gtf'], species=species),
+        # expand(config['ref']['cerberus']['t_info'], species=species),
+        # expand(config['ref']['cerberus']['g_info'], species=species), #,
+        # expand(config['data']['t_info'], species=species),
+        # expand(config['data']['major_isos'], species=species, obs_col='sample'),
+        # expand(config['data']['exp_gene_subset'], species='human', obs_col=['sample', 'dataset']),
+        # expand(config['data']['exp_gene_subset'], species='mouse', obs_col=['sample']),
+        # expand(config['data']['pi_tpm']['tss'], species='human', obs_col=['sample', 'dataset']),
+        # expand(config['data']['pi_tpm']['ic'], species='human', obs_col=['sample', 'dataset']),
+        # expand(config['data']['pi_tpm']['tes'], species='human', obs_col=['sample', 'dataset']),
+        # expand(config['data']['pi_tpm']['triplet'], species='human', obs_col=['sample', 'dataset']),
+        # expand(config['data']['pi_tpm']['triplet'], species='mouse', obs_col=['sample']),
+        # expand(config['ref']['t_info'], species=species),
+        # expand(config['ref']['g_info'], species=species),
+        # expand(config['data']['sg'], species=species),
+        expand(config['data']['mirna']['tsv'], species='human', encid=get_mirna_ids(config))
 
 rule dl:
     resources:
@@ -287,3 +302,16 @@ rule get_pi_tpm:
     run:
         sg = swan.read(input.swan_file)
         get_pi_tpm_tables(sg, wildcards.obs_col, params.odir)
+
+################################################################################
+################################## miRNA #######################################
+################################################################################
+
+rule dl_mirna:
+    resources:
+        mem_gb = 32,
+        threads = 8
+    output:
+        tsv = config['data']['mirna']['tsv']
+    shell:
+        "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.tsv -O {output.tsv}"

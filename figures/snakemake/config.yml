@@ -35,6 +35,12 @@ data:
     ic: data/{species}/ic_{obs_col}_pi_tpm.tsv
     tes: data/{species}/tes_{obs_col}_pi_tpm.tsv
     triplet: data/{species}/triplet_{obs_col}_pi_tpm.tsv
+  mirna:
+    files: data/{species}/mirna/files.txt
+    lib_meta: data/{species}/mirna/mirna_{species}_library_data_summary.tsv
+    meta: data/{species}/mirna/metadata.tsv
+    tsv: data/{species}/mirna/{encid}.tsv
+
 
 # this will be vM21 for mouse and v40 for human
 ref:

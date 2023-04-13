@@ -18,7 +18,8 @@ Currently, the figures and numbers generated for the paper are in Python noteboo
 
 Table of contents:
 * [Figure 1 (S1, S2)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig1/fig1.ipynb)
-* [Figure 2 (S5, S6)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig2/fig2.ipynb)
+* [Figure S3 (microRNA)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig1/fig1.ipynb)
+* [Figure 2 (S5, S6)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig_mirna/fig_mirna.ipynb)
 * [Figure 3 (S10)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig3/fig3.ipynb)
 * [Figure 4](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig4.ipynb)
 * [Figure 4: MANE analyses (S11)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig_mane.ipynb)

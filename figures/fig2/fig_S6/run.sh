@@ -8,35 +8,37 @@
 # SFig 6e: training/plots/individual_exper_same_cell_line/Cerberus/GM12878_ENCSR962BVU_AUROC.pdf training/plots/individual_exper_same_cell_line/LAPA/GM12878_ENCSR962BVU_AUROC.pdf
 # SFig 6f: plots/AUROC_diff_cell_line_boxplot.pdf
 
+#########################################################################
+
 # Downloading DHS-seq bigWig files from ENCODE for GM12878 and K562
-# mkdir -p data_dir/bigWigs
-# curl -J -O -L "https://www.encodeproject.org/files/ENCFF428XFI/@@download/ENCFF428XFI.bigWig"
-# curl -J -O -L "https://www.encodeproject.org/files/ENCFF414OGC/@@download/ENCFF414OGC.bigWig"
-# mv ENCFF428XFI.bigWig data_dir/bigWigs/GM12878.DHS.bigWig
-# mv ENCFF414OGC.bigWig data_dir/bigWigs/K562.DHS.bigWig
-#
-# mkdir -p data_dir/raw_beds/Cerberus # Cerberus replicates will be combined into a file in this directory
-# Rscript combine_cerberus_replicates.R
+mkdir -p data_dir/bigWigs
+curl -J -O -L "https://www.encodeproject.org/files/ENCFF428XFI/@@download/ENCFF428XFI.bigWig"
+curl -J -O -L "https://www.encodeproject.org/files/ENCFF414OGC/@@download/ENCFF414OGC.bigWig"
+mv ENCFF428XFI.bigWig data_dir/bigWigs/GM12878.DHS.bigWig
+mv ENCFF414OGC.bigWig data_dir/bigWigs/K562.DHS.bigWig
+
+mkdir -p data_dir/raw_beds/Cerberus # Cerberus replicates will be combined into a file in this directory
+Rscript combine_cerberus_replicates.R
 # We have raw_beds/LAPA and raw_beds/Cerberus bed files for the LR experiments. Sorting peaks and filtering out any chromosomes other than chr1-22,XY:
-# mkdir -p data_dir/processed_beds/Cerberus data_dir/processed_beds/LAPA
-# Rscript preproc_files.R Cerberus
-# Rscript preproc_files.R LAPA
+mkdir -p data_dir/processed_beds/Cerberus data_dir/processed_beds/LAPA
+Rscript preproc_files.R Cerberus
+Rscript preproc_files.R LAPA
 # We have the files in processed_beds/*/*bed. Now creating binary labels based on LR peak presence in RAMPAGE/CAGE assays
-# mkdir -p data_dir/labeled_beds/all_chr/Cerberus data_dir/labeled_beds/all_chr/LAPA
-# ./make_labels.sh Cerberus
-# ./make_labels.sh LAPA
+mkdir -p data_dir/labeled_beds/all_chr/Cerberus data_dir/labeled_beds/all_chr/LAPA
+./make_labels.sh Cerberus
+./make_labels.sh LAPA
 # Finding DHS values over peaks
-# mkdir -p data_dir/labeled_beds/all_chr_with_DHS/Cerberus data_dir/labeled_beds/all_chr_with_DHS/LAPA
-# ./bigwigavg_DHS.sh Cerberus
-# ./bigwigavg_DHS.sh LAPA
+mkdir -p data_dir/labeled_beds/all_chr_with_DHS/Cerberus data_dir/labeled_beds/all_chr_with_DHS/LAPA
+./bigwigavg_DHS.sh Cerberus
+./bigwigavg_DHS.sh LAPA
 # Creating test and train set (chr2/3 vs. other chrs)
-# for LR in Cerberus LAPA; do
-# 	mkdir -p data_dir/labeled_beds/split_chr_with_DHS/"$LR"
-# 	mkdir -p data_dir/labeled_beds/split_chr_with_DHS/"$LR"/train
-# 	mkdir -p data_dir/labeled_beds/split_chr_with_DHS/"$LR"/test
-# 	mkdir -p data_dir/labeled_beds/split_chr_with_DHS/"$LR"/test_with_labels
-# 	./split_train_test.sh "$LR"
-# done
+for LR in Cerberus LAPA; do
+	mkdir -p data_dir/labeled_beds/split_chr_with_DHS/"$LR"
+	mkdir -p data_dir/labeled_beds/split_chr_with_DHS/"$LR"/train
+	mkdir -p data_dir/labeled_beds/split_chr_with_DHS/"$LR"/test
+	mkdir -p data_dir/labeled_beds/split_chr_with_DHS/"$LR"/test_with_labels
+	./split_train_test.sh "$LR"
+done
 # Preprocessing done. Moving to training directory:
 cd training/
 

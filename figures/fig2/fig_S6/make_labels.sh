@@ -9,7 +9,8 @@ input_dir=data_dir/processed_beds/"$LR_type"/
 output_dir=data_dir/labeled_beds/all_chr/"$LR_type"/
 inp_assay_dir=data_dir/all_chr/
 
-for inp_bed in "$input_dir"*bed; do
+for inp_bed in "$input_dir"*.bed; do
+		echo $inp_bed
     experiment=$(basename $inp_bed)
     experiment=${experiment%%.bed}
 	cell_line=${experiment%%_ENCSR*}  # GM12878
@@ -19,7 +20,6 @@ for inp_bed in "$input_dir"*bed; do
     echo $cell_line
 	echo "------"
     for other_assay in $assay1 $assay2; do
-        echo $other_assay
         other_assay_file="$inp_assay_dir"/Allchr."$other_assay"-"$cell_line".txt
         tmp_other_assay_intersect="$output_dir"/"$experiment"."$other_assay".intersect.tmp
         tmp_other_assay_notintersect="$output_dir"/"$experiment"."$other_assay".notintersect.tmp

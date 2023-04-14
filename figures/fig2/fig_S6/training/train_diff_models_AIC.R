@@ -57,8 +57,8 @@ for (model_params in model_params_list) {
 		aic_df <- rbind(aic_df, c(experiment, fm_str, aic))
 	}
 }
-print(aic_df)
 colnames(aic_df) <- c("Experiment", "Model", "AIC")
+print(aic_df)
 aic_df <- aic_df %>% mutate(AIC = as.numeric(AIC))
 write.table(aic_df, file.path(model_dir, paste0(LR_type, "_AIC.out")), row.names = F , col.names = T, quote = F, sep = "\t")
 

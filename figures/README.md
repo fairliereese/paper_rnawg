@@ -31,3 +31,4 @@ Table of contents:
 Requirements:
 * [Swan](https://github.com/fairliereese/paper_rnawg/tree/master/proc)
 * [Cerberus](https://github.com/fairliereese/cerberus)
+* [ENCODED client](https://github.com/detrout/encoded_client)

@@ -13,6 +13,8 @@ import scipy
 import scipy.stats as st
 import swan_vis as swan
 from pandarallel import pandarallel
+from encoded_client.encoded import ENCODED
+import pysam
 
 def get_datasets(species='human',
                  classification=None,
@@ -1991,7 +1993,7 @@ def get_tpm_table(df,
             df = add_feat(df, kind=how, col='annot_transcript_id')
 
         # filter on novelty
-        
+
         if nov:
             print('Subsetting for novelty categories {}'.format(nov))
             nov_inds = df.loc[df[nov_col].isin(nov), id_col].tolist()
@@ -3267,3 +3269,165 @@ def get_human_mouse_gid_table(fname):
     df = df.loc[~df['Mouse gene stable ID'].duplicated(keep=False)]
 
     return df
+
+def get_lr_exp_meta():
+    def get_genome_bam(experiment_id):
+        experiment = server.get_json(experiment_id)
+
+        metadata = []
+        default_analysis = experiment["default_analysis"]
+        for f in experiment["files"]:
+            analyses = [x["@id"] for x in f["analyses"]]
+            # this check only applies to processed data not reads (default_analysis in analyses and)
+            if f["output_type"] in ("reads", "unfiltered alignments"):
+                if f["output_type"] == "unfiltered alignments" and not default_analysis in analyses:
+                    # skip alignments for older analyses.
+                    continue
+                reps = f["technical_replicates"]
+                assert len(reps) == 1
+                reps = reps[0]
+
+                extension = {
+                    "fastq": ".fastq.gz",
+                    "bam": ".bam",
+                }[f["file_format"]]
+
+                metadata.append({
+                    "experiment": experiment["accession"],
+                    "description": experiment["description"],
+                    "simple_biosample_summary": f["simple_biosample_summary"],
+                    "file": f["accession"],
+                    "output_type": f["output_type"],
+                    "file_size": f["file_size"],
+                    "bio_rep": f["biological_replicates"][0],
+                    "tech_rep": f["technical_replicates"][0]
+                })
+
+        return metadata
+
+    server = ENCODED("www.encodeproject.org")
+    cart_url = "https://www.encodeproject.org/carts/829d339c-913c-4773-8001-80130796a367/"
+
+    cart = server.get_json(cart_url)
+
+    metadata = []
+    for experiment_id in cart["elements"]:
+        metadata.extend(get_genome_bam(experiment_id))
+
+    metadata = pd.DataFrame(metadata)
+    metadata['name'] = metadata['experiment']+'_'+metadata['tech_rep']
+    return metadata
+
+def get_lr_read_lens(bams, fastqs, out):
+
+    def score_aligned_reads(filename):
+        with pysam.AlignmentFile(filename, "rb") as inbam:
+            aligned_reads = 0
+            aligned_query_len = []
+            aligned_positions = []
+
+            for read in inbam:
+                if not read.is_unmapped:
+                    aligned_reads += 1
+                    aligned_query_len.append(read.query_length)
+                    aligned_positions.append(len(read.positions))
+
+            return {
+                "aligned_reads": len(aligned_query_len),
+                "query_len_median": np.median(aligned_query_len),
+                "query_len": aligned_query_len,
+                "positions_median": np.median(aligned_positions),
+                "positions_len": aligned_positions,
+            }
+    def score_fastq_reads(filename):
+        read_len = []
+        with xopen(filename, "rt") as instream:
+            for record in SeqIO.parse(instream, "fastq"):
+                read_len.append(len(record))
+
+        return {
+            "raw_reads": len(read_len),
+            "read_len_median": np.median(read_len),
+            "read_len": read_len,
+        }
+
+    metadata = get_lr_exp_meta()
+    counts = {}
+    for f in bams+fastqs:
+        encid = f.rsplit('/', maxsplit=1)[1].split('.')[0]
+        temp = metadata.loc[metadata.file == encid].iloc[0]
+        name = temp.name
+        if temp.output_type == 'unfiltered alignments':
+            result = score_aligned_reads(f)
+        elif temp.output_type == 'reads':
+            result = score_fastq_reads(f)
+        counts.setdefault(name, {}).update(result)
+
+    array_attributes = ['read_len', 'query_len', 'positions_len']
+    lengths = {}
+
+    medians = {}
+    for name in counts:
+        for k in counts[name]:
+            if k in array_attributes:
+                lengths[(k, name)] = counts[name][k]
+            else:
+                medians.setdefault(k, {})[name] = counts[name][k]
+
+    various_counts = pd.DataFrame(medians)
+    various_counts.to_csv(out, sep='\t')
+
+def get_transcript_novelties(c_annot,
+                             filt_ab,
+                             min_tpm,
+                             gene_subset,
+                             ver,
+                             ofile):
+    ca = cerberus.read(c_annot)
+
+    # get observed lapa transcripts
+    df = pd.read_csv(filt_ab, sep='\t')
+    df, tids = get_tpm_table(df,
+                   how='iso',
+                   min_tpm=min_tpm,
+                   gene_subset=gene_subset)
+
+    df = ca.t_map.loc[ca.t_map.source=='lapa'].copy(deep=True)
+    df = df.merge(ca.ic[['Name', 'novelty']], how='left', left_on='ic_id', right_on='Name')
+    df.rename({'novelty':'ic_novelty'}, axis=1, inplace=True)
+    df.drop('Name', axis=1, inplace=True)
+    df = df.merge(ca.tss[['Name', 'novelty']], how='left', left_on='tss_id', right_on='Name')
+    df.rename({'novelty':'tss_novelty'}, axis=1, inplace=True)
+    df.drop('Name', axis=1, inplace=True)
+    df = df.merge(ca.tes[['Name', 'novelty']], how='left', left_on='tes_id', right_on='Name')
+    df.rename({'novelty':'tes_novelty'}, axis=1, inplace=True)
+    df.drop('Name', axis=1, inplace=True)
+
+    df = df.loc[df.transcript_id.isin(tids)]
+    df.to_csv(ofile, sep='\t', index=False)
+
+    # gtex stuff
+    df = ca.t_map.loc[ca.t_map.source=='gtex'].copy(deep=True)
+    df = df.merge(ca.ic[['Name', 'novelty']], how='left', left_on='ic_id', right_on='Name')
+    df.rename({'novelty':'ic_novelty'}, axis=1, inplace=True)
+    df.drop('Name', axis=1, inplace=True)
+    df = df.merge(ca.tss[['Name', 'novelty']], how='left', left_on='tss_id', right_on='Name')
+    df.rename({'novelty':'tss_novelty'}, axis=1, inplace=True)
+    df.drop('Name', axis=1, inplace=True)
+    df = df.merge(ca.tes[['Name', 'novelty']], how='left', left_on='tes_id', right_on='Name')
+    df.rename({'novelty':'tes_novelty'}, axis=1, inplace=True)
+    df.drop('Name', axis=1, inplace=True)
+
+    # limit to polya
+    if gene_subset == 'polya':
+        gene_df, _, _ = get_gtf_info(how='gene',
+                                     ver=ver,
+                                     add_stable_gid=True)
+        gene_df = gene_df[['gid_stable', 'biotype']]
+        pdb.set_trace()
+        df = df.merge(gene_df, how='left',
+                        left_on='gene_id', right_on='gid_stable')
+        df = df.loc[df.biotype.isin(get_polya_cats())]
+        df.drop(['gid_stable', 'biotype'], axis=1, inplace=True)
+
+    df.to_csv(ofile, sep='\t', index=False, mode='a', header=False)

@@ -3,6 +3,7 @@ import cerberus
 import warnings
 import os
 import sys
+from encoded_client.encoded import ENCODED
 
 p = os.path.dirname(os.getcwd())
 sys.path.append(p)
@@ -35,6 +36,15 @@ def get_mirna_ids(config):
     df['id'] = df['id'].str.split('.tsv', expand=True, n=1)[0]
     return df['id'].tolist()
 
+def get_lr_ids(file_format='bam'):
+    metadata = get_lr_exp_meta()
+    if file_format == 'bam':
+        metadata = metadata.loc[metadata.output_type=='unfiltered alignments']
+    elif file_format == 'fastq':
+        metadata = metadata.loc[metadata.output_type=='reads']
+
+    return metadata.file.tolist()
+
 rule all:
     input:
         # expand(config['data']['ab'], species=species),
@@ -57,7 +67,15 @@ rule all:
         # expand(config['ref']['t_info'], species=species),
         # expand(config['ref']['g_info'], species=species),
         # expand(config['data']['sg'], species=species),
-        expand(config['data']['mirna']['tsv'], species='human', encid=get_mirna_ids(config))
+        # expand(config['data']['mirna']['tsv'], species='human', encid=get_mirna_ids(config)),
+        # expand(config['data']['bam'], species='human', encid=get_lr_ids('bam')),
+        # expand(config['data']['fastq_gz'], species='human', encid=get_lr_ids('fastq')),
+        # expand(config['data']['read_len_meta'], species='human')
+        expand(config['ref']['gtex_gtf'], species='human'),
+        expand(config['data']['novelties'], species='human')
+
+
+
 
 rule dl:
     resources:
@@ -315,3 +333,95 @@ rule dl_mirna:
         tsv = config['data']['mirna']['tsv']
     shell:
         "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.tsv -O {output.tsv}"
+
+################################################################################
+############################## Diane's stuff ###################################
+################################################################################
+rule dl_lr_bam:
+    resources:
+        mem_gb = 32,
+        threads = 8
+    output:
+        bam = config['data']['bam']
+    shell:
+        "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.bam -O {output.bam}"
+
+rule dl_lr_fastq:
+    resources:
+        mem_gb = 32,
+        threads = 8
+    output:
+        fastq = config['data']['fastq_gz']
+    shell:
+        "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.fastq.gz -O {output.fastq}"
+
+rule get_lr_read_lens:
+    input:
+        bams = expand(config['data']['bam'], species='human', encid=get_lr_ids('bam')),
+        fastqs = expand(config['data']['fastq_gz'], species='human', encid=get_lr_ids('fastq'))
+    resources:
+        mem_gb = 32,
+        threads = 8
+    output:
+        tsv = config['data']['read_len_meta']
+    run:
+        get_lr_read_lens(input.bams, input.fastqs, output.tsv)
+
+
+################################################################################
+################################# SUPPA ########################################
+################################################################################
+
+use rule dl as dl_gtex_gtf with:
+  params:
+    link = lambda w:config['encode'][w.species]['gtex_gtf_gz']
+  output:
+    out = config['ref']['gtex_gtf_gz']
+
+use rule gunzip as gunzip_gtex with:
+  input:
+    gz = config['ref']['gtex_gtf_gz']
+  output:
+    out = config['ref']['gtex_gtf']
+
+rule get_transcript_novelties:
+    input:
+        annot = config['data']['cerb_annot'],
+        filt_ab = config['data']['filt_ab']
+    params:
+        min_tpm = 1,
+        gene_subset = 'polya',
+        ver = 'v40_cereberus'
+    resources:
+        mem_gb = 8,
+        threads = 1
+    output:
+        novelties = config['data']['novelties']
+    run:
+        get_transcript_novelties(input.annot,
+                                 input.filt_ab,
+                                 params.min_tpm,
+                                 params.gene_subset,
+                                 params.ver,
+                                 output.novelties)
+
+################################################################################
+######################### Milad's TSS prediction ###############################
+################################################################################
+
+# TODO
+
+# automate downloading the bigwigs, getting the processed tss data from cerberus
+# and lapa, and downloading the jamboree tss files
+
+################################################################################
+##################### Narges's short-read data proc ############################
+################################################################################
+
+# TODO
+
+################################################################################
+######################## Sam's gene expression #################################
+################################################################################
+
+# TODO

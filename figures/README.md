@@ -17,14 +17,16 @@ snakemake \
 Currently, the figures and numbers generated for the paper are in Python notebooks roughly split by section of the paper.
 
 Table of contents:
-* [Figure 1 (S1, S2)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig1/fig1.ipynb)
-* [Figure S3 (microRNA)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig_mirna/fig_mirna.ipynb)
-* [Figure 2 (S5, S6)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig2/fig2.ipynb)
-* [Figure 3 (S10)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig3/fig3.ipynb)
-* [Figure 4](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig4.ipynb)
+* [Figure 1: Data overview (S1, S2)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig1/fig1.ipynb)
+* [Figure 2: Triplet feature characterization (S5, S6)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig2/fig2.ipynb)
+* [Figure 3: Gene triplets (S10)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig3/fig3.ipynb)
+* [Figure 4: More gene triplets and observed vs. observed major](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig4.ipynb)
 * [Figure 4: MANE analyses (S11)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig_mane.ipynb)
-* [Figure 5 (S12)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig5/fig5.ipynb)
-* [Figure S7: TSS pediction]()
+* [Figure 5: Human-mouse comparison (S12)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig5/fig5.ipynb)
+* [Figure S3: microRNA)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig_mirna/fig_mirna.ipynb)
+* [Figure S7: TSS prediction](https://github.com/fairliereese/paper_rnawg/tree/master/figures/figS7)
+* [Figure S8: SUPPA analyses](https://github.com/fairliereese/paper_rnawg/tree/master/figures/figS8)
+
 
 Requirements:
 * [Swan](https://github.com/fairliereese/paper_rnawg/tree/master/proc)

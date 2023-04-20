@@ -23,7 +23,7 @@ Table of contents:
 * [Figure 4: More gene triplets and observed vs. observed major](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig4.ipynb)
 * [Figure 4: MANE analyses (S11)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig_mane.ipynb)
 * [Figure 5: Human-mouse comparison (S12)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig5/fig5.ipynb)
-* [Figure S3: microRNA)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig_mirna/fig_mirna.ipynb)
+* [Figure S3: microRNA)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/figS3/fig_mirna.ipynb)
 * [Figure S7: TSS prediction](https://github.com/fairliereese/paper_rnawg/tree/master/figures/figS7)
 * [Figure S8: SUPPA analyses](https://github.com/fairliereese/paper_rnawg/tree/master/figures/figS8)
 

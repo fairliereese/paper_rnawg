@@ -21,6 +21,7 @@ species = ['human', 'mouse']
 
 # dl_files = ['ab', 'filt_ab', 'read_annot']
 dl_files = ['ab', 'filt_ab']
+events = ['A3', 'A5', 'AF', 'AL', 'MX', 'RI', 'SE']
 
 def get_mirna_ids(config):
     df = pd.read_csv(expand(config['data']['mirna']['files'],
@@ -71,8 +72,13 @@ rule all:
         # expand(config['data']['bam'], species='human', encid=get_lr_ids('bam')),
         # expand(config['data']['fastq_gz'], species='human', encid=get_lr_ids('fastq')),
         # expand(config['data']['read_len_meta'], species='human')
-        expand(config['ref']['gtex_gtf'], species='human'),
-        expand(config['data']['novelties'], species='human')
+        # expand(config['data']['suppa']['events'], species='human'),
+        # expand(config['data']['suppa']['gtex']['events'], species='human', event=events)
+        expand(config['data']['suppa']['events']['A3'],
+                        species='human'),
+        expand(config['data']['suppa']['gtex']['events']['A3'],
+                        species='human')
+
 
 
 
@@ -387,7 +393,8 @@ use rule gunzip as gunzip_gtex with:
 rule get_transcript_novelties:
     input:
         annot = config['data']['cerb_annot'],
-        filt_ab = config['data']['filt_ab']
+        filt_ab = config['data']['filt_ab'],
+        t_meta = config['data']['t_info']
     params:
         min_tpm = 1,
         gene_subset = 'polya',
@@ -400,10 +407,78 @@ rule get_transcript_novelties:
     run:
         get_transcript_novelties(input.annot,
                                  input.filt_ab,
+                                 input.t_meta,
                                  params.min_tpm,
                                  params.gene_subset,
                                  params.ver,
                                  output.novelties)
+
+rule preproc_suppa:
+    input:
+        gtf = config['data']['cerb_gtf'],
+        nov = config['data']['novelties'],
+        filt_ab = config['data']['filt_ab']
+    params:
+        temp_filt_ab_nov = 'temp_filt_ab_nov.tsv',
+    output:
+        filt_ab = config['data']['suppa']['filt_ab'],
+        gtf = config['data']['suppa']['gtf']
+    conda:
+        'seurat'
+    shell:
+        """
+        sed 's/,/_/g' {input.gtf} > {output.gtf}
+        Rscript ../scripts/filter_abundance_mat_by_novelty.R \
+            --novelties {input.nov} \
+            --filtab {input.filt_ab} \
+            --ofile {params.temp_filt_ab_nov}
+        cut -f4,12- {params.temp_filt_ab_nov} | sed 's/,/_/g' > {output.filt_ab}
+        python ../scripts/suppa_format_rm_colname.py {output.filt_ab}
+        """
+        
+rule suppa_generate_events:
+    resources:
+        mem_gb = 16,
+        threads = 1
+    shell:
+        """
+        suppa.py generateEvents \
+            -i {input.gtf} \
+            -o {params.opref} \
+            -f ioe \
+            -e SE SS MX RI FL
+        """
+
+
+
+use rule suppa_generate_events as ge_cerb with:
+    input:
+        gtf = config['data']['suppa']['gtf']
+    params:
+        opref = config['data']['suppa']['events']['A3'].rsplit('_', maxsplit=2)[0]
+        # opref = config['data']['suppa']['events']
+    output:
+        config['data']['suppa']['events']['A3'],
+        config['data']['suppa']['events']['A5'],
+        config['data']['suppa']['events']['AF'],
+        config['data']['suppa']['events']['AL'],
+        config['data']['suppa']['events']['MX'],
+        config['data']['suppa']['events']['RI'],
+        config['data']['suppa']['events']['SE'],
+
+use rule suppa_generate_events as ge_gtex with:
+    input:
+        gtf = config['ref']['gtex_gtf']
+    params:
+        opref = config['data']['suppa']['gtex']['events']['A3'].rsplit('_', maxsplit=2)[0]
+    output:
+        config['data']['suppa']['gtex']['events']['A3'],
+        config['data']['suppa']['gtex']['events']['A5'],
+        config['data']['suppa']['gtex']['events']['AF'],
+        config['data']['suppa']['gtex']['events']['AL'],
+        config['data']['suppa']['gtex']['events']['MX'],
+        config['data']['suppa']['gtex']['events']['RI'],
+        config['data']['suppa']['gtex']['events']['SE'],
 
 ################################################################################
 ######################### Milad's TSS prediction ###############################

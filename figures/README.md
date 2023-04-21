@@ -11,6 +11,7 @@ snakemake \
   -s snakemake/Snakefile \
   -j 20 \
   --latency-wait 120 \
+  --use-conda \
   -n
 ```
 

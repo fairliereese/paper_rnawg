@@ -1,4 +1,5 @@
 import pdb
+from xopen import xopen
 import scanpy as sc
 import pandas as pd
 import anndata
@@ -15,6 +16,12 @@ import swan_vis as swan
 from pandarallel import pandarallel
 from encoded_client.encoded import ENCODED
 import pysam
+from Bio import SeqIO
+from matplotlib import pyplot
+import numpy
+from pathlib import Path
+from tqdm import tqdm
+from xopen import xopen
 
 def get_datasets(species='human',
                  classification=None,
@@ -3379,6 +3386,7 @@ def get_lr_read_lens(bams, fastqs, out):
 
 def get_transcript_novelties(c_annot,
                              filt_ab,
+                             t_meta,
                              min_tpm,
                              gene_subset,
                              ver,
@@ -3422,9 +3430,9 @@ def get_transcript_novelties(c_annot,
     if gene_subset == 'polya':
         gene_df, _, _ = get_gtf_info(how='gene',
                                      ver=ver,
-                                     add_stable_gid=True)
+                                     add_stable_gid=True,
+                                     fname=t_meta)
         gene_df = gene_df[['gid_stable', 'biotype']]
-        pdb.set_trace()
         df = df.merge(gene_df, how='left',
                         left_on='gene_id', right_on='gid_stable')
         df = df.loc[df.biotype.isin(get_polya_cats())]

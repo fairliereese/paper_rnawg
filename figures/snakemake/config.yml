@@ -43,6 +43,27 @@ data:
     lib_meta: data/{species}/mirna/mirna_{species}_library_data_summary.tsv
     meta: data/{species}/mirna/metadata.tsv
     tsv: data/{species}/mirna/{encid}.tsv
+  suppa:
+    gtf: data/{species}/suppa/cerberus_filtered.gtf
+    filt_ab: data/{species}/suppa/cerberus_filtered_abundance.tsv
+    events:
+      A3: data/{species}/suppa/cerberus.events_A3_strict.ioe
+      A5: data/{species}/suppa/cerberus.events_A5_strict.ioe
+      AF: data/{species}/suppa/cerberus.events_AF_strict.ioe
+      AL: data/{species}/suppa/cerberus.events_AL_strict.ioe
+      MX: data/{species}/suppa/cerberus.events_MX_strict.ioe
+      RI: data/{species}/suppa/cerberus.events_RI_strict.ioe
+      SE: data/{species}/suppa/cerberus.events_SE_strict.ioe
+    # events: data/{species}/suppa/cerberus.events
+    gtex:
+      events:
+        A3: data/{species}/suppa/gtex/cerberus.events_A3_strict.ioe
+        A5: data/{species}/suppa/gtex/cerberus.events_A5_strict.ioe
+        AF: data/{species}/suppa/gtex/cerberus.events_AF_strict.ioe
+        AL: data/{species}/suppa/gtex/cerberus.events_AL_strict.ioe
+        MX: data/{species}/suppa/gtex/cerberus.events_MX_strict.ioe
+        RI: data/{species}/suppa/gtex/cerberus.events_RI_strict.ioe
+        SE: data/{species}/suppa/gtex/cerberus.events_SE_strict.ioe
   bam: data/{species}/bam/{encid}.bam
   fastq_gz: data/{species}/fastq/{encid}.fastq.gz
   read_len_meta: data/{species}/lr_bulk_read_length_meta.tsv

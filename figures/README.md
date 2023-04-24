@@ -26,7 +26,7 @@ Table of contents:
 * [Figure 5: Human-mouse comparison (S12)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig5/fig5.ipynb)
 * [Figure S3: microRNA](https://github.com/fairliereese/paper_rnawg/blob/master/figures/figS3/fig_mirna.ipynb)
 * [Figure S7: TSS prediction](https://github.com/fairliereese/paper_rnawg/tree/master/figures/figS7)
-* [Figure S8: SUPPA analyses](https://github.com/fairliereese/paper_rnawg/tree/master/figures/figS8)
+* [Figure S8: SUPPA analyses](https://github.com/fairliereese/paper_rnawg/tree/master/figures/figS8/figS8.ipynb)
 
 
 Requirements:

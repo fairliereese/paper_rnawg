@@ -15,6 +15,7 @@ import scipy.stats as st
 import swan_vis as swan
 from pandarallel import pandarallel
 from encoded_client.encoded import ENCODED
+from collections import defaultdict
 import pysam
 from Bio import SeqIO
 from matplotlib import pyplot
@@ -3454,3 +3455,65 @@ def get_gtex_cerberus_ids(h5, ofile):
     ca = cerberus.read(h5)
     df = ca.t_map.loc[ca.t_map.source == 'gtex']
     df[['transcript_id', 'original_transcript_id']].to_csv(ofile, sep='\t', index=False)
+
+def extract_genes_from_cerberus_across_samples(cerberus, sample, mapping, name, thres_1 = 0.25, thres_2 = 0.75):
+    from collections import Counter
+    df = cerberus.loc[cerberus['dataset'].isin(mapping[sample]), [name,'psi']].groupby([name]).mean()
+    events = set(df[(df['psi'] >= thres_1) & (df['psi'] <= thres_2)].index)
+    counter = Counter([event.split('_')[0] for event in events])
+    return([event for event in counter.keys() if counter[event] >= 2])
+
+def extract_genes_from_suppa_across_samples(psi, sample, mapping, thres_1 = 0.25, thres_2 = 0.75):
+    dataset = mapping[sample]
+    # pdb.set_trace()
+    df = psi[dataset]
+    df = df[(df.mean(axis=1) >= thres_1) & (df.mean(axis=1) <= thres_2)]
+    return(set([gene[0].split('.')[0] for gene in df.index.str.split(';')]))
+
+def compare_cerberus_and_suppa_across_events(df, psi, threshold_1, threshold_2, mapping):
+
+    temp = pd.DataFrame()
+    for sample in mapping.keys():
+
+        geneList = set(df.loc[df['dataset'].isin(mapping[sample]), 'gid_stable'])
+        gene_by_suppa = extract_genes_from_suppa_across_samples(psi, sample, mapping, thres_1=threshold_1, thres_2=threshold_2)
+        gene_by_cerberus = extract_genes_from_cerberus_across_samples(df, sample, mapping, 'feat_id', thres_1=threshold_1, thres_2=threshold_2)
+
+        suppa = []; cerberus = []
+        for gene in geneList:
+
+            suppa.append('TRUE') if gene in gene_by_suppa else suppa.append('FALSE') ## not detected by SUPPA: (1) psi value not in .25 - .75 (2) does not have a event
+            cerberus.append('TRUE') if gene in gene_by_cerberus else cerberus.append('FALSE')
+
+        res = pd.DataFrame({'gid':list(geneList), 'sample':sample, 'suppa':suppa, 'cerberus':cerberus})
+        temp = pd.concat([temp, res], axis=0)
+
+    return temp
+
+def get_cerb_suppa_matching_events(cerb_psi_file,
+                                   suppa_file,
+                                   ofile,
+                                   lib_meta,
+                                   kind='tss'):
+
+    # get sample <-> dataset mapping
+    metadata = pd.read_csv(lib_meta, sep = '\t')
+    metadata = metadata[['dataset','sample']]
+    d = defaultdict(list)
+    for a, b in metadata.values.tolist():
+        d[b].append(a)
+
+    # cerberus psi values
+    cerberus_psi = pd.read_csv(cerb_psi_file, sep = '\t')
+    cerberus_psi = cerberus_psi[cerberus_psi['feat'] == kind]
+
+    # suppa psi values
+    suppa_psi = pd.read_csv(suppa_file, sep = '\t')
+
+    # get matching events and dump to ofile
+    df = compare_cerberus_and_suppa_across_events(cerberus_psi,
+                                                  suppa_psi,
+                                                  threshold_1=0.25,
+                                                  threshold_2=0.75,
+                                                  mapping=d)
+    df.to_csv(ofile, sep='\t')

@@ -77,10 +77,16 @@ rule all:
         #         species='human'),
         # expand(config['data']['suppa']['gtex']['events']['A3'],
         #                 species='human'),
-        expand(config['data']['suppa']['gtex']['cerb_ids'],
-               species='human'),
-        expand(config['data']['psi'],
-               species='human')
+        # expand(config['data']['suppa']['gtex']['cerb_ids'],
+        #        species='human'),
+        # expand(config['data']['psi'],
+        #        species='human'),
+        expand(config['data']['suppa']['matching_events'],
+               species='human',
+               event=['AF', 'AL'])
+        # expand(config['data']['suppa']['matching_events']['tss'],
+        #        species='human')
+
 
 
 
@@ -532,6 +538,39 @@ rule get_cerberus_psi:
                          params.min_tpm,
                          params.gene_subset,
                          output.ofile)
+
+e_map = {'tss': 'AF',
+      'tes': 'AL',
+      'AL': 'tes',
+      'AF': 'tss'}
+rule get_matching_events:
+    input:
+        cerb_file = config['data']['psi'],
+        suppa_file = config['data']['suppa']['psi'],
+        lib_meta = config['data']['meta']
+    params:
+        kind = lambda w:e_map[w.event]
+    output:
+        ofile = config['data']['suppa']['matching_events']
+    run:
+        get_cerb_suppa_matching_events(input.cerb_file,
+                                       input.suppa_file,
+                                       output.ofile,
+                                       input.lib_meta,
+                                       params.kind)
+
+
+
+# use rule get_matching_events as gme_al with:
+#
+#
+# use rule get_matching_events as gme_al with:
+#     input:
+#         cerb_file = config['data']['psi'],
+#         suppa_file = config['data']['suppa']['psi'],
+#         lib_meta = config['data']['meta'],
+#     output:
+#         ofile = config['data']['suppa']['matching_events']
 
 ################################################################################
 ######################### Milad's TSS prediction ###############################

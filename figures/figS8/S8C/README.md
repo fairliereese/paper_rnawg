@@ -8,4 +8,4 @@
 Execute `cerberus_suppa.ipynb` to obtain AS genes identified by Cerberus and/or SUPPA with default thresholds (0.25-0.75).
 
 ## Visualization
-Run `comp_cerberus_suppa_with_different_thres.R` to generae `cerberus_suppa_psi_0.25_0.75.pdf`.
+Run `comp_cerberus_suppa_with_different_thres.R` to generate `cerberus_suppa_psi_0.25_0.75.pdf`.

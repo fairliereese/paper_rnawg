@@ -67,6 +67,7 @@ data:
         SE: data/{species}/suppa/gtex/cerberus.events_SE_strict.ioe
       psi: data/{species}/suppa/gtex/psi/gtex_{event}.psi
       cerb_ids: data/{species}/suppa/gtex/cerb_ids.tsv
+    matching_events: data/{species}/suppa/{event}_combined.tsv
   bam: data/{species}/bam/{encid}.bam
   fastq_gz: data/{species}/fastq/{encid}.fastq.gz
   read_len_meta: data/{species}/lr_bulk_read_length_meta.tsv

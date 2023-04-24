@@ -71,13 +71,16 @@ rule all:
         # expand(config['data']['mirna']['tsv'], species='human', encid=get_mirna_ids(config)),
         # expand(config['data']['bam'], species='human', encid=get_lr_ids('bam')),
         # expand(config['data']['fastq_gz'], species='human', encid=get_lr_ids('fastq')),
-        # expand(config['data']['read_len_meta'], species='human')
-        # expand(config['data']['suppa']['events'], species='human'),
-        # expand(config['data']['suppa']['gtex']['events'], species='human', event=events)
-        expand(config['data']['suppa']['events']['A3'],
-                        species='human'),
-        expand(config['data']['suppa']['gtex']['events']['A3'],
-                        species='human')
+        # expand(config['data']['read_len_meta'], species='human'),
+        # expand(config['data']['suppa']['psi'],
+        #         event=events,
+        #         species='human'),
+        # expand(config['data']['suppa']['gtex']['events']['A3'],
+        #                 species='human'),
+        expand(config['data']['suppa']['gtex']['cerb_ids'],
+               species='human'),
+        expand(config['data']['psi'],
+               species='human')
 
 
 
@@ -420,6 +423,7 @@ rule preproc_suppa:
         filt_ab = config['data']['filt_ab']
     params:
         temp_filt_ab_nov = 'temp_filt_ab_nov.tsv',
+        temp_filt_ab_nov_2 = 'temp_filt_ab_nov_2.tsv'
     output:
         filt_ab = config['data']['suppa']['filt_ab'],
         gtf = config['data']['suppa']['gtf']
@@ -432,10 +436,11 @@ rule preproc_suppa:
             --novelties {input.nov} \
             --filtab {input.filt_ab} \
             --ofile {params.temp_filt_ab_nov}
-        cut -f4,12- {params.temp_filt_ab_nov} | sed 's/,/_/g' > {output.filt_ab}
-        python ../scripts/suppa_format_rm_colname.py {output.filt_ab}
+        cut -f4,12- {params.temp_filt_ab_nov} | sed 's/,/_/g' > {params.temp_filt_ab_nov_2}
+        python ../scripts/suppa_format_rm_colname.py {params.temp_filt_ab_nov_2}
+        tail -c +2 {params.temp_filt_ab_nov_2} > {output.filt_ab}
         """
-        
+
 rule suppa_generate_events:
     resources:
         mem_gb = 16,
@@ -448,8 +453,6 @@ rule suppa_generate_events:
             -f ioe \
             -e SE SS MX RI FL
         """
-
-
 
 use rule suppa_generate_events as ge_cerb with:
     input:
@@ -478,7 +481,57 @@ use rule suppa_generate_events as ge_gtex with:
         config['data']['suppa']['gtex']['events']['AL'],
         config['data']['suppa']['gtex']['events']['MX'],
         config['data']['suppa']['gtex']['events']['RI'],
-        config['data']['suppa']['gtex']['events']['SE'],
+        config['data']['suppa']['gtex']['events']['SE']
+
+rule suppa_psi:
+    resources:
+        mem_gb = 16,
+        threads = 1
+    shell:
+        """
+        suppa.py psiPerEvent \
+            --ioe-file {input.ioe} \
+            --expression-file {input.filt_ab} \
+            --o {params.opref}
+        """
+
+use rule suppa_psi as psi_cerb with:
+    input:
+        ioe = lambda w:config['data']['suppa']['events'][w.event],
+        filt_ab = config['data']['suppa']['filt_ab']
+    params:
+        opref = config['data']['suppa']['psi'].rsplit('.psi', maxsplit=1)[0]
+    output:
+        out = config['data']['suppa']['psi']
+
+rule get_gtex_cerb_ids:
+    input:
+        cerb_annot = config['data']['cerb_annot']
+    resources:
+        mem_gb = 2,
+        threads = 1
+    output:
+        cerb_ids = config['data']['suppa']['gtex']['cerb_ids']
+    run:
+        get_gtex_cerberus_ids(input.cerb_annot, output.cerb_ids)
+
+
+rule get_cerberus_psi:
+    input:
+        filt_ab = config['data']['filt_ab']
+    params:
+        min_tpm = 1,
+        gene_subset = 'polya'
+    resources:
+        threads = 1,
+        mem_gb = 64
+    output:
+        ofile = config['data']['psi']
+    run:
+        get_cerberus_psi(input.filt_ab,
+                         params.min_tpm,
+                         params.gene_subset,
+                         output.ofile)
 
 ################################################################################
 ######################### Milad's TSS prediction ###############################

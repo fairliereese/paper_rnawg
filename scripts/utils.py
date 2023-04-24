@@ -3360,14 +3360,24 @@ def get_lr_read_lens(bams, fastqs, out):
 
     metadata = get_lr_exp_meta()
     counts = {}
+    first_thing = True
+    bam_ids = []
+    fastq_ids = []
     for f in bams+fastqs:
         encid = f.rsplit('/', maxsplit=1)[1].split('.')[0]
         temp = metadata.loc[metadata.file == encid].iloc[0]
-        name = temp.name
+        name = temp['name']
         if temp.output_type == 'unfiltered alignments':
             result = score_aligned_reads(f)
+            # bam_ids.append(name)
         elif temp.output_type == 'reads':
             result = score_fastq_reads(f)
+            # fastq_ids.append(name)
+        # result =  {
+        #     "raw_reads": 0,
+        #     "read_len_median": 0,
+        #     "read_len": 0,
+        # }
         counts.setdefault(name, {}).update(result)
 
     array_attributes = ['read_len', 'query_len', 'positions_len']
@@ -3439,3 +3449,8 @@ def get_transcript_novelties(c_annot,
         df.drop(['gid_stable', 'biotype'], axis=1, inplace=True)
 
     df.to_csv(ofile, sep='\t', index=False, mode='a', header=False)
+
+def get_gtex_cerberus_ids(h5, ofile):
+    ca = cerberus.read(h5)
+    df = ca.t_map.loc[ca.t_map.source == 'gtex']
+    df[['transcript_id', 'original_transcript_id']].to_csv(ofile, sep='\t', index=False)

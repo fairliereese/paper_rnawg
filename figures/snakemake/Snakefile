@@ -49,6 +49,7 @@ def get_lr_ids(file_format='bam'):
 rule all:
     input:
         # expand(config['data']['ab'], species=species),
+        expand(config['data']['talon_filt_ab'], species=species),
         # expand(config['data']['filt_ab'], species=species),
         # expand(config['data']['cerb_annot'], species=species),
         # expand(config['data']['cerb_gtf'], species=species),
@@ -81,11 +82,9 @@ rule all:
         #        species='human'),
         # expand(config['data']['psi'],
         #        species='human'),
-        expand(config['data']['suppa']['matching_events'],
-               species='human',
-               event=['AF', 'AL'])
-        # expand(config['data']['suppa']['matching_events']['tss'],
-        #        species='human')
+        # expand(config['data']['suppa']['matching_events'],
+        #        species='human',
+        #        event=['AF', 'AL'])
 
 
 
@@ -157,6 +156,12 @@ use rule gunzip as gunzip_cerb with:
     gz = config['data']['cerb_gtf_gz']
   output:
     out = config['data']['cerb_gtf']
+
+use rule dl as dl_talon_filt_ab with:
+  params:
+    link = lambda w:config['encode'][w.species]['talon_filt_ab']
+  output:
+    out = config['data']['talon_filt_ab']
 
 
 ################################################################################

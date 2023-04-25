@@ -1,6 +1,7 @@
 encode:
   human:
     ab: https://www.encodeproject.org/files/ENCFF109QKT/@@download/ENCFF109QKT.tsv
+    talon_filt_ab: https://www.encodeproject.org/files/ENCFF362PTT/@@download/ENCFF362PTT.tsv
     filt_ab: https://www.encodeproject.org/files/ENCFF139IUH/@@download/ENCFF139IUH.tsv
     read_annot: https://www.encodeproject.org/files/ENCFF857YZZ/@@download/ENCFF857YZZ.tsv
     new_gencode_gtf_gz: https://www.encodeproject.org/files/ENCFF691CWD/@@download/ENCFF691CWD.gtf.gz
@@ -9,6 +10,7 @@ encode:
     gtex_gtf_gz: https://www.encodeproject.org/files/ENCFF652XQK/@@download/ENCFF652XQK.gtf.gz
   mouse:
     ab: https://www.encodeproject.org/files/ENCFF811SVZ/@@download/ENCFF811SVZ.tsv
+    talon_filt_ab: https://www.encodeproject.org/files/ENCFF961XZJ/@@download/ENCFF961XZJ.tsv
     filt_ab: https://www.encodeproject.org/files/ENCFF759BBW/@@download/ENCFF759BBW.tsv
     read_annot: https://www.encodeproject.org/files/ENCFF283TZF/@@download/ENCFF283TZF.tsv
     new_gencode_gtf_gz: https://www.encodeproject.org/files/ENCFF060VNF/@@download/ENCFF060VNF.gtf.gz
@@ -22,6 +24,7 @@ sr:
 
 data:
   ab: data/{species}/abundance.tsv
+  talon_filt_ab: data/{species}/talon_abundance_filtered.tsv
   filt_ab: data/{species}/abundance_filtered.tsv
   read_annot: data/{species}/read_annot.tsv
   cerb_gtf_gz: data/{species}/cerberus.gtf.gz

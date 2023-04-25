@@ -3517,3 +3517,30 @@ def get_cerb_suppa_matching_events(cerb_psi_file,
                                                   threshold_2=0.75,
                                                   mapping=d)
     df.to_csv(ofile, sep='\t')
+
+def filt_genes(ab_file,
+               min_exons,
+               gene_nov,
+               **kwargs):
+    """
+    Filter genes based on characteristics of isoforms
+    """
+    ab_df = pd.read_csv(ab_file, sep='\t')
+    
+    # get isoforms
+    df, _ = get_tpm_table(ab_df,
+               how='iso',
+               **kwargs)
+    
+    # merge with extra info
+    df.reset_index(inplace=True)
+    df = df.merge(ab_df[['annot_transcript_id', 'annot_gene_id', 'gene_novelty', 'n_exons']],
+                  how='left', 
+                  on='annot_transcript_id')
+    
+    # limit based on min_exons and novelty
+    df = df.loc[(df.n_exons>=min_exons)&(df.gene_novelty.isin(gene_nov))]
+    n = len(df.annot_gene_id.unique().tolist())
+    print(f'Found {n} unique {gene_nov} genes w/ >{min_exons} exons')    
+    n = len(df.annot_transcript_id.unique().tolist())
+    print(f'Found {n} unique transcripts from {gene_nov} genes w/ >{min_exons} exons')    

@@ -85,11 +85,8 @@ rule all:
         # expand(config['data']['suppa']['matching_events'],
         #        species='human',
         #        event=['AF', 'AL'])
-
-
-
-
-
+        # expand(config['data']['p_pred']['fa'], species='human')
+        expand(config['data']['p_pred']['fa'], species='human')
 
 rule dl:
     resources:
@@ -132,6 +129,18 @@ use rule dl as dl_cerb_annot with:
     link = lambda w:config['encode'][w.species]['cerb_annot']
   output:
     out = config['data']['cerb_annot']
+
+use rule dl as dl_ref_genome with:
+  params:
+    link = lambda w:config['encode'][w.species]['fa_gz']
+  output:
+    out = config['ref']['fa_gz']
+
+use rule gunzip as gunzip_ref_genome with:
+  input:
+    gz = config['ref']['fa_gz']
+  output:
+    out = config['ref']['fa']
 
 use rule dl as dl_gencode_gtf with:
   params:
@@ -597,3 +606,45 @@ rule get_matching_events:
 ################################################################################
 
 # TODO
+
+################################################################################
+################################ Protein prediction ############################
+################################################################################
+
+rule tama_gtf_to_bed:
+    input:
+        gtf = config['data']['cerb_gtf']
+    params:
+        tama_dir = config['tama_dir']
+    resources:
+        threads = 4,
+        mem_gb = 32
+    output:
+        bed = config['data']['p_pred']['gtf_bed']
+    shell:
+        """
+        python {params.tama_dir}/format_converter/tama_format_gtf_to_bed12_ensembl.py \
+          {input.gtf} \
+          {output.bed}
+        """
+
+rule bed_to_fasta:
+    input:
+        bed = config['data']['p_pred']['gtf_bed'],
+        ref = config['ref']['fa']
+    output:
+        fa = config['data']['p_pred']['fa']
+    resources:
+        threads = 4,
+        mem_gb = 32
+    shell:
+        """
+        # module load bedtools2
+        bedtools getfasta \
+            -name \
+            -split \
+            -s \
+            -fi {input.ref} \
+            -bed {input.bed} \
+            -fo {output.fa}
+        """

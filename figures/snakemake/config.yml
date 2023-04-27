@@ -8,6 +8,7 @@ encode:
     cerb_gtf_gz: https://www.encodeproject.org/files/ENCFF232ABR/@@download/ENCFF232ABR.gtf.gz
     cerb_annot: https://www.encodeproject.org/files/ENCFF229IBK/@@download/ENCFF229IBK.h5
     gtex_gtf_gz: https://www.encodeproject.org/files/ENCFF652XQK/@@download/ENCFF652XQK.gtf.gz
+    fa_gz: https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz
   mouse:
     ab: https://www.encodeproject.org/files/ENCFF811SVZ/@@download/ENCFF811SVZ.tsv
     talon_filt_ab: https://www.encodeproject.org/files/ENCFF961XZJ/@@download/ENCFF961XZJ.tsv
@@ -74,13 +75,19 @@ data:
   bam: data/{species}/bam/{encid}.bam
   fastq_gz: data/{species}/fastq/{encid}.fastq.gz
   read_len_meta: data/{species}/lr_bulk_read_length_meta.tsv
+  p_pred:
+    gtf_bed: data/{species}/protein_pred/{species}_tama.bed
+    fa: data/{species}/protein_pred/{species}.fa
 
+tama_dir: ~/mortazavi_lab/bin/tama/tama_go/
 
 
 # this will be vM21 for mouse and v40 for human
 ref:
   gtex_gtf_gz: ref/{species}/gtex.gtf.gz
   gtex_gtf: ref/{species}/gtex.gtf
+  fa_gz: ref/{species}/genome.fa.gz
+  fa: ref/{species}/genome.fa
   new_gencode_gtf_gz: ref/{species}/gencode_annotation.gtf.gz
   new_gencode_gtf: ref/{species}/gencode_annotation.gtf
   t_info: ref/{species}/gencode_t_metadata.tsv

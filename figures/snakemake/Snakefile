@@ -49,7 +49,7 @@ def get_lr_ids(file_format='bam'):
 rule all:
     input:
         # expand(config['data']['ab'], species=species),
-        expand(config['data']['talon_filt_ab'], species=species),
+        # expand(config['data']['talon_filt_ab'], species=species),
         # expand(config['data']['filt_ab'], species=species),
         # expand(config['data']['cerb_annot'], species=species),
         # expand(config['data']['cerb_gtf'], species=species),
@@ -85,8 +85,7 @@ rule all:
         # expand(config['data']['suppa']['matching_events'],
         #        species='human',
         #        event=['AF', 'AL'])
-        # expand(config['data']['p_pred']['fa'], species='human')
-        expand(config['data']['p_pred']['fa'], species='human')
+        expand(config['data']['p_pred']['blastp_parsed'], species='human')
 
 rule dl:
     resources:
@@ -153,6 +152,29 @@ use rule gunzip as gunzip_gencode with:
     gz = config['ref']['new_gencode_gtf_gz']
   output:
     out = config['ref']['new_gencode_gtf']
+
+use rule dl as dl_gencode_fa with:
+  params:
+    link = lambda w:config['link'][w.species]['p_fa']
+  output:
+    out = config['ref']['p_fa_gz']
+
+use rule gunzip as gunzip_gencode_fa with:
+  input:
+    gz = config['ref']['p_fa_gz']
+  output:
+    out = config['ref']['p_fa']
+
+rule fix_gencode_fa_headers:
+    input:
+        fa = config['ref']['p_fa']
+    resources:
+        threads = 1,
+        mem_gb = 4
+    output:
+        fa = config['ref']['p_fa_header']
+    run:
+        fix_fa_headers(input.fa, output.fa)
 
 use rule dl as dl_cerb_gtf with:
   params:
@@ -648,3 +670,79 @@ rule bed_to_fasta:
             -bed {input.bed} \
             -fo {output.fa}
         """
+
+rule tama_orf:
+    input:
+        fa = config['data']['p_pred']['fa']
+    params:
+        tama_dir = config['tama_dir']
+    resources:
+        threads = 4,
+        mem_gb = 32
+    output:
+        orf_fa = config['data']['p_pred']['orf_fa']
+    shell:
+        """
+        python {params.tama_dir}/orf_nmd_predictions/tama_orf_seeker.py \
+            -f {input.fa} \
+            -o {output.orf_fa}
+        """
+
+rule make_blastp_db:
+    input:
+        fa = config['ref']['p_fa_header']
+    resources:
+        mem_gb = 64,
+        threads = 32
+    params:
+        opref = config['ref']['p_db'].rsplit(',', maxsplit=1)[0]
+    output:
+        db = config['ref']['p_db']
+    shell:
+        """
+        makeblastdb \
+            -in {input.fa} \
+             -dbtype prot \
+             -parse_seqids \
+             -out {params.opref}
+        """
+
+
+rule blast:
+    input:
+        orf_fa = config['data']['p_pred']['orf_fa'],
+        db = config['ref']['p_db']
+    params:
+        opref = config['ref']['p_db'].rsplit(',', maxsplit=1)[0],
+    resources:
+        time = 72:00:00,
+        mem_gb = 32,
+        threads = 32
+    output:
+        out = config['data']['protein_pred']['blastp']
+    shell:
+        """
+         blastp \
+          -evalue 1e-10 \
+          -num_threads 32 \
+          -db {params.opref} \
+          -query {input.orf_fa} > \
+          {output.out}
+        """
+
+rule parse_blastp:
+    input:
+        blastp = config['data']['p_pred']['blastp']
+    params:
+        tama_dir = config['tama_dir']
+    resources:
+        time = 14:00:00,
+        mem_gb = 32,
+        threads = 1
+    output:
+        parsed = config['data']['p_pred']['blastp']
+    shell:
+        "python {params.tama_dir}/orf_nmd_predictions/tama_orf_blastp_parser.py \
+          -b {input.blastp} \
+          -o {output.parsed}
+        "

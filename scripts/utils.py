@@ -3526,21 +3526,38 @@ def filt_genes(ab_file,
     Filter genes based on characteristics of isoforms
     """
     ab_df = pd.read_csv(ab_file, sep='\t')
-    
+
     # get isoforms
     df, _ = get_tpm_table(ab_df,
                how='iso',
                **kwargs)
-    
+
     # merge with extra info
     df.reset_index(inplace=True)
     df = df.merge(ab_df[['annot_transcript_id', 'annot_gene_id', 'gene_novelty', 'n_exons']],
-                  how='left', 
+                  how='left',
                   on='annot_transcript_id')
-    
+
     # limit based on min_exons and novelty
     df = df.loc[(df.n_exons>=min_exons)&(df.gene_novelty.isin(gene_nov))]
     n = len(df.annot_gene_id.unique().tolist())
-    print(f'Found {n} unique {gene_nov} genes w/ >{min_exons} exons')    
+    print(f'Found {n} unique {gene_nov} genes w/ >{min_exons} exons')
     n = len(df.annot_transcript_id.unique().tolist())
-    print(f'Found {n} unique transcripts from {gene_nov} genes w/ >{min_exons} exons')    
+    print(f'Found {n} unique transcripts from {gene_nov} genes w/ >{min_exons} exons')
+
+def fix_fa_headers(fa, out):
+    ifile = open(fa, 'r')
+    ofile = open(out, 'w')
+    pids = []
+    curr_pid = ''
+    for line in ifile:
+    	if line.startswith('>'):
+    		line = line.split('|')[0]+'\n'
+    		curr_pid = line[:-1]
+    	if curr_pid not in pids:
+    		ofile.write(line)
+    	if not line.startswith('>'):
+    		pids.append(curr_pid)
+
+    ifile.close()
+    ofile.close()

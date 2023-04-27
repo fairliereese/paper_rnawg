@@ -18,6 +18,9 @@ encode:
     cerb_gtf_gz: https://www.encodeproject.org/files/ENCFF200RSU/@@download/ENCFF200RSU.gtf.gz
     cerb_annot: https://www.encodeproject.org/files/ENCFF999KXH/@@download/ENCFF999KXH.h5
 
+link:
+    human:
+      p_fa: https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_40/gencode.v40.pc_translations.fa.gz
 
 sr:
   ab: data/{species}/sr/abundance.tsv
@@ -78,6 +81,10 @@ data:
   p_pred:
     gtf_bed: data/{species}/protein_pred/{species}_tama.bed
     fa: data/{species}/protein_pred/{species}.fa
+    orf_fa: data/{species}/protein_pred/{species}_orf.fa
+    blastp: data/{species}/protein_pred/{species}_blastp.out
+    blastp_parsed: data/{species}/protein_pred/{species}_blastp.tsv
+
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/
 
@@ -90,6 +97,10 @@ ref:
   fa: ref/{species}/genome.fa
   new_gencode_gtf_gz: ref/{species}/gencode_annotation.gtf.gz
   new_gencode_gtf: ref/{species}/gencode_annotation.gtf
+  p_fa_gz: ref/{species}/gencode_protein.fa.gz
+  p_fa: ref/{species}/gencode_protein.fa
+  p_fa_header: ref/{species}/gencode_protein_short_headers.fa
+  p_db: ref/{species}/genocde_protein_translations.pdb
   t_info: ref/{species}/gencode_t_metadata.tsv
   g_info: ref/{species}/gencode_g_metadata.tsv
   cerberus:

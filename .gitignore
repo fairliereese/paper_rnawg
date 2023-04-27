@@ -1,4 +1,5 @@
 *gtf.gz
+*.fa*
 figures/data/*
 *ipynb_checkpoints*
 *.snakemake*

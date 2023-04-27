@@ -5357,15 +5357,37 @@ def plot_n_samples_vs_n_feats(temp, feat, opref):
     plt.savefig(fname, dpi=500, bbox_inches='tight')
 
 def plot_n_predom_transcripts(pi_tpm_file,
+                              filt_ab,
                               ver,
                               gene_subset,
+                              min_tpm,
                               fname,
+                              obs_col='sample',
+                              species='human',
                               max_isos=None,
                               figsize=(6,6)):
     df = pd.read_csv(pi_tpm_file, sep='\t')
+    
+    ab_df = pd.read_csv(filt_ab, sep='\t')
+    det_df = get_det_table(ab_df,
+               how='iso',
+               min_tpm=min_tpm,
+               gene_subset=gene_subset,
+               groupby=obs_col,
+               species=species)
 
     # only predominant transcripts
     df = df.loc[df.triplet_rank==1]
+    
+    # only expressed transcripts in each sample
+    det_df = det_df.melt(ignore_index=False,
+                var_name='tid',
+                value_name='det').reset_index().rename({'biosample': 'sample'}, axis=1)
+    det_df = det_df.loc[det_df.det==True]
+    print(len(df.index))
+    df = df.merge(det_df, how='inner', on=['sample', 'tid'])
+    print(len(df.index))
+    
 
     # count number of unique predominant transcripts
     df = df[['tid', 'gid']].groupby(['gid']).nunique().reset_index()

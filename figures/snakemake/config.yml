@@ -83,7 +83,9 @@ data:
     fa: data/{species}/protein_pred/{species}.fa
     orf_fa: data/{species}/protein_pred/{species}_orf.fa
     blastp: data/{species}/protein_pred/{species}_blastp.out
+    blastp_mini: data/{species}/protein_pred/{species}_blastp_mini.out
     blastp_parsed: data/{species}/protein_pred/{species}_blastp.tsv
+    cds_bed: data/{species}/protein_pred/{species}_cds.bed
 
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/
@@ -100,7 +102,7 @@ ref:
   p_fa_gz: ref/{species}/gencode_protein.fa.gz
   p_fa: ref/{species}/gencode_protein.fa
   p_fa_header: ref/{species}/gencode_protein_short_headers.fa
-  p_db: ref/{species}/genocde_protein_translations.pdb
+  p_db: ref/{species}/gencode_protein_translations.pdb
   t_info: ref/{species}/gencode_t_metadata.tsv
   g_info: ref/{species}/gencode_g_metadata.tsv
   cerberus:

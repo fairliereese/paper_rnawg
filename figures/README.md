@@ -13,6 +13,12 @@ snakemake \
   --latency-wait 120 \
   --use-conda \
   -n
+
+snakemake \
+  -s snakemake/Snakefile \
+  -j 10 \
+  --latency-wait 120 \
+  --cluster "sbatch -A seyedam_lab --partition=highmem --mem={resources.mem_gb}GB -c {resources.threads} --mail-user=freese@uci.edu --mail-type=START,END,FAIL --time=72:00:00" -n
 ```
 
 Currently, the figures and numbers generated for the paper are in Python notebooks roughly split by section of the paper.
@@ -24,12 +30,12 @@ Table of contents:
 * [Figure 4: More gene triplets and observed vs. observed major](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig4.ipynb)
 * [Figure 4: MANE analyses (S11)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig4/fig_mane.ipynb)
 * [Figure 5: Human-mouse comparison (S12)](https://github.com/fairliereese/paper_rnawg/blob/master/figures/fig5/fig5.ipynb)
-* [Figure S3: microRNA](https://github.com/fairliereese/paper_rnawg/blob/master/figures/figS3/fig_mirna.ipynb)
-* [Figure S7: TSS prediction](https://github.com/fairliereese/paper_rnawg/tree/master/figures/figS7)
+* [Figure S2: microRNA](https://github.com/fairliereese/paper_rnawg/blob/master/figures/figS2/fig_mirna.ipynb)
+* [Figure S6: TSS prediction](https://github.com/fairliereese/paper_rnawg/tree/master/figures/figS6)
 * [Figure S8: SUPPA analyses](https://github.com/fairliereese/paper_rnawg/tree/master/figures/figS8/figS8.ipynb)
 
 
 Requirements:
-* [Swan](https://github.com/fairliereese/paper_rnawg/tree/master/proc)
+* [Swan](https://github.com/fairliereese/swan_vis)
 * [Cerberus](https://github.com/fairliereese/cerberus)
 * [ENCODED client](https://github.com/detrout/encoded_client)

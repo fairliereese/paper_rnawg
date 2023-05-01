@@ -3340,7 +3340,7 @@ def plot_browser_isos(ca, sg, gene, obs_col, obs_condition, filt_ab, major_set,
         tids = df.tid.unique().tolist()
         return tids
 
-    def get_isos(ca, filt_ab, gene, sample):
+    def get_isos(ca, filt_ab, gene, sample, species):
         df = pd.read_csv(filt_ab, sep='\t')
         df = get_det_table(df,
                        groupby='sample',
@@ -3369,7 +3369,7 @@ def plot_browser_isos(ca, sg, gene, obs_col, obs_condition, filt_ab, major_set,
     if major:
         tids = get_major_isos(major_set, gene, obs_condition)
     else:
-        tids = get_isos(ca, filt_ab, gene, obs_condition)
+        tids = get_isos(ca, filt_ab, gene, obs_condition, species)
     tpm_df = get_tpm_df(sg, tids, obs_col, obs_condition)
 
     # colormap definition

@@ -85,7 +85,7 @@ rule all:
         # expand(config['data']['suppa']['matching_events'],
         #        species='human',
         #        event=['AF', 'AL'])
-        expand(config['data']['p_pred']['blastp_parsed'], species='human')
+        expand(config['data']['p_pred']['cds_bed'], species='human')
 
 rule dl:
     resources:
@@ -695,7 +695,8 @@ rule make_blastp_db:
         mem_gb = 64,
         threads = 32
     params:
-        opref = config['ref']['p_db'].rsplit(',', maxsplit=1)[0]
+        opref = config['ref']['p_db'].replace('.pdb', '')
+
     output:
         db = config['ref']['p_db']
     shell:
@@ -707,42 +708,76 @@ rule make_blastp_db:
              -out {params.opref}
         """
 
-
 rule blast:
     input:
         orf_fa = config['data']['p_pred']['orf_fa'],
         db = config['ref']['p_db']
     params:
-        opref = config['ref']['p_db'].rsplit(',', maxsplit=1)[0],
+        opref = config['ref']['p_db'].replace('.pdb', '')
     resources:
-        time = 72:00:00,
         mem_gb = 32,
         threads = 32
     output:
-        out = config['data']['protein_pred']['blastp']
+        out = config['data']['p_pred']['blastp']
     shell:
         """
          blastp \
           -evalue 1e-10 \
           -num_threads 32 \
           -db {params.opref} \
+          -outfmt 0 \
           -query {input.orf_fa} > \
           {output.out}
+        """
+
+rule mini_blastp_out:
+    input:
+        blastp = config['data']['p_pred']['blastp']
+    resources:
+        threads = 1,
+        mem_gb = 1
+    output:
+        blastp = config['data']['p_pred']['blastp_mini']
+    shell:
+        """
+        head -16143065 {input.blastp} > {output.blastp}
         """
 
 rule parse_blastp:
     input:
         blastp = config['data']['p_pred']['blastp']
+        # blastp = config['data']['p_pred']['blastp_mini']
     params:
         tama_dir = config['tama_dir']
     resources:
-        time = 14:00:00,
         mem_gb = 32,
         threads = 1
     output:
-        parsed = config['data']['p_pred']['blastp']
+        parsed = config['data']['p_pred']['blastp_parsed']
     shell:
-        "python {params.tama_dir}/orf_nmd_predictions/tama_orf_blastp_parser.py \
+        """
+        python {params.tama_dir}/orf_nmd_predictions/tama_orf_blastp_parser.py \
           -b {input.blastp} \
           -o {output.parsed}
-        "
+        """
+
+rule tama_cds_bed_regions:
+    input:
+        parsed = config['data']['p_pred']['blastp_parsed'],
+        gtf_bed = config['data']['p_pred']['gtf_bed'],
+        fa = config['data']['p_pred']['fa']
+    params:
+        tama_dir = config['tama_dir']
+    resources:
+        mem_gb = 4,
+        threads = 1
+    output:
+        bed = config['data']['p_pred']['cds_bed']
+    shell:
+        """
+        python {params.tama_dir}/orf_nmd_predictions/tama_cds_regions_bed_add.py \
+            -p {input.parsed} \
+            -a {input.gtf_bed} \
+            -f {input.fa} \
+            -o {output.bed}
+        """

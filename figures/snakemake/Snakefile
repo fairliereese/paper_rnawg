@@ -85,7 +85,7 @@ rule all:
         # expand(config['data']['suppa']['matching_events'],
         #        species='human',
         #        event=['AF', 'AL'])
-        expand(config['data']['p_pred']['cds_bed'], species=species)
+        expand(config['data']['p_pred']['summary'], species=species)
 
 rule dl:
     resources:
@@ -767,3 +767,19 @@ rule tama_cds_bed_regions:
             -f {input.fa} \
             -o {output.bed}
         """
+
+rule get_pp_summary:
+    input:
+        fa = config['data']['p_pred']['fa'],
+        parsed = config['data']['p_pred']['blastp_parsed'],
+        cds = config['data']['p_pred']['cds_bed']
+    resources:
+        mem_gb = 4,
+        threads = 1
+    output:
+        summary = config['data']['p_pred']['summary']
+    run:
+        get_pp_info(input.fa,
+                    input.cds,
+                    input.parsed,
+                    output.summary)

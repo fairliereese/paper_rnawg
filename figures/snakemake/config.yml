@@ -17,6 +17,7 @@ encode:
     new_gencode_gtf_gz: https://www.encodeproject.org/files/ENCFF060VNF/@@download/ENCFF060VNF.gtf.gz
     cerb_gtf_gz: https://www.encodeproject.org/files/ENCFF200RSU/@@download/ENCFF200RSU.gtf.gz
     cerb_annot: https://www.encodeproject.org/files/ENCFF999KXH/@@download/ENCFF999KXH.h5
+    fa_gz: https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/@@download/mm10_no_alt_analysis_set_ENCODE.fasta.gz
 
 link:
     human:
@@ -85,9 +86,9 @@ data:
     fa: data/{species}/protein_pred/{species}.fa
     orf_fa: data/{species}/protein_pred/{species}_orf.fa
     blastp: data/{species}/protein_pred/{species}_blastp.out
-    blastp_mini: data/{species}/protein_pred/{species}_blastp_mini.out
     blastp_parsed: data/{species}/protein_pred/{species}_blastp.tsv
     cds_bed: data/{species}/protein_pred/{species}_cds.bed
+    summary: data/{species}/protein_pred/{species}_summary.tsv
 
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/

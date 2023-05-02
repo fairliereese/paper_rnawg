@@ -85,7 +85,7 @@ rule all:
         # expand(config['data']['suppa']['matching_events'],
         #        species='human',
         #        event=['AF', 'AL'])
-        expand(config['data']['p_pred']['cds_bed'], species='human')
+        expand(config['data']['p_pred']['cds_bed'], species=species)
 
 rule dl:
     resources:
@@ -730,23 +730,9 @@ rule blast:
           {output.out}
         """
 
-rule mini_blastp_out:
-    input:
-        blastp = config['data']['p_pred']['blastp']
-    resources:
-        threads = 1,
-        mem_gb = 1
-    output:
-        blastp = config['data']['p_pred']['blastp_mini']
-    shell:
-        """
-        head -16143065 {input.blastp} > {output.blastp}
-        """
-
 rule parse_blastp:
     input:
         blastp = config['data']['p_pred']['blastp']
-        # blastp = config['data']['p_pred']['blastp_mini']
     params:
         tama_dir = config['tama_dir']
     resources:

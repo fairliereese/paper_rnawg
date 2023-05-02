@@ -484,6 +484,68 @@ def plot_major_principal_feat_counts(df, feat, obs_col, opref='figures/', **kwar
 
     fname = '{}/mane_vs_principal_{}_{}_hist.pdf'.format(opref, feat, obs_col)
     plt.savefig(fname, dpi=800, bbox_inches='tight')
+    
+def get_mp_df_table(sg, ca,
+                    t_orig_metadata,
+                    mane_file, obs_col,
+                    min_feat_tpm,
+                    feat):
+    
+    mp_dfs = {}
+    loop_feats, adatas, t_dfs, id_cols, id_cols_2 = get_loopers(sg)
+    for feat_2, adata, t_df in zip(loop_feats, adatas, t_dfs):
+        if feat_2 != feat:
+            continue
+
+        # var init
+        id_col = id_cols[feat]
+        id_col_2 = id_cols_2[feat]
+        t_df = t_df.copy(deep=True)
+
+        # get exp gene file
+        d = os.path.dirname(__file__)
+        config_file = f'{d}/../figures/snakemake/config.yml'
+        with open(config_file) as f:
+            config = yaml.safe_load(f)
+
+        exp_gene_fname = f'{d}/../figures/'+expand(config['data']['exp_gene_subset'], species='human', obs_col=obs_col)[0]
+
+        # get pi / tpm table
+
+        fname = f'{d}/../figures/'+expand(config['data']['pi_tpm'][feat], species='human', obs_col=obs_col)[0]
+        df = pd.read_csv(fname, sep='\t')
+
+        # merge mane and principal; make sure that exp. of null genes == 0
+        princ_df = get_principal_feats(df, feat, obs_col, id_col)
+        sec_df = get_ranked_feats(df, feat, obs_col, id_col, rank=2)
+        rename_cols = [id_col, '{}_tpm'.format(feat), '{}_pi'.format(feat), '{}_rank'.format(feat)]
+        rename_dict = dict([(c,'{}_sec'.format(c)) for c in rename_cols])
+        sec_df.rename(rename_dict, axis=1, inplace=True)
+        mane_df = get_mane_feats(ca, df, feat, obs_col, id_col, id_col_2, t_orig_metadata)
+        mp_df = princ_df.merge(mane_df, how='left', on=['gid', 'gname', obs_col], suffixes=('_princ', '_mane'))
+        mp_df = mp_df.merge(sec_df, how='left', on=['gid', 'gname', obs_col], suffixes=('', '_sec'))
+        mp_df['{}_tpm_mane'.format(feat)].fillna(0, inplace=True)
+        mp_df['{}_tpm_sec'.format(feat)].fillna(0, inplace=True)
+
+        # remove genes that don't have annotated, expressed MANE genes in this sample
+        exp_mane_genes = get_exp_mane_genes(obs_col=obs_col,
+                                            g_info=mane_file,
+                                            exp_gene_file=exp_gene_fname)
+        mp_df = mp_df.merge(exp_mane_genes, how='inner', on=['gid', obs_col])
+
+        # threshold on tpm
+        mp_df = mp_df.loc[mp_df['{}_tpm_princ'.format(feat)] >= min_feat_tpm] # exclude princ. isos < min
+        mp_df.loc[mp_df['{}_tpm_mane'.format(feat)]<min_feat_tpm, '{}_tpm_mane'.format(feat)] = 0 # 0 out mane isos < min
+        mp_df.loc[mp_df['{}_tpm_sec'.format(feat)]<min_feat_tpm, '{}_tpm_sec'.format(feat)] = 0 # 0 out sec isos < min
+
+        # is principal == mane?
+        mp_col = '{}_princ_is_mane'.format(feat)
+        mp_df[mp_col] = mp_df[id_col+'_princ'] == mp_df[id_col+'_mane']
+
+        # is secondary == mane?
+        ms_col = '{}_sec_is_mane'.format(feat)
+        mp_df[ms_col] = mp_df[id_col+'_mane'] == mp_df[id_col+'_sec']
+    return mp_df
 
 def mane_analysis(sg, ca,
                   t_orig_metadata,

@@ -3561,3 +3561,68 @@ def fix_fa_headers(fa, out):
 
     ifile.close()
     ofile.close()
+
+def read_orf_fa(fname):
+    ids = []
+    tids = []
+    seqs = []
+    with open(fname, 'r') as infile:
+        last_entry = None
+        for i, line in enumerate(infile):
+            if line.startswith('>'):
+                
+                # account for entries that don't have an orf
+                if last_entry == 'id':
+                    seqs.append('')
+                    
+                    
+                temp = line.strip()
+                tid = line.split(';')[1]
+                ids.append(temp)
+                tids.append(tid)
+                last_entry = 'id'
+
+            else:
+                seqs.append(line.strip())
+                last_entry = 'seq'
+                
+    df = pd.DataFrame()
+    
+    # pdb.set_trace()
+    df['id'] = ids
+    df['tid'] = tids
+    df['seq'] = seqs
+    
+    df['len'] = df.seq.str.len()
+    
+    return df
+
+def read_pred(pp_bed):
+    df = pd.read_csv(pp_bed, sep='\t',
+                     header=None, usecols=[0,1,2,3,5,6,7])
+    df.columns = ['Chromosome', 'Start', 'Stop', 'fields', 'Strand',
+                  'CDS_Start', 'CDS_Stop']
+    df[['gid', 'tid', 'gname', '.',
+        'pid', 't_len_flag', 'blastp_match',
+        'nmd_flag', 'frame']] \
+        = df.fields.str.split(';', expand=True)
+    df.drop('.', axis=1, inplace=True)
+    # pdb.set_trace()
+    # print(df.fields.str.split(';', expand=True))
+
+    # # check if transcript is novel 
+    # df['novel_transcript'] = df.tid.str.contains('ENCODE')
+
+    # check if transcript is nmd
+    df['nmd'] = ~(df.nmd_flag == 'prot_ok')
+
+    # check if transcript is full length 
+    df['full_orf'] = df.t_len_flag == 'full_length'
+    
+    # # typing
+    # df.loc[df.blastp_match == 'no_orf', 'blastp_match'] = 0
+    # df.loc[df.blastp_match == 'no_hit', 'blastp_match'] = 0
+    # df.loc[df.blastp_match == 'full_match', 'blastp_match'] = 100
+    # df['blastp_match'] = df.blastp_match.astype(float)
+    
+    return df

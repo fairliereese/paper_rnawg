@@ -21,6 +21,8 @@ encode:
 link:
     human:
       p_fa: https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_40/gencode.v40.pc_translations.fa.gz
+    mouse:
+      p_fa: https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M25/gencode.vM25.pc_translations.fa.gz
 
 sr:
   ab: data/{species}/sr/abundance.tsv

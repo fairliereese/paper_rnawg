@@ -23,6 +23,11 @@ import gseapy as gp
 
 from .utils import *
 
+def get_cds_colors():
+    c_dict = {'start': '#00f000',
+              'stop': '#e10200'}
+    return c_dict
+
 def get_ccre_colors():
     pls = '#FF0000'
     pels = '#FFA700'
@@ -3278,8 +3283,8 @@ def plot_n_feat_per_gene(h5,
     return df
 
 
-def plot_browser_isos(ca, sg, gene, obs_col, obs_condition, filt_ab, major_set,
-
+def plot_browser_isos(ca, sg, gene, obs_col, obs_condition, filt_ab, pp_summary, major_set,
+                       ref_t_metadata, ref_g_metadata,
                                h=0.1, w=56, x=14, fig_w=14, ref_sources=['v29','v40'], species='human',
                                h_space=None,
                                add_tss=False, add_ccre=False, major=False, order='expression',
@@ -3297,6 +3302,40 @@ def plot_browser_isos(ca, sg, gene, obs_col, obs_condition, filt_ab, major_set,
         color = get_sector_colors()[0]['tss']
         ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
         return ax
+    
+    def plot_cds(entry, sg, x, y, h, ax):
+        c_dict = get_cds_colors()
+        
+        def get_inc_region(entry, how, scale):
+            inc = 55000*scale
+            if how == 'start' and entry.Strand == '+':
+                col = 'CDS_Start'
+            elif how == 'stop' and entry.Strand == '+':
+                col = 'CDS_Stop'
+            elif how == 'start' and entry.Strand == '-':
+                col = 'CDS_Stop'
+            elif how == 'stop' and entry.Strand == '-':
+                col = 'CDS_Start'
+            if entry.Strand == '+':
+                regions = (entry[col],entry[col]+inc)
+            elif entry.Strand == '-':
+                regions = (entry[col],entry[col]-inc)
+            regions = [regions]
+            return regions
+                
+        
+        # start codon
+        color = c_dict['start']
+        regions = get_inc_region(entry, 'start', sg.pg.scale)
+        ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
+        
+        # stop codon
+        color = c_dict['stop']
+        regions = get_inc_region(entry, 'stop', sg.pg.scale)
+        ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
+       
+        return ax
+        
 
     def plot_ccre(ca, sg, x, y, h, ax):
 
@@ -3424,7 +3463,8 @@ def plot_browser_isos(ca, sg, gene, obs_col, obs_condition, filt_ab, major_set,
 
     # x coords for gencode name and cerberus name
     x_gc = -4
-    x_c = 11
+    x_mo = 10
+    x_c = 12
 
     # add reference ids
     if species == 'human':
@@ -3468,7 +3508,29 @@ def plot_browser_isos(ca, sg, gene, obs_col, obs_condition, filt_ab, major_set,
     tpm_df['triplet'] = tpm_df.transcript_id.str.split('[', n=1, expand=True)[1]
     tpm_df['triplet'] = tpm_df.triplet.str.split(']', n=1, expand=True)[0]
     tpm_df['triplet'] = '['+tpm_df.triplet+']'
-
+    
+    # orf status stuff
+    pp_df = pd.read_csv(pp_summary, sep='\t')
+    pp_df.rename({'tid': 'transcript_id'}, axis=1, inplace=True)
+    
+    tpm_df = tpm_df.merge(pp_df[['transcript_id', 'nmd', 'full_orf', 
+                                 'seq', 'Strand', 'CDS_Start', 'CDS_Stop']], 
+                          how='left', 
+                          on='transcript_id')
+    tpm_df['protein'] = ''
+    tpm_df.loc[(tpm_df.nmd==False)&(tpm_df.full_orf==True), 'protein'] = '*' # transcripts w/ predicted protein coding potential
+    
+    # are these the mane orf
+    if species == 'human':
+        tpm_df['gid'] = tpm_df['ic_id'].str.split('_', expand=True)[0]
+        gid = tpm_df.gid.values[0]
+        mane_orf = get_mane_orf(pp_summary,
+                                'v40_cerberus',
+                                gid=gid).seq.values[0]
+        tpm_df['is_mane_orf'] = tpm_df['seq'] == mane_orf        
+        tpm_df['mane_orf'] = ''
+        tpm_df.loc[tpm_df.seq==mane_orf, 'mane_orf'] = 'M'
+        
     i = 0
     # print('h: {}'.format(h))
     for index, entry in tpm_df.iterrows():
@@ -3485,6 +3547,9 @@ def plot_browser_isos(ca, sg, gene, obs_col, obs_condition, filt_ab, major_set,
         trip = entry['triplet']
         iso_trip = '{} {}'.format(gname, trip)
         known = entry['Known']
+        pc = entry['protein']
+        if species=='human':
+            mo = entry['mane_orf']
 
         # color by TPM
         if len(tpm_df.index) == 1:
@@ -3495,15 +3560,33 @@ def plot_browser_isos(ca, sg, gene, obs_col, obs_condition, filt_ab, major_set,
         ax = sg.plot_browser(tid, y=y, x=x, h=h, w=w, color=color, ax=ax)
         # print('transcipt #{}, {}, y = {}'.format(i, iso_trip, y))
 
-       # isoform name / novelty
+        # plot cds 
+        # if pc == '*':
+        plot_cds(entry, sg, x, y, h, ax)
+        
+        # novelty status
         ax.text(x_c, y_text, known,
                 verticalalignment='center',
                 horizontalalignment='center',
                 size=small_text)
-        ax.text(x_gc, y_text, iso_trip,
-                verticalalignment='center',
-                horizontalalignment='left',
-                size=small_text)
+
+        # isoform name (bold if protein coding)
+        if pc == '*':
+            ax.text(x_gc, y_text, iso_trip,
+                    verticalalignment='center',
+                    horizontalalignment='left',
+                    size=small_text, weight='bold')
+        else:
+            ax.text(x_gc, y_text, iso_trip,
+                    verticalalignment='center',
+                    horizontalalignment='left',
+                    size=small_text)
+        
+        if species=='human':
+            ax.text(x_mo, y_text, mo,
+                    verticalalignment='center',
+                    horizontalalignment='left',
+                    size=small_text)
 
         i += 1
 
@@ -4254,7 +4337,10 @@ def plot_transcripts_by_triplet_feat_novelty(filt_ab,
 def plot_browser_isos_2(h5,
                         swan_file,
                         filt_ab,
+                        pp_summary,
                         major_isos,
+                        ref_t_metadata,
+                        ref_g_metadata,
                         gene,
                         obs_col,
                         obs_condition,
@@ -4272,7 +4358,10 @@ def plot_browser_isos_2(h5,
                                    obs_col,
                                    obs_condition,
                                    filt_ab,
+                                   pp_summary,
                                    major_isos,
+                                   ref_t_metadata,
+                                   ref_g_metadata,
                                    h=h,
                                    ref_sources=ref_sources,
                                    **kwargs)

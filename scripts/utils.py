@@ -3653,3 +3653,22 @@ def get_pp_info(orf_fa, cds_bed, blast_file, ofile):
     
     # save
     bed_df.to_csv(ofile, sep='\t', index=False)
+    
+def get_mane_orf(pp_summary, ver, gid=None):
+    # get only mane
+    df, _, _ = get_gtf_info(how='iso',
+                            add_stable_gid=True,
+                            ver=ver)
+    df = df.loc[df.MANE_Select==True]
+    tids = df.tid.tolist()
+    
+    pp_df = pd.read_csv(pp_summary, sep='\t')
+    pp_df = pp_df.loc[pp_df.tid.isin(tids)]
+    
+    if gid:
+        # pp_df = pp_df.loc[pp_df.gname==gene]
+        pp_df['gid_stable'] = cerberus.get_stable_gid(pp_df, 'gid')
+        pp_df = pp_df.loc[pp_df.gid_stable==gid]
+        
+    
+    return pp_df

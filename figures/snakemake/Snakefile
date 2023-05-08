@@ -85,7 +85,8 @@ rule all:
         # expand(config['data']['suppa']['matching_events'],
         #        species='human',
         #        event=['AF', 'AL'])
-        expand(config['data']['p_pred']['summary'], species=species)
+        expand(config['data']['p_pred']['summary'], species=species),
+        expand(config['data']['p_pred']['blastp_6'], species=species)
 
 rule dl:
     resources:
@@ -726,6 +727,28 @@ rule blast:
           -num_threads 32 \
           -db {params.opref} \
           -outfmt 0 \
+          -query {input.orf_fa} > \
+          {output.out}
+        """
+
+rule blast_6:
+    input:
+        orf_fa = config['data']['p_pred']['orf_fa'],
+        db = config['ref']['p_db']
+    params:
+        opref = config['ref']['p_db'].replace('.pdb', '')
+    resources:
+        mem_gb = 32,
+        threads = 32
+    output:
+        out = config['data']['p_pred']['blastp_6']
+    shell:
+        """
+         blastp \
+          -evalue 1e-10 \
+          -num_threads 32 \
+          -db {params.opref} \
+          -outfmt 6 \
           -query {input.orf_fa} > \
           {output.out}
         """

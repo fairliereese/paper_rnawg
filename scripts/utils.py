@@ -3570,12 +3570,12 @@ def read_orf_fa(fname):
         last_entry = None
         for i, line in enumerate(infile):
             if line.startswith('>'):
-                
+
                 # account for entries that don't have an orf
                 if last_entry == 'id':
                     seqs.append('')
-                    
-                    
+
+
                 temp = line.strip()[1:]
                 tid = line.split(';')[1]
                 ids.append(temp)
@@ -3585,19 +3585,19 @@ def read_orf_fa(fname):
             else:
                 seqs.append(line.strip())
                 last_entry = 'seq'
-                
+
     df = pd.DataFrame()
-    
+
     # pdb.set_trace()
     df['id'] = ids
     df['tid'] = tids
     df['seq'] = seqs
-    
+
     df['len'] = df.seq.str.len()
-    
-    # if 
+
+    # if
     # df = df.sort_values(by='len', ascending=False).drop_duplicates(subset='tid', keep='first')
-    
+
     return df
 
 def read_pred(pp_bed):
@@ -3613,21 +3613,21 @@ def read_pred(pp_bed):
     # pdb.set_trace()
     # print(df.fields.str.split(';', expand=True))
 
-    # # check if transcript is novel 
+    # # check if transcript is novel
     # df['novel_transcript'] = df.tid.str.contains('ENCODE')
 
     # check if transcript is nmd
     df['nmd'] = ~(df.nmd_flag == 'prot_ok')
 
-    # check if transcript is full length 
+    # check if transcript is full length
     df['full_orf'] = df.t_len_flag == 'full_length'
-    
+
     # # typing
     # df.loc[df.blastp_match == 'no_orf', 'blastp_match'] = 0
     # df.loc[df.blastp_match == 'no_hit', 'blastp_match'] = 0
     # df.loc[df.blastp_match == 'full_match', 'blastp_match'] = 100
     # df['blastp_match'] = df.blastp_match.astype(float)
-    
+
     return df
 
 def read_blast(blast_file):
@@ -3642,18 +3642,18 @@ def get_pp_info(orf_fa, cds_bed, blast_file, ofile):
     orf_df = read_orf_fa(orf_fa)
     bed_df = read_pred(cds_bed)
     blast_df = read_blast(blast_file)
-    
-    # limit orfs to those that passed the heuristics. 
-    # via email communication and inspection of the code this is 
+
+    # limit orfs to those that passed the heuristics.
+    # via email communication and inspection of the code this is
     # first by blast identity and second by length of orf
     orf_df = orf_df.loc[orf_df['id'].isin(blast_df['id'].tolist())]
 
-    # merge these sequences with the orf information 
+    # merge these sequences with the orf information
     bed_df = bed_df.merge(orf_df[['tid', 'seq', 'len']], how='left', on='tid')
-    
+
     # save
     bed_df.to_csv(ofile, sep='\t', index=False)
-    
+
 def get_mane_orf(pp_summary, ver, gid=None):
     # get only mane
     df, _, _ = get_gtf_info(how='iso',
@@ -3661,14 +3661,14 @@ def get_mane_orf(pp_summary, ver, gid=None):
                             ver=ver)
     df = df.loc[df.MANE_Select==True]
     tids = df.tid.tolist()
-    
+
     pp_df = pd.read_csv(pp_summary, sep='\t')
     pp_df = pp_df.loc[pp_df.tid.isin(tids)]
-    
+
     if gid:
         # pp_df = pp_df.loc[pp_df.gname==gene]
         pp_df['gid_stable'] = cerberus.get_stable_gid(pp_df, 'gid')
         pp_df = pp_df.loc[pp_df.gid_stable==gid]
-        
-    
+
+
     return pp_df

@@ -86,6 +86,7 @@ data:
     fa: data/{species}/protein_pred/{species}.fa
     orf_fa: data/{species}/protein_pred/{species}_orf.fa
     blastp: data/{species}/protein_pred/{species}_blastp.out
+    blastp_6: data/{species}/protein_pred/{species}_blastp.6.out
     blastp_parsed: data/{species}/protein_pred/{species}_blastp.tsv
     cds_bed: data/{species}/protein_pred/{species}_cds.bed
     summary: data/{species}/protein_pred/{species}_summary.tsv

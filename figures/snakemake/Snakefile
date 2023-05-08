@@ -709,27 +709,27 @@ rule make_blastp_db:
              -out {params.opref}
         """
 
-rule blast:
-    input:
-        orf_fa = config['data']['p_pred']['orf_fa'],
-        db = config['ref']['p_db']
-    params:
-        opref = config['ref']['p_db'].replace('.pdb', '')
-    resources:
-        mem_gb = 32,
-        threads = 32
-    output:
-        out = config['data']['p_pred']['blastp']
-    shell:
-        """
-         blastp \
-          -evalue 1e-10 \
-          -num_threads 32 \
-          -db {params.opref} \
-          -outfmt 0 \
-          -query {input.orf_fa} > \
-          {output.out}
-        """
+# rule blast:
+#     input:
+#         orf_fa = config['data']['p_pred']['orf_fa'],
+#         db = config['ref']['p_db']
+#     params:
+#         opref = config['ref']['p_db'].replace('.pdb', '')
+#     resources:
+#         mem_gb = 32,
+#         threads = 32
+#     output:
+#         out = config['data']['p_pred']['blastp']
+#     shell:
+#         """
+#          blastp \
+#           -evalue 1e-10 \
+#           -num_threads 32 \
+#           -db {params.opref} \
+#           -outfmt 0 \
+#           -query {input.orf_fa} > \
+#           {output.out}
+#         """
 
 rule blast_6:
     input:
@@ -753,22 +753,35 @@ rule blast_6:
           {output.out}
         """
 
+# rule parse_blastp:
+#     input:
+#         blastp = config['data']['p_pred']['blastp_6']
+#     params:
+#         tama_dir = config['tama_dir']
+#     resources:
+#         mem_gb = 32,
+#         threads = 1
+#     output:
+#         parsed = config['data']['p_pred']['blastp_parsed']
+#     shell:
+#         """
+#         python {params.tama_dir}/orf_nmd_predictions/tama_orf_blastp_parser.py \
+#           -b {input.blastp} \
+#           -o {output.parsed}
+#         """
+
 rule parse_blastp:
     input:
-        blastp = config['data']['p_pred']['blastp']
-    params:
-        tama_dir = config['tama_dir']
+        blastp = config['data']['p_pred']['blastp_6'],
+        fa = config['data']['p_pred']['orf_fa']
     resources:
         mem_gb = 32,
         threads = 1
     output:
         parsed = config['data']['p_pred']['blastp_parsed']
-    shell:
-        """
-        python {params.tama_dir}/orf_nmd_predictions/tama_orf_blastp_parser.py \
-          -b {input.blastp} \
-          -o {output.parsed}
-        """
+    run:
+        parse_blastp(input.blastp, input.orf, output.parsed)
+
 
 rule tama_cds_bed_regions:
     input:

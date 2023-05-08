@@ -3570,12 +3570,12 @@ def read_orf_fa(fname):
         last_entry = None
         for i, line in enumerate(infile):
             if line.startswith('>'):
-
+                
                 # account for entries that don't have an orf
                 if last_entry == 'id':
                     seqs.append('')
-
-
+                    
+                    
                 temp = line.strip()[1:]
                 tid = line.split(';')[1]
                 ids.append(temp)
@@ -3585,19 +3585,19 @@ def read_orf_fa(fname):
             else:
                 seqs.append(line.strip())
                 last_entry = 'seq'
-
+                
     df = pd.DataFrame()
-
+    
     # pdb.set_trace()
     df['id'] = ids
     df['tid'] = tids
     df['seq'] = seqs
-
+    
     df['len'] = df.seq.str.len()
-
-    # if
+    
+    # if 
     # df = df.sort_values(by='len', ascending=False).drop_duplicates(subset='tid', keep='first')
-
+    
     return df
 
 def read_pred(pp_bed):
@@ -3613,21 +3613,21 @@ def read_pred(pp_bed):
     # pdb.set_trace()
     # print(df.fields.str.split(';', expand=True))
 
-    # # check if transcript is novel
+    # # check if transcript is novel 
     # df['novel_transcript'] = df.tid.str.contains('ENCODE')
 
     # check if transcript is nmd
     df['nmd'] = ~(df.nmd_flag == 'prot_ok')
 
-    # check if transcript is full length
+    # check if transcript is full length 
     df['full_orf'] = df.t_len_flag == 'full_length'
-
+    
     # # typing
     # df.loc[df.blastp_match == 'no_orf', 'blastp_match'] = 0
     # df.loc[df.blastp_match == 'no_hit', 'blastp_match'] = 0
     # df.loc[df.blastp_match == 'full_match', 'blastp_match'] = 100
     # df['blastp_match'] = df.blastp_match.astype(float)
-
+    
     return df
 
 def read_blast(blast_file):
@@ -3642,18 +3642,18 @@ def get_pp_info(orf_fa, cds_bed, blast_file, ofile):
     orf_df = read_orf_fa(orf_fa)
     bed_df = read_pred(cds_bed)
     blast_df = read_blast(blast_file)
-
-    # limit orfs to those that passed the heuristics.
-    # via email communication and inspection of the code this is
+    
+    # limit orfs to those that passed the heuristics. 
+    # via email communication and inspection of the code this is 
     # first by blast identity and second by length of orf
     orf_df = orf_df.loc[orf_df['id'].isin(blast_df['id'].tolist())]
 
-    # merge these sequences with the orf information
+    # merge these sequences with the orf information 
     bed_df = bed_df.merge(orf_df[['tid', 'seq', 'len']], how='left', on='tid')
-
+    
     # save
     bed_df.to_csv(ofile, sep='\t', index=False)
-
+    
 def get_mane_orf(pp_summary, ver, gid=None):
     # get only mane
     df, _, _ = get_gtf_info(how='iso',
@@ -3661,14 +3661,150 @@ def get_mane_orf(pp_summary, ver, gid=None):
                             ver=ver)
     df = df.loc[df.MANE_Select==True]
     tids = df.tid.tolist()
-
+    
     pp_df = pd.read_csv(pp_summary, sep='\t')
     pp_df = pp_df.loc[pp_df.tid.isin(tids)]
-
+    
     if gid:
         # pp_df = pp_df.loc[pp_df.gname==gene]
         pp_df['gid_stable'] = cerberus.get_stable_gid(pp_df, 'gid')
         pp_df = pp_df.loc[pp_df.gid_stable==gid]
-
-
+        
+    
     return pp_df
+
+def parse_blastp(blastp_file, orf_file, ofile):
+    
+    # get all the hits
+    df = pd.read_csv(blastp_file, sep='\t',header=None,
+                     names=['qseqid', 'sseqid', 'pident',
+                            'length', 'mismatch', 'gapopen',
+                            'qstart', 'qend', 'sstart', 'send', 
+                            'evalue', 'bitscore', 'slen', 'qlen'])
+
+    q_name_split = df.qseqid.str.split(':', expand=True)
+    df['q_frame'] = q_name_split[4]
+    df['q_rel_start'] = q_name_split[7]
+    df['q_rel_end'] = q_name_split[8]
+    df['q_nuc_start'] = q_name_split[5]
+    df['q_nuc_end'] = q_name_split[6]
+    df['tid'] = df.qseqid.str.split(';',expand=True)[1]
+
+    # percentage of subject that was aligned. for instance, if 
+    # this is 100, then the query sequence matched 100% of
+    # a protein sequence
+    df['s_align_len'] = df['send'] + 1 - df['sstart']
+    df['s_align_percent'] = (df.s_align_len/df.slen)*100
+
+    # match flags
+    df['match_flag'] = 'none'
+    df.loc[df.qseqid.str.contains('missing_nucleotides'), 'match_flag'] = 'missing_nucleotides'
+    df.loc[df.s_align_percent >= 50, 'match_flag'] = '50_match'
+    df.loc[df.s_align_percent >= 90, 'match_flag'] = '90_match'
+    df.loc[df.s_align_percent == 100, 'match_flag'] = 'full_match'
+
+    # reformat stuff
+    cols = ['tid', 'q_frame', 
+            'q_nuc_start', 
+            'q_nuc_end', 
+            'q_rel_start', 
+            'q_rel_end',
+            's_name',
+            'match_flag', 
+            's_align_percent',
+            'ident_percent', 
+            'q_name']
+
+    # what is the difference between s_align_percent and ident_percent?
+    # idc because it's not used in the heuristic.
+    # but s_align_percent is and it uses s_len, which I don't have
+
+    df.rename({'qseqid':'q_name',
+               'sseqid': 's_name',
+               'pident': 'ident_percent'}, 
+               axis=1, inplace=True)
+
+    df = df[cols]
+    df['full_orf'] = df.q_rel_start != '1'
+
+    # pick one orf for each transcript
+    # - first pick highest alignment % with subject (ie, is this a complete protein?)
+    # - then, pick complete orfs
+    # - finally, pick longest orf
+    # df = df.sort_values(by=['s_align_percent', 'full_orf', 'qlen'],
+    #                     ascending=[False, False, False])
+    df = df.sort_values(by=['s_align_percent', 'full_orf'],
+                        ascending=[False, False])
+    df = df.drop_duplicates(subset=['tid'], keep='first')
+
+    df.drop('full_orf', axis=1, inplace=True)
+    
+    # get all the orfs for the non-hit tids
+    tids = df.tid.tolist()
+    no_hit_df = get_no_hit_blastp_entries(orf_file, tids)
+    
+    # concat
+    df = pd.concat([df, no_hit_df])
+    
+    # save to output
+    df.to_csv(ofile, sep='\t', header=None)
+    
+def get_no_hit_blastp_entries(fname, tids):
+    """
+    Parameters:
+        fname (str): Path to orf_fa
+        tids (list of str): List of transcript ids that hits were found for
+    """
+    # go back through tids that didn't get a blast hit and give them the longest orf
+    df = read_orf_fa(fname)
+
+    # limit only to missing tids
+    df = df.loc[~df.tid.isin(tids)]
+
+    cols = ['tid',
+            'q_frame', 
+            'q_nuc_start', 
+            'q_nuc_end', 
+            'q_rel_start', 
+            'q_rel_end',
+            's_name',
+            'match_flag', 
+            's_align_percent',
+            'ident_percent', 
+            'q_name']
+
+    # default to missing nucleotides settings
+    df['q_frame'] = 'no_frame'
+    df['q_nuc_start'] = -1
+    df['q_nuc_end'] = -1
+    df['q_rel_start'] = -1
+    df['q_rel_end'] = -1
+    df['s_name'] = 'none'
+    df['match_flag'] = 'missing_nucleotides'
+    df['s_align_percent'] = -1
+    df['ident_percent'] = -1
+    df['q_name'] = df.id
+
+    # but for those that aren't, pull out orf details
+    inds = df.loc[~df.id.str.contains('missing_nucleotides')].index.tolist()
+    q_name_split = df.loc[inds].id.str.split(':', expand=True)
+    df.loc[inds, 'q_frame'] = q_name_split[4]
+    df.loc[inds, 'q_nuc_start'] = q_name_split[5].astype(int)
+    df.loc[inds, 'q_nuc_end'] = q_name_split[6].astype(int)
+    df.loc[inds, 'q_rel_start'] = q_name_split[7].astype(int)
+    df.loc[inds, 'q_rel_end'] = q_name_split[8].astype(int)
+    df.loc[inds, 'match_flag'] = 'no_hit'
+    df.loc[inds, 's_align_percent'] = 0
+    df.loc[inds, 'ident_percent'] = 0
+
+    df['full_orf'] = df.q_rel_start != 1
+    
+    # pick one orf for each transcript
+    # - pick longest complete orf
+    df = df.sort_values(by=['full_orf', 'len'],
+                        ascending=[False, False])
+    df = df.drop_duplicates(subset=['tid'], keep='first')
+    
+    df.drop(['full_orf', 'id', 'seq', 'len'], axis=1, inplace=True)
+    
+    return df

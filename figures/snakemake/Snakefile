@@ -748,7 +748,7 @@ rule blast_6:
           -evalue 1e-10 \
           -num_threads 32 \
           -db {params.opref} \
-          -outfmt 6 \
+          -outfmt "6 qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore slen qlen" \
           -query {input.orf_fa} > \
           {output.out}
         """

@@ -3683,6 +3683,7 @@ def parse_blastp(blastp_file, orf_file, ofile):
                             'evalue', 'bitscore', 'slen', 'qlen'])
 
     q_name_split = df.qseqid.str.split(':', expand=True)
+    df['trans_id'] = q_name_split[0]
     df['q_frame'] = q_name_split[4]
     df['q_rel_start'] = q_name_split[7]
     df['q_rel_end'] = q_name_split[8]
@@ -3704,7 +3705,8 @@ def parse_blastp(blastp_file, orf_file, ofile):
     df.loc[df.s_align_percent == 100, 'match_flag'] = 'full_match'
 
     # reformat stuff
-    cols = ['tid', 'q_frame', 
+    cols = ['tid', 'trans_id',
+            'q_frame', 
             'q_nuc_start', 
             'q_nuc_end', 
             'q_rel_start', 
@@ -3737,17 +3739,21 @@ def parse_blastp(blastp_file, orf_file, ofile):
                         ascending=[False, False])
     df = df.drop_duplicates(subset=['tid'], keep='first')
 
-    df.drop('full_orf', axis=1, inplace=True)
     
     # get all the orfs for the non-hit tids
     tids = df.tid.tolist()
-    no_hit_df = get_no_hit_blastp_entries(orf_file, tids)
     
+    # drop unnec cols
+    df.drop(['full_orf', 'tid'], axis=1, inplace=True)
+    
+    # thing
+    no_hit_df = get_no_hit_blastp_entries(orf_file, tids)
+        
     # concat
     df = pd.concat([df, no_hit_df])
     
     # save to output
-    df.to_csv(ofile, sep='\t', header=None)
+    df.to_csv(ofile, sep='\t', header=None, index=False)
     
 def get_no_hit_blastp_entries(fname, tids):
     """
@@ -3761,7 +3767,7 @@ def get_no_hit_blastp_entries(fname, tids):
     # limit only to missing tids
     df = df.loc[~df.tid.isin(tids)]
 
-    cols = ['tid',
+    cols = ['trans_id',
             'q_frame', 
             'q_nuc_start', 
             'q_nuc_end', 
@@ -3772,6 +3778,10 @@ def get_no_hit_blastp_entries(fname, tids):
             's_align_percent',
             'ident_percent', 
             'q_name']
+    
+    # get tama's tid ver
+    q_name_split = df.id.str.split(':', expand=True)
+    df['trans_id'] = q_name_split[0]
 
     # default to missing nucleotides settings
     df['q_frame'] = 'no_frame'
@@ -3805,6 +3815,7 @@ def get_no_hit_blastp_entries(fname, tids):
                         ascending=[False, False])
     df = df.drop_duplicates(subset=['tid'], keep='first')
     
-    df.drop(['full_orf', 'id', 'seq', 'len'], axis=1, inplace=True)
+    df.drop(['full_orf', 'id', 'seq', 'len', 'tid'], axis=1, inplace=True)
     
+    df = df[cols]
     return df

@@ -780,7 +780,7 @@ rule parse_blastp:
     output:
         parsed = config['data']['p_pred']['blastp_parsed']
     run:
-        parse_blastp(input.blastp, input.orf, output.parsed)
+        parse_blastp(input.blastp, input.fa, output.parsed)
 
 
 rule tama_cds_bed_regions:

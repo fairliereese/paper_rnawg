@@ -3283,362 +3283,362 @@ def plot_n_feat_per_gene(h5,
     return df
 
 
-def plot_browser_isos(ca, sg, gene, obs_col, obs_condition, filt_ab, pp_summary, major_set,
-                       ref_t_metadata, ref_g_metadata,
-                               h=0.1, w=56, x=14, fig_w=14, ref_sources=['v29','v40'], species='human',
-                               h_space=None,
-                               add_tss=False, add_ccre=False, major=False, order='expression',
-                     light_shade=None, dark_shade=None):
-    """
-    Plot browser style isoform models for a given sample
-    """
+# def plot_browser_isos(ca, sg, gene, obs_col, obs_condition, filt_ab, pp_summary, major_set,
+#                        ref_t_metadata, ref_g_metadata,
+#                                h=0.1, w=56, x=14, fig_w=14, ref_sources=['v29','v40'], species='human',
+#                                h_space=None,
+#                                add_tss=False, add_ccre=False, major=False, order='expression',
+#                      light_shade=None, dark_shade=None):
+#     """
+#     Plot browser style isoform models for a given sample
+#     """
 
-    def plot_tss(ca, sg, tpm_df, x, y, h, ax):
-        tpm_df = add_feat(tpm_df, kind='tss', col='transcript_id')
-        tpm_df.head()
-        tss_df = ca.tss.loc[ca.tss.Name.isin(tpm_df.tss.tolist())]
-        tss_df.head()
-        regions = [(entry.Start, entry.End) for ind, entry in tss_df.iterrows()]
-        color = get_sector_colors()[0]['tss']
-        ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
-        return ax
+#     def plot_tss(ca, sg, tpm_df, x, y, h, ax):
+#         tpm_df = add_feat(tpm_df, kind='tss', col='transcript_id')
+#         tpm_df.head()
+#         tss_df = ca.tss.loc[ca.tss.Name.isin(tpm_df.tss.tolist())]
+#         tss_df.head()
+#         regions = [(entry.Start, entry.End) for ind, entry in tss_df.iterrows()]
+#         color = get_sector_colors()[0]['tss']
+#         ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
+#         return ax
     
-    def plot_cds(entry, sg, x, y, h, ax):
-        c_dict = get_cds_colors()
+#     def plot_cds(entry, sg, x, y, h, ax):
+#         c_dict = get_cds_colors()
         
-        def get_inc_region(entry, how, scale):
-            inc = 55000*scale
-            if how == 'start' and entry.Strand == '+':
-                col = 'CDS_Start'
-            elif how == 'stop' and entry.Strand == '+':
-                col = 'CDS_Stop'
-            elif how == 'start' and entry.Strand == '-':
-                col = 'CDS_Stop'
-            elif how == 'stop' and entry.Strand == '-':
-                col = 'CDS_Start'
-            if entry.Strand == '+':
-                regions = (entry[col],entry[col]+inc)
-            elif entry.Strand == '-':
-                regions = (entry[col],entry[col]-inc)
-            regions = [regions]
-            return regions
+#         def get_inc_region(entry, how, scale):
+#             inc = 55000*scale
+#             if how == 'start' and entry.Strand == '+':
+#                 col = 'CDS_Start'
+#             elif how == 'stop' and entry.Strand == '+':
+#                 col = 'CDS_Stop'
+#             elif how == 'start' and entry.Strand == '-':
+#                 col = 'CDS_Stop'
+#             elif how == 'stop' and entry.Strand == '-':
+#                 col = 'CDS_Start'
+#             if entry.Strand == '+':
+#                 regions = (entry[col],entry[col]+inc)
+#             elif entry.Strand == '-':
+#                 regions = (entry[col],entry[col]-inc)
+#             regions = [regions]
+#             return regions
                 
         
-        # start codon
-        color = c_dict['start']
-        regions = get_inc_region(entry, 'start', sg.pg.scale)
-        ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
+#         # start codon
+#         color = c_dict['start']
+#         regions = get_inc_region(entry, 'start', sg.pg.scale)
+#         ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
         
-        # stop codon
-        color = c_dict['stop']
-        regions = get_inc_region(entry, 'stop', sg.pg.scale)
-        ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
+#         # stop codon
+#         color = c_dict['stop']
+#         regions = get_inc_region(entry, 'stop', sg.pg.scale)
+#         ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
        
-        return ax
+#         return ax
         
 
-    def plot_ccre(ca, sg, x, y, h, ax):
+#     def plot_ccre(ca, sg, x, y, h, ax):
 
-        # ccre regions
-        sources = ['pls', 'pels', 'dels']
-        ccre = ca.tss_map.loc[ca.tss_map.source.isin(sources)].copy(deep=True)
+#         # ccre regions
+#         sources = ['pls', 'pels', 'dels']
+#         ccre = ca.tss_map.loc[ca.tss_map.source.isin(sources)].copy(deep=True)
 
-        # get ranges w/i this region
-        min_coord = sg.pg.g_min
-        max_coord = sg.pg.g_max
-        chrom = sg.pg.chrom
+#         # get ranges w/i this region
+#         min_coord = sg.pg.g_min
+#         max_coord = sg.pg.g_max
+#         chrom = sg.pg.chrom
 
-        ccre['min_coord'] = ccre[['Start', 'End']].min(axis=1)
-        ccre['max_coord'] = ccre[['Start', 'End']].max(axis=1)
+#         ccre['min_coord'] = ccre[['Start', 'End']].min(axis=1)
+#         ccre['max_coord'] = ccre[['Start', 'End']].max(axis=1)
 
-        # subset on regions
-        ccre = pr.PyRanges(ccre)
-        region = pr.from_dict({'Chromosome': [chrom],
-                                        'Start': [min_coord],
-                                        'End': [max_coord]})
-        # ccre = ccre.intersect(region, strandedness=None, how='containment')
-        ccre = ccre.intersect(region, strandedness=None)
-        ccre = ccre.as_df()
+#         # subset on regions
+#         ccre = pr.PyRanges(ccre)
+#         region = pr.from_dict({'Chromosome': [chrom],
+#                                         'Start': [min_coord],
+#                                         'End': [max_coord]})
+#         # ccre = ccre.intersect(region, strandedness=None, how='containment')
+#         ccre = ccre.intersect(region, strandedness=None)
+#         ccre = ccre.as_df()
 
-        # colors
-        c_dict, _ = get_ccre_colors()
-        colors = [c_dict[s] for s in ccre.source.tolist()]
-        regions = [(entry.Start, entry.End) for ind, entry in ccre.iterrows()]
-        ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, colors, ax)
+#         # colors
+#         c_dict, _ = get_ccre_colors()
+#         colors = [c_dict[s] for s in ccre.source.tolist()]
+#         regions = [(entry.Start, entry.End) for ind, entry in ccre.iterrows()]
+#         ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, colors, ax)
 
-        return ax
+#         return ax
 
-    def get_major_isos(major_set, gene, sample=None):
-        """
-        Get list of major isfoorms in a given sample
-        """
-        df = pd.read_csv(major_set, sep='\t')
-        df = df.loc[df.gname == gene]
-        if sample:
-            df = df.loc[df['sample'] == sample]
-        tids = df.tid.unique().tolist()
-        return tids
+#     def get_major_isos(major_set, gene, sample=None):
+#         """
+#         Get list of major isfoorms in a given sample
+#         """
+#         df = pd.read_csv(major_set, sep='\t')
+#         df = df.loc[df.gname == gene]
+#         if sample:
+#             df = df.loc[df['sample'] == sample]
+#         tids = df.tid.unique().tolist()
+#         return tids
 
-    def get_isos(ca, filt_ab, gene, sample, species):
-        df = pd.read_csv(filt_ab, sep='\t')
-        df = get_det_table(df,
-                       groupby='sample',
-                       how='iso',
-                       min_tpm=1,
-                       gene_subset='polya',
-                       species=species)
-        df = df.loc[sample]
-        df = df.to_frame()
-        df = df.loc[df[sample]==True]
-        gid = ca.triplets.loc[ca.triplets.gname==gene, 'gid'].values[0]
-        df.reset_index(inplace=True)
-        df['gid'] = df['index'].str.split('[', expand=True)[0]
-        df = df.loc[df.gid == gid]
-        tids = df['index'].tolist()
-        return tids
-
-
-    def get_tpm_df(sg, tids, obs_col, obs_condition):
-        # get tpm df
-        tpm_df = swan.calc_tpm(sg.adata, obs_col=obs_col).sparse.to_dense()
-        tpm_df = tpm_df.transpose()
-        tpm_df = tpm_df.loc[tids, obs_condition].to_frame()
-        return tpm_df
-
-    if major:
-        tids = get_major_isos(major_set, gene, obs_condition)
-    else:
-        tids = get_isos(ca, filt_ab, gene, obs_condition, species)
-    tpm_df = get_tpm_df(sg, tids, obs_col, obs_condition)
-
-    # colormap definition
-    # if cmap == 'gray':
-    if not light_shade:
-        light_shade = get_sector_colors()[0]['mixed']
-    if not dark_shade:
-        dark_shade = get_sector_colors()[0]['simple']
-    cmap = mpl.colors.LinearSegmentedColormap.from_list('', [light_shade, dark_shade])
-    # else:
-    #     pass
+#     def get_isos(ca, filt_ab, gene, sample, species):
+#         df = pd.read_csv(filt_ab, sep='\t')
+#         df = get_det_table(df,
+#                        groupby='sample',
+#                        how='iso',
+#                        min_tpm=1,
+#                        gene_subset='polya',
+#                        species=species)
+#         df = df.loc[sample]
+#         df = df.to_frame()
+#         df = df.loc[df[sample]==True]
+#         gid = ca.triplets.loc[ca.triplets.gname==gene, 'gid'].values[0]
+#         df.reset_index(inplace=True)
+#         df['gid'] = df['index'].str.split('[', expand=True)[0]
+#         df = df.loc[df.gid == gid]
+#         tids = df['index'].tolist()
+#         return tids
 
 
-    # font sizes
-    # small_text = 6/(6.11/16)
-    small_text = 20.3
-    big_text = 6.71/(6.11/16)
-    # print('small text size: {}'.format(small_text))
-    # print('big text size: {}'.format(big_text))
+#     def get_tpm_df(sg, tids, obs_col, obs_condition):
+#         # get tpm df
+#         tpm_df = swan.calc_tpm(sg.adata, obs_col=obs_col).sparse.to_dense()
+#         tpm_df = tpm_df.transpose()
+#         tpm_df = tpm_df.loc[tids, obs_condition].to_frame()
+#         return tpm_df
+
+#     if major:
+#         tids = get_major_isos(major_set, gene, obs_condition)
+#     else:
+#         tids = get_isos(ca, filt_ab, gene, obs_condition, species)
+#     tpm_df = get_tpm_df(sg, tids, obs_col, obs_condition)
+
+#     # colormap definition
+#     # if cmap == 'gray':
+#     if not light_shade:
+#         light_shade = get_sector_colors()[0]['mixed']
+#     if not dark_shade:
+#         dark_shade = get_sector_colors()[0]['simple']
+#     cmap = mpl.colors.LinearSegmentedColormap.from_list('', [light_shade, dark_shade])
+#     # else:
+#     #     pass
 
 
-    # height spacing b/w models
-    if not h_space:
-        h_space = h*1.75
-    # print('h_space : {}'.format(h_space))
-    # print('h: {}'.format(h))
+#     # font sizes
+#     # small_text = 6/(6.11/16)
+#     small_text = 20.3
+#     big_text = 6.71/(6.11/16)
+#     # print('small text size: {}'.format(small_text))
+#     # print('big text size: {}'.format(big_text))
 
-    # plotting settings
-    fig_len = len(tids)
-    fig_len += 1 # for scale
-    if add_tss:
-        fig_len += 1
-    if add_ccre:
-        fig_len += 1
-    fig_h = h_space*(fig_len-1)+h
-    fig_h += 0.3 # vertical spacing adjustment
-    # print('fig h: {}'.format(fig_h))
-    # print('fig w: {}'.format(fig_w))
-    plt.figure(1, figsize=(fig_w, fig_h), frameon=False)
-    mpl.rcParams['font.family'] = 'Arial'
-    mpl.rcParams['pdf.fonttype'] = 42
-    ax = plt.gca()
 
-    # plotting order
-    tpm_df = tpm_df.sort_values(by=obs_condition, ascending=False)
-    tpm_df = tpm_df[[obs_condition]]
+#     # height spacing b/w models
+#     if not h_space:
+#         h_space = h*1.75
+#     # print('h_space : {}'.format(h_space))
+#     # print('h: {}'.format(h))
 
-    if order == 'tss':
-        tpm_df = add_feat(tpm_df, kind='tss', col='index')
-        tpm_df.sort_values(by=['tss', obs_condition], ascending=[True, False], inplace=True)
-        tpm_df.drop('tss', axis=1, inplace=True)
+#     # plotting settings
+#     fig_len = len(tids)
+#     fig_len += 1 # for scale
+#     if add_tss:
+#         fig_len += 1
+#     if add_ccre:
+#         fig_len += 1
+#     fig_h = h_space*(fig_len-1)+h
+#     fig_h += 0.3 # vertical spacing adjustment
+#     # print('fig h: {}'.format(fig_h))
+#     # print('fig w: {}'.format(fig_w))
+#     plt.figure(1, figsize=(fig_w, fig_h), frameon=False)
+#     mpl.rcParams['font.family'] = 'Arial'
+#     mpl.rcParams['pdf.fonttype'] = 42
+#     ax = plt.gca()
 
-    # x coords for gencode name and cerberus name
-    x_gc = -4
-    x_mo = 10
-    x_c = 12
+#     # plotting order
+#     tpm_df = tpm_df.sort_values(by=obs_condition, ascending=False)
+#     tpm_df = tpm_df[[obs_condition]]
 
-    # add reference ids
-    if species == 'human':
-        ref_source = 'v40'
-    elif species == 'mouse':
-        ref_source = 'vM25'
-    df = ca.t_map.loc[ca.t_map.source == ref_source]
-    df = df[['transcript_id','original_transcript_id', 'original_transcript_name']]
-    tpm_df = tpm_df.merge(df, how='left', left_index=True, right_on='transcript_id')
+#     if order == 'tss':
+#         tpm_df = add_feat(tpm_df, kind='tss', col='index')
+#         tpm_df.sort_values(by=['tss', obs_condition], ascending=[True, False], inplace=True)
+#         tpm_df.drop('tss', axis=1, inplace=True)
 
-    # clean up for transcripts that aren't known
-    df = ca.t_map.loc[ca.t_map.source == 'lapa']
-    df = df[['gene_name', 'transcript_id', 'transcript_name',
-             'tss_id', 'ic_id', 'tes_id']].drop_duplicates()
-    tpm_df = tpm_df.merge(df, how='left', on='transcript_id')
-    tpm_df.fillna('N/A', inplace=True)
+#     # x coords for gencode name and cerberus name
+#     x_gc = -4
+#     x_mo = 10
+#     x_c = 12
 
-    # label known transcripts with a *
-    tpm_df['Known'] = ''
-    tpm_df = tpm_df.copy(deep=True)
-    tpm_df = tpm_df.merge(ca.ic[['Name', 'novelty']], how='left', left_on='ic_id', right_on='Name')
-    tpm_df.rename({'novelty':'ic_novelty'}, axis=1, inplace=True)
-    tpm_df.drop('Name', axis=1, inplace=True)
-    tpm_df = tpm_df.merge(ca.tss[['Name', 'novelty']], how='left', left_on='tss_id', right_on='Name')
-    tpm_df.rename({'novelty':'tss_novelty'}, axis=1, inplace=True)
-    tpm_df.drop('Name', axis=1, inplace=True)
-    tpm_df = tpm_df.merge(ca.tes[['Name', 'novelty']], how='left', left_on='tes_id', right_on='Name')
-    tpm_df.rename({'novelty':'tes_novelty'}, axis=1, inplace=True)
-    tpm_df.drop('Name', axis=1, inplace=True)
-    # tpm_df.loc[(tpm_df.tss_novelty=='Known')&\
-    #            (tpm_df.ic_novelty=='Known')&\
-    #            (tpm_df.tes_novelty=='Known'), 'Known'] = '*'
-    if species == 'human':
-        refs = ['v40', 'v29']
-    elif species == 'mouse':
-        refs = ['vM21', 'vM25']
-    known_tids = ca.t_map.loc[ca.t_map.source.isin(refs)].transcript_id.unique().tolist()
-    tpm_df.loc[tpm_df.transcript_id.isin(known_tids), 'Known'] = '*'
+#     # add reference ids
+#     if species == 'human':
+#         ref_source = 'v40'
+#     elif species == 'mouse':
+#         ref_source = 'vM25'
+#     df = ca.t_map.loc[ca.t_map.source == ref_source]
+#     df = df[['transcript_id','original_transcript_id', 'original_transcript_name']]
+#     tpm_df = tpm_df.merge(df, how='left', left_index=True, right_on='transcript_id')
 
-    # triplets rather than entire transcript name
-    tpm_df['triplet'] = tpm_df.transcript_id.str.split('[', n=1, expand=True)[1]
-    tpm_df['triplet'] = tpm_df.triplet.str.split(']', n=1, expand=True)[0]
-    tpm_df['triplet'] = '['+tpm_df.triplet+']'
+#     # clean up for transcripts that aren't known
+#     df = ca.t_map.loc[ca.t_map.source == 'lapa']
+#     df = df[['gene_name', 'transcript_id', 'transcript_name',
+#              'tss_id', 'ic_id', 'tes_id']].drop_duplicates()
+#     tpm_df = tpm_df.merge(df, how='left', on='transcript_id')
+#     tpm_df.fillna('N/A', inplace=True)
+
+#     # label known transcripts with a *
+#     tpm_df['Known'] = ''
+#     tpm_df = tpm_df.copy(deep=True)
+#     tpm_df = tpm_df.merge(ca.ic[['Name', 'novelty']], how='left', left_on='ic_id', right_on='Name')
+#     tpm_df.rename({'novelty':'ic_novelty'}, axis=1, inplace=True)
+#     tpm_df.drop('Name', axis=1, inplace=True)
+#     tpm_df = tpm_df.merge(ca.tss[['Name', 'novelty']], how='left', left_on='tss_id', right_on='Name')
+#     tpm_df.rename({'novelty':'tss_novelty'}, axis=1, inplace=True)
+#     tpm_df.drop('Name', axis=1, inplace=True)
+#     tpm_df = tpm_df.merge(ca.tes[['Name', 'novelty']], how='left', left_on='tes_id', right_on='Name')
+#     tpm_df.rename({'novelty':'tes_novelty'}, axis=1, inplace=True)
+#     tpm_df.drop('Name', axis=1, inplace=True)
+#     # tpm_df.loc[(tpm_df.tss_novelty=='Known')&\
+#     #            (tpm_df.ic_novelty=='Known')&\
+#     #            (tpm_df.tes_novelty=='Known'), 'Known'] = '*'
+#     if species == 'human':
+#         refs = ['v40', 'v29']
+#     elif species == 'mouse':
+#         refs = ['vM21', 'vM25']
+#     known_tids = ca.t_map.loc[ca.t_map.source.isin(refs)].transcript_id.unique().tolist()
+#     tpm_df.loc[tpm_df.transcript_id.isin(known_tids), 'Known'] = '*'
+
+#     # triplets rather than entire transcript name
+#     tpm_df['triplet'] = tpm_df.transcript_id.str.split('[', n=1, expand=True)[1]
+#     tpm_df['triplet'] = tpm_df.triplet.str.split(']', n=1, expand=True)[0]
+#     tpm_df['triplet'] = '['+tpm_df.triplet+']'
     
-    # orf status stuff
-    pp_df = pd.read_csv(pp_summary, sep='\t')
-    pp_df.rename({'tid': 'transcript_id'}, axis=1, inplace=True)
+#     # orf status stuff
+#     pp_df = pd.read_csv(pp_summary, sep='\t')
+#     pp_df.rename({'tid': 'transcript_id'}, axis=1, inplace=True)
     
-    tpm_df = tpm_df.merge(pp_df[['transcript_id', 'nmd', 'full_orf', 
-                                 'seq', 'Strand', 'CDS_Start', 'CDS_Stop']], 
-                          how='left', 
-                          on='transcript_id')
-    tpm_df['protein'] = ''
-    tpm_df.loc[(tpm_df.nmd==False)&(tpm_df.full_orf==True), 'protein'] = '*' # transcripts w/ predicted protein coding potential
+#     tpm_df = tpm_df.merge(pp_df[['transcript_id', 'nmd', 'full_orf', 
+#                                  'seq', 'Strand', 'CDS_Start', 'CDS_Stop']], 
+#                           how='left', 
+#                           on='transcript_id')
+#     tpm_df['protein'] = ''
+#     tpm_df.loc[(tpm_df.nmd==False)&(tpm_df.full_orf==True), 'protein'] = '*' # transcripts w/ predicted protein coding potential
     
-    # are these the mane orf
-    if species == 'human':
-        tpm_df['gid'] = tpm_df['ic_id'].str.split('_', expand=True)[0]
-        gid = tpm_df.gid.values[0]
-        mane_orf = get_mane_orf(pp_summary,
-                                'v40_cerberus',
-                                gid=gid).seq.values[0]
-        tpm_df['is_mane_orf'] = tpm_df['seq'] == mane_orf        
-        tpm_df['mane_orf'] = ''
-        tpm_df.loc[tpm_df.seq==mane_orf, 'mane_orf'] = 'M'
+#     # are these the mane orf
+#     if species == 'human':
+#         tpm_df['gid'] = tpm_df['ic_id'].str.split('_', expand=True)[0]
+#         gid = tpm_df.gid.values[0]
+#         mane_orf = get_mane_orf(pp_summary,
+#                                 'v40_cerberus',
+#                                 gid=gid).seq.values[0]
+#         tpm_df['is_mane_orf'] = tpm_df['seq'] == mane_orf        
+#         tpm_df['mane_orf'] = ''
+#         tpm_df.loc[tpm_df.seq==mane_orf, 'mane_orf'] = 'M'
         
-    i = 0
-    # print('h: {}'.format(h))
-    for index, entry in tpm_df.iterrows():
+#     i = 0
+#     # print('h: {}'.format(h))
+#     for index, entry in tpm_df.iterrows():
 
-        # y coords
-        y = (len(tpm_df.index) - i)*(h_space)
-        y_text = y+(h/2)
+#         # y coords
+#         y = (len(tpm_df.index) - i)*(h_space)
+#         y_text = y+(h/2)
 
-        # tid
-        tid = entry['transcript_id']
-        gname = entry['gene_name']
-        tname = entry['transcript_name']
-        ref_tname = entry['original_transcript_name']
-        trip = entry['triplet']
-        iso_trip = '{} {}'.format(gname, trip)
-        known = entry['Known']
-        pc = entry['protein']
-        if species=='human':
-            mo = entry['mane_orf']
+#         # tid
+#         tid = entry['transcript_id']
+#         gname = entry['gene_name']
+#         tname = entry['transcript_name']
+#         ref_tname = entry['original_transcript_name']
+#         trip = entry['triplet']
+#         iso_trip = '{} {}'.format(gname, trip)
+#         known = entry['Known']
+#         pc = entry['protein']
+#         if species=='human':
+#             mo = entry['mane_orf']
 
-        # color by TPM
-        if len(tpm_df.index) == 1:
-            norm_val = entry[obs_condition]
-        else:
-            norm_val = (entry[obs_condition]-tpm_df[obs_condition].min())/(tpm_df[obs_condition].max()-tpm_df[obs_condition].min())
-        color = cmap(norm_val)
-        ax = sg.plot_browser(tid, y=y, x=x, h=h, w=w, color=color, ax=ax)
-        # print('transcipt #{}, {}, y = {}'.format(i, iso_trip, y))
+#         # color by TPM
+#         if len(tpm_df.index) == 1:
+#             norm_val = entry[obs_condition]
+#         else:
+#             norm_val = (entry[obs_condition]-tpm_df[obs_condition].min())/(tpm_df[obs_condition].max()-tpm_df[obs_condition].min())
+#         color = cmap(norm_val)
+#         ax = sg.plot_browser(tid, y=y, x=x, h=h, w=w, color=color, ax=ax)
+#         # print('transcipt #{}, {}, y = {}'.format(i, iso_trip, y))
 
-        # plot cds 
-        # if pc == '*':
-        plot_cds(entry, sg, x, y, h, ax)
+#         # plot cds 
+#         # if pc == '*':
+#         plot_cds(entry, sg, x, y, h, ax)
         
-        # novelty status
-        ax.text(x_c, y_text, known,
-                verticalalignment='center',
-                horizontalalignment='center',
-                size=small_text)
+#         # novelty status
+#         ax.text(x_c, y_text, known,
+#                 verticalalignment='center',
+#                 horizontalalignment='center',
+#                 size=small_text)
 
-        # isoform name (bold if protein coding)
-        if pc == '*':
-            ax.text(x_gc, y_text, iso_trip,
-                    verticalalignment='center',
-                    horizontalalignment='left',
-                    size=small_text, weight='bold')
-        else:
-            ax.text(x_gc, y_text, iso_trip,
-                    verticalalignment='center',
-                    horizontalalignment='left',
-                    size=small_text)
+#         # isoform name (bold if protein coding)
+#         if pc == '*':
+#             ax.text(x_gc, y_text, iso_trip,
+#                     verticalalignment='center',
+#                     horizontalalignment='left',
+#                     size=small_text, weight='bold')
+#         else:
+#             ax.text(x_gc, y_text, iso_trip,
+#                     verticalalignment='center',
+#                     horizontalalignment='left',
+#                     size=small_text)
         
-        if species=='human':
-            ax.text(x_mo, y_text, mo,
-                    verticalalignment='center',
-                    horizontalalignment='left',
-                    size=small_text)
+#         if species=='human':
+#             ax.text(x_mo, y_text, mo,
+#                     verticalalignment='center',
+#                     horizontalalignment='left',
+#                     size=small_text)
 
-        i += 1
+#         i += 1
 
-    # label the different columns
-    # y = (len(tpm_df.index)+1)*(h_space)
-   # # ax.text(x_c, y+(h/2), 'Cerberus Name',
-    ##     verticalalignment='center',
-    ##     horizontalalignment='center')
-    ## ax.text(x_gc,y+(h/2), 'GENCODE v40 Name',
-    ##         verticalalignment='center',
-          #  # horizontalalignment='center')
+#     # label the different columns
+#     # y = (len(tpm_df.index)+1)*(h_space)
+#    # # ax.text(x_c, y+(h/2), 'Cerberus Name',
+#     ##     verticalalignment='center',
+#     ##     horizontalalignment='center')
+#     ## ax.text(x_gc,y+(h/2), 'GENCODE v40 Name',
+#     ##         verticalalignment='center',
+#           #  # horizontalalignment='center')
 
-    # ax.text(x_c, y+(h/2), 'Known',
-    #     verticalalignment='center',
-    #     horizontalalignment='center',
-    #     size=big_text)
-    # ax.text(x_gc,y+(h/2), 'Isoform triplet',
-    #         verticalalignment='center',
-    #         horizontalalignment='center',
-    #         size=big_text)
+#     # ax.text(x_c, y+(h/2), 'Known',
+#     #     verticalalignment='center',
+#     #     horizontalalignment='center',
+#     #     size=big_text)
+#     # ax.text(x_gc,y+(h/2), 'Isoform triplet',
+#     #         verticalalignment='center',
+#     #         horizontalalignment='center',
+#     #         size=big_text)
 
 
-    i = len(tpm_df.index)
-    if add_tss:
-        y = (len(tpm_df.index) - i)*(h_space)
-        ax = plot_tss(ca, sg, tpm_df, x, y, h, ax)
-        i += 1
+#     i = len(tpm_df.index)
+#     if add_tss:
+#         y = (len(tpm_df.index) - i)*(h_space)
+#         ax = plot_tss(ca, sg, tpm_df, x, y, h, ax)
+#         i += 1
 
-    if add_ccre:
-        y = (len(tpm_df.index) - i)*(h_space)
-        ax = plot_ccre(ca, sg, x, y, h, ax)
-        i += 1
+#     if add_ccre:
+#         y = (len(tpm_df.index) - i)*(h_space)
+#         ax = plot_ccre(ca, sg, x, y, h, ax)
+#         i += 1
 
-    # add scale
-    y = (len(tpm_df.index) - i)*(h_space)
-    # print('y scale: {}'.format(y))
-    ax = sg.pg.plot_scale(x, y, h, 14, ax)
+#     # add scale
+#     y = (len(tpm_df.index) - i)*(h_space)
+#     # print('y scale: {}'.format(y))
+#     ax = sg.pg.plot_scale(x, y, h, 14, ax)
 
-    # remove axes
-    plt.axis('off')
-    ax.get_xaxis().set_visible(False)
-    ax.get_yaxis().set_visible(False)
-    plt.tight_layout()
+#     # remove axes
+#     plt.axis('off')
+#     ax.get_xaxis().set_visible(False)
+#     ax.get_yaxis().set_visible(False)
+#     plt.tight_layout()
 
-    # set x / y lim
-    y_max = (len(tpm_df.index) - 0)*(h_space)+h
-    y_min = y
-    plt.ylim((y_min,y_max))
-    plt.xlim((-4, 72))
-    # print('ylim: ({},{})'.format(y_min,y_max))
+#     # set x / y lim
+#     y_max = (len(tpm_df.index) - 0)*(h_space)+h
+#     y_min = y
+#     plt.ylim((y_min,y_max))
+#     plt.xlim((-4, 72))
+#     # print('ylim: ({},{})'.format(y_min,y_max))
 
-    return ax, tpm_df
+#     return ax, tpm_df
 
 def plot_human_sample_legend(swan_file, ofile):
     sns.set_context('paper', font_scale=2)
@@ -4334,38 +4334,38 @@ def plot_transcripts_by_triplet_feat_novelty(filt_ab,
 
 
 
-def plot_browser_isos_2(h5,
-                        swan_file,
-                        filt_ab,
-                        pp_summary,
-                        major_isos,
-                        ref_t_metadata,
-                        ref_g_metadata,
-                        gene,
-                        obs_col,
-                        obs_condition,
-                        ofile,
-                        h=0.2,
-                        ref_sources=['v29', 'v40'],
-                        **kwargs):
+# def plot_browser_isos_2(h5,
+#                         swan_file,
+#                         filt_ab,
+#                         pp_summary,
+#                         major_isos,
+#                         ref_t_metadata,
+#                         ref_g_metadata,
+#                         gene,
+#                         obs_col,
+#                         obs_condition,
+#                         ofile,
+#                         h=0.2,
+#                         ref_sources=['v29', 'v40'],
+#                         **kwargs):
 
-    ca = cerberus.read(h5)
-    sg = swan.read(swan_file)
+#     ca = cerberus.read(h5)
+#     sg = swan.read(swan_file)
 
-    ax, tpm_df = plot_browser_isos(ca,
-                                   sg,
-                                   gene,
-                                   obs_col,
-                                   obs_condition,
-                                   filt_ab,
-                                   pp_summary,
-                                   major_isos,
-                                   ref_t_metadata,
-                                   ref_g_metadata,
-                                   h=h,
-                                   ref_sources=ref_sources,
-                                   **kwargs)
-    plt.savefig(ofile, dpi=500)
+#     ax, tpm_df = plot_browser_isos(ca,
+#                                    sg,
+#                                    gene,
+#                                    obs_col,
+#                                    obs_condition,
+#                                    filt_ab,
+#                                    pp_summary,
+#                                    major_isos,
+#                                    ref_t_metadata,
+#                                    ref_g_metadata,
+#                                    h=h,
+#                                    ref_sources=ref_sources,
+#                                    **kwargs)
+#     plt.savefig(ofile, dpi=500)
 
 def plot_gene_tpm_v_predom_t_pi(h5,
                                 major_isos,
@@ -5707,3 +5707,404 @@ def plot_exp_v_iso_biotype_boxplot(h5,
     plt.savefig(fname, dpi=500, bbox_inches='tight')
     
     return df
+
+def get_cds(exons, orf_start, orf_end, strand):
+    # ChatGPT wrote most of this thx friend
+    
+    def rev_exons(exons):
+        return [(e[1],e[0]) for e in exons[::-1]]
+    
+    if strand == '-':
+        exons = rev_exons(exons)
+        orf_start, orf_end = orf_end, orf_start
+        
+    cds = []
+    for exon_start, exon_end in exons:
+       
+        # determine the overlap between the current exon and the ORF
+        overlap_start = max(exon_start, orf_start)
+        overlap_end = min(exon_end, orf_end)
+        
+        # if there is no overlap, skip this exon
+        if overlap_start > overlap_end:
+            continue
+        
+        # add the CDS range for this exon to the list
+        cds.append((overlap_start, overlap_end))
+        
+    if strand == '-':
+        cds = rev_exons(cds)
+    
+    return cds
+
+def add_bool_heatmap(tpm_df, ax, species):
+    if species == 'human':
+        keep_cols = ['triplet', 'gene_name', 'is_mane_orf',
+                     'full_orf', 'nmd', 'Known']
+    else:
+         keep_cols = ['triplet', 'gene_name',
+                     'full_orf', 'nmd', 'Known']
+    temp = tpm_df[keep_cols]
+    temp['iso_trip'] = temp.gene_name+' '+temp.triplet
+    temp.drop(['triplet', 'gene_name'], axis=1, inplace=True)
+    temp.set_index('iso_trip', inplace=True)
+    temp.index.name = ''
+    if species == 'human':
+        r_map = {'is_mane_orf': 'MANE ORF',
+                 'full_orf': 'Full ORF',
+                 'nmd': 'NMD'}
+    else:
+        r_map = {'full_orf': 'Full ORF',
+                 'nmd': 'NMD'}
+    temp.rename(r_map, axis=1, inplace=True)
+    if species == 'human':
+        bool_cols = ['Known', 'MANE ORF', 'Full ORF', 'NMD']
+    else:
+        bool_cols = ['Known', 'Full ORF', 'NMD']
+        
+    temp = temp[bool_cols]
+    temp2 = pd.DataFrame()
+    
+    m = {True: '*', False: ''}
+    for c in bool_cols:
+        temp2[c] = temp[c].map(m)
+    
+    
+    # if species == 'mouse':
+    #     temp.drop('MANE ORF', axis=1, inplace=True)
+    #     temp2.drop('MANE ORF', axis=1, inplace=True)
+
+    ax = sns.heatmap(temp, cbar=False, cmap='Purples',
+                     linewidths=0.5, linecolor='k',
+                     annot=temp2, square=True, 
+                     fmt='', ax=ax)
+    ax.tick_params(left=False,
+                   right=False, labelright=False,
+                   bottom=False, labelbottom=False,
+                   labeltop=True)
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+    ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
+    
+    return ax
+
+def plot_browser_isos(ca, sg, gene,
+                      obs_col, obs_condition, 
+                      filt_ab, pp_summary, 
+                      major_set,
+                      h=0.1, w=56, fig_w=14, species='human',
+                      add_tss=False,
+                      add_ccre=False,
+                      major=False,
+                      order='expression',
+                      light_shade=None,
+                      dark_shade=None):
+    """
+    Plot browser style isoform models for a given sample
+    """
+
+    def plot_tss(ca, sg, tpm_df, x, y, h, ax):
+        tpm_df = add_feat(tpm_df, kind='tss', col='transcript_id')
+        tpm_df.head()
+        tss_df = ca.tss.loc[ca.tss.Name.isin(tpm_df.tss.tolist())]
+        tss_df.head()
+        regions = [(entry.Start, entry.End) for ind, entry in tss_df.iterrows()]
+        color = get_sector_colors()[0]['tss']
+        ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
+        return ax
+    
+    def plot_cds(entry, sg, x, y, h, ax, color):
+        c_dict, order = get_sector_colors()
+        
+        def get_inc_region(entry, how, scale):
+            inc = 80
+            if how == 'start' and entry.Strand == '+':
+                col = 'CDS_Start'
+            elif how == 'stop' and entry.Strand == '+':
+                col = 'CDS_Stop'
+            elif how == 'start' and entry.Strand == '-':
+                col = 'CDS_Stop'
+            elif how == 'stop' and entry.Strand == '-':
+                col = 'CDS_Start'
+            if entry.Strand == '+':
+                regions = (entry[col],entry[col]+inc)
+            elif entry.Strand == '-':
+                regions = (entry[col],entry[col]-inc)
+            regions = [regions]
+            # print(f'Scale: {scale}')
+            # print(f'CDS inc: {inc}')
+            
+            return regions 
+
+        # get start and stop 
+        strand = entry.Strand
+        if strand == '+':
+            orf_start = entry['CDS_Start']
+            orf_end = entry['CDS_Stop']
+        elif strand == '-':
+            orf_end = entry['CDS_Start']
+            orf_start = entry['CDS_Stop']
+        loc_path = sg.pg.loc_path
+        exons = [(sg.pg.loc_df.loc[v1, 'coord'],
+            sg.pg.loc_df.loc[v2, 'coord']) \
+            for v1,v2 in zip(loc_path[:-1],loc_path[1:])][::2]
+        cds = get_cds(exons, orf_start, orf_end, strand)
+        ax = sg.pg.plot_regions(cds, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
+        
+        # start codon
+        color = c_dict['tss']
+        regions = get_inc_region(entry, 'start', sg.pg.scale)
+        ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
+        
+        # stop codon
+        color = c_dict['tes']
+        regions = get_inc_region(entry, 'stop', sg.pg.scale)
+        ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, color, ax)
+       
+        return ax
+        
+
+    def plot_ccre(ca, sg, x, y, h, ax):
+
+        # ccre regions
+        sources = ['pls', 'pels', 'dels']
+        ccre = ca.tss_map.loc[ca.tss_map.source.isin(sources)].copy(deep=True)
+
+        # get ranges w/i this region
+        min_coord = sg.pg.g_min
+        max_coord = sg.pg.g_max
+        chrom = sg.pg.chrom
+
+        ccre['min_coord'] = ccre[['Start', 'End']].min(axis=1)
+        ccre['max_coord'] = ccre[['Start', 'End']].max(axis=1)
+
+        # subset on regions
+        ccre = pr.PyRanges(ccre)
+        region = pr.from_dict({'Chromosome': [chrom],
+                                        'Start': [min_coord],
+                                        'End': [max_coord]})
+        ccre = ccre.intersect(region, strandedness=None)
+        ccre = ccre.as_df()
+
+        # colors
+        c_dict, _ = get_ccre_colors()
+        colors = [c_dict[s] for s in ccre.source.tolist()]
+        regions = [(entry.Start, entry.End) for ind, entry in ccre.iterrows()]
+        ax = sg.pg.plot_regions(regions, sg.pg.scale, sg.pg.strand, sg.pg.g_min, sg.pg.g_max, x, y, h, colors, ax)
+
+        return ax
+
+    def get_major_isos(major_set, gene, sample=None):
+        """
+        Get list of major isfoorms in a given sample
+        """
+        df = pd.read_csv(major_set, sep='\t')
+        df = df.loc[df.gname == gene]
+        if sample:
+            df = df.loc[df['sample'] == sample]
+        tids = df.tid.unique().tolist()
+        return tids
+
+    def get_isos(ca, filt_ab, gene, sample, species):
+        df = pd.read_csv(filt_ab, sep='\t')
+        df = get_det_table(df,
+                       groupby='sample',
+                       how='iso',
+                       min_tpm=1,
+                       gene_subset='polya',
+                       species=species)
+        df = df.loc[sample]
+        df = df.to_frame()
+        df = df.loc[df[sample]==True]
+        gid = ca.triplets.loc[ca.triplets.gname==gene, 'gid'].values[0]
+        df.reset_index(inplace=True)
+        df['gid'] = df['index'].str.split('[', expand=True)[0]
+        df = df.loc[df.gid == gid]
+        tids = df['index'].tolist()
+        return tids
+
+
+    def get_tpm_df(sg, tids, obs_col, obs_condition):
+        tpm_df = swan.calc_tpm(sg.adata, obs_col=obs_col).sparse.to_dense()
+        tpm_df = tpm_df.transpose()
+        tpm_df = tpm_df.loc[tids, obs_condition].to_frame()
+        return tpm_df
+
+    if major:
+        tids = get_major_isos(major_set, gene, obs_condition)
+    else:
+        tids = get_isos(ca, filt_ab, gene, obs_condition, species)
+    tpm_df = get_tpm_df(sg, tids, obs_col, obs_condition)
+
+    # colormap definition
+    if not light_shade:
+        light_shade = get_sector_colors()[0]['mixed']
+    if not dark_shade:
+        dark_shade = get_sector_colors()[0]['simple']
+    cmap = mpl.colors.LinearSegmentedColormap.from_list('', [light_shade, dark_shade])
+    
+    # figure / subplot settings
+    fig_h = len(tids)/4
+    w1_rat = (fig_w/6)*2
+    w2_rat = (fig_w/6)*4
+    fig, (ax, ax2) = plt.subplots(1,2, figsize=(fig_w, fig_h),
+                                  gridspec_kw={'width_ratios':(w1_rat, w2_rat)},
+                                  frameon=False, sharey=True)
+    fig.subplots_adjust(wspace=0.00)
+    fig.subplots_adjust(hspace=0.00)
+    
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+
+    # plotting order
+    tpm_df = tpm_df.sort_values(by=obs_condition, ascending=False)
+    tpm_df = tpm_df[[obs_condition]]
+
+    if order == 'tss':
+        tpm_df = add_feat(tpm_df, kind='tss', col='index')
+        tpm_df.sort_values(by=['tss', obs_condition], ascending=[True, False], inplace=True)
+        tpm_df.drop('tss', axis=1, inplace=True)
+
+    # add reference ids
+    if species == 'human':
+        ref_source = 'v40'
+    elif species == 'mouse':
+        ref_source = 'vM25'
+    df = ca.t_map.loc[ca.t_map.source == ref_source]
+    df = df[['transcript_id','original_transcript_id', 'original_transcript_name']]
+    tpm_df = tpm_df.merge(df, how='left', left_index=True, right_on='transcript_id')
+
+    # clean up for transcripts that aren't known
+    df = ca.t_map.loc[ca.t_map.source == 'lapa']
+    df = df[['gene_name', 'transcript_id', 'transcript_name',
+             'tss_id', 'ic_id', 'tes_id']].drop_duplicates()
+    tpm_df = tpm_df.merge(df, how='left', on='transcript_id')
+    tpm_df.fillna('N/A', inplace=True)
+
+    if species == 'human':
+        refs = ['v40', 'v29']
+    elif species == 'mouse':
+        refs = ['vM21', 'vM25']
+    known_tids = ca.t_map.loc[ca.t_map.source.isin(refs)].transcript_id.unique().tolist()
+    tpm_df['Known'] = tpm_df.transcript_id.isin(known_tids)
+
+    # triplets rather than entire transcript name
+    tpm_df['triplet'] = tpm_df.transcript_id.str.split('[', n=1, expand=True)[1]
+    tpm_df['triplet'] = tpm_df.triplet.str.split(']', n=1, expand=True)[0]
+    tpm_df['triplet'] = '['+tpm_df.triplet+']'
+    
+    # NMD and ORF 
+    pp_df = pd.read_csv(pp_summary, sep='\t')
+    pp_df.rename({'tid': 'transcript_id'}, axis=1, inplace=True)
+    tpm_df = tpm_df.merge(pp_df[['transcript_id', 'nmd', 'full_orf', 
+                                 'seq', 'Strand', 'CDS_Start', 'CDS_Stop']], 
+                          how='left', 
+                          on='transcript_id')
+    
+    # are these the mane orf
+    if species == 'human':
+        tpm_df['gid'] = tpm_df['ic_id'].str.split('_', expand=True)[0]
+        gid = tpm_df.gid.values[0]
+        mane_orf = get_mane_orf(pp_summary,
+                                'v40_cerberus',
+                                gid=gid).seq.values[0]
+        tpm_df['is_mane_orf'] = tpm_df['seq'] == mane_orf 
+    
+    # first add the labels
+    ax = add_bool_heatmap(tpm_df, ax, species)
+    
+    # get y coords from heatmap
+    y_locs = ax.get_yticks()
+    
+    # get x coords from heatmap
+    x = 0    
+    i = 0
+    
+    # get height of cdss
+    h_cds = h*2
+    
+    linewidth = 1.5
+    
+    for index, entry in tpm_df.iterrows():
+        
+        y_ytick = y_locs[i]
+
+        # y coords
+        y = y_ytick-(h/2)
+        y_cds = y_ytick-(h_cds/2)
+
+        # tid
+        tid = entry['transcript_id']
+        
+        # color by TPM
+        if len(tpm_df.index) == 1:
+            norm_val = entry[obs_condition]
+        else:
+            norm_val = (entry[obs_condition]-tpm_df[obs_condition].min())/(tpm_df[obs_condition].max()-tpm_df[obs_condition].min())
+        color = cmap(norm_val)
+        
+        # plot models + cds
+        ax2 = sg.plot_browser(tid, y=y, x=x, h=h, w=w, color=color,
+                              ax=ax2, linewidth=linewidth)
+        ax2 = plot_cds(entry, sg, x, y_cds, h_cds, ax2, color)
+        
+        i+=1
+    
+    y_space=0.5
+    
+    i = 1
+    if add_tss:
+        y_ytick = (len(tpm_df.index) + i)
+        y = y_ytick-(h_cds/2)
+        ax2 = plot_tss(ca, sg, tpm_df, x, y, h_cds, ax2)
+        i += 1
+
+    if add_ccre:
+        y_ytick = (len(tpm_df.index) + i)
+        y = y_ytick-(h_cds/2)
+        ax2 = plot_ccre(ca, sg, x, y, h_cds, ax2)
+        i += 1
+
+    # add scale
+    y_ytick = (len(tpm_df.index) + i)
+    y = y_ytick-(h_cds/2)
+    ax2 = sg.pg.plot_scale(x, y, h_cds, w, ax2, linewidth=linewidth)
+    
+    # print(sg.pg.scale*(250000))
+        
+    plt.tight_layout()
+    ax2.get_xaxis().set_visible(False)
+    ax2.get_yaxis().set_visible(False)
+    ax2.set_frame_on(False)     
+    
+    return ax, tpm_df
+
+
+def plot_browser_isos_2(h5,
+                        swan_file,
+                        filt_ab,
+                        pp_summary,
+                        major_isos,
+                        gene,
+                        obs_col,
+                        obs_condition,
+                        ofile,
+                        **kwargs):
+    
+    ca = cerberus.read(h5)
+    sg = swan.read(swan_file)
+
+    ax, tpm_df = plot_browser_isos(ca,
+                                   sg,
+                                   gene,
+                                   obs_col,
+                                   obs_condition,
+                                   filt_ab,
+                                   pp_summary,
+                                   major_isos,
+                                   h=0.4,
+                                   w=10,
+                                   fig_w=6,
+                                   **kwargs)
+    plt.savefig(ofile, dpi=500, bbox_inches='tight')
+
+    return ax, tpm_df

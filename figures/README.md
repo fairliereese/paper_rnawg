@@ -33,6 +33,7 @@ Table of contents:
 * [Figure S2: microRNA](https://github.com/fairliereese/paper_rnawg/blob/master/figures/figS2/fig_mirna.ipynb)
 * [Figure S6: TSS prediction](https://github.com/fairliereese/paper_rnawg/tree/master/figures/figS6)
 * [Figure S8: SUPPA analyses](https://github.com/fairliereese/paper_rnawg/tree/master/figures/figS8/figS8.ipynb)
+* [Protein prediction](https://github.com/fairliereese/paper_rnawg/blob/master/figures/protein_pred/pp_overview.ipynb)
 
 
 Requirements:

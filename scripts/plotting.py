@@ -4379,6 +4379,8 @@ def plot_gene_tpm_v_predom_t_pi(h5,
     df = ca.triplets.copy(deep=True)
     df = df.loc[df.source == source]
     df = df.loc[df[obs_col] == obs_condition]
+    sns.set_context('paper', font_scale=2)
+
 
     # get predominant transcripts in this sample
     prin_isos = pd.read_csv(major_isos, sep='\t')
@@ -4476,7 +4478,25 @@ def plot_gene_tpm_v_predom_t_pi(h5,
                 n_num = len(temp.index)
                 print('{:.2f}% ({}/{}) of protein coding genes in ovary have pi {} {} and tpm {} {}'.format((n_num/n)*100, n_num, n, pi_label, pi, tpm_label, tpm))
                 print()
-
+                
+        # what about how many are w/i pi thresholds but over tpm threshold?
+    #     pi_dict = {'low': 50, 'high': 90}
+    # tpm_dict = {'low': 20, 'high': 100}
+        tpm_min = tpm_dict['high']
+        temp = df.loc[df[tpm_col]>tpm_min]
+        n = len(temp.index)
+        for pi_key, pi in pi_dict.items():
+            if pi_key == 'low':
+                    temp2 = temp.loc[temp[pi_col]<pi].copy(deep=True)
+                    pi_label = '<'
+            elif pi_key == 'high':
+                temp2 = temp.loc[temp[pi_col]>pi].copy(deep=True)
+                pi_label = '>'
+            n_num = len(temp2.index)
+            print('{:.2f}% ({}/{}) of protein coding genes >{} tpm in ovary have pi {} {}'.format((n_num/n)*100, n_num, n, tpm_min, pi_label, pi))
+            print()
+            
+            
 def make_triplet_feat_upset(h5,
                             filt_ab,
                             feat,

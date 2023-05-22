@@ -422,6 +422,33 @@ def get_tissue_cell_line_map():
          'primary cells': 'cell_line'}
     return m
 
+def get_ljungman_datasets():
+    datasets = ['huvec_1_1',
+                'huvec_1_2',
+                'hmec_1_1',
+                'hmec_1_2',
+                'panc1_1_1',
+                'pc3_1_1',
+                'k562_1_1',
+                'hepg2_1_1',
+                'hct116_1_1',
+                'imr90_1_1',
+                'gm12878_3_1',
+                'mcf7_1_1',
+                'caco2_1_1',
+                'caco2_1_2',
+                'ocily7_1_1',
+                'ocily7_1_2',
+                'mcf10a_1_1',
+                'mcf10a_1_2',
+                'pc9_1_1',
+                'pc9_1_2',
+                'a673_1_1',
+                'a673_1_2',
+                'calu3_1_1',
+                'calu3_1_2']
+    return datasets
+
 def get_sample_datasets(sample=None, groupby=None):
     """
     Get the human-readable names of the datasets belonging

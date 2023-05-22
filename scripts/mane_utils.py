@@ -509,10 +509,12 @@ def get_mp_df_table(sg, ca,
             config = yaml.safe_load(f)
 
         exp_gene_fname = f'{d}/../figures/'+expand(config['data']['exp_gene_subset'], species='human', obs_col=obs_col)[0]
+        print(exp_gene_fname)
 
         # get pi / tpm table
 
         fname = f'{d}/../figures/'+expand(config['data']['pi_tpm'][feat], species='human', obs_col=obs_col)[0]
+        print(fname)
         df = pd.read_csv(fname, sep='\t')
 
         # merge mane and principal; make sure that exp. of null genes == 0

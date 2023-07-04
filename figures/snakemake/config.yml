@@ -1,6 +1,6 @@
 encode:
   human:
-    ab: https://www.encodeproject.org/files/ENCFF109QKT/@@download/ENCFF109QKT.tsv
+    ab: https://www.encodeproject.org/files/ENCFF745LVW/@@download/ENCFF745LVW.tsv
     talon_filt_ab: https://www.encodeproject.org/files/ENCFF362PTT/@@download/ENCFF362PTT.tsv
     filt_ab: https://www.encodeproject.org/files/ENCFF139IUH/@@download/ENCFF139IUH.tsv
     read_annot: https://www.encodeproject.org/files/ENCFF857YZZ/@@download/ENCFF857YZZ.tsv

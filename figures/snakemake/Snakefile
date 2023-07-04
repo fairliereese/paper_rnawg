@@ -68,7 +68,7 @@ rule all:
         # expand(config['data']['pi_tpm']['triplet'], species='mouse', obs_col=['sample']),
         # expand(config['ref']['t_info'], species=species),
         # expand(config['ref']['g_info'], species=species),
-        # expand(config['data']['sg'], species=species),
+        expand(config['data']['sg'], species=species),
         # expand(config['data']['mirna']['tsv'], species='human', encid=get_mirna_ids(config)),
         # expand(config['data']['bam'], species='human', encid=get_lr_ids('bam')),
         # expand(config['data']['fastq_gz'], species='human', encid=get_lr_ids('fastq')),
@@ -85,8 +85,8 @@ rule all:
         # expand(config['data']['suppa']['matching_events'],
         #        species='human',
         #        event=['AF', 'AL'])
-        expand(config['data']['p_pred']['summary'], species=species),
-        expand(config['data']['p_pred']['blastp_6'], species=species)
+        # expand(config['data']['p_pred']['summary'], species=species),
+        # expand(config['data']['p_pred']['blastp_6'], species=species)
 
 rule dl:
     resources:

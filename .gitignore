@@ -1,5 +1,8 @@
+*tsv.gz
 *gtf.gz
+*pdf
 *.fa*
+../../fusions/*tsv
 figures/data/*
 *ipynb_checkpoints*
 *.snakemake*

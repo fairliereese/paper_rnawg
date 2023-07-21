@@ -90,6 +90,7 @@ rule all:
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
         config['ref']['spikes']['ercc_fa'],
+        config['ref']['spikes']['ercc_gtf'],
         config['ref']['spikes']['sirv_fa'],
         config['ref']['spikes']['sirv_gtf']
 
@@ -257,6 +258,24 @@ use rule gunzip as gunzip_ercc_fa with:
     gz = config['ref']['spikes']['ercc_fa_gz']
   output:
     out = config['ref']['spikes']['ercc_fa']
+
+rule get_ercc_gtf:
+    input:
+        fa = config['ref']['spikes']['ercc_fa']
+    output:
+        gtf = config['ref']['spikes']['ercc_gtf']
+    shell:
+        """
+        python ../scripts/merge_encode_annotations.py \
+            -o temp_reformat_ercc.gtf \
+            {input.fa}
+
+        python ../scripts/reformat_gtf.py \
+            -o {output.gtf} \
+            -gtf temp_reformat_ercc.gtf
+
+        rm temp_reformat_ercc.gtf
+        """
 
 ################################################################################
 ############################# Data processing ##################################

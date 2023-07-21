@@ -50,6 +50,8 @@ rule all:
     input:
         # expand(config['data']['ab'], species=species),
         # expand(config['data']['talon_filt_ab'], species=species),
+        # expand(config['data']['lapa_filt_ab'], species=species),
+        # expand(config['data']['lapa_gtf'], species=species),
         # expand(config['data']['filt_ab'], species=species),
         # expand(config['data']['cerb_annot'], species=species),
         # expand(config['data']['cerb_gtf'], species=species),
@@ -68,7 +70,7 @@ rule all:
         # expand(config['data']['pi_tpm']['triplet'], species='mouse', obs_col=['sample']),
         # expand(config['ref']['t_info'], species=species),
         # expand(config['ref']['g_info'], species=species),
-        expand(config['data']['sg'], species=species),
+        # expand(config['data']['sg'], species=species),
         # expand(config['data']['mirna']['tsv'], species='human', encid=get_mirna_ids(config)),
         # expand(config['data']['bam'], species='human', encid=get_lr_ids('bam')),
         # expand(config['data']['fastq_gz'], species='human', encid=get_lr_ids('fastq')),
@@ -87,6 +89,9 @@ rule all:
         #        event=['AF', 'AL'])
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
+        config['ref']['spikes']['ercc_fa'],
+        config['ref']['spikes']['sirv_fa'],
+        config['ref']['spikes']['sirv_gtf']
 
 rule dl:
     resources:
@@ -189,12 +194,69 @@ use rule gunzip as gunzip_cerb with:
   output:
     out = config['data']['cerb_gtf']
 
+use rule dl as dl_lapa_gtf with:
+  params:
+    link = lambda w:config['encode'][w.species]['lapa_gtf_gz']
+  output:
+    out = config['data']['lapa_gtf_gz']
+
+use rule gunzip as gunzip_lapa with:
+  input:
+    gz = config['data']['lapa_gtf_gz']
+  output:
+    out = config['data']['lapa_gtf']
+
 use rule dl as dl_talon_filt_ab with:
   params:
     link = lambda w:config['encode'][w.species]['talon_filt_ab']
   output:
     out = config['data']['talon_filt_ab']
 
+use rule dl as dl_lapa_filt_ab with:
+  params:
+    link = lambda w:config['encode'][w.species]['lapa_filt_ab']
+  output:
+    out = config['data']['lapa_filt_ab']
+
+################################################################################
+######################### Spike download / processing ##########################
+################################################################################
+
+use rule dl as dl_sirv_gtf with:
+  params:
+    link = config['encode']['spikes']['sirv_gtf_gz']
+  output:
+    out = config['ref']['spikes']['sirv_gtf_gz']
+
+use rule gunzip as gunzip_sirv_gtf with:
+  input:
+    gz = config['ref']['spikes']['sirv_gtf_gz']
+  output:
+    out = config['ref']['spikes']['sirv_gtf']
+
+use rule dl as dl_sirv_fa with:
+  params:
+    link = config['encode']['spikes']['sirv_fa_gz']
+  output:
+    out = config['ref']['spikes']['sirv_fa_gz']
+
+use rule gunzip as gunzip_sirv_fa with:
+  input:
+    gz = config['ref']['spikes']['sirv_fa_gz']
+  output:
+    out = config['ref']['spikes']['sirv_fa']
+
+use rule dl as dl_ercc_fa with:
+  params:
+    link = config['encode']['spikes']['ercc_fa_gz']
+  output:
+    out = config['ref']['spikes']['ercc_fa_gz']
+
+use rule gunzip as gunzip_ercc_fa with:
+  input:
+    gz = config['ref']['spikes']['ercc_fa_gz']
+  output:
+    out = config['ref']['spikes']['ercc_fa']
 
 ################################################################################
 ############################# Data processing ##################################

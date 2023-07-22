@@ -91,7 +91,7 @@ rule all:
         #        event=['AF', 'AL'])
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
-        expand(config['data']['spike']['bam'], species='human', encid=get_lr_ids('label_bam')),
+        expand(config['data']['spikes']['talon_config'], species=species),
         config['ref']['spikes']['spike_gtf']
 
 rule dl:
@@ -969,8 +969,11 @@ rule get_spike_reads:
     input:
         bam = config['data']['bam'],
         spike_bed = config['ref']['spikes']['chrom_bed']
+    resources:
+        mem_gb = 32,
+        threads = 8
     output:
-        bam = config['data']['spike']['bam']
+        bam = config['data']['spikes']['bam']
     shell:
         """
         module load samtools
@@ -981,35 +984,35 @@ rule get_spike_reads:
 ################################################################################
 ############################# TALON utilities ##################################
 ################################################################################
-rule talon_label:
-    input:
-        bam = config['data']['spike']['bam'],
-        fa = config['ref']['spike']['spike_fa']
-    resources:
-        mem_gb = 16,
-        threads = 1
-    params:
-        a_range = 20,
-        opref = lambda w:expand(config['data']['spike']['sam_label'],
-                                zip,
-                                species=w.species,
-                                encid=w.encid)[0].rsplit('_labeled.sam', maxsplit=1)[0]
-    output:
-        bam = config['data']['spike']['sam_label']
-    shell:
-        """
-        talon_label_reads \
-            --f {input.bam} \
-            --g {input.fa} \
-            --tmpDir {params.opref} \
-            --ar 20  \
-            --deleteTmp  \
-            --o {params.opref}
-        """
+# rule talon_label:
+#     input:
+#         bam = config['data']['spikes']['bam'],
+#         fa = config['ref']['spikes']['spike_fa']
+#     resources:
+#         mem_gb = 16,
+#         threads = 1
+#     params:
+#         a_range = 20,
+#         opref = lambda w:expand(config['data']['spikes']['sam_label'],
+#                                 zip,
+#                                 species=w.species,
+#                                 encid=w.encid)[0].rsplit('_labeled.sam', maxsplit=1)[0]
+#     output:
+#         bam = config['data']['spikes']['sam_label']
+#     shell:
+#         """
+#         talon_label_reads \
+#             --f {input.bam} \
+#             --g {input.fa} \
+#             --tmpDir {params.opref} \
+#             --ar 20  \
+#             --deleteTmp  \
+#             --o {params.opref}
+#         """
 
 def get_talon_run_files(wc):
     bam_ids = encid=get_lr_ids('label_bam', species=wc.species)
-    files = expand(config['data']['spike']['sam_label'],
+    files = expand(config['data']['spikes']['bam'],
                    zip,
                    species=wc.species,
                    enc_id=bam_ids)
@@ -1017,13 +1020,13 @@ def get_talon_run_files(wc):
 
 rule talon_config:
     input:
-        files = lambda wc:get_talon_run_info(wc),
+        files = lambda wc:get_talon_run_files(wc),
         meta = config['data']['meta']
     resources:
         threads = 1,
         mem_gb = 1
     output:
-        config = config['data']['spike']['talon_config']
+        config = config['data']['spikes']['talon_config']
     run:
         config = pd.DataFrame()
         config['platform'] = 'PacBio'

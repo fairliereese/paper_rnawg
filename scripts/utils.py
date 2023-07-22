@@ -3314,8 +3314,11 @@ def get_lr_exp_meta(species='human'):
         for f in experiment["files"]:
             analyses = [x["@id"] for x in f["analyses"]]
             # this check only applies to processed data not reads (default_analysis in analyses and)
-            if f["output_type"] in ("reads", "unfiltered alignments"):
+            if f["output_type"] in ("reads", "unfiltered alignments", "alignments"):
                 if f["output_type"] == "unfiltered alignments" and not default_analysis in analyses:
+                    # skip alignments for older analyses.
+                    continue
+                elif f["output_type"] == "alignments" and not default_analysis in analyses:
                     # skip alignments for older analyses.
                     continue
                 reps = f["technical_replicates"]

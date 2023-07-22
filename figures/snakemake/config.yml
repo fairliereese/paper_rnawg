@@ -38,6 +38,11 @@ sr:
   ab: data/{species}/sr/abundance.tsv
   meta: data/{species}/sr/metadata.tsv
 
+cage:
+    meta: data/{species}/cage/metadata.tsv
+rampage:
+    meta: data/{species}/rampage/metadata.tsv
+
 data:
   ab: data/{species}/abundance.tsv
   talon_filt_ab: data/{species}/talon_abundance_filtered.tsv
@@ -113,6 +118,7 @@ tama_dir: ~/mortazavi_lab/bin/tama/tama_go/
 
 # this will be vM21 for mouse and v40 for human
 ref:
+  biosamp_map: ref/biosamp_term_name_map.tsv
   gtex_gtf_gz: ref/{species}/gtex.gtf.gz
   gtex_gtf: ref/{species}/gtex.gtf
   fa_gz: ref/{species}/genome.fa.gz

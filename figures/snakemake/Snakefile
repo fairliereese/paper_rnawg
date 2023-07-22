@@ -271,6 +271,9 @@ use rule gunzip as gunzip_ercc_fa with:
 rule get_ercc_gtf:
     input:
         fa = config['ref']['spikes']['ercc_fa']
+    resources:
+        mem_gb = 16,
+        threads = 1
     output:
         gtf = config['ref']['spikes']['ercc_gtf']
     shell:
@@ -290,6 +293,9 @@ rule get_spike_gtf:
     input:
         sirv = config['ref']['spikes']['sirv_gtf'],
         ercc = config['ref']['spikes']['ercc_gtf']
+    resources:
+        mem_gb = 16,
+        threads = 2
     output:
         all = config['ref']['spikes']['spike_gtf']
     shell:
@@ -537,7 +543,7 @@ rule dl_lr_bam:
         mem_gb = 32,
         threads = 8
     output:
-        bam = config['data']['bam']
+        bam = temporary(config['data']['bam'])
     shell:
         "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.bam -O {output.bam}"
 
@@ -1016,7 +1022,6 @@ rule get_spike_reads:
 def get_talon_run_files(wc):
     bam_ids = encid=get_lr_ids('label_bam', species=wc.species)
     files = expand(config['data']['spikes']['bam'],
-                   zip,
                    species=wc.species,
                    encid=bam_ids)
     return files

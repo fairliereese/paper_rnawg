@@ -102,6 +102,8 @@ data:
     blastp_parsed: data/{species}/protein_pred/{species}_blastp.tsv
     cds_bed: data/{species}/protein_pred/{species}_cds.bed
     summary: data/{species}/protein_pred/{species}_summary.tsv
+  spike:
+    bam: data/{species}/bam/{encid}_spike.bam
 
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/
@@ -126,7 +128,6 @@ ref:
     t_info: ref/{species}/cerberus/cerberus_t_metadata.tsv
     g_info: ref/{species}/cerberus/cerberus_g_metadata.tsv
   spikes:
-    all_gtf: ref/spikes/spikes.gtf
     sirv_gtf_gz: ref/spikes/sirv4.gtf.gz
     sirv_gtf: ref/spikes/sirv4.gtf
     sirv_fa_gz: ref/spikes/sirv4.fa.gz
@@ -135,3 +136,9 @@ ref:
     ercc_fa_gz: ref/spikes/ercc.fa.gz
     ercc_fa: ref/spikes/ercc.fa
     ercc_gtf: ref/spikes/ercc.gtf
+
+    spike_gtf: ref/spikes/spikes.gtf
+    spike_fa: ref/spikes/spikes.fa
+
+    chrom_sizes: ref/spikes/chrom_sizes.fa
+    chrom_bed: ref/spikes/chroms.bed

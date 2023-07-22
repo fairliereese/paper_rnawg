@@ -89,10 +89,8 @@ rule all:
         #        event=['AF', 'AL'])
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
-        config['ref']['spikes']['ercc_fa'],
-        config['ref']['spikes']['ercc_gtf'],
-        config['ref']['spikes']['sirv_fa'],
-        config['ref']['spikes']['sirv_gtf']
+        expand(config['data']['read_len_meta'], species=species),
+        config['ref']['spikes']['spike_gtf']
 
 rule dl:
     resources:
@@ -219,6 +217,15 @@ use rule dl as dl_lapa_filt_ab with:
   output:
     out = config['data']['lapa_filt_ab']
 
+rule get_chrom_sizes:
+    resources:
+        threads = 1,
+        mem_gb = 8
+    shell:
+        """
+        faidx {input.fa} -i chromsizes > {output.chrom_sizes}
+        """
+
 ################################################################################
 ######################### Spike download / processing ##########################
 ################################################################################
@@ -276,6 +283,53 @@ rule get_ercc_gtf:
 
         rm temp_reformat_ercc.gtf
         """
+
+rule get_spike_gtf:
+    input:
+        sirv = config['ref']['spikes']['sirv_gtf'],
+        ercc = config['ref']['spikes']['ercc_gtf']
+    output:
+        all = config['ref']['spikes']['spike_gtf']
+    shell:
+        """
+        cat {input.sirv} > {output.all}
+        cat {input.ercc} >> {output.all}
+        """
+
+rule get_spike_fa:
+    input:
+        sirv = config['ref']['spikes']['sirv_fa'],
+        ercc = config['ref']['spikes']['ercc_fa']
+    output:
+        all = config['ref']['spikes']['spike_fa']
+    shell:
+        """
+        cat {input.sirv} > {output.all}
+        cat {input.ercc} >> {output.all}
+        """
+
+use rule get_chrom_sizes as get_spike_chrom_sizes with:
+    input:
+        fa = config['ref']['spikes']['spike_fa']
+    output:
+        chrom_sizes = config['ref']['spikes']['chrom_sizes']
+
+rule get_spike_chrom_bed:
+    input:
+        chrom_sizes = config['ref']['spikes']['chrom_sizes']
+    output:
+        bed = config['ref']['spikes']['chrom_bed']
+    run:
+        df = pd.read_csv(input.chrom_sizes,
+                         sep='\t',
+                         header=None,
+                         names=['chr', 'stop'])
+        df['start'] = 0
+        df = df[['chr', 'start', 'stop']]
+        df.to_csv(output.bed,
+                  sep='\t',
+                  header=None,
+                  index=False)
 
 ################################################################################
 ############################# Data processing ##################################
@@ -900,3 +954,21 @@ rule get_pp_summary:
                     input.cds,
                     input.parsed,
                     output.summary)
+
+
+################################################################################
+############################## Spike data proc #################################
+################################################################################
+
+rule get_spike_reads:
+    input:
+        bam = config['data']['bam'],
+        spike_bed = config['ref']['spikes']['chrom_bed']
+    output:
+        bam = config['data']['spike']['bam']
+    shell:
+        """
+        module load samtools
+        samtools index {input.bam}
+        samtools view -bh --regions-file {input.spike_bed} > {output.bam}
+        """

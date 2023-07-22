@@ -322,6 +322,9 @@ use rule get_chrom_sizes as get_spike_chrom_sizes with:
 rule get_spike_chrom_bed:
     input:
         chrom_sizes = config['ref']['spikes']['chrom_sizes']
+    resources:
+        mem_gb = 16,
+        threads = 1
     output:
         bed = config['ref']['spikes']['chrom_bed']
     run:
@@ -1015,7 +1018,7 @@ def get_talon_run_files(wc):
     files = expand(config['data']['spikes']['bam'],
                    zip,
                    species=wc.species,
-                   enc_id=bam_ids)
+                   encid=bam_ids)
     return files
 
 rule talon_config:

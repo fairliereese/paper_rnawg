@@ -3347,7 +3347,7 @@ def get_lr_exp_meta(species='human'):
     if species == 'human':
         cart_url = "https://www.encodeproject.org/carts/829d339c-913c-4773-8001-80130796a367/"
     elif species == 'mouse':
-        print('Need to get cart URL for mouse still')
+        cart_url = "https://www.encodeproject.org/carts/55367842-f225-45cf-bfbe-5ba5e4182768/"
         raise Error()
 
     cart = server.get_json(cart_url)

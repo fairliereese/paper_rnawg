@@ -103,7 +103,10 @@ data:
     cds_bed: data/{species}/protein_pred/{species}_cds.bed
     summary: data/{species}/protein_pred/{species}_summary.tsv
   spike:
-    bam: data/{species}/bam/{encid}_spike.bam
+    bam: data/{species}/spike/{encid}.bam
+    sam_label: data/{species}/spike/talon/labeled/{encid}_labeled.bam
+
+    talon_config: data/{species}/spike/talon/talon_config.csv
 
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/

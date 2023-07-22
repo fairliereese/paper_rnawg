@@ -37,10 +37,12 @@ def get_mirna_ids(config):
     df['id'] = df['id'].str.split('.tsv', expand=True, n=1)[0]
     return df['id'].tolist()
 
-def get_lr_ids(file_format='bam'):
-    metadata = get_lr_exp_meta()
+def get_lr_ids(file_format='bam', species='human'):
+    metadata = get_lr_exp_meta(species)
     if file_format == 'bam':
         metadata = metadata.loc[metadata.output_type=='unfiltered alignments']
+    elif file_format == 'label_bam':
+        metadata = metadata.loc[metadata.output_type=='alignments']
     elif file_format == 'fastq':
         metadata = metadata.loc[metadata.output_type=='reads']
 
@@ -72,8 +74,8 @@ rule all:
         # expand(config['ref']['g_info'], species=species),
         # expand(config['data']['sg'], species=species),
         # expand(config['data']['mirna']['tsv'], species='human', encid=get_mirna_ids(config)),
-        # expand(config['data']['bam'], species='human', encid=get_lr_ids('bam')),
-        # expand(config['data']['fastq_gz'], species='human', encid=get_lr_ids('fastq')),
+        # expand(config['data']['bam'], species='human', encid=get_lr_ids('bam', species='human')),
+        # expand(config['data']['fastq_gz'], species='human', encid=get_lr_ids('fastq', species='human')),
         # expand(config['data']['read_len_meta'], species='human'),
         # expand(config['data']['suppa']['psi'],
         #         event=events,
@@ -89,7 +91,7 @@ rule all:
         #        event=['AF', 'AL'])
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
-        expand(config['data']['read_len_meta'], species=species),
+        expand(config['data']['spike']['bam'], species='human', encid=get_lr_ids('label_bam')),
         config['ref']['spikes']['spike_gtf']
 
 rule dl:
@@ -300,6 +302,9 @@ rule get_spike_fa:
     input:
         sirv = config['ref']['spikes']['sirv_fa'],
         ercc = config['ref']['spikes']['ercc_fa']
+    resources:
+        threads = 1,
+        mem_gb = 4
     output:
         all = config['ref']['spikes']['spike_fa']
     shell:
@@ -972,3 +977,64 @@ rule get_spike_reads:
         samtools index {input.bam}
         samtools view -bh --regions-file {input.spike_bed} > {output.bam}
         """
+
+################################################################################
+############################# TALON utilities ##################################
+################################################################################
+rule talon_label:
+    input:
+        bam = config['data']['spike']['bam'],
+        fa = config['ref']['spike']['spike_fa']
+    resources:
+        mem_gb = 16,
+        threads = 1
+    params:
+        a_range = 20,
+        opref = lambda w:expand(config['data']['spike']['sam_label'],
+                                zip,
+                                species=w.species,
+                                encid=w.encid)[0].rsplit('_labeled.sam', maxsplit=1)[0]
+    output:
+        bam = config['data']['spike']['sam_label']
+    shell:
+        """
+        talon_label_reads \
+            --f {input.bam} \
+            --g {input.fa} \
+            --tmpDir {params.opref} \
+            --ar 20  \
+            --deleteTmp  \
+            --o {params.opref}
+        """
+
+def get_talon_run_files(wc):
+    bam_ids = encid=get_lr_ids('label_bam', species=wc.species)
+    files = expand(config['data']['spike']['sam_label'],
+                   zip,
+                   species=wc.species,
+                   enc_id=bam_ids)
+    return files
+
+rule talon_config:
+    input:
+        files = lambda wc:get_talon_run_info(wc),
+        meta = config['data']['meta']
+    resources:
+        threads = 1,
+        mem_gb = 1
+    output:
+        config = config['data']['spike']['talon_config']
+    run:
+        config = pd.DataFrame()
+        config['platform'] = 'PacBio'
+        config['file'] = input.files
+
+        # get the dataset / sample IDs from the metadata file
+        df = pd.read_csv(input.meta, sep='\t')
+        df = df[['ENCODE_file_id', 'dataset']].rename({'ENCODE_file_id': 'file'}, axis=1)
+        config = config.merge(df, how='left', on='file')
+        config['sample'] = config['dataset']
+
+        config = config[['dataset', 'sample', 'platform', 'file']]
+
+        config.to_csv(output.config, header=None, sep=',', index=False)

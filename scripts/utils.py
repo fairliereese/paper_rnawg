@@ -3305,7 +3305,7 @@ def get_human_mouse_gid_table(fname):
 
     return df
 
-def get_lr_exp_meta():
+def get_lr_exp_meta(species='human'):
     def get_genome_bam(experiment_id):
         experiment = server.get_json(experiment_id)
 
@@ -3341,7 +3341,11 @@ def get_lr_exp_meta():
         return metadata
 
     server = ENCODED("www.encodeproject.org")
-    cart_url = "https://www.encodeproject.org/carts/829d339c-913c-4773-8001-80130796a367/"
+    if species == 'human':
+        cart_url = "https://www.encodeproject.org/carts/829d339c-913c-4773-8001-80130796a367/"
+    elif species == 'mouse':
+        print('Need to get cart URL for mouse still')
+        raise Error()
 
     cart = server.get_json(cart_url)
 

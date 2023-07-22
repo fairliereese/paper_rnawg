@@ -1961,7 +1961,8 @@ def get_tpm_table(df,
     """
     Parameters:
         df (pandas DataFrame): TALON abundance table
-        sample (str): {'cell_line', 'tissue', None, 'lr_match'}
+        sample (str): {'cell_line', 'tissue', None, 'lr_match'}, or 
+            list of sample names
         how (str): Choose from 'gene' or 'iso'
         groupby (str): Choose from 'library' or 'sample'. Sample will avg.
         nov (list of str): List of accepted novelty types (w/ how='iso')
@@ -1989,12 +1990,19 @@ def get_tpm_table(df,
     else:
         print('Calculating {} TPM values'.format(how))
 
-        if sample == 'cell_line' or sample == 'tissue':
-            print('Subsetting for {} datasets'.format(sample))
-
         dataset_cols = get_datasets(species=species)
         df = rm_sirv_ercc(df)
         df['gid_stable'] = cerberus.get_stable_gid(df, 'annot_gene_id')
+        
+        if type(sample) == list:
+            print(f'Subsetting for {sample} samples')
+            temp = pd.DataFrame(data=get_datasets(species=species), columns=['dataset'])
+            temp = add_sample(temp)
+            temp = temp.loc[temp['sample'].isin(sample)]
+            dataset_cols = temp['dataset'].tolist()
+        elif sample == 'cell_line' or sample == 'tissue':
+            print('Subsetting for {} datasets'.format(sample))
+        
 
         # merge with information about the gene
         if species == 'human':
@@ -3348,7 +3356,6 @@ def get_lr_exp_meta(species='human'):
         cart_url = "https://www.encodeproject.org/carts/829d339c-913c-4773-8001-80130796a367/"
     elif species == 'mouse':
         cart_url = "https://www.encodeproject.org/carts/55367842-f225-45cf-bfbe-5ba5e4182768/"
-        raise Error()
 
     cart = server.get_json(cart_url)
 

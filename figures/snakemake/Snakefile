@@ -978,6 +978,8 @@ rule get_spike_reads:
     input:
         bam = config['data']['bam'],
         spike_bed = config['ref']['spikes']['chrom_bed']
+    conda:
+        'samtools'
     resources:
         mem_gb = 32,
         threads = 8
@@ -985,9 +987,8 @@ rule get_spike_reads:
         bam = config['data']['spikes']['bam']
     shell:
         """
-        module load samtools
         samtools index {input.bam}
-        samtools view -bh --regions-file {input.spike_bed} > {output.bam}
+        samtools view -bh --regions-file {input.spike_bed} {input.bam} > {output.bam}
         """
 
 ################################################################################

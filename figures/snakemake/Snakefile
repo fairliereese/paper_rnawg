@@ -91,8 +91,12 @@ rule all:
         #        event=['AF', 'AL'])
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
-        expand(config['data']['spikes']['talon_config'], species=species),
-        config['ref']['spikes']['spike_gtf']
+        # expand(config['data']['spikes']['talon_config'], species=species),
+        # config['ref']['spikes']['spike_gtf']
+        expand(config['data']['label_bam']['ids'], species=species),
+        expand(config['data']['bam']['ids'], species=species),
+        expand(config['data']['fastq']['ids'], species=species),
+
 
 rule dl:
     resources:
@@ -257,8 +261,6 @@ use rule get_lr_file_ids as rule get_fastq_lr_file_ids with:
         encids = get_lr_ids('fastq', species=wc.species)
     output:
         ids = config['data']['fastq']['ids']
-
-
 
 ################################################################################
 ######################### Spike download / processing ##########################

@@ -5,6 +5,26 @@ Notes on pre-generated files included in this directory:
 * Human-mouse ortholog gene ids generated using [this](http://www.ensembl.org/biomart/martview/7207f9a6b715260989ef4d6aa3c1205f?VIRTUALSCHEMANAME=default&ATTRIBUTES=hsapiens_gene_ensembl.default.homologs.ensembl_gene_id|hsapiens_gene_ensembl.default.homologs.ensembl_gene_id_version|hsapiens_gene_ensembl.default.homologs.ensembl_transcript_id|hsapiens_gene_ensembl.default.homologs.ensembl_transcript_id_version|hsapiens_gene_ensembl.default.homologs.mmusculus_homolog_ensembl_gene|hsapiens_gene_ensembl.default.homologs.mmusculus_homolog_associated_gene_name&FILTERS=&VISIBLEPANEL=attributepanel) Biomart query.
 
 Before generating any of the figures, you will need to download data from the ENCODE portal and process it to generate some additional files used. Use the following Snakemake code to do so. Please note that some data processing steps in this Snakemake pipeline will download a lot of data.
+<!--
+
+```python
+import os
+import sys
+from encoded_client.encoded import ENCODED
+
+p = os.path.dirname(os.getcwd())
+sys.path.append(p)
+
+from scripts.utils import *   
+df = get_lr_exp_meta('human')
+df['species'] = 'human'
+df2 = get_lr_exp_meta('mouse')
+df2['species'] = 'human'
+df = pd.concat([df, df2], axis=0)
+output_types = ['unfiltered alignments', 'alignments', 'reads']
+df = df.loc[df.output_type.isin(output_types)]
+df.to_csv('ref/lr_file_ids.tsv', sep='\t', index=False)
+``` -->
 
 ```bash
 snakemake \
@@ -18,7 +38,7 @@ snakemake \
   -s snakemake/Snakefile \
   -j 10 \
   --latency-wait 120 \
-  --cluster "sbatch -A seyedam_lab --partition=highmem --mem={resources.mem_gb}GB -c {resources.threads} --mail-user=freese@uci.edu --mail-type=START,END,FAIL --time=72:00:00" -n
+  --cluster "sbatch -A seyedam_lab --partition=highmem --mem={resources.mem_gb}GB -c {resources.threads} --mail-user=freese@uci.edu --mail-type=START,END,FAIL --time=24:00:00" -n
 ```
 
 Currently, the figures and numbers generated for the paper are in Python notebooks roughly split by section of the paper.

@@ -112,6 +112,17 @@ data:
   spikes:
     bam: data/{species}/spike/{encid}.bam
     talon_config: data/{species}/spike/talon/talon_config.csv
+    
+    talon_db: data/{species}/talon/annot_talon.db
+    read_annot: data/{species}/talon/annot_talon_read_annot.tsv
+
+    filt_list: data/{species}/talon/talon_pass_list.tsv
+    filt_gtf: data/talon/annot_talon_observedOnly.gtf
+
+    ab: data/{species}/talon/annot_talon_abundance.tsv
+    gene_ab: data/{species}/talon/annot_talon_gene_abundance.tsv
+    filt_ab: data/{species}/talon/annot_talon_abundance_filtered.tsv
+
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/
 
@@ -149,3 +160,5 @@ ref:
 
     chrom_sizes: ref/spikes/chrom_sizes.fa
     chrom_bed: ref/spikes/chroms.bed
+
+    talon_db: ref/spikes/talon/ref.db

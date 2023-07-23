@@ -104,8 +104,12 @@ rule all:
         #        event=['AF', 'AL'])
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
-        expand(config['data']['spikes']['talon_config'], species=species),
-        config['ref']['spikes']['spike_gtf']
+        # config['ref']['spikes']['spike_gtf']
+        expand(config['data']['spikes']['ab'], species=species),
+        expand(config['data']['spikes']['gene_ab'], species=species),
+        expand(config['data']['spikes']['filt_ab'], species=species),
+        expand(config['data']['spikes']['filt_gtf'], species=species)
+
 
 rule dl:
     resources:
@@ -590,6 +594,16 @@ rule dl_lr_bam:
     shell:
         "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.bam -O {output.bam}"
 
+rule dl_lr_label_bam:
+    resources:
+        mem_gb = 32,
+        threads = 8
+    output:
+        bam = temporary(config['data']['label_bam'])
+    shell:
+        "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.bam -O {output.bam}"
+
+
 rule dl_lr_fastq:
     resources:
         mem_gb = 32,
@@ -1023,7 +1037,7 @@ rule get_pp_summary:
 
 rule get_spike_reads:
     input:
-        bam = config['data']['bam'],
+        bam = config['data']['label_bam'],
         spike_bed = config['ref']['spikes']['chrom_bed']
     conda:
         'samtools'
@@ -1068,7 +1082,7 @@ rule get_spike_reads:
 #         """
 
 def get_talon_run_files(wc):
-    bam_ids = encid=get_df_lr_ids(file_id_df, 'label_bam', wc.species)
+    bam_ids = get_df_lr_ids(file_id_df, 'label_bam', wc.species)
     files = expand(config['data']['spikes']['bam'],
                    species=wc.species,
                    encid=bam_ids)
@@ -1085,16 +1099,175 @@ rule talon_config:
         config = config['data']['spikes']['talon_config']
     run:
         config = pd.DataFrame()
+        config['file'] = list(input.files)
+        config['file_base'] = config.file.str.rsplit('/', n=1, expand=True)[1]
+        config['file_base'] = config.file_base.str.rsplit('.bam', n=1, expand=True)[0]
         config['platform'] = 'PacBio'
-        import pdb; pdb.set_trace()
-        config['file'] = input.files
+        # import pdb; pdb.set_trace()
 
         # get the dataset / sample IDs from the metadata file
         df = pd.read_csv(input.meta, sep='\t')
-        df = df[['ENCODE_file_id', 'dataset']].rename({'ENCODE_file_id': 'file'}, axis=1)
-        config = config.merge(df, how='left', on='file')
+        df = df[['ENCODE_file_id', 'dataset']].rename({'ENCODE_file_id': 'file_base'}, axis=1)
+        df = df[['file_base', 'dataset']]
+
+        # import pdb;pdb.set_trace()
+        config = config.merge(df, how='left', on='file_base')
+
         config['sample'] = config['dataset']
 
         config = config[['dataset', 'sample', 'platform', 'file']]
 
         config.to_csv(output.config, header=None, sep=',', index=False)
+
+rule talon_init:
+	input:
+		ref_gtf = config['ref']['spikes']['spike_gtf']
+	output:
+		db = config['ref']['talon_db']
+	params:
+		talon_opref = config['ref']['talon_db'].rsplit('.db', maxsplit=1)[0],
+		genome = 'spikes'
+		annot = 'spikes',
+        idprefix = 'spikes'
+	resources:
+		mem_gb = 32,
+		threads = 16
+	shell:
+		'talon_initialize_database \
+    		--f {input.ref_gtf} \
+    		--g {params.genome} \
+    		--a {params.annot} \
+    		--l 0 \
+    		--idprefix {params.idprefix} \
+    		--5p 500 \
+    		--3p 300 \
+    		--o {params.talon_opref}'
+
+rule talon:
+    input:
+        ref = config['ref']['spikes']['talon_db'],
+        config = config['data']['spikes']['talon_config']
+    params:
+        genome = 'spikes',
+        opref = config['data']['spikes']['talon_db'].rsplit('_talon', maxsplit=1)[0],
+    resources:
+        mem_gb = 256,
+        threads = 30
+    output:
+        db = config['data']['spikes']['talon_db'],
+        annot = config['data']['read_annot']
+    shell:
+        """
+        ref_db={input.ref}_back
+        cp {input.ref} ${{ref_db}}
+        talon \
+            --f {input.config} \
+            --db ${{ref_db}} \
+            --build {params.genome} \
+            --tmpDir {params.opref}_temp/ \
+            --threads {resources.threads} \
+            --o {params.opref}
+        mv ${{ref_db}} {params.opref}_talon.db
+        """
+
+rule talon_unfilt_ab:
+    input:
+        db = lambda wc: get_talon_max_output_file(wc,
+                                                  dataset_df,
+                                                  config['data']['talon_db'])
+    resources:
+        threads = 1,
+        mem_gb = 32
+    params:
+        genome = 'mm10',
+        annot = 'vM21',
+        opref = config['data']['ab'].rsplit('_talon', maxsplit=1)[0]
+    output:
+        ab = config['data']['ab']
+    shell:
+        """
+        talon_abundance \
+            --db {input.db} \
+            -a {params.annot} \
+            -b {params.genome} \
+            --o {params.opref}
+        """
+
+rule talon_filt:
+    input:
+        db = config['data']['spikes']['talon_db']
+    resources:
+        threads = 1,
+        mem_gb = 128
+    params:
+        annot = 'spikes'
+    output:
+        list = config['data']['spikes']['filt_list']
+    shell:
+        """
+        talon_filter_transcripts \
+            --db {input.db} \
+            -a {params.annot} \
+            --maxFracA=0.5 \
+            --minCount=5 \
+            --minDatasets=2 \
+            --o {output.list}
+        """
+
+rule talon_filt_ab:
+    input:
+        db = config['data']['spikes']['talon_db'],
+        filt = config['data']['spikes']['filt_list']
+    resources:
+        threads = 1,
+        mem_gb = 128
+    params:
+        genome = 'mm10',
+        annot = 'vM21',
+        opref = config['data']['spikes']['filt_ab'].rsplit('_talon', maxsplit=1)[0]
+    output:
+        filt_ab = config['data']['spikes']['filt_ab']
+    shell:
+        """
+        talon_abundance \
+            --db {input.db} \
+            -a {params.annot} \
+            -b {params.genome} \
+            --whitelist {input.filt} \
+            --o {params.opref}
+        """
+
+rule talon_gtf:
+    input:
+        db = config['data']['spikes']['talon_db'],
+        filt = config['data']['spikes']['filt_list']
+    resources:
+        threads = 1,
+        mem_gb = 128
+    params:
+        genome = 'spikes',
+        annot = 'spikes',
+        opref = config['data']['spikes']['filt_gtf'].rsplit('_talon', maxsplit=1)[0]
+    output:
+        gtf = config['data']['spikes']['filt_gtf']
+    shell:
+        """
+        talon_create_GTF \
+            --db {input.db} \
+            -b {params.genome} \
+            -a {params.annot} \
+            --whitelist {input.filt} \
+            --observed \
+            --o {params.opref}
+        """
+
+rule talon_gene_counts:
+    input:
+        ab = config['data']['spikes']['ab']
+    output:
+        gene_ab = config['data']['spikes']['gene_ab']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    run:
+        get_gene_counts_matrix(input.ab, output.gene_ab)

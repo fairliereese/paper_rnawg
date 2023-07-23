@@ -44,15 +44,10 @@ rampage:
     meta: data/{species}/rampage/metadata.tsv
 
 data:
-  label_bam:
-    ids: data/{species}/label_bam/file_ids.txt
-    bam: data/{species}/label_bam/{encid}.bam
-  bam:
-    ids: data/{species}/bam/file_ids.txt
-    bam: data/{species}/bam/{encid}.bam
-  fastq:
-    ids: data/{species}/fastq/file_ids.txt
-    fastq_gz: data/{species}/fastq/{encid}.fastq.gz
+  label_bam: data/{species}/label_bam/{encid}.bam
+  bam: data/{species}/bam/{encid}.bam
+  fastq_gz: data/{species}/fastq/{encid}.fastq.gz
+
   ab: data/{species}/abundance.tsv
   talon_filt_ab: data/{species}/talon_abundance_filtered.tsv
   lapa_filt_ab: data/{species}/lapa_abundance_filtered.tsv

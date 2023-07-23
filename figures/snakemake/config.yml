@@ -44,6 +44,18 @@ rampage:
     meta: data/{species}/rampage/metadata.tsv
 
 data:
+  label_bam:
+    ids: data/{species}/{file_format}/file_ids.txt
+    bam: data/{species}/{file_format}/{encid}.bam
+
+  bam:
+    ids: data/{species}/{file_format}/file_ids.txt
+    bam: data/{species}/{file_format}/{encid}.bam
+
+  fastq:
+    ids: data/{species}/{file_format}/file_ids.txt
+    fastq_gz: fastq_gz: data/{species}/{file_format}/{encid}.fastq.gz
+
   ab: data/{species}/abundance.tsv
   talon_filt_ab: data/{species}/talon_abundance_filtered.tsv
   lapa_filt_ab: data/{species}/lapa_abundance_filtered.tsv
@@ -95,8 +107,6 @@ data:
       psi: data/{species}/suppa/gtex/psi/gtex_{event}.psi
       cerb_ids: data/{species}/suppa/gtex/cerb_ids.tsv
     matching_events: data/{species}/suppa/{event}_combined.tsv
-  bam: data/{species}/bam/{encid}.bam
-  fastq_gz: data/{species}/fastq/{encid}.fastq.gz
   read_len_meta: data/{species}/lr_bulk_read_length_meta.tsv
   p_pred:
     gtf_bed: data/{species}/protein_pred/{species}_tama.bed

@@ -229,6 +229,38 @@ rule get_chrom_sizes:
         """
 
 ################################################################################
+######################### Save list of file ids for LR #########################
+################################################################################
+rule get_lr_file_ids:
+    resources:
+        mem_gb = 16,
+        threads = 1
+    run:
+        df = pd.DataFrame()
+        df['file_id'] = params.encids
+        df.to_csv(ids, sep='\t', index=False)
+
+use rule get_lr_file_ids as rule get_label_bam_lr_file_ids with:
+    params:
+        encids = lambda wc:get_lr_ids('label_bam', species=wc.species)
+    output:
+        ids = config['data']['label_bam']['ids']
+
+use rule get_lr_file_ids as rule get_bam_lr_file_ids with:
+    params:
+        encids = get_lr_ids('bam', species=wc.species)
+    output:
+        ids = config['data']['bam']['ids']
+
+use rule get_lr_file_ids as rule get_fastq_lr_file_ids with:
+    params:
+        encids = get_lr_ids('fastq', species=wc.species)
+    output:
+        ids = config['data']['fastq']['ids']
+
+
+
+################################################################################
 ######################### Spike download / processing ##########################
 ################################################################################
 
@@ -1039,6 +1071,7 @@ rule talon_config:
     run:
         config = pd.DataFrame()
         config['platform'] = 'PacBio'
+        import pdb; pdb.set_trace()
         config['file'] = input.files
 
         # get the dataset / sample IDs from the metadata file

@@ -413,381 +413,381 @@ ENCSR257YUB	RUSH brain E4368365	male adult (90 or above years) with Alzheimer's 
 ENCSR690QHM	RUSH brain E6341028	female adult (90 or above years) with Alzheimer's disease	ENCFF785KVJ	reads	1160071924	1	1_1	ENCSR690QHM_1_1	human
 ENCSR690QHM	RUSH brain E6341028	female adult (90 or above years) with Alzheimer's disease	ENCFF378STM	alignments	424589981	1	1_1	ENCSR690QHM_1_1	human
 ENCSR690QHM	RUSH brain E6341028	female adult (90 or above years) with Alzheimer's disease	ENCFF070TEQ	unfiltered alignments	1426865867	1	1_1	ENCSR690QHM_1_1	human
-ENCSR734WEK	ENC4_385a, ENC4_386a B6Cast F1 PND10_Male Gastrocnemius	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF047OYU	reads	800611220	1	1_1	ENCSR734WEK_1_1	human
-ENCSR734WEK	ENC4_385a, ENC4_386a B6Cast F1 PND10_Male Gastrocnemius	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF389RMT	reads	565195449	2	2_1	ENCSR734WEK_2_1	human
-ENCSR734WEK	ENC4_385a, ENC4_386a B6Cast F1 PND10_Male Gastrocnemius	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF495MGN	alignments	273263203	1	1_1	ENCSR734WEK_1_1	human
-ENCSR734WEK	ENC4_385a, ENC4_386a B6Cast F1 PND10_Male Gastrocnemius	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF233QCR	unfiltered alignments	1011833760	1	1_1	ENCSR734WEK_1_1	human
-ENCSR734WEK	ENC4_385a, ENC4_386a B6Cast F1 PND10_Male Gastrocnemius	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF567ALB	unfiltered alignments	724798808	2	2_1	ENCSR734WEK_2_1	human
-ENCSR734WEK	ENC4_385a, ENC4_386a B6Cast F1 PND10_Male Gastrocnemius	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF690TKD	alignments	190032830	2	2_1	ENCSR734WEK_2_1	human
-ENCSR907NKV	C2C12 myotube	C3H	ENCFF669LWV	reads	1401323044	2	2_1	ENCSR907NKV_2_1	human
-ENCSR907NKV	C2C12 myotube	C3H	ENCFF003OWX	reads	1288549554	1	1_1	ENCSR907NKV_1_1	human
-ENCSR907NKV	C2C12 myotube	C3H	ENCFF699KOR	unfiltered alignments	1755757330	2	2_1	ENCSR907NKV_2_1	human
-ENCSR907NKV	C2C12 myotube	C3H	ENCFF202MCY	alignments	448722930	1	1_1	ENCSR907NKV_1_1	human
-ENCSR907NKV	C2C12 myotube	C3H	ENCFF396UFT	alignments	477932039	2	2_1	ENCSR907NKV_2_1	human
-ENCSR907NKV	C2C12 myotube	C3H	ENCFF731HHB	unfiltered alignments	1637389929	1	1_1	ENCSR907NKV_1_1	human
-ENCSR649MEZ	ENC4_235 B6Cast F1 PND 2 months_Male 03_Adrenals	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF122PGZ	reads	491362551	1	1_1	ENCSR649MEZ_1_1	human
-ENCSR649MEZ	ENC4_235 B6Cast F1 PND 2 months_Male 03_Adrenals	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF916NVH	reads	452131765	2	2_1	ENCSR649MEZ_2_1	human
-ENCSR649MEZ	ENC4_235 B6Cast F1 PND 2 months_Male 03_Adrenals	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF943KQU	alignments	158219420	2	2_1	ENCSR649MEZ_2_1	human
-ENCSR649MEZ	ENC4_235 B6Cast F1 PND 2 months_Male 03_Adrenals	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF529OQN	unfiltered alignments	605078098	1	1_1	ENCSR649MEZ_1_1	human
-ENCSR649MEZ	ENC4_235 B6Cast F1 PND 2 months_Male 03_Adrenals	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF367SIB	unfiltered alignments	553076418	2	2_1	ENCSR649MEZ_2_1	human
-ENCSR649MEZ	ENC4_235 B6Cast F1 PND 2 months_Male 03_Adrenals	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF069HPA	alignments	165659264	1	1_1	ENCSR649MEZ_1_1	human
-ENCSR271ULH	ENC4_217 - B6Cast F1 PND4_Female 03_Adrenals	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF977AQV	reads	768031739	1	1_1	ENCSR271ULH_1_1	human
-ENCSR271ULH	ENC4_217 - B6Cast F1 PND4_Female 03_Adrenals	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF626SLN	reads	734432262	2	2_1	ENCSR271ULH_2_1	human
-ENCSR271ULH	ENC4_217 - B6Cast F1 PND4_Female 03_Adrenals	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF983CFK	alignments	247605236	2	2_1	ENCSR271ULH_2_1	human
-ENCSR271ULH	ENC4_217 - B6Cast F1 PND4_Female 03_Adrenals	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF402MIP	alignments	271439082	1	1_1	ENCSR271ULH_1_1	human
-ENCSR271ULH	ENC4_217 - B6Cast F1 PND4_Female 03_Adrenals	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF106PGY	unfiltered alignments	903641440	2	2_1	ENCSR271ULH_2_1	human
-ENCSR271ULH	ENC4_217 - B6Cast F1 PND4_Female 03_Adrenals	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF633GXD	unfiltered alignments	956551908	1	1_1	ENCSR271ULH_1_1	human
-ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF874VSI	reads	2651990414	1	1_1	ENCSR172GXL_1_1	human
-ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF667VXS	reads	1829919526	2	2_1	ENCSR172GXL_2_1	human
-ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF313VYZ	reads	1595972000	3	3_1	ENCSR172GXL_3_1	human
-ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF945QSC	alignments	622364751	2	2_1	ENCSR172GXL_2_1	human
-ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF240QMR	alignments	894407449	1	1_1	ENCSR172GXL_1_1	human
-ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF697PDG	alignments	555906595	3	3_1	ENCSR172GXL_3_1	human
-ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF292NKU	unfiltered alignments	1937149490	3	3_1	ENCSR172GXL_3_1	human
-ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF008DSH	unfiltered alignments	3248521669	1	1_1	ENCSR172GXL_1_1	human
-ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF108NUC	unfiltered alignments	2228983366	2	2_1	ENCSR172GXL_2_1	human
-ENCSR242UEB	ENC4_231 B6Cast F1 PND36_ Male 03_Adrenals	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF988MZV	reads	244545858	1	1_1	ENCSR242UEB_1_1	human
-ENCSR242UEB	ENC4_231 B6Cast F1 PND36_ Male 03_Adrenals	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF549DGV	reads	230186324	2	2_1	ENCSR242UEB_2_1	human
-ENCSR242UEB	ENC4_231 B6Cast F1 PND36_ Male 03_Adrenals	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF501YNI	unfiltered alignments	288893662	2	2_1	ENCSR242UEB_2_1	human
-ENCSR242UEB	ENC4_231 B6Cast F1 PND36_ Male 03_Adrenals	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF297ZHK	alignments	86287245	2	2_1	ENCSR242UEB_2_1	human
-ENCSR242UEB	ENC4_231 B6Cast F1 PND36_ Male 03_Adrenals	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF852UAU	unfiltered alignments	304839078	1	1_1	ENCSR242UEB_1_1	human
-ENCSR242UEB	ENC4_231 B6Cast F1 PND36_ Male 03_Adrenals	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF012CDD	alignments	89895518	1	1_1	ENCSR242UEB_1_1	human
-ENCSR530ZLE	ENC4_225 - B6Cast F1 PND14_3x Females 03_Adrenals	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF435KPO	reads	564401145	2	2_1	ENCSR530ZLE_2_1	human
-ENCSR530ZLE	ENC4_225 - B6Cast F1 PND14_3x Females 03_Adrenals	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF671OCJ	reads	629940537	1	1_1	ENCSR530ZLE_1_1	human
-ENCSR530ZLE	ENC4_225 - B6Cast F1 PND14_3x Females 03_Adrenals	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF402PHJ	alignments	189172394	2	2_1	ENCSR530ZLE_2_1	human
-ENCSR530ZLE	ENC4_225 - B6Cast F1 PND14_3x Females 03_Adrenals	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF026LZW	unfiltered alignments	780101291	1	1_1	ENCSR530ZLE_1_1	human
-ENCSR530ZLE	ENC4_225 - B6Cast F1 PND14_3x Females 03_Adrenals	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF704NBV	unfiltered alignments	699212681	2	2_1	ENCSR530ZLE_2_1	human
-ENCSR530ZLE	ENC4_225 - B6Cast F1 PND14_3x Females 03_Adrenals	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF094ZZY	alignments	211235128	1	1_1	ENCSR530ZLE_1_1	human
-ENCSR909NPF	ENC4_437, ENC4_438 hippocampus_B6Cast F1_2 months_female_6_ENC4_cDNA510	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF223JJA	reads	625983252	1	1_1	ENCSR909NPF_1_1	human
-ENCSR909NPF	ENC4_437, ENC4_438 hippocampus_B6Cast F1_2 months_female_6_ENC4_cDNA510	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF326JTG	reads	580937927	2	2_1	ENCSR909NPF_2_1	human
-ENCSR909NPF	ENC4_437, ENC4_438 hippocampus_B6Cast F1_2 months_female_6_ENC4_cDNA510	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF254PCW	alignments	238491514	1	1_1	ENCSR909NPF_1_1	human
-ENCSR909NPF	ENC4_437, ENC4_438 hippocampus_B6Cast F1_2 months_female_6_ENC4_cDNA510	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF337TQR	unfiltered alignments	755044627	1	1_1	ENCSR909NPF_1_1	human
-ENCSR909NPF	ENC4_437, ENC4_438 hippocampus_B6Cast F1_2 months_female_6_ENC4_cDNA510	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF987ICP	unfiltered alignments	699790287	2	2_1	ENCSR909NPF_2_1	human
-ENCSR909NPF	ENC4_437, ENC4_438 hippocampus_B6Cast F1_2 months_female_6_ENC4_cDNA510	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF212YBY	alignments	226203270	2	2_1	ENCSR909NPF_2_1	human
-ENCSR084MKR	ENC4_233 - B6Cast F1 PND36_Female 03_Adrenals	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF100OAR	reads	617229700	1	1_1	ENCSR084MKR_1_1	human
-ENCSR084MKR	ENC4_233 - B6Cast F1 PND36_Female 03_Adrenals	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF604SVZ	reads	199802110	2	2_1	ENCSR084MKR_2_1	human
-ENCSR084MKR	ENC4_233 - B6Cast F1 PND36_Female 03_Adrenals	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF898YPG	alignments	76899406	2	2_1	ENCSR084MKR_2_1	human
-ENCSR084MKR	ENC4_233 - B6Cast F1 PND36_Female 03_Adrenals	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF083AGY	alignments	203883926	1	1_1	ENCSR084MKR_1_1	human
-ENCSR084MKR	ENC4_233 - B6Cast F1 PND36_Female 03_Adrenals	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF399RPQ	unfiltered alignments	251886195	2	2_1	ENCSR084MKR_2_1	human
-ENCSR084MKR	ENC4_233 - B6Cast F1 PND36_Female 03_Adrenals	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF222VGG	unfiltered alignments	780485902	1	1_1	ENCSR084MKR_1_1	human
-ENCSR852HRM	ENC4_237 - B6Cast F1 PND 2 months_Female 03 _Adrenals	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF429RCV	reads	773435264	1	1_1	ENCSR852HRM_1_1	human
-ENCSR852HRM	ENC4_237 - B6Cast F1 PND 2 months_Female 03 _Adrenals	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF387GTW	reads	349209379	2	2_1	ENCSR852HRM_2_1	human
-ENCSR852HRM	ENC4_237 - B6Cast F1 PND 2 months_Female 03 _Adrenals	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF242QIP	unfiltered alignments	428442170	2	2_1	ENCSR852HRM_2_1	human
-ENCSR852HRM	ENC4_237 - B6Cast F1 PND 2 months_Female 03 _Adrenals	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF660EKE	unfiltered alignments	958190702	1	1_1	ENCSR852HRM_1_1	human
-ENCSR852HRM	ENC4_237 - B6Cast F1 PND 2 months_Female 03 _Adrenals	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF291MJO	alignments	252734987	1	1_1	ENCSR852HRM_1_1	human
-ENCSR852HRM	ENC4_237 - B6Cast F1 PND 2 months_Female 03 _Adrenals	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF685SKU	alignments	122537811	2	2_1	ENCSR852HRM_2_1	human
-ENCSR698DOB	ENC4_219 - B6Cast F1 PND10_Male 03_Adrenals	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF303OLU	reads	623945716	1	1_1	ENCSR698DOB_1_1	human
-ENCSR698DOB	ENC4_219 - B6Cast F1 PND10_Male 03_Adrenals	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF856RHM	reads	700072488	2	2_1	ENCSR698DOB_2_1	human
-ENCSR698DOB	ENC4_219 - B6Cast F1 PND10_Male 03_Adrenals	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF676ASW	unfiltered alignments	769694260	1	1_1	ENCSR698DOB_1_1	human
-ENCSR698DOB	ENC4_219 - B6Cast F1 PND10_Male 03_Adrenals	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF674HLT	unfiltered alignments	886645200	2	2_1	ENCSR698DOB_2_1	human
-ENCSR698DOB	ENC4_219 - B6Cast F1 PND10_Male 03_Adrenals	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF261QFC	alignments	231077224	2	2_1	ENCSR698DOB_2_1	human
-ENCSR698DOB	ENC4_219 - B6Cast F1 PND10_Male 03_Adrenals	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF336YOF	alignments	204863454	1	1_1	ENCSR698DOB_1_1	human
-ENCSR309XOR	ENC4_240 - B6Cast F1 PND 18-20 months_Female 03 _Adrenals	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF169PFY	reads	931308181	1	1_1	ENCSR309XOR_1_1	human
-ENCSR309XOR	ENC4_240 - B6Cast F1 PND 18-20 months_Female 03 _Adrenals	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF142VQP	reads	650111505	2	2_1	ENCSR309XOR_2_1	human
-ENCSR309XOR	ENC4_240 - B6Cast F1 PND 18-20 months_Female 03 _Adrenals	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF416OPW	unfiltered alignments	1153516130	1	1_1	ENCSR309XOR_1_1	human
-ENCSR309XOR	ENC4_240 - B6Cast F1 PND 18-20 months_Female 03 _Adrenals	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF745YKM	alignments	294229290	1	1_1	ENCSR309XOR_1_1	human
-ENCSR309XOR	ENC4_240 - B6Cast F1 PND 18-20 months_Female 03 _Adrenals	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF331LQP	alignments	224159604	2	2_1	ENCSR309XOR_2_1	human
-ENCSR309XOR	ENC4_240 - B6Cast F1 PND 18-20 months_Female 03 _Adrenals	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF125RCP	unfiltered alignments	810168156	2	2_1	ENCSR309XOR_2_1	human
-ENCSR402DOZ	ENC4_389a, ENC4_390a B6Cast F1 PND14 Males Gastrocnemius	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF948TOU	reads	631483618	1	1_1	ENCSR402DOZ_1_1	human
-ENCSR402DOZ	ENC4_389a, ENC4_390a B6Cast F1 PND14 Males Gastrocnemius	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF369DHX	reads	271914764	2	2_1	ENCSR402DOZ_2_1	human
-ENCSR402DOZ	ENC4_389a, ENC4_390a B6Cast F1 PND14 Males Gastrocnemius	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF137SHD	alignments	99690606	2	2_1	ENCSR402DOZ_2_1	human
-ENCSR402DOZ	ENC4_389a, ENC4_390a B6Cast F1 PND14 Males Gastrocnemius	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF792HGO	unfiltered alignments	364116630	2	2_1	ENCSR402DOZ_2_1	human
-ENCSR402DOZ	ENC4_389a, ENC4_390a B6Cast F1 PND14 Males Gastrocnemius	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF213OCJ	unfiltered alignments	821708599	1	1_1	ENCSR402DOZ_1_1	human
-ENCSR402DOZ	ENC4_389a, ENC4_390a B6Cast F1 PND14 Males Gastrocnemius	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF544KTY	alignments	214021955	1	1_1	ENCSR402DOZ_1_1	human
-ENCSR295PVQ	ENC4_227 - B6Cast F1 PND25_Male 03_Adrenals	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF873KDL	reads	575729376	1	1_1	ENCSR295PVQ_1_1	human
-ENCSR295PVQ	ENC4_227 - B6Cast F1 PND25_Male 03_Adrenals	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF866CSV	reads	780467946	2	2_1	ENCSR295PVQ_2_1	human
-ENCSR295PVQ	ENC4_227 - B6Cast F1 PND25_Male 03_Adrenals	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF886RIS	alignments	199279610	1	1_1	ENCSR295PVQ_1_1	human
-ENCSR295PVQ	ENC4_227 - B6Cast F1 PND25_Male 03_Adrenals	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF535UYC	unfiltered alignments	703831632	1	1_1	ENCSR295PVQ_1_1	human
-ENCSR295PVQ	ENC4_227 - B6Cast F1 PND25_Male 03_Adrenals	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF664ZFM	alignments	260066862	2	2_1	ENCSR295PVQ_2_1	human
-ENCSR295PVQ	ENC4_227 - B6Cast F1 PND25_Male 03_Adrenals	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF388RDV	unfiltered alignments	974987209	2	2_1	ENCSR295PVQ_2_1	human
-ENCSR116DUT	ENC4_405, ENC4_406 B6Cast F1 PND 18-20 months_Male Gastrocnemius	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF865ZOH	reads	899125335	1	1_1	ENCSR116DUT_1_1	human
-ENCSR116DUT	ENC4_405, ENC4_406 B6Cast F1 PND 18-20 months_Male Gastrocnemius	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF421HRA	reads	879411499	2	2_1	ENCSR116DUT_2_1	human
-ENCSR116DUT	ENC4_405, ENC4_406 B6Cast F1 PND 18-20 months_Male Gastrocnemius	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF584LYA	alignments	317754410	1	1_1	ENCSR116DUT_1_1	human
-ENCSR116DUT	ENC4_405, ENC4_406 B6Cast F1 PND 18-20 months_Male Gastrocnemius	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF353JKI	unfiltered alignments	1182822793	1	1_1	ENCSR116DUT_1_1	human
-ENCSR116DUT	ENC4_405, ENC4_406 B6Cast F1 PND 18-20 months_Male Gastrocnemius	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF057DYQ	unfiltered alignments	1134643498	2	2_1	ENCSR116DUT_2_1	human
-ENCSR116DUT	ENC4_405, ENC4_406 B6Cast F1 PND 18-20 months_Male Gastrocnemius	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF715RFV	alignments	327910591	2	2_1	ENCSR116DUT_2_1	human
-ENCSR472CHU	ENC4_441, ENC4_442 hippocampus_B6Cast F1_18 - 20 months_female_6_ENC4_cDNA513	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF896RNF	reads	1086737148	1	1_1	ENCSR472CHU_1_1	human
-ENCSR472CHU	ENC4_441, ENC4_442 hippocampus_B6Cast F1_18 - 20 months_female_6_ENC4_cDNA513	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF346JYL	reads	589871941	2	2_1	ENCSR472CHU_2_1	human
-ENCSR472CHU	ENC4_441, ENC4_442 hippocampus_B6Cast F1_18 - 20 months_female_6_ENC4_cDNA513	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF309ZQW	unfiltered alignments	1292794193	1	1_1	ENCSR472CHU_1_1	human
-ENCSR472CHU	ENC4_441, ENC4_442 hippocampus_B6Cast F1_18 - 20 months_female_6_ENC4_cDNA513	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF241SUN	unfiltered alignments	719367923	2	2_1	ENCSR472CHU_2_1	human
-ENCSR472CHU	ENC4_441, ENC4_442 hippocampus_B6Cast F1_18 - 20 months_female_6_ENC4_cDNA513	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF201NMX	alignments	216925104	2	2_1	ENCSR472CHU_2_1	human
-ENCSR472CHU	ENC4_441, ENC4_442 hippocampus_B6Cast F1_18 - 20 months_female_6_ENC4_cDNA513	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF973YHW	alignments	392996862	1	1_1	ENCSR472CHU_1_1	human
-ENCSR938RPH	ENC4_495, ENC4_496 heart_B6Cast F1 PND 2 months Female 03 heart_ENC4_cDNA607, cDNA608	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF836SSV	reads	528624705	1	1_1	ENCSR938RPH_1_1	human
-ENCSR938RPH	ENC4_495, ENC4_496 heart_B6Cast F1 PND 2 months Female 03 heart_ENC4_cDNA607, cDNA608	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF031EVU	reads	469970737	2	2_1	ENCSR938RPH_2_1	human
-ENCSR938RPH	ENC4_495, ENC4_496 heart_B6Cast F1 PND 2 months Female 03 heart_ENC4_cDNA607, cDNA608	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF246TCD	alignments	186644974	1	1_1	ENCSR938RPH_1_1	human
-ENCSR938RPH	ENC4_495, ENC4_496 heart_B6Cast F1 PND 2 months Female 03 heart_ENC4_cDNA607, cDNA608	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF427ZRR	unfiltered alignments	656676643	1	1_1	ENCSR938RPH_1_1	human
-ENCSR938RPH	ENC4_495, ENC4_496 heart_B6Cast F1 PND 2 months Female 03 heart_ENC4_cDNA607, cDNA608	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF348KGR	alignments	170237951	2	2_1	ENCSR938RPH_2_1	human
-ENCSR938RPH	ENC4_495, ENC4_496 heart_B6Cast F1 PND 2 months Female 03 heart_ENC4_cDNA607, cDNA608	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF992KKH	unfiltered alignments	582883355	2	2_1	ENCSR938RPH_2_1	human
-ENCSR791JQO	ENC4_453, ENC4_454 B6Cast F1 PND14 3x Males 03 L. cortex	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF100UBG	reads	596810201	1	1_1	ENCSR791JQO_1_1	human
-ENCSR791JQO	ENC4_453, ENC4_454 B6Cast F1 PND14 3x Males 03 L. cortex	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF812RTU	reads	686353481	2	2_1	ENCSR791JQO_2_1	human
-ENCSR791JQO	ENC4_453, ENC4_454 B6Cast F1 PND14 3x Males 03 L. cortex	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF254GFU	alignments	212694062	1	1_1	ENCSR791JQO_1_1	human
-ENCSR791JQO	ENC4_453, ENC4_454 B6Cast F1 PND14 3x Males 03 L. cortex	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF769YZL	unfiltered alignments	832588858	2	2_1	ENCSR791JQO_2_1	human
-ENCSR791JQO	ENC4_453, ENC4_454 B6Cast F1 PND14 3x Males 03 L. cortex	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF125MOK	unfiltered alignments	722366834	1	1_1	ENCSR791JQO_1_1	human
-ENCSR791JQO	ENC4_453, ENC4_454 B6Cast F1 PND14 3x Males 03 L. cortex	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF816VUM	alignments	241228861	2	2_1	ENCSR791JQO_2_1	human
-ENCSR454ECK	ENC4_223 - B6Cast F1 PND14_3x Males 03_Adrenals	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF836THV	reads	550629218	1	1_1	ENCSR454ECK_1_1	human
-ENCSR454ECK	ENC4_223 - B6Cast F1 PND14_3x Males 03_Adrenals	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF970IHS	reads	499251215	2	2_1	ENCSR454ECK_2_1	human
-ENCSR454ECK	ENC4_223 - B6Cast F1 PND14_3x Males 03_Adrenals	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF800KCU	unfiltered alignments	678883072	1	1_1	ENCSR454ECK_1_1	human
-ENCSR454ECK	ENC4_223 - B6Cast F1 PND14_3x Males 03_Adrenals	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF379DRK	alignments	175159242	2	2_1	ENCSR454ECK_2_1	human
-ENCSR454ECK	ENC4_223 - B6Cast F1 PND14_3x Males 03_Adrenals	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF817DYN	unfiltered alignments	624165891	2	2_1	ENCSR454ECK_2_1	human
-ENCSR454ECK	ENC4_223 - B6Cast F1 PND14_3x Males 03_Adrenals	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF495FTY	alignments	190598592	1	1_1	ENCSR454ECK_1_1	human
-ENCSR754VEZ	ENC4_387a, ENC4_388a B6Cast F1 PND10_Female Gastrocnemius	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF337DWM	reads	888420882	1	1_1	ENCSR754VEZ_1_1	human
-ENCSR754VEZ	ENC4_387a, ENC4_388a B6Cast F1 PND10_Female Gastrocnemius	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF696VVK	reads	356998392	2	2_1	ENCSR754VEZ_2_1	human
-ENCSR754VEZ	ENC4_387a, ENC4_388a B6Cast F1 PND10_Female Gastrocnemius	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF691USV	alignments	125586323	2	2_1	ENCSR754VEZ_2_1	human
-ENCSR754VEZ	ENC4_387a, ENC4_388a B6Cast F1 PND10_Female Gastrocnemius	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF293HRQ	unfiltered alignments	461765035	2	2_1	ENCSR754VEZ_2_1	human
-ENCSR754VEZ	ENC4_387a, ENC4_388a B6Cast F1 PND10_Female Gastrocnemius	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF221IAN	unfiltered alignments	1110303407	1	1_1	ENCSR754VEZ_1_1	human
-ENCSR754VEZ	ENC4_387a, ENC4_388a B6Cast F1 PND10_Female Gastrocnemius	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF790IBF	alignments	302889213	1	1_1	ENCSR754VEZ_1_1	human
-ENCSR818JQK	ENC4_395a, ENC4_396a B6Cast F1 PND25_ Female Gastrocnemius	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF837UMP	reads	673025734	1	1_1	ENCSR818JQK_1_1	human
-ENCSR818JQK	ENC4_395a, ENC4_396a B6Cast F1 PND25_ Female Gastrocnemius	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF556BPF	reads	680497718	2	2_1	ENCSR818JQK_2_1	human
-ENCSR818JQK	ENC4_395a, ENC4_396a B6Cast F1 PND25_ Female Gastrocnemius	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF402JSQ	unfiltered alignments	890263365	1	1_1	ENCSR818JQK_1_1	human
-ENCSR818JQK	ENC4_395a, ENC4_396a B6Cast F1 PND25_ Female Gastrocnemius	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF951RWG	unfiltered alignments	910536459	2	2_1	ENCSR818JQK_2_1	human
-ENCSR818JQK	ENC4_395a, ENC4_396a B6Cast F1 PND25_ Female Gastrocnemius	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF871UCZ	alignments	244795200	1	1_1	ENCSR818JQK_1_1	human
-ENCSR818JQK	ENC4_395a, ENC4_396a B6Cast F1 PND25_ Female Gastrocnemius	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF481DML	alignments	231905858	2	2_1	ENCSR818JQK_2_1	human
-ENCSR631KNS	ENC4_455, ENC4_456 B6Cast F1 PND14 3x Females 03 L. cortex	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF773BXP	reads	771053796	1	1_1	ENCSR631KNS_1_1	human
-ENCSR631KNS	ENC4_455, ENC4_456 B6Cast F1 PND14 3x Females 03 L. cortex	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF468KWN	reads	543471634	2	2_1	ENCSR631KNS_2_1	human
-ENCSR631KNS	ENC4_455, ENC4_456 B6Cast F1 PND14 3x Females 03 L. cortex	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF647URO	alignments	261144863	1	1_1	ENCSR631KNS_1_1	human
-ENCSR631KNS	ENC4_455, ENC4_456 B6Cast F1 PND14 3x Females 03 L. cortex	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF950QSG	unfiltered alignments	935544024	1	1_1	ENCSR631KNS_1_1	human
-ENCSR631KNS	ENC4_455, ENC4_456 B6Cast F1 PND14 3x Females 03 L. cortex	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF633UIS	unfiltered alignments	662571100	2	2_1	ENCSR631KNS_2_1	human
-ENCSR631KNS	ENC4_455, ENC4_456 B6Cast F1 PND14 3x Females 03 L. cortex	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF563NJO	alignments	196418540	2	2_1	ENCSR631KNS_2_1	human
-ENCSR972DID	ENC4_439, ENC4_440 hippocampus_B6Cast F1_2 months_male_5_ENC4_cDNA511	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF338YTG	reads	841038303	1	1_1	ENCSR972DID_1_1	human
-ENCSR972DID	ENC4_439, ENC4_440 hippocampus_B6Cast F1_2 months_male_5_ENC4_cDNA511	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF509RDZ	reads	737288477	2	2_1	ENCSR972DID_2_1	human
-ENCSR972DID	ENC4_439, ENC4_440 hippocampus_B6Cast F1_2 months_male_5_ENC4_cDNA511	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF724GWS	unfiltered alignments	1013235472	1	1_1	ENCSR972DID_1_1	human
-ENCSR972DID	ENC4_439, ENC4_440 hippocampus_B6Cast F1_2 months_male_5_ENC4_cDNA511	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF851TZJ	unfiltered alignments	885885478	2	2_1	ENCSR972DID_2_1	human
-ENCSR972DID	ENC4_439, ENC4_440 hippocampus_B6Cast F1_2 months_male_5_ENC4_cDNA511	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF572WXI	alignments	306259693	1	1_1	ENCSR972DID_1_1	human
-ENCSR972DID	ENC4_439, ENC4_440 hippocampus_B6Cast F1_2 months_male_5_ENC4_cDNA511	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF436RSJ	alignments	271276919	2	2_1	ENCSR972DID_2_1	human
-ENCSR187TGD	ENC4_483, ENC4_484 heart_B6Cast F1 PND14 3x Females 03 heart_ENC4_cDNA595, cDNA_596	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF885OVT	reads	594443615	1	1_1	ENCSR187TGD_1_1	human
-ENCSR187TGD	ENC4_483, ENC4_484 heart_B6Cast F1 PND14 3x Females 03 heart_ENC4_cDNA595, cDNA_596	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF484VDN	reads	625101880	2	2_1	ENCSR187TGD_2_1	human
-ENCSR187TGD	ENC4_483, ENC4_484 heart_B6Cast F1 PND14 3x Females 03 heart_ENC4_cDNA595, cDNA_596	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF079VYU	unfiltered alignments	771627460	2	2_1	ENCSR187TGD_2_1	human
-ENCSR187TGD	ENC4_483, ENC4_484 heart_B6Cast F1 PND14 3x Females 03 heart_ENC4_cDNA595, cDNA_596	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF703PQX	unfiltered alignments	734025651	1	1_1	ENCSR187TGD_1_1	human
-ENCSR187TGD	ENC4_483, ENC4_484 heart_B6Cast F1 PND14 3x Females 03 heart_ENC4_cDNA595, cDNA_596	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF245XSW	alignments	206350545	1	1_1	ENCSR187TGD_1_1	human
-ENCSR187TGD	ENC4_483, ENC4_484 heart_B6Cast F1 PND14 3x Females 03 heart_ENC4_cDNA595, cDNA_596	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF951AXN	alignments	215725812	2	2_1	ENCSR187TGD_2_1	human
-ENCSR375EOW	ENC4_493, ENC4_494 heart_B6Cast F1 PND 2 months Male 03 heart_ENC4_cDNA605, cDNA606	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF583MVR	reads	288115213	1	1_1	ENCSR375EOW_1_1	human
-ENCSR375EOW	ENC4_493, ENC4_494 heart_B6Cast F1 PND 2 months Male 03 heart_ENC4_cDNA605, cDNA606	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF358AEP	reads	394644556	2	2_1	ENCSR375EOW_2_1	human
-ENCSR375EOW	ENC4_493, ENC4_494 heart_B6Cast F1 PND 2 months Male 03 heart_ENC4_cDNA605, cDNA606	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF505GEW	unfiltered alignments	357678106	1	1_1	ENCSR375EOW_1_1	human
-ENCSR375EOW	ENC4_493, ENC4_494 heart_B6Cast F1 PND 2 months Male 03 heart_ENC4_cDNA605, cDNA606	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF769MAL	alignments	140417465	2	2_1	ENCSR375EOW_2_1	human
-ENCSR375EOW	ENC4_493, ENC4_494 heart_B6Cast F1 PND 2 months Male 03 heart_ENC4_cDNA605, cDNA606	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF487CUQ	unfiltered alignments	492193134	2	2_1	ENCSR375EOW_2_1	human
-ENCSR375EOW	ENC4_493, ENC4_494 heart_B6Cast F1 PND 2 months Male 03 heart_ENC4_cDNA605, cDNA606	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF150RFK	alignments	108496407	1	1_1	ENCSR375EOW_1_1	human
-ENCSR146ZFC	ENC4_413, ENC4_414 hippocampus_B6CastF1_PND14_3x female_4,5,6_ENC4_cDNA497	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF518QIV	reads	728678404	1	1_1	ENCSR146ZFC_1_1	human
-ENCSR146ZFC	ENC4_413, ENC4_414 hippocampus_B6CastF1_PND14_3x female_4,5,6_ENC4_cDNA497	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF809BZD	reads	639484257	2	2_1	ENCSR146ZFC_2_1	human
-ENCSR146ZFC	ENC4_413, ENC4_414 hippocampus_B6CastF1_PND14_3x female_4,5,6_ENC4_cDNA497	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF609FJG	unfiltered alignments	891186648	1	1_1	ENCSR146ZFC_1_1	human
-ENCSR146ZFC	ENC4_413, ENC4_414 hippocampus_B6CastF1_PND14_3x female_4,5,6_ENC4_cDNA497	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF834PLA	unfiltered alignments	775599990	2	2_1	ENCSR146ZFC_2_1	human
-ENCSR146ZFC	ENC4_413, ENC4_414 hippocampus_B6CastF1_PND14_3x female_4,5,6_ENC4_cDNA497	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF083NGA	alignments	224109177	2	2_1	ENCSR146ZFC_2_1	human
-ENCSR146ZFC	ENC4_413, ENC4_414 hippocampus_B6CastF1_PND14_3x female_4,5,6_ENC4_cDNA497	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF176XZM	alignments	254527956	1	1_1	ENCSR146ZFC_1_1	human
-ENCSR845IUJ	ENC4_401a, ENC4_402a B6Cast F1 PND 2 months_Male Gastrocnemius	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF327DHL	reads	641519216	1	1_1	ENCSR845IUJ_1_1	human
-ENCSR845IUJ	ENC4_401a, ENC4_402a B6Cast F1 PND 2 months_Male Gastrocnemius	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF441MLQ	reads	889699774	2	2_1	ENCSR845IUJ_2_1	human
-ENCSR845IUJ	ENC4_401a, ENC4_402a B6Cast F1 PND 2 months_Male Gastrocnemius	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF262EPW	unfiltered alignments	850985249	1	1_1	ENCSR845IUJ_1_1	human
-ENCSR845IUJ	ENC4_401a, ENC4_402a B6Cast F1 PND 2 months_Male Gastrocnemius	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF958QWV	alignments	313748539	2	2_1	ENCSR845IUJ_2_1	human
-ENCSR845IUJ	ENC4_401a, ENC4_402a B6Cast F1 PND 2 months_Male Gastrocnemius	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF434ITE	unfiltered alignments	1162791467	2	2_1	ENCSR845IUJ_2_1	human
-ENCSR845IUJ	ENC4_401a, ENC4_402a B6Cast F1 PND 2 months_Male Gastrocnemius	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF291WVH	alignments	226695688	1	1_1	ENCSR845IUJ_1_1	human
-ENCSR437WYC	ENC4_397a, ENC4_398a B6Cast F1 PND36_ Male Gastrocnemius	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF107CZA	reads	558223880	1	1_1	ENCSR437WYC_1_1	human
-ENCSR437WYC	ENC4_397a, ENC4_398a B6Cast F1 PND36_ Male Gastrocnemius	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF957OYJ	reads	486656009	2	2_1	ENCSR437WYC_2_1	human
-ENCSR437WYC	ENC4_397a, ENC4_398a B6Cast F1 PND36_ Male Gastrocnemius	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF937OFR	unfiltered alignments	739803877	1	1_1	ENCSR437WYC_1_1	human
-ENCSR437WYC	ENC4_397a, ENC4_398a B6Cast F1 PND36_ Male Gastrocnemius	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF472VGI	unfiltered alignments	671943424	2	2_1	ENCSR437WYC_2_1	human
-ENCSR437WYC	ENC4_397a, ENC4_398a B6Cast F1 PND36_ Male Gastrocnemius	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF524QBF	alignments	195857981	1	1_1	ENCSR437WYC_1_1	human
-ENCSR437WYC	ENC4_397a, ENC4_398a B6Cast F1 PND36_ Male Gastrocnemius	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF550PLW	alignments	170439403	2	2_1	ENCSR437WYC_2_1	human
-ENCSR862DMK	ENC4_465, ENC4_466 B6Cast F1 PND 2 months Male 03 L. cortex	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF285NUG	reads	1005505763	1	1_1	ENCSR862DMK_1_1	human
-ENCSR862DMK	ENC4_465, ENC4_466 B6Cast F1 PND 2 months Male 03 L. cortex	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF977AFJ	reads	430463025	2	2_1	ENCSR862DMK_2_1	human
-ENCSR862DMK	ENC4_465, ENC4_466 B6Cast F1 PND 2 months Male 03 L. cortex	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF594DAT	unfiltered alignments	521145967	2	2_1	ENCSR862DMK_2_1	human
-ENCSR862DMK	ENC4_465, ENC4_466 B6Cast F1 PND 2 months Male 03 L. cortex	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF439LFE	unfiltered alignments	1195511459	1	1_1	ENCSR862DMK_1_1	human
-ENCSR862DMK	ENC4_465, ENC4_466 B6Cast F1 PND 2 months Male 03 L. cortex	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF277JRJ	alignments	364211749	1	1_1	ENCSR862DMK_1_1	human
-ENCSR862DMK	ENC4_465, ENC4_466 B6Cast F1 PND 2 months Male 03 L. cortex	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF792XAE	alignments	170307940	2	2_1	ENCSR862DMK_2_1	human
-ENCSR370BHF	ENC4_403a, ENC4_404a B6Cast F1 PND 2 months_Female Gastrocnemius	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF271ZDH	reads	830348072	1	1_1	ENCSR370BHF_1_1	human
-ENCSR370BHF	ENC4_403a, ENC4_404a B6Cast F1 PND 2 months_Female Gastrocnemius	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF095FKV	reads	877052749	2	2_1	ENCSR370BHF_2_1	human
-ENCSR370BHF	ENC4_403a, ENC4_404a B6Cast F1 PND 2 months_Female Gastrocnemius	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF721JWI	alignments	312203104	2	2_1	ENCSR370BHF_2_1	human
-ENCSR370BHF	ENC4_403a, ENC4_404a B6Cast F1 PND 2 months_Female Gastrocnemius	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF385JNL	alignments	288979210	1	1_1	ENCSR370BHF_1_1	human
-ENCSR370BHF	ENC4_403a, ENC4_404a B6Cast F1 PND 2 months_Female Gastrocnemius	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF970PLN	unfiltered alignments	1083307023	1	1_1	ENCSR370BHF_1_1	human
-ENCSR370BHF	ENC4_403a, ENC4_404a B6Cast F1 PND 2 months_Female Gastrocnemius	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF949HWT	unfiltered alignments	1135605374	2	2_1	ENCSR370BHF_2_1	human
-ENCSR026WRM	ENC4_415, ENC4_416 hippocampus_B6CastF1_PND14_3x male_7,8,9_ENC4_cDNA499	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF402OZL	reads	608284430	1	1_1	ENCSR026WRM_1_1	human
-ENCSR026WRM	ENC4_415, ENC4_416 hippocampus_B6CastF1_PND14_3x male_7,8,9_ENC4_cDNA499	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF182ZKL	reads	537204609	2	2_1	ENCSR026WRM_2_1	human
-ENCSR026WRM	ENC4_415, ENC4_416 hippocampus_B6CastF1_PND14_3x male_7,8,9_ENC4_cDNA499	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF587QKV	alignments	193933133	2	2_1	ENCSR026WRM_2_1	human
-ENCSR026WRM	ENC4_415, ENC4_416 hippocampus_B6CastF1_PND14_3x male_7,8,9_ENC4_cDNA499	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF574LQO	unfiltered alignments	652403788	2	2_1	ENCSR026WRM_2_1	human
-ENCSR026WRM	ENC4_415, ENC4_416 hippocampus_B6CastF1_PND14_3x male_7,8,9_ENC4_cDNA499	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF655BWX	unfiltered alignments	736677338	1	1_1	ENCSR026WRM_1_1	human
-ENCSR026WRM	ENC4_415, ENC4_416 hippocampus_B6CastF1_PND14_3x male_7,8,9_ENC4_cDNA499	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF753VCG	alignments	217560981	1	1_1	ENCSR026WRM_1_1	human
-ENCSR512EWP	ENC4_215 B6Cast F1 PND4_Male 03_Adrenals	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF141ZHE	reads	387445436	1	1_1	ENCSR512EWP_1_1	human
-ENCSR512EWP	ENC4_215 B6Cast F1 PND4_Male 03_Adrenals	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF177RGM	reads	421163559	2	2_1	ENCSR512EWP_2_1	human
-ENCSR512EWP	ENC4_215 B6Cast F1 PND4_Male 03_Adrenals	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF639UOD	unfiltered alignments	525563446	2	2_1	ENCSR512EWP_2_1	human
-ENCSR512EWP	ENC4_215 B6Cast F1 PND4_Male 03_Adrenals	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF571ZLW	alignments	149017968	2	2_1	ENCSR512EWP_2_1	human
-ENCSR512EWP	ENC4_215 B6Cast F1 PND4_Male 03_Adrenals	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF034HGS	unfiltered alignments	481236265	1	1_1	ENCSR512EWP_1_1	human
-ENCSR512EWP	ENC4_215 B6Cast F1 PND4_Male 03_Adrenals	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF545VGM	alignments	133349184	1	1_1	ENCSR512EWP_1_1	human
-ENCSR524XLA	ENC4_383a, ENC4_384a B6Cast F1 PND4_Female Gastrocnemius	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF477GNS	reads	879188970	1	1_1	ENCSR524XLA_1_1	human
-ENCSR524XLA	ENC4_383a, ENC4_384a B6Cast F1 PND4_Female Gastrocnemius	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF462TIY	reads	516614958	2	2_1	ENCSR524XLA_2_1	human
-ENCSR524XLA	ENC4_383a, ENC4_384a B6Cast F1 PND4_Female Gastrocnemius	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF142YJX	unfiltered alignments	1077560738	1	1_1	ENCSR524XLA_1_1	human
-ENCSR524XLA	ENC4_383a, ENC4_384a B6Cast F1 PND4_Female Gastrocnemius	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF757HQI	alignments	179374798	2	2_1	ENCSR524XLA_2_1	human
-ENCSR524XLA	ENC4_383a, ENC4_384a B6Cast F1 PND4_Female Gastrocnemius	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF449IWN	unfiltered alignments	643949008	2	2_1	ENCSR524XLA_2_1	human
-ENCSR524XLA	ENC4_383a, ENC4_384a B6Cast F1 PND4_Female Gastrocnemius	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF107OBP	alignments	299194022	1	1_1	ENCSR524XLA_1_1	human
-ENCSR152PAT	ENC4_443, ENC4_444 hippocampus_B6Cast F1_18 - 20 months_male_6_ENC4_cDNA515	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF532MMA	reads	583233093	1	1_1	ENCSR152PAT_1_1	human
-ENCSR152PAT	ENC4_443, ENC4_444 hippocampus_B6Cast F1_18 - 20 months_male_6_ENC4_cDNA515	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF175BNQ	reads	985051958	2	2_1	ENCSR152PAT_2_1	human
-ENCSR152PAT	ENC4_443, ENC4_444 hippocampus_B6Cast F1_18 - 20 months_male_6_ENC4_cDNA515	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF064YWB	unfiltered alignments	699078968	1	1_1	ENCSR152PAT_1_1	human
-ENCSR152PAT	ENC4_443, ENC4_444 hippocampus_B6Cast F1_18 - 20 months_male_6_ENC4_cDNA515	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF600WNB	alignments	351896671	2	2_1	ENCSR152PAT_2_1	human
-ENCSR152PAT	ENC4_443, ENC4_444 hippocampus_B6Cast F1_18 - 20 months_male_6_ENC4_cDNA515	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF662KKK	unfiltered alignments	1171594020	2	2_1	ENCSR152PAT_2_1	human
-ENCSR152PAT	ENC4_443, ENC4_444 hippocampus_B6Cast F1_18 - 20 months_male_6_ENC4_cDNA515	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF128HJT	alignments	224490276	1	1_1	ENCSR152PAT_1_1	human
-ENCSR223AZQ	ENC4_407, ENC4_408 B6Cast F1 PND 18-20 months_Female Gastrocnemius	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF281GTL	reads	686475352	1	1_1	ENCSR223AZQ_1_1	human
-ENCSR223AZQ	ENC4_407, ENC4_408 B6Cast F1 PND 18-20 months_Female Gastrocnemius	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF028QQV	reads	696710653	2	2_1	ENCSR223AZQ_2_1	human
-ENCSR223AZQ	ENC4_407, ENC4_408 B6Cast F1 PND 18-20 months_Female Gastrocnemius	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF463IFJ	unfiltered alignments	901919188	1	1_1	ENCSR223AZQ_1_1	human
-ENCSR223AZQ	ENC4_407, ENC4_408 B6Cast F1 PND 18-20 months_Female Gastrocnemius	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF523LUA	alignments	264349402	2	2_1	ENCSR223AZQ_2_1	human
-ENCSR223AZQ	ENC4_407, ENC4_408 B6Cast F1 PND 18-20 months_Female Gastrocnemius	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF794AWQ	unfiltered alignments	915468846	2	2_1	ENCSR223AZQ_2_1	human
-ENCSR223AZQ	ENC4_407, ENC4_408 B6Cast F1 PND 18-20 months_Female Gastrocnemius	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF033HBE	alignments	246494845	1	1_1	ENCSR223AZQ_1_1	human
-ENCSR861RCH	ENC4_467, ENC4_468 B6Cast F1 PND 2 months Female 03 L. cortex	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF605NQH	reads	692005580	1	1_1	ENCSR861RCH_1_1	human
-ENCSR861RCH	ENC4_467, ENC4_468 B6Cast F1 PND 2 months Female 03 L. cortex	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF937WKF	reads	872244702	2	2_1	ENCSR861RCH_2_1	human
-ENCSR861RCH	ENC4_467, ENC4_468 B6Cast F1 PND 2 months Female 03 L. cortex	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF101RZW	unfiltered alignments	825956103	1	1_1	ENCSR861RCH_1_1	human
-ENCSR861RCH	ENC4_467, ENC4_468 B6Cast F1 PND 2 months Female 03 L. cortex	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF413JMT	unfiltered alignments	1035030404	2	2_1	ENCSR861RCH_2_1	human
-ENCSR861RCH	ENC4_467, ENC4_468 B6Cast F1 PND 2 months Female 03 L. cortex	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF484SWE	alignments	266629665	1	1_1	ENCSR861RCH_1_1	human
-ENCSR861RCH	ENC4_467, ENC4_468 B6Cast F1 PND 2 months Female 03 L. cortex	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF981KWX	alignments	332803565	2	2_1	ENCSR861RCH_2_1	human
-ENCSR893GCO	ENC4_229 B6Cast F1 PND25_ Female 03_Adrenals	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF167GYW	reads	242800298	1	1_1	ENCSR893GCO_1_1	human
-ENCSR893GCO	ENC4_229 B6Cast F1 PND25_ Female 03_Adrenals	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF589EMD	reads	423080341	2	2_1	ENCSR893GCO_2_1	human
-ENCSR893GCO	ENC4_229 B6Cast F1 PND25_ Female 03_Adrenals	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF587AMI	unfiltered alignments	525929068	2	2_1	ENCSR893GCO_2_1	human
-ENCSR893GCO	ENC4_229 B6Cast F1 PND25_ Female 03_Adrenals	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF637NBP	alignments	152092422	2	2_1	ENCSR893GCO_2_1	human
-ENCSR893GCO	ENC4_229 B6Cast F1 PND25_ Female 03_Adrenals	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF833EUH	alignments	92118247	1	1_1	ENCSR893GCO_1_1	human
-ENCSR893GCO	ENC4_229 B6Cast F1 PND25_ Female 03_Adrenals	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF444SZT	unfiltered alignments	301003047	1	1_1	ENCSR893GCO_1_1	human
-ENCSR588IRT	ENC4_399a, ENC4_400a B6Cast F1 PND36_Female Gastrocnemius	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF524YTF	reads	392929831	1	1_1	ENCSR588IRT_1_1	human
-ENCSR588IRT	ENC4_399a, ENC4_400a B6Cast F1 PND36_Female Gastrocnemius	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF294TJX	reads	591751983	2	2_1	ENCSR588IRT_2_1	human
-ENCSR588IRT	ENC4_399a, ENC4_400a B6Cast F1 PND36_Female Gastrocnemius	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF608LPM	unfiltered alignments	805417289	2	2_1	ENCSR588IRT_2_1	human
-ENCSR588IRT	ENC4_399a, ENC4_400a B6Cast F1 PND36_Female Gastrocnemius	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF882CXN	alignments	202289723	2	2_1	ENCSR588IRT_2_1	human
-ENCSR588IRT	ENC4_399a, ENC4_400a B6Cast F1 PND36_Female Gastrocnemius	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF558RAL	unfiltered alignments	532932712	1	1_1	ENCSR588IRT_1_1	human
-ENCSR588IRT	ENC4_399a, ENC4_400a B6Cast F1 PND36_Female Gastrocnemius	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF183WGH	alignments	145656784	1	1_1	ENCSR588IRT_1_1	human
-ENCSR550KPM	ENC4_471, ENC4_472 B6Cast F1 PND 18-20 months Male 03 L. cortex	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF520HCL	reads	608756759	1	1_1	ENCSR550KPM_1_1	human
-ENCSR550KPM	ENC4_471, ENC4_472 B6Cast F1 PND 18-20 months Male 03 L. cortex	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF132MEJ	reads	626221045	2	2_1	ENCSR550KPM_2_1	human
-ENCSR550KPM	ENC4_471, ENC4_472 B6Cast F1 PND 18-20 months Male 03 L. cortex	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF054XPK	alignments	218505873	1	1_1	ENCSR550KPM_1_1	human
-ENCSR550KPM	ENC4_471, ENC4_472 B6Cast F1 PND 18-20 months Male 03 L. cortex	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF436XRC	unfiltered alignments	742073176	1	1_1	ENCSR550KPM_1_1	human
-ENCSR550KPM	ENC4_471, ENC4_472 B6Cast F1 PND 18-20 months Male 03 L. cortex	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF521YYK	unfiltered alignments	760775629	2	2_1	ENCSR550KPM_2_1	human
-ENCSR550KPM	ENC4_471, ENC4_472 B6Cast F1 PND 18-20 months Male 03 L. cortex	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF269APD	alignments	237842654	2	2_1	ENCSR550KPM_2_1	human
-ENCSR842KTN	ENC4_481, ENC4_482 heart_B6Cast F1 PND14 3x Males 03 heart_ENC4_cDNA593, cDNA_594	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF584WWA	reads	641112700	1	1_1	ENCSR842KTN_1_1	human
-ENCSR842KTN	ENC4_481, ENC4_482 heart_B6Cast F1 PND14 3x Males 03 heart_ENC4_cDNA593, cDNA_594	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF860CBL	reads	692194222	2	2_1	ENCSR842KTN_2_1	human
-ENCSR842KTN	ENC4_481, ENC4_482 heart_B6Cast F1 PND14 3x Males 03 heart_ENC4_cDNA593, cDNA_594	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF594CLT	unfiltered alignments	857865322	2	2_1	ENCSR842KTN_2_1	human
-ENCSR842KTN	ENC4_481, ENC4_482 heart_B6Cast F1 PND14 3x Males 03 heart_ENC4_cDNA593, cDNA_594	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF867QMB	alignments	230289774	2	2_1	ENCSR842KTN_2_1	human
-ENCSR842KTN	ENC4_481, ENC4_482 heart_B6Cast F1 PND14 3x Males 03 heart_ENC4_cDNA593, cDNA_594	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF747EXS	unfiltered alignments	797542301	1	1_1	ENCSR842KTN_1_1	human
-ENCSR842KTN	ENC4_481, ENC4_482 heart_B6Cast F1 PND14 3x Males 03 heart_ENC4_cDNA593, cDNA_594	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF953BLN	alignments	211218571	1	1_1	ENCSR842KTN_1_1	human
-ENCSR885NRP	ENC4_239 B6Cast F1 PND 18-20 months_Male 03_Adrenals	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF811RRD	reads	514145335	1	1_1	ENCSR885NRP_1_1	human
-ENCSR885NRP	ENC4_239 B6Cast F1 PND 18-20 months_Male 03_Adrenals	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF167IJD	unfiltered alignments	631034991	1	1_1	ENCSR885NRP_1_1	human
-ENCSR885NRP	ENC4_239 B6Cast F1 PND 18-20 months_Male 03_Adrenals	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF684SLZ	alignments	176433776	1	1_1	ENCSR885NRP_1_1	human
-ENCSR628IMW	ENC4_469, ENC4_470 B6Cast F1 PND 18-20 months Female 03 L. cortex	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF565RLW	reads	911894622	1	1_1	ENCSR628IMW_1_1	human
-ENCSR628IMW	ENC4_469, ENC4_470 B6Cast F1 PND 18-20 months Female 03 L. cortex	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF325BXV	reads	881897056	2	2_1	ENCSR628IMW_2_1	human
-ENCSR628IMW	ENC4_469, ENC4_470 B6Cast F1 PND 18-20 months Female 03 L. cortex	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF691BND	alignments	325256235	1	1_1	ENCSR628IMW_1_1	human
-ENCSR628IMW	ENC4_469, ENC4_470 B6Cast F1 PND 18-20 months Female 03 L. cortex	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF315DLM	unfiltered alignments	1061410424	2	2_1	ENCSR628IMW_2_1	human
-ENCSR628IMW	ENC4_469, ENC4_470 B6Cast F1 PND 18-20 months Female 03 L. cortex	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF851BOA	unfiltered alignments	1099006291	1	1_1	ENCSR628IMW_1_1	human
-ENCSR628IMW	ENC4_469, ENC4_470 B6Cast F1 PND 18-20 months Female 03 L. cortex	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF603QTD	alignments	308071365	2	2_1	ENCSR628IMW_2_1	human
-ENCSR920WYI	ENC4_391a, ENC4_392a B6Cast F1 PND14 Females Gastrocnemius	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF618PJT	reads	780580666	1	1_1	ENCSR920WYI_1_1	human
-ENCSR920WYI	ENC4_391a, ENC4_392a B6Cast F1 PND14 Females Gastrocnemius	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF124DBU	reads	430486503	2	2_1	ENCSR920WYI_2_1	human
-ENCSR920WYI	ENC4_391a, ENC4_392a B6Cast F1 PND14 Females Gastrocnemius	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF524FPE	alignments	149977166	2	2_1	ENCSR920WYI_2_1	human
-ENCSR920WYI	ENC4_391a, ENC4_392a B6Cast F1 PND14 Females Gastrocnemius	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF823CFA	unfiltered alignments	1014524497	1	1_1	ENCSR920WYI_1_1	human
-ENCSR920WYI	ENC4_391a, ENC4_392a B6Cast F1 PND14 Females Gastrocnemius	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF736MDK	alignments	266741946	1	1_1	ENCSR920WYI_1_1	human
-ENCSR920WYI	ENC4_391a, ENC4_392a B6Cast F1 PND14 Females Gastrocnemius	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF285TTM	unfiltered alignments	579005316	2	2_1	ENCSR920WYI_2_1	human
-ENCSR665XLM	ENC4_221 - B6Cast F1 PND10_Female 03_Adrenals	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF863AGD	reads	411345445	2	2_1	ENCSR665XLM_2_1	human
-ENCSR665XLM	ENC4_221 - B6Cast F1 PND10_Female 03_Adrenals	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF321AJK	reads	341273543	1	1_1	ENCSR665XLM_1_1	human
-ENCSR665XLM	ENC4_221 - B6Cast F1 PND10_Female 03_Adrenals	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF276HLF	unfiltered alignments	511721155	2	2_1	ENCSR665XLM_2_1	human
-ENCSR665XLM	ENC4_221 - B6Cast F1 PND10_Female 03_Adrenals	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF550NPJ	alignments	132950172	1	1_1	ENCSR665XLM_1_1	human
-ENCSR665XLM	ENC4_221 - B6Cast F1 PND10_Female 03_Adrenals	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF218PAQ	alignments	149051786	2	2_1	ENCSR665XLM_2_1	human
-ENCSR665XLM	ENC4_221 - B6Cast F1 PND10_Female 03_Adrenals	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF756SOZ	unfiltered alignments	423218863	1	1_1	ENCSR665XLM_1_1	human
-ENCSR964OKW	ENC4_381a, ENC4_382a B6Cast F1 PND4_Male Gastrocnemius	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF798HCT	reads	807744599	1	1_1	ENCSR964OKW_1_1	human
-ENCSR964OKW	ENC4_381a, ENC4_382a B6Cast F1 PND4_Male Gastrocnemius	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF069POP	reads	722851313	2	2_1	ENCSR964OKW_2_1	human
-ENCSR964OKW	ENC4_381a, ENC4_382a B6Cast F1 PND4_Male Gastrocnemius	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF541JWV	unfiltered alignments	988554886	1	1_1	ENCSR964OKW_1_1	human
-ENCSR964OKW	ENC4_381a, ENC4_382a B6Cast F1 PND4_Male Gastrocnemius	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF362LGG	unfiltered alignments	898126529	2	2_1	ENCSR964OKW_2_1	human
-ENCSR964OKW	ENC4_381a, ENC4_382a B6Cast F1 PND4_Male Gastrocnemius	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF643TDK	alignments	275590347	1	1_1	ENCSR964OKW_1_1	human
-ENCSR964OKW	ENC4_381a, ENC4_382a B6Cast F1 PND4_Male Gastrocnemius	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF821NRP	alignments	250311462	2	2_1	ENCSR964OKW_2_1	human
-ENCSR791CDT	ENC4_393a, ENC4_394a B6Cast F1 PND25_Male Gastrocnemius	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF221ABY	reads	768570549	1	1_1	ENCSR791CDT_1_1	human
-ENCSR791CDT	ENC4_393a, ENC4_394a B6Cast F1 PND25_Male Gastrocnemius	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF435GLV	reads	548239642	2	2_1	ENCSR791CDT_2_1	human
-ENCSR791CDT	ENC4_393a, ENC4_394a B6Cast F1 PND25_Male Gastrocnemius	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF977HLZ	unfiltered alignments	754238490	2	2_1	ENCSR791CDT_2_1	human
-ENCSR791CDT	ENC4_393a, ENC4_394a B6Cast F1 PND25_Male Gastrocnemius	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF984UIN	alignments	186185265	2	2_1	ENCSR791CDT_2_1	human
-ENCSR791CDT	ENC4_393a, ENC4_394a B6Cast F1 PND25_Male Gastrocnemius	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF767GXC	unfiltered alignments	1014280864	1	1_1	ENCSR791CDT_1_1	human
-ENCSR791CDT	ENC4_393a, ENC4_394a B6Cast F1 PND25_Male Gastrocnemius	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF960HIF	alignments	275005598	1	1_1	ENCSR791CDT_1_1	human
-ENCSR267XBT	ENC4_499, ENC4_500 heart_B6Cast F1 PND 18-20 months Female 03 heart_ENC4_cDNA611, cDNA612	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF032HOK	reads	239207588	1	1_1	ENCSR267XBT_1_1	human
-ENCSR267XBT	ENC4_499, ENC4_500 heart_B6Cast F1 PND 18-20 months Female 03 heart_ENC4_cDNA611, cDNA612	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF356MNK	reads	251732066	2	2_1	ENCSR267XBT_2_1	human
-ENCSR267XBT	ENC4_499, ENC4_500 heart_B6Cast F1 PND 18-20 months Female 03 heart_ENC4_cDNA611, cDNA612	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF917ONC	alignments	90370751	1	1_1	ENCSR267XBT_1_1	human
-ENCSR267XBT	ENC4_499, ENC4_500 heart_B6Cast F1 PND 18-20 months Female 03 heart_ENC4_cDNA611, cDNA612	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF688VMD	alignments	94430748	2	2_1	ENCSR267XBT_2_1	human
-ENCSR267XBT	ENC4_499, ENC4_500 heart_B6Cast F1 PND 18-20 months Female 03 heart_ENC4_cDNA611, cDNA612	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF828VWI	unfiltered alignments	325160549	2	2_1	ENCSR267XBT_2_1	human
-ENCSR267XBT	ENC4_499, ENC4_500 heart_B6Cast F1 PND 18-20 months Female 03 heart_ENC4_cDNA611, cDNA612	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF957PNF	unfiltered alignments	310851436	1	1_1	ENCSR267XBT_1_1	human
-ENCSR410XGE	ENC4_497, ENC4_498 heart_B6Cast F1 PND 18-20 months Male 03 heart_ENC4_cDNA609, cDNA610	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF177KNR	reads	347146234	1	1_1	ENCSR410XGE_1_1	human
-ENCSR410XGE	ENC4_497, ENC4_498 heart_B6Cast F1 PND 18-20 months Male 03 heart_ENC4_cDNA609, cDNA610	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF468BPP	reads	466260320	2	2_1	ENCSR410XGE_2_1	human
-ENCSR410XGE	ENC4_497, ENC4_498 heart_B6Cast F1 PND 18-20 months Male 03 heart_ENC4_cDNA609, cDNA610	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF800GKP	alignments	121513955	1	1_1	ENCSR410XGE_1_1	human
-ENCSR410XGE	ENC4_497, ENC4_498 heart_B6Cast F1 PND 18-20 months Male 03 heart_ENC4_cDNA609, cDNA610	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF458JBD	unfiltered alignments	438242742	1	1_1	ENCSR410XGE_1_1	human
-ENCSR410XGE	ENC4_497, ENC4_498 heart_B6Cast F1 PND 18-20 months Male 03 heart_ENC4_cDNA609, cDNA610	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF107ZLE	unfiltered alignments	592098515	2	2_1	ENCSR410XGE_2_1	human
-ENCSR410XGE	ENC4_497, ENC4_498 heart_B6Cast F1 PND 18-20 months Male 03 heart_ENC4_cDNA609, cDNA610	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF510KLD	alignments	161805781	2	2_1	ENCSR410XGE_2_1	human
-ENCSR214HSG	Hippocampus1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF309DMQ	reads	725027830	2	2_1	ENCSR214HSG_2_1	human
-ENCSR214HSG	Hippocampus1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF103DSA	reads	681131622	1	1_1	ENCSR214HSG_1_1	human
-ENCSR214HSG	Hippocampus1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF428AJY	alignments	229259801	2	2_1	ENCSR214HSG_2_1	human
-ENCSR214HSG	Hippocampus1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF946NWJ	unfiltered alignments	866729473	1	1_1	ENCSR214HSG_1_1	human
-ENCSR214HSG	Hippocampus1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF894ESP	unfiltered alignments	915884243	2	2_1	ENCSR214HSG_2_1	human
-ENCSR214HSG	Hippocampus1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF648REP	alignments	222264400	1	1_1	ENCSR214HSG_1_1	human
-ENCSR340GWV	Cortex1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF479GNP	reads	631136514	1	1_1	ENCSR340GWV_1_1	human
-ENCSR340GWV	Cortex1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF402ZUC	reads	593694898	2	2_1	ENCSR340GWV_2_1	human
-ENCSR340GWV	Cortex1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF378JMO	unfiltered alignments	767996371	2	2_1	ENCSR340GWV_2_1	human
-ENCSR340GWV	Cortex1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF797SZT	unfiltered alignments	814128541	1	1_1	ENCSR340GWV_1_1	human
-ENCSR340GWV	Cortex1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF839PZB	alignments	211784918	1	1_1	ENCSR340GWV_1_1	human
-ENCSR340GWV	Cortex1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF773TTA	alignments	201669929	2	2_1	ENCSR340GWV_2_1	human
-ENCSR082JMB	Mus musculus strain B6NCrl embryo (13 days) forelimb tissue	embryo (13 days) strain B6NCrl C57BL/6	ENCFF417EKT	reads	499049970	1	1_1	ENCSR082JMB_1_1	human
-ENCSR082JMB	Mus musculus strain B6NCrl embryo (13 days) forelimb tissue	embryo (13 days) strain B6NCrl C57BL/6	ENCFF479KNZ	alignments	201024135	1	1_1	ENCSR082JMB_1_1	human
-ENCSR082JMB	Mus musculus strain B6NCrl embryo (13 days) forelimb tissue	embryo (13 days) strain B6NCrl C57BL/6	ENCFF804XPQ	unfiltered alignments	620930536	1	1_1	ENCSR082JMB_1_1	human
-ENCSR060OTU	5xFAD hippo het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF448KBZ	reads	1505678456	1	1_1	ENCSR060OTU_1_1	human
-ENCSR060OTU	5xFAD hippo het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF890RGD	reads	1404524207	2	2_1	ENCSR060OTU_2_1	human
-ENCSR060OTU	5xFAD hippo het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF033LIM	alignments	474299519	1	1_1	ENCSR060OTU_1_1	human
-ENCSR060OTU	5xFAD hippo het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF466LIU	unfiltered alignments	1690474752	2	2_1	ENCSR060OTU_2_1	human
-ENCSR060OTU	5xFAD hippo het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF412YGK	unfiltered alignments	1815724692	1	1_1	ENCSR060OTU_1_1	human
-ENCSR060OTU	5xFAD hippo het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF794EDV	alignments	478080669	2	2_1	ENCSR060OTU_2_1	human
-ENCSR418ZYU	Myoblast cell line derived from thigh muscle of C3H mice after crush injury	C3H	ENCFF008ATT	reads	392924744	1	1_1	ENCSR418ZYU_1_1	human
-ENCSR418ZYU	Myoblast cell line derived from thigh muscle of C3H mice after crush injury	C3H	ENCFF238DPX	reads	407714101	2	2_1	ENCSR418ZYU_2_1	human
-ENCSR418ZYU	Myoblast cell line derived from thigh muscle of C3H mice after crush injury	C3H	ENCFF176BGR	unfiltered alignments	533870978	1	1_1	ENCSR418ZYU_1_1	human
-ENCSR418ZYU	Myoblast cell line derived from thigh muscle of C3H mice after crush injury	C3H	ENCFF423BZA	unfiltered alignments	561133874	2	2_1	ENCSR418ZYU_2_1	human
-ENCSR418ZYU	Myoblast cell line derived from thigh muscle of C3H mice after crush injury	C3H	ENCFF163ANR	alignments	137316050	2	2_1	ENCSR418ZYU_2_1	human
-ENCSR418ZYU	Myoblast cell line derived from thigh muscle of C3H mice after crush injury	C3H	ENCFF999UDH	alignments	134676264	1	1_1	ENCSR418ZYU_1_1	human
-ENCSR131CES	Control cortex Female	adult (8 months) strain B6NCrl C57BL/6	ENCFF046XAX	reads	1492296354	2	2_1	ENCSR131CES_2_1	human
-ENCSR131CES	Control cortex Female	adult (8 months) strain B6NCrl C57BL/6	ENCFF319GBG	reads	1687553637	1	1_1	ENCSR131CES_1_1	human
-ENCSR131CES	Control cortex Female	adult (8 months) strain B6NCrl C57BL/6	ENCFF609BFL	unfiltered alignments	2036249306	1	1_1	ENCSR131CES_1_1	human
-ENCSR131CES	Control cortex Female	adult (8 months) strain B6NCrl C57BL/6	ENCFF505EPC	alignments	465040844	2	2_1	ENCSR131CES_2_1	human
-ENCSR131CES	Control cortex Female	adult (8 months) strain B6NCrl C57BL/6	ENCFF525AQR	alignments	517723035	1	1_1	ENCSR131CES_1_1	human
-ENCSR131CES	Control cortex Female	adult (8 months) strain B6NCrl C57BL/6	ENCFF607CUC	unfiltered alignments	1804198671	2	2_1	ENCSR131CES_2_1	human
-ENCSR735IBE	adrenal gland BL6 female	strain C57BL/6J C57BL/6	ENCFF560ONE	reads	434424820	1	1_1	ENCSR735IBE_1_1	human
-ENCSR735IBE	adrenal gland BL6 female	strain C57BL/6J C57BL/6	ENCFF445VZL	reads	586569449	2	2_1	ENCSR735IBE_2_1	human
-ENCSR735IBE	adrenal gland BL6 female	strain C57BL/6J C57BL/6	ENCFF343IGL	unfiltered alignments	743507128	2	2_1	ENCSR735IBE_2_1	human
-ENCSR735IBE	adrenal gland BL6 female	strain C57BL/6J C57BL/6	ENCFF540TLC	unfiltered alignments	565434917	1	1_1	ENCSR735IBE_1_1	human
-ENCSR735IBE	adrenal gland BL6 female	strain C57BL/6J C57BL/6	ENCFF498FMF	alignments	146031446	1	1_1	ENCSR735IBE_1_1	human
-ENCSR735IBE	adrenal gland BL6 female	strain C57BL/6J C57BL/6	ENCFF134BVW	alignments	196433512	2	2_1	ENCSR735IBE_2_1	human
-ENCSR644GDT	Cortex from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF683BZL	reads	1973988218	1	1_1	ENCSR644GDT_1_1	human
-ENCSR644GDT	Cortex from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF476MLA	reads	2005536663	2	2_1	ENCSR644GDT_2_1	human
-ENCSR644GDT	Cortex from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF699JUB	unfiltered alignments	2380922969	1	1_1	ENCSR644GDT_1_1	human
-ENCSR644GDT	Cortex from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF405HLV	alignments	610427938	2	2_1	ENCSR644GDT_2_1	human
-ENCSR644GDT	Cortex from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF149EOM	alignments	596471373	1	1_1	ENCSR644GDT_1_1	human
-ENCSR644GDT	Cortex from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF346JJP	unfiltered alignments	2399855014	2	2_1	ENCSR644GDT_2_1	human
-ENCSR404AEI	5xFAD hippo 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF110OOL	reads	1922910120	1	1_1	ENCSR404AEI_1_1	human
-ENCSR404AEI	5xFAD hippo 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF997NDX	reads	2023671790	2	2_1	ENCSR404AEI_2_1	human
-ENCSR404AEI	5xFAD hippo 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF008ZCM	alignments	605003327	2	2_1	ENCSR404AEI_2_1	human
-ENCSR404AEI	5xFAD hippo 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF292SMA	unfiltered alignments	2330062134	1	1_1	ENCSR404AEI_1_1	human
-ENCSR404AEI	5xFAD hippo 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF076JGT	unfiltered alignments	2447090267	2	2_1	ENCSR404AEI_2_1	human
-ENCSR404AEI	5xFAD hippo 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF458RBM	alignments	576844443	1	1_1	ENCSR404AEI_1_1	human
-ENCSR674BKT	5xFAD ctx 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF095CHU	reads	2019435349	1	1_1	ENCSR674BKT_1_1	human
-ENCSR674BKT	5xFAD ctx 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF201HBC	reads	1551701967	2	2_1	ENCSR674BKT_2_1	human
-ENCSR674BKT	5xFAD ctx 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF045LNO	unfiltered alignments	2447813191	1	1_1	ENCSR674BKT_1_1	human
-ENCSR674BKT	5xFAD ctx 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF550PML	alignments	493730271	2	2_1	ENCSR674BKT_2_1	human
-ENCSR674BKT	5xFAD ctx 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF016RAT	unfiltered alignments	1876150102	2	2_1	ENCSR674BKT_2_1	human
-ENCSR674BKT	5xFAD ctx 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF244NTP	alignments	614206407	1	1_1	ENCSR674BKT_1_1	human
-ENCSR411ZHA	Control hippo Female	strain B6NCrl C57BL/6	ENCFF978EIJ	reads	1507303462	1	1_1	ENCSR411ZHA_1_1	human
-ENCSR411ZHA	Control hippo Female	strain B6NCrl C57BL/6	ENCFF228VBQ	reads	1315296443	2	2_1	ENCSR411ZHA_2_1	human
-ENCSR411ZHA	Control hippo Female	strain B6NCrl C57BL/6	ENCFF242EDW	unfiltered alignments	1836141917	1	1_1	ENCSR411ZHA_1_1	human
-ENCSR411ZHA	Control hippo Female	strain B6NCrl C57BL/6	ENCFF316LYP	alignments	395708688	2	2_1	ENCSR411ZHA_2_1	human
-ENCSR411ZHA	Control hippo Female	strain B6NCrl C57BL/6	ENCFF362HIV	unfiltered alignments	1609406783	2	2_1	ENCSR411ZHA_2_1	human
-ENCSR411ZHA	Control hippo Female	strain B6NCrl C57BL/6	ENCFF041PKK	alignments	479184203	1	1_1	ENCSR411ZHA_1_1	human
-ENCSR942UFC	adrenal gland BL6 male	strain C57BL/6J C57BL/6	ENCFF311BUV	reads	437948217	1	1_1	ENCSR942UFC_1_1	human
-ENCSR942UFC	adrenal gland BL6 male	strain C57BL/6J C57BL/6	ENCFF698CVI	reads	492087691	2	2_1	ENCSR942UFC_2_1	human
-ENCSR942UFC	adrenal gland BL6 male	strain C57BL/6J C57BL/6	ENCFF897FRD	unfiltered alignments	567807175	1	1_1	ENCSR942UFC_1_1	human
-ENCSR942UFC	adrenal gland BL6 male	strain C57BL/6J C57BL/6	ENCFF245MJA	unfiltered alignments	623512811	2	2_1	ENCSR942UFC_2_1	human
-ENCSR942UFC	adrenal gland BL6 male	strain C57BL/6J C57BL/6	ENCFF694ZVY	alignments	149330145	1	1_1	ENCSR942UFC_1_1	human
-ENCSR942UFC	adrenal gland BL6 male	strain C57BL/6J C57BL/6	ENCFF343ZMH	alignments	165138206	2	2_1	ENCSR942UFC_2_1	human
-ENCSR926OGQ	Hippocampus from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF376LTY	reads	2225591748	1	1_1	ENCSR926OGQ_1_1	human
-ENCSR926OGQ	Hippocampus from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF314QJI	reads	2288269517	2	2_1	ENCSR926OGQ_2_1	human
-ENCSR926OGQ	Hippocampus from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF988VNH	unfiltered alignments	2747647240	2	2_1	ENCSR926OGQ_2_1	human
-ENCSR926OGQ	Hippocampus from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF131HHK	alignments	672846821	1	1_1	ENCSR926OGQ_1_1	human
-ENCSR926OGQ	Hippocampus from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF764ZXE	alignments	680640359	2	2_1	ENCSR926OGQ_2_1	human
-ENCSR926OGQ	Hippocampus from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF949ERN	unfiltered alignments	2681480561	1	1_1	ENCSR926OGQ_1_1	human
-ENCSR280VKU	5xFAD cortex het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF944JXN	reads	1459600700	1	1_1	ENCSR280VKU_1_1	human
-ENCSR280VKU	5xFAD cortex het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF148ESR	reads	1116378084	2	2_1	ENCSR280VKU_2_1	human
-ENCSR280VKU	5xFAD cortex het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF832UPU	unfiltered alignments	1766249951	1	1_1	ENCSR280VKU_1_1	human
-ENCSR280VKU	5xFAD cortex het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF211JXU	alignments	461473996	1	1_1	ENCSR280VKU_1_1	human
-ENCSR280VKU	5xFAD cortex het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF663GCV	alignments	355698684	2	2_1	ENCSR280VKU_2_1	human
-ENCSR280VKU	5xFAD cortex het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF971OCD	unfiltered alignments	1354911249	2	2_1	ENCSR280VKU_2_1	human
-ENCSR221XGR	C2C12 Myoblast	C3H	ENCFF019HRC	reads	1959919091	1	1_1	ENCSR221XGR_1_1	human
-ENCSR221XGR	C2C12 Myoblast	C3H	ENCFF676BYQ	reads	1819466237	2	2_1	ENCSR221XGR_2_1	human
-ENCSR221XGR	C2C12 Myoblast	C3H	ENCFF421MIL	unfiltered alignments	2384741492	1	1_1	ENCSR221XGR_1_1	human
-ENCSR221XGR	C2C12 Myoblast	C3H	ENCFF408MUF	alignments	515361180	2	2_1	ENCSR221XGR_2_1	human
-ENCSR221XGR	C2C12 Myoblast	C3H	ENCFF772LYG	unfiltered alignments	2230981040	2	2_1	ENCSR221XGR_2_1	human
-ENCSR221XGR	C2C12 Myoblast	C3H	ENCFF652XIT	alignments	558763699	1	1_1	ENCSR221XGR_1_1	human
-ENCSR804QMV	Mus musculus strain B6NCrl embryo (11 days) forelimb tissue	embryo (11 days) strain B6NCrl C57BL/6	ENCFF348TRU	reads	377254896	1	1_1	ENCSR804QMV_1_1	human
-ENCSR804QMV	Mus musculus strain B6NCrl embryo (11 days) forelimb tissue	embryo (11 days) strain B6NCrl C57BL/6	ENCFF226FNF	alignments	146280503	1	1_1	ENCSR804QMV_1_1	human
-ENCSR804QMV	Mus musculus strain B6NCrl embryo (11 days) forelimb tissue	embryo (11 days) strain B6NCrl C57BL/6	ENCFF566IYO	unfiltered alignments	500390118	1	1_1	ENCSR804QMV_1_1	human
+ENCSR734WEK	ENC4_385a, ENC4_386a B6Cast F1 PND10_Male Gastrocnemius	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF047OYU	reads	800611220	1	1_1	ENCSR734WEK_1_1	mouse
+ENCSR734WEK	ENC4_385a, ENC4_386a B6Cast F1 PND10_Male Gastrocnemius	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF389RMT	reads	565195449	2	2_1	ENCSR734WEK_2_1	mouse
+ENCSR734WEK	ENC4_385a, ENC4_386a B6Cast F1 PND10_Male Gastrocnemius	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF495MGN	alignments	273263203	1	1_1	ENCSR734WEK_1_1	mouse
+ENCSR734WEK	ENC4_385a, ENC4_386a B6Cast F1 PND10_Male Gastrocnemius	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF233QCR	unfiltered alignments	1011833760	1	1_1	ENCSR734WEK_1_1	mouse
+ENCSR734WEK	ENC4_385a, ENC4_386a B6Cast F1 PND10_Male Gastrocnemius	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF567ALB	unfiltered alignments	724798808	2	2_1	ENCSR734WEK_2_1	mouse
+ENCSR734WEK	ENC4_385a, ENC4_386a B6Cast F1 PND10_Male Gastrocnemius	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF690TKD	alignments	190032830	2	2_1	ENCSR734WEK_2_1	mouse
+ENCSR907NKV	C2C12 myotube	C3H	ENCFF669LWV	reads	1401323044	2	2_1	ENCSR907NKV_2_1	mouse
+ENCSR907NKV	C2C12 myotube	C3H	ENCFF003OWX	reads	1288549554	1	1_1	ENCSR907NKV_1_1	mouse
+ENCSR907NKV	C2C12 myotube	C3H	ENCFF699KOR	unfiltered alignments	1755757330	2	2_1	ENCSR907NKV_2_1	mouse
+ENCSR907NKV	C2C12 myotube	C3H	ENCFF202MCY	alignments	448722930	1	1_1	ENCSR907NKV_1_1	mouse
+ENCSR907NKV	C2C12 myotube	C3H	ENCFF396UFT	alignments	477932039	2	2_1	ENCSR907NKV_2_1	mouse
+ENCSR907NKV	C2C12 myotube	C3H	ENCFF731HHB	unfiltered alignments	1637389929	1	1_1	ENCSR907NKV_1_1	mouse
+ENCSR649MEZ	ENC4_235 B6Cast F1 PND 2 months_Male 03_Adrenals	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF122PGZ	reads	491362551	1	1_1	ENCSR649MEZ_1_1	mouse
+ENCSR649MEZ	ENC4_235 B6Cast F1 PND 2 months_Male 03_Adrenals	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF916NVH	reads	452131765	2	2_1	ENCSR649MEZ_2_1	mouse
+ENCSR649MEZ	ENC4_235 B6Cast F1 PND 2 months_Male 03_Adrenals	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF943KQU	alignments	158219420	2	2_1	ENCSR649MEZ_2_1	mouse
+ENCSR649MEZ	ENC4_235 B6Cast F1 PND 2 months_Male 03_Adrenals	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF529OQN	unfiltered alignments	605078098	1	1_1	ENCSR649MEZ_1_1	mouse
+ENCSR649MEZ	ENC4_235 B6Cast F1 PND 2 months_Male 03_Adrenals	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF367SIB	unfiltered alignments	553076418	2	2_1	ENCSR649MEZ_2_1	mouse
+ENCSR649MEZ	ENC4_235 B6Cast F1 PND 2 months_Male 03_Adrenals	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF069HPA	alignments	165659264	1	1_1	ENCSR649MEZ_1_1	mouse
+ENCSR271ULH	ENC4_217 - B6Cast F1 PND4_Female 03_Adrenals	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF977AQV	reads	768031739	1	1_1	ENCSR271ULH_1_1	mouse
+ENCSR271ULH	ENC4_217 - B6Cast F1 PND4_Female 03_Adrenals	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF626SLN	reads	734432262	2	2_1	ENCSR271ULH_2_1	mouse
+ENCSR271ULH	ENC4_217 - B6Cast F1 PND4_Female 03_Adrenals	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF983CFK	alignments	247605236	2	2_1	ENCSR271ULH_2_1	mouse
+ENCSR271ULH	ENC4_217 - B6Cast F1 PND4_Female 03_Adrenals	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF402MIP	alignments	271439082	1	1_1	ENCSR271ULH_1_1	mouse
+ENCSR271ULH	ENC4_217 - B6Cast F1 PND4_Female 03_Adrenals	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF106PGY	unfiltered alignments	903641440	2	2_1	ENCSR271ULH_2_1	mouse
+ENCSR271ULH	ENC4_217 - B6Cast F1 PND4_Female 03_Adrenals	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF633GXD	unfiltered alignments	956551908	1	1_1	ENCSR271ULH_1_1	mouse
+ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF874VSI	reads	2651990414	1	1_1	ENCSR172GXL_1_1	mouse
+ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF667VXS	reads	1829919526	2	2_1	ENCSR172GXL_2_1	mouse
+ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF313VYZ	reads	1595972000	3	3_1	ENCSR172GXL_3_1	mouse
+ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF945QSC	alignments	622364751	2	2_1	ENCSR172GXL_2_1	mouse
+ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF240QMR	alignments	894407449	1	1_1	ENCSR172GXL_1_1	mouse
+ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF697PDG	alignments	555906595	3	3_1	ENCSR172GXL_3_1	mouse
+ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF292NKU	unfiltered alignments	1937149490	3	3_1	ENCSR172GXL_3_1	mouse
+ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF008DSH	unfiltered alignments	3248521669	1	1_1	ENCSR172GXL_1_1	mouse
+ENCSR172GXL	LRGASP Mouse ES	Castaneus X S129/SvJae	ENCFF108NUC	unfiltered alignments	2228983366	2	2_1	ENCSR172GXL_2_1	mouse
+ENCSR242UEB	ENC4_231 B6Cast F1 PND36_ Male 03_Adrenals	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF988MZV	reads	244545858	1	1_1	ENCSR242UEB_1_1	mouse
+ENCSR242UEB	ENC4_231 B6Cast F1 PND36_ Male 03_Adrenals	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF549DGV	reads	230186324	2	2_1	ENCSR242UEB_2_1	mouse
+ENCSR242UEB	ENC4_231 B6Cast F1 PND36_ Male 03_Adrenals	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF501YNI	unfiltered alignments	288893662	2	2_1	ENCSR242UEB_2_1	mouse
+ENCSR242UEB	ENC4_231 B6Cast F1 PND36_ Male 03_Adrenals	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF297ZHK	alignments	86287245	2	2_1	ENCSR242UEB_2_1	mouse
+ENCSR242UEB	ENC4_231 B6Cast F1 PND36_ Male 03_Adrenals	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF852UAU	unfiltered alignments	304839078	1	1_1	ENCSR242UEB_1_1	mouse
+ENCSR242UEB	ENC4_231 B6Cast F1 PND36_ Male 03_Adrenals	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF012CDD	alignments	89895518	1	1_1	ENCSR242UEB_1_1	mouse
+ENCSR530ZLE	ENC4_225 - B6Cast F1 PND14_3x Females 03_Adrenals	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF435KPO	reads	564401145	2	2_1	ENCSR530ZLE_2_1	mouse
+ENCSR530ZLE	ENC4_225 - B6Cast F1 PND14_3x Females 03_Adrenals	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF671OCJ	reads	629940537	1	1_1	ENCSR530ZLE_1_1	mouse
+ENCSR530ZLE	ENC4_225 - B6Cast F1 PND14_3x Females 03_Adrenals	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF402PHJ	alignments	189172394	2	2_1	ENCSR530ZLE_2_1	mouse
+ENCSR530ZLE	ENC4_225 - B6Cast F1 PND14_3x Females 03_Adrenals	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF026LZW	unfiltered alignments	780101291	1	1_1	ENCSR530ZLE_1_1	mouse
+ENCSR530ZLE	ENC4_225 - B6Cast F1 PND14_3x Females 03_Adrenals	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF704NBV	unfiltered alignments	699212681	2	2_1	ENCSR530ZLE_2_1	mouse
+ENCSR530ZLE	ENC4_225 - B6Cast F1 PND14_3x Females 03_Adrenals	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF094ZZY	alignments	211235128	1	1_1	ENCSR530ZLE_1_1	mouse
+ENCSR909NPF	ENC4_437, ENC4_438 hippocampus_B6Cast F1_2 months_female_6_ENC4_cDNA510	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF223JJA	reads	625983252	1	1_1	ENCSR909NPF_1_1	mouse
+ENCSR909NPF	ENC4_437, ENC4_438 hippocampus_B6Cast F1_2 months_female_6_ENC4_cDNA510	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF326JTG	reads	580937927	2	2_1	ENCSR909NPF_2_1	mouse
+ENCSR909NPF	ENC4_437, ENC4_438 hippocampus_B6Cast F1_2 months_female_6_ENC4_cDNA510	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF254PCW	alignments	238491514	1	1_1	ENCSR909NPF_1_1	mouse
+ENCSR909NPF	ENC4_437, ENC4_438 hippocampus_B6Cast F1_2 months_female_6_ENC4_cDNA510	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF337TQR	unfiltered alignments	755044627	1	1_1	ENCSR909NPF_1_1	mouse
+ENCSR909NPF	ENC4_437, ENC4_438 hippocampus_B6Cast F1_2 months_female_6_ENC4_cDNA510	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF987ICP	unfiltered alignments	699790287	2	2_1	ENCSR909NPF_2_1	mouse
+ENCSR909NPF	ENC4_437, ENC4_438 hippocampus_B6Cast F1_2 months_female_6_ENC4_cDNA510	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF212YBY	alignments	226203270	2	2_1	ENCSR909NPF_2_1	mouse
+ENCSR084MKR	ENC4_233 - B6Cast F1 PND36_Female 03_Adrenals	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF100OAR	reads	617229700	1	1_1	ENCSR084MKR_1_1	mouse
+ENCSR084MKR	ENC4_233 - B6Cast F1 PND36_Female 03_Adrenals	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF604SVZ	reads	199802110	2	2_1	ENCSR084MKR_2_1	mouse
+ENCSR084MKR	ENC4_233 - B6Cast F1 PND36_Female 03_Adrenals	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF898YPG	alignments	76899406	2	2_1	ENCSR084MKR_2_1	mouse
+ENCSR084MKR	ENC4_233 - B6Cast F1 PND36_Female 03_Adrenals	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF083AGY	alignments	203883926	1	1_1	ENCSR084MKR_1_1	mouse
+ENCSR084MKR	ENC4_233 - B6Cast F1 PND36_Female 03_Adrenals	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF399RPQ	unfiltered alignments	251886195	2	2_1	ENCSR084MKR_2_1	mouse
+ENCSR084MKR	ENC4_233 - B6Cast F1 PND36_Female 03_Adrenals	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF222VGG	unfiltered alignments	780485902	1	1_1	ENCSR084MKR_1_1	mouse
+ENCSR852HRM	ENC4_237 - B6Cast F1 PND 2 months_Female 03 _Adrenals	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF429RCV	reads	773435264	1	1_1	ENCSR852HRM_1_1	mouse
+ENCSR852HRM	ENC4_237 - B6Cast F1 PND 2 months_Female 03 _Adrenals	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF387GTW	reads	349209379	2	2_1	ENCSR852HRM_2_1	mouse
+ENCSR852HRM	ENC4_237 - B6Cast F1 PND 2 months_Female 03 _Adrenals	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF242QIP	unfiltered alignments	428442170	2	2_1	ENCSR852HRM_2_1	mouse
+ENCSR852HRM	ENC4_237 - B6Cast F1 PND 2 months_Female 03 _Adrenals	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF660EKE	unfiltered alignments	958190702	1	1_1	ENCSR852HRM_1_1	mouse
+ENCSR852HRM	ENC4_237 - B6Cast F1 PND 2 months_Female 03 _Adrenals	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF291MJO	alignments	252734987	1	1_1	ENCSR852HRM_1_1	mouse
+ENCSR852HRM	ENC4_237 - B6Cast F1 PND 2 months_Female 03 _Adrenals	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF685SKU	alignments	122537811	2	2_1	ENCSR852HRM_2_1	mouse
+ENCSR698DOB	ENC4_219 - B6Cast F1 PND10_Male 03_Adrenals	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF303OLU	reads	623945716	1	1_1	ENCSR698DOB_1_1	mouse
+ENCSR698DOB	ENC4_219 - B6Cast F1 PND10_Male 03_Adrenals	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF856RHM	reads	700072488	2	2_1	ENCSR698DOB_2_1	mouse
+ENCSR698DOB	ENC4_219 - B6Cast F1 PND10_Male 03_Adrenals	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF676ASW	unfiltered alignments	769694260	1	1_1	ENCSR698DOB_1_1	mouse
+ENCSR698DOB	ENC4_219 - B6Cast F1 PND10_Male 03_Adrenals	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF674HLT	unfiltered alignments	886645200	2	2_1	ENCSR698DOB_2_1	mouse
+ENCSR698DOB	ENC4_219 - B6Cast F1 PND10_Male 03_Adrenals	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF261QFC	alignments	231077224	2	2_1	ENCSR698DOB_2_1	mouse
+ENCSR698DOB	ENC4_219 - B6Cast F1 PND10_Male 03_Adrenals	male postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF336YOF	alignments	204863454	1	1_1	ENCSR698DOB_1_1	mouse
+ENCSR309XOR	ENC4_240 - B6Cast F1 PND 18-20 months_Female 03 _Adrenals	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF169PFY	reads	931308181	1	1_1	ENCSR309XOR_1_1	mouse
+ENCSR309XOR	ENC4_240 - B6Cast F1 PND 18-20 months_Female 03 _Adrenals	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF142VQP	reads	650111505	2	2_1	ENCSR309XOR_2_1	mouse
+ENCSR309XOR	ENC4_240 - B6Cast F1 PND 18-20 months_Female 03 _Adrenals	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF416OPW	unfiltered alignments	1153516130	1	1_1	ENCSR309XOR_1_1	mouse
+ENCSR309XOR	ENC4_240 - B6Cast F1 PND 18-20 months_Female 03 _Adrenals	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF745YKM	alignments	294229290	1	1_1	ENCSR309XOR_1_1	mouse
+ENCSR309XOR	ENC4_240 - B6Cast F1 PND 18-20 months_Female 03 _Adrenals	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF331LQP	alignments	224159604	2	2_1	ENCSR309XOR_2_1	mouse
+ENCSR309XOR	ENC4_240 - B6Cast F1 PND 18-20 months_Female 03 _Adrenals	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF125RCP	unfiltered alignments	810168156	2	2_1	ENCSR309XOR_2_1	mouse
+ENCSR402DOZ	ENC4_389a, ENC4_390a B6Cast F1 PND14 Males Gastrocnemius	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF948TOU	reads	631483618	1	1_1	ENCSR402DOZ_1_1	mouse
+ENCSR402DOZ	ENC4_389a, ENC4_390a B6Cast F1 PND14 Males Gastrocnemius	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF369DHX	reads	271914764	2	2_1	ENCSR402DOZ_2_1	mouse
+ENCSR402DOZ	ENC4_389a, ENC4_390a B6Cast F1 PND14 Males Gastrocnemius	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF137SHD	alignments	99690606	2	2_1	ENCSR402DOZ_2_1	mouse
+ENCSR402DOZ	ENC4_389a, ENC4_390a B6Cast F1 PND14 Males Gastrocnemius	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF792HGO	unfiltered alignments	364116630	2	2_1	ENCSR402DOZ_2_1	mouse
+ENCSR402DOZ	ENC4_389a, ENC4_390a B6Cast F1 PND14 Males Gastrocnemius	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF213OCJ	unfiltered alignments	821708599	1	1_1	ENCSR402DOZ_1_1	mouse
+ENCSR402DOZ	ENC4_389a, ENC4_390a B6Cast F1 PND14 Males Gastrocnemius	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF544KTY	alignments	214021955	1	1_1	ENCSR402DOZ_1_1	mouse
+ENCSR295PVQ	ENC4_227 - B6Cast F1 PND25_Male 03_Adrenals	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF873KDL	reads	575729376	1	1_1	ENCSR295PVQ_1_1	mouse
+ENCSR295PVQ	ENC4_227 - B6Cast F1 PND25_Male 03_Adrenals	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF866CSV	reads	780467946	2	2_1	ENCSR295PVQ_2_1	mouse
+ENCSR295PVQ	ENC4_227 - B6Cast F1 PND25_Male 03_Adrenals	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF886RIS	alignments	199279610	1	1_1	ENCSR295PVQ_1_1	mouse
+ENCSR295PVQ	ENC4_227 - B6Cast F1 PND25_Male 03_Adrenals	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF535UYC	unfiltered alignments	703831632	1	1_1	ENCSR295PVQ_1_1	mouse
+ENCSR295PVQ	ENC4_227 - B6Cast F1 PND25_Male 03_Adrenals	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF664ZFM	alignments	260066862	2	2_1	ENCSR295PVQ_2_1	mouse
+ENCSR295PVQ	ENC4_227 - B6Cast F1 PND25_Male 03_Adrenals	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF388RDV	unfiltered alignments	974987209	2	2_1	ENCSR295PVQ_2_1	mouse
+ENCSR116DUT	ENC4_405, ENC4_406 B6Cast F1 PND 18-20 months_Male Gastrocnemius	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF865ZOH	reads	899125335	1	1_1	ENCSR116DUT_1_1	mouse
+ENCSR116DUT	ENC4_405, ENC4_406 B6Cast F1 PND 18-20 months_Male Gastrocnemius	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF421HRA	reads	879411499	2	2_1	ENCSR116DUT_2_1	mouse
+ENCSR116DUT	ENC4_405, ENC4_406 B6Cast F1 PND 18-20 months_Male Gastrocnemius	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF584LYA	alignments	317754410	1	1_1	ENCSR116DUT_1_1	mouse
+ENCSR116DUT	ENC4_405, ENC4_406 B6Cast F1 PND 18-20 months_Male Gastrocnemius	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF353JKI	unfiltered alignments	1182822793	1	1_1	ENCSR116DUT_1_1	mouse
+ENCSR116DUT	ENC4_405, ENC4_406 B6Cast F1 PND 18-20 months_Male Gastrocnemius	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF057DYQ	unfiltered alignments	1134643498	2	2_1	ENCSR116DUT_2_1	mouse
+ENCSR116DUT	ENC4_405, ENC4_406 B6Cast F1 PND 18-20 months_Male Gastrocnemius	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF715RFV	alignments	327910591	2	2_1	ENCSR116DUT_2_1	mouse
+ENCSR472CHU	ENC4_441, ENC4_442 hippocampus_B6Cast F1_18 - 20 months_female_6_ENC4_cDNA513	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF896RNF	reads	1086737148	1	1_1	ENCSR472CHU_1_1	mouse
+ENCSR472CHU	ENC4_441, ENC4_442 hippocampus_B6Cast F1_18 - 20 months_female_6_ENC4_cDNA513	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF346JYL	reads	589871941	2	2_1	ENCSR472CHU_2_1	mouse
+ENCSR472CHU	ENC4_441, ENC4_442 hippocampus_B6Cast F1_18 - 20 months_female_6_ENC4_cDNA513	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF309ZQW	unfiltered alignments	1292794193	1	1_1	ENCSR472CHU_1_1	mouse
+ENCSR472CHU	ENC4_441, ENC4_442 hippocampus_B6Cast F1_18 - 20 months_female_6_ENC4_cDNA513	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF241SUN	unfiltered alignments	719367923	2	2_1	ENCSR472CHU_2_1	mouse
+ENCSR472CHU	ENC4_441, ENC4_442 hippocampus_B6Cast F1_18 - 20 months_female_6_ENC4_cDNA513	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF201NMX	alignments	216925104	2	2_1	ENCSR472CHU_2_1	mouse
+ENCSR472CHU	ENC4_441, ENC4_442 hippocampus_B6Cast F1_18 - 20 months_female_6_ENC4_cDNA513	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF973YHW	alignments	392996862	1	1_1	ENCSR472CHU_1_1	mouse
+ENCSR938RPH	ENC4_495, ENC4_496 heart_B6Cast F1 PND 2 months Female 03 heart_ENC4_cDNA607, cDNA608	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF836SSV	reads	528624705	1	1_1	ENCSR938RPH_1_1	mouse
+ENCSR938RPH	ENC4_495, ENC4_496 heart_B6Cast F1 PND 2 months Female 03 heart_ENC4_cDNA607, cDNA608	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF031EVU	reads	469970737	2	2_1	ENCSR938RPH_2_1	mouse
+ENCSR938RPH	ENC4_495, ENC4_496 heart_B6Cast F1 PND 2 months Female 03 heart_ENC4_cDNA607, cDNA608	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF246TCD	alignments	186644974	1	1_1	ENCSR938RPH_1_1	mouse
+ENCSR938RPH	ENC4_495, ENC4_496 heart_B6Cast F1 PND 2 months Female 03 heart_ENC4_cDNA607, cDNA608	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF427ZRR	unfiltered alignments	656676643	1	1_1	ENCSR938RPH_1_1	mouse
+ENCSR938RPH	ENC4_495, ENC4_496 heart_B6Cast F1 PND 2 months Female 03 heart_ENC4_cDNA607, cDNA608	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF348KGR	alignments	170237951	2	2_1	ENCSR938RPH_2_1	mouse
+ENCSR938RPH	ENC4_495, ENC4_496 heart_B6Cast F1 PND 2 months Female 03 heart_ENC4_cDNA607, cDNA608	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF992KKH	unfiltered alignments	582883355	2	2_1	ENCSR938RPH_2_1	mouse
+ENCSR791JQO	ENC4_453, ENC4_454 B6Cast F1 PND14 3x Males 03 L. cortex	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF100UBG	reads	596810201	1	1_1	ENCSR791JQO_1_1	mouse
+ENCSR791JQO	ENC4_453, ENC4_454 B6Cast F1 PND14 3x Males 03 L. cortex	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF812RTU	reads	686353481	2	2_1	ENCSR791JQO_2_1	mouse
+ENCSR791JQO	ENC4_453, ENC4_454 B6Cast F1 PND14 3x Males 03 L. cortex	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF254GFU	alignments	212694062	1	1_1	ENCSR791JQO_1_1	mouse
+ENCSR791JQO	ENC4_453, ENC4_454 B6Cast F1 PND14 3x Males 03 L. cortex	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF769YZL	unfiltered alignments	832588858	2	2_1	ENCSR791JQO_2_1	mouse
+ENCSR791JQO	ENC4_453, ENC4_454 B6Cast F1 PND14 3x Males 03 L. cortex	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF125MOK	unfiltered alignments	722366834	1	1_1	ENCSR791JQO_1_1	mouse
+ENCSR791JQO	ENC4_453, ENC4_454 B6Cast F1 PND14 3x Males 03 L. cortex	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF816VUM	alignments	241228861	2	2_1	ENCSR791JQO_2_1	mouse
+ENCSR454ECK	ENC4_223 - B6Cast F1 PND14_3x Males 03_Adrenals	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF836THV	reads	550629218	1	1_1	ENCSR454ECK_1_1	mouse
+ENCSR454ECK	ENC4_223 - B6Cast F1 PND14_3x Males 03_Adrenals	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF970IHS	reads	499251215	2	2_1	ENCSR454ECK_2_1	mouse
+ENCSR454ECK	ENC4_223 - B6Cast F1 PND14_3x Males 03_Adrenals	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF800KCU	unfiltered alignments	678883072	1	1_1	ENCSR454ECK_1_1	mouse
+ENCSR454ECK	ENC4_223 - B6Cast F1 PND14_3x Males 03_Adrenals	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF379DRK	alignments	175159242	2	2_1	ENCSR454ECK_2_1	mouse
+ENCSR454ECK	ENC4_223 - B6Cast F1 PND14_3x Males 03_Adrenals	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF817DYN	unfiltered alignments	624165891	2	2_1	ENCSR454ECK_2_1	mouse
+ENCSR454ECK	ENC4_223 - B6Cast F1 PND14_3x Males 03_Adrenals	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF495FTY	alignments	190598592	1	1_1	ENCSR454ECK_1_1	mouse
+ENCSR754VEZ	ENC4_387a, ENC4_388a B6Cast F1 PND10_Female Gastrocnemius	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF337DWM	reads	888420882	1	1_1	ENCSR754VEZ_1_1	mouse
+ENCSR754VEZ	ENC4_387a, ENC4_388a B6Cast F1 PND10_Female Gastrocnemius	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF696VVK	reads	356998392	2	2_1	ENCSR754VEZ_2_1	mouse
+ENCSR754VEZ	ENC4_387a, ENC4_388a B6Cast F1 PND10_Female Gastrocnemius	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF691USV	alignments	125586323	2	2_1	ENCSR754VEZ_2_1	mouse
+ENCSR754VEZ	ENC4_387a, ENC4_388a B6Cast F1 PND10_Female Gastrocnemius	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF293HRQ	unfiltered alignments	461765035	2	2_1	ENCSR754VEZ_2_1	mouse
+ENCSR754VEZ	ENC4_387a, ENC4_388a B6Cast F1 PND10_Female Gastrocnemius	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF221IAN	unfiltered alignments	1110303407	1	1_1	ENCSR754VEZ_1_1	mouse
+ENCSR754VEZ	ENC4_387a, ENC4_388a B6Cast F1 PND10_Female Gastrocnemius	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF790IBF	alignments	302889213	1	1_1	ENCSR754VEZ_1_1	mouse
+ENCSR818JQK	ENC4_395a, ENC4_396a B6Cast F1 PND25_ Female Gastrocnemius	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF837UMP	reads	673025734	1	1_1	ENCSR818JQK_1_1	mouse
+ENCSR818JQK	ENC4_395a, ENC4_396a B6Cast F1 PND25_ Female Gastrocnemius	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF556BPF	reads	680497718	2	2_1	ENCSR818JQK_2_1	mouse
+ENCSR818JQK	ENC4_395a, ENC4_396a B6Cast F1 PND25_ Female Gastrocnemius	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF402JSQ	unfiltered alignments	890263365	1	1_1	ENCSR818JQK_1_1	mouse
+ENCSR818JQK	ENC4_395a, ENC4_396a B6Cast F1 PND25_ Female Gastrocnemius	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF951RWG	unfiltered alignments	910536459	2	2_1	ENCSR818JQK_2_1	mouse
+ENCSR818JQK	ENC4_395a, ENC4_396a B6Cast F1 PND25_ Female Gastrocnemius	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF871UCZ	alignments	244795200	1	1_1	ENCSR818JQK_1_1	mouse
+ENCSR818JQK	ENC4_395a, ENC4_396a B6Cast F1 PND25_ Female Gastrocnemius	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF481DML	alignments	231905858	2	2_1	ENCSR818JQK_2_1	mouse
+ENCSR631KNS	ENC4_455, ENC4_456 B6Cast F1 PND14 3x Females 03 L. cortex	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF773BXP	reads	771053796	1	1_1	ENCSR631KNS_1_1	mouse
+ENCSR631KNS	ENC4_455, ENC4_456 B6Cast F1 PND14 3x Females 03 L. cortex	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF468KWN	reads	543471634	2	2_1	ENCSR631KNS_2_1	mouse
+ENCSR631KNS	ENC4_455, ENC4_456 B6Cast F1 PND14 3x Females 03 L. cortex	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF647URO	alignments	261144863	1	1_1	ENCSR631KNS_1_1	mouse
+ENCSR631KNS	ENC4_455, ENC4_456 B6Cast F1 PND14 3x Females 03 L. cortex	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF950QSG	unfiltered alignments	935544024	1	1_1	ENCSR631KNS_1_1	mouse
+ENCSR631KNS	ENC4_455, ENC4_456 B6Cast F1 PND14 3x Females 03 L. cortex	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF633UIS	unfiltered alignments	662571100	2	2_1	ENCSR631KNS_2_1	mouse
+ENCSR631KNS	ENC4_455, ENC4_456 B6Cast F1 PND14 3x Females 03 L. cortex	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF563NJO	alignments	196418540	2	2_1	ENCSR631KNS_2_1	mouse
+ENCSR972DID	ENC4_439, ENC4_440 hippocampus_B6Cast F1_2 months_male_5_ENC4_cDNA511	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF338YTG	reads	841038303	1	1_1	ENCSR972DID_1_1	mouse
+ENCSR972DID	ENC4_439, ENC4_440 hippocampus_B6Cast F1_2 months_male_5_ENC4_cDNA511	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF509RDZ	reads	737288477	2	2_1	ENCSR972DID_2_1	mouse
+ENCSR972DID	ENC4_439, ENC4_440 hippocampus_B6Cast F1_2 months_male_5_ENC4_cDNA511	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF724GWS	unfiltered alignments	1013235472	1	1_1	ENCSR972DID_1_1	mouse
+ENCSR972DID	ENC4_439, ENC4_440 hippocampus_B6Cast F1_2 months_male_5_ENC4_cDNA511	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF851TZJ	unfiltered alignments	885885478	2	2_1	ENCSR972DID_2_1	mouse
+ENCSR972DID	ENC4_439, ENC4_440 hippocampus_B6Cast F1_2 months_male_5_ENC4_cDNA511	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF572WXI	alignments	306259693	1	1_1	ENCSR972DID_1_1	mouse
+ENCSR972DID	ENC4_439, ENC4_440 hippocampus_B6Cast F1_2 months_male_5_ENC4_cDNA511	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF436RSJ	alignments	271276919	2	2_1	ENCSR972DID_2_1	mouse
+ENCSR187TGD	ENC4_483, ENC4_484 heart_B6Cast F1 PND14 3x Females 03 heart_ENC4_cDNA595, cDNA_596	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF885OVT	reads	594443615	1	1_1	ENCSR187TGD_1_1	mouse
+ENCSR187TGD	ENC4_483, ENC4_484 heart_B6Cast F1 PND14 3x Females 03 heart_ENC4_cDNA595, cDNA_596	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF484VDN	reads	625101880	2	2_1	ENCSR187TGD_2_1	mouse
+ENCSR187TGD	ENC4_483, ENC4_484 heart_B6Cast F1 PND14 3x Females 03 heart_ENC4_cDNA595, cDNA_596	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF079VYU	unfiltered alignments	771627460	2	2_1	ENCSR187TGD_2_1	mouse
+ENCSR187TGD	ENC4_483, ENC4_484 heart_B6Cast F1 PND14 3x Females 03 heart_ENC4_cDNA595, cDNA_596	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF703PQX	unfiltered alignments	734025651	1	1_1	ENCSR187TGD_1_1	mouse
+ENCSR187TGD	ENC4_483, ENC4_484 heart_B6Cast F1 PND14 3x Females 03 heart_ENC4_cDNA595, cDNA_596	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF245XSW	alignments	206350545	1	1_1	ENCSR187TGD_1_1	mouse
+ENCSR187TGD	ENC4_483, ENC4_484 heart_B6Cast F1 PND14 3x Females 03 heart_ENC4_cDNA595, cDNA_596	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF951AXN	alignments	215725812	2	2_1	ENCSR187TGD_2_1	mouse
+ENCSR375EOW	ENC4_493, ENC4_494 heart_B6Cast F1 PND 2 months Male 03 heart_ENC4_cDNA605, cDNA606	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF583MVR	reads	288115213	1	1_1	ENCSR375EOW_1_1	mouse
+ENCSR375EOW	ENC4_493, ENC4_494 heart_B6Cast F1 PND 2 months Male 03 heart_ENC4_cDNA605, cDNA606	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF358AEP	reads	394644556	2	2_1	ENCSR375EOW_2_1	mouse
+ENCSR375EOW	ENC4_493, ENC4_494 heart_B6Cast F1 PND 2 months Male 03 heart_ENC4_cDNA605, cDNA606	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF505GEW	unfiltered alignments	357678106	1	1_1	ENCSR375EOW_1_1	mouse
+ENCSR375EOW	ENC4_493, ENC4_494 heart_B6Cast F1 PND 2 months Male 03 heart_ENC4_cDNA605, cDNA606	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF769MAL	alignments	140417465	2	2_1	ENCSR375EOW_2_1	mouse
+ENCSR375EOW	ENC4_493, ENC4_494 heart_B6Cast F1 PND 2 months Male 03 heart_ENC4_cDNA605, cDNA606	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF487CUQ	unfiltered alignments	492193134	2	2_1	ENCSR375EOW_2_1	mouse
+ENCSR375EOW	ENC4_493, ENC4_494 heart_B6Cast F1 PND 2 months Male 03 heart_ENC4_cDNA605, cDNA606	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF150RFK	alignments	108496407	1	1_1	ENCSR375EOW_1_1	mouse
+ENCSR146ZFC	ENC4_413, ENC4_414 hippocampus_B6CastF1_PND14_3x female_4,5,6_ENC4_cDNA497	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF518QIV	reads	728678404	1	1_1	ENCSR146ZFC_1_1	mouse
+ENCSR146ZFC	ENC4_413, ENC4_414 hippocampus_B6CastF1_PND14_3x female_4,5,6_ENC4_cDNA497	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF809BZD	reads	639484257	2	2_1	ENCSR146ZFC_2_1	mouse
+ENCSR146ZFC	ENC4_413, ENC4_414 hippocampus_B6CastF1_PND14_3x female_4,5,6_ENC4_cDNA497	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF609FJG	unfiltered alignments	891186648	1	1_1	ENCSR146ZFC_1_1	mouse
+ENCSR146ZFC	ENC4_413, ENC4_414 hippocampus_B6CastF1_PND14_3x female_4,5,6_ENC4_cDNA497	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF834PLA	unfiltered alignments	775599990	2	2_1	ENCSR146ZFC_2_1	mouse
+ENCSR146ZFC	ENC4_413, ENC4_414 hippocampus_B6CastF1_PND14_3x female_4,5,6_ENC4_cDNA497	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF083NGA	alignments	224109177	2	2_1	ENCSR146ZFC_2_1	mouse
+ENCSR146ZFC	ENC4_413, ENC4_414 hippocampus_B6CastF1_PND14_3x female_4,5,6_ENC4_cDNA497	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF176XZM	alignments	254527956	1	1_1	ENCSR146ZFC_1_1	mouse
+ENCSR845IUJ	ENC4_401a, ENC4_402a B6Cast F1 PND 2 months_Male Gastrocnemius	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF327DHL	reads	641519216	1	1_1	ENCSR845IUJ_1_1	mouse
+ENCSR845IUJ	ENC4_401a, ENC4_402a B6Cast F1 PND 2 months_Male Gastrocnemius	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF441MLQ	reads	889699774	2	2_1	ENCSR845IUJ_2_1	mouse
+ENCSR845IUJ	ENC4_401a, ENC4_402a B6Cast F1 PND 2 months_Male Gastrocnemius	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF262EPW	unfiltered alignments	850985249	1	1_1	ENCSR845IUJ_1_1	mouse
+ENCSR845IUJ	ENC4_401a, ENC4_402a B6Cast F1 PND 2 months_Male Gastrocnemius	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF958QWV	alignments	313748539	2	2_1	ENCSR845IUJ_2_1	mouse
+ENCSR845IUJ	ENC4_401a, ENC4_402a B6Cast F1 PND 2 months_Male Gastrocnemius	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF434ITE	unfiltered alignments	1162791467	2	2_1	ENCSR845IUJ_2_1	mouse
+ENCSR845IUJ	ENC4_401a, ENC4_402a B6Cast F1 PND 2 months_Male Gastrocnemius	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF291WVH	alignments	226695688	1	1_1	ENCSR845IUJ_1_1	mouse
+ENCSR437WYC	ENC4_397a, ENC4_398a B6Cast F1 PND36_ Male Gastrocnemius	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF107CZA	reads	558223880	1	1_1	ENCSR437WYC_1_1	mouse
+ENCSR437WYC	ENC4_397a, ENC4_398a B6Cast F1 PND36_ Male Gastrocnemius	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF957OYJ	reads	486656009	2	2_1	ENCSR437WYC_2_1	mouse
+ENCSR437WYC	ENC4_397a, ENC4_398a B6Cast F1 PND36_ Male Gastrocnemius	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF937OFR	unfiltered alignments	739803877	1	1_1	ENCSR437WYC_1_1	mouse
+ENCSR437WYC	ENC4_397a, ENC4_398a B6Cast F1 PND36_ Male Gastrocnemius	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF472VGI	unfiltered alignments	671943424	2	2_1	ENCSR437WYC_2_1	mouse
+ENCSR437WYC	ENC4_397a, ENC4_398a B6Cast F1 PND36_ Male Gastrocnemius	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF524QBF	alignments	195857981	1	1_1	ENCSR437WYC_1_1	mouse
+ENCSR437WYC	ENC4_397a, ENC4_398a B6Cast F1 PND36_ Male Gastrocnemius	male postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF550PLW	alignments	170439403	2	2_1	ENCSR437WYC_2_1	mouse
+ENCSR862DMK	ENC4_465, ENC4_466 B6Cast F1 PND 2 months Male 03 L. cortex	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF285NUG	reads	1005505763	1	1_1	ENCSR862DMK_1_1	mouse
+ENCSR862DMK	ENC4_465, ENC4_466 B6Cast F1 PND 2 months Male 03 L. cortex	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF977AFJ	reads	430463025	2	2_1	ENCSR862DMK_2_1	mouse
+ENCSR862DMK	ENC4_465, ENC4_466 B6Cast F1 PND 2 months Male 03 L. cortex	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF594DAT	unfiltered alignments	521145967	2	2_1	ENCSR862DMK_2_1	mouse
+ENCSR862DMK	ENC4_465, ENC4_466 B6Cast F1 PND 2 months Male 03 L. cortex	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF439LFE	unfiltered alignments	1195511459	1	1_1	ENCSR862DMK_1_1	mouse
+ENCSR862DMK	ENC4_465, ENC4_466 B6Cast F1 PND 2 months Male 03 L. cortex	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF277JRJ	alignments	364211749	1	1_1	ENCSR862DMK_1_1	mouse
+ENCSR862DMK	ENC4_465, ENC4_466 B6Cast F1 PND 2 months Male 03 L. cortex	male adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF792XAE	alignments	170307940	2	2_1	ENCSR862DMK_2_1	mouse
+ENCSR370BHF	ENC4_403a, ENC4_404a B6Cast F1 PND 2 months_Female Gastrocnemius	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF271ZDH	reads	830348072	1	1_1	ENCSR370BHF_1_1	mouse
+ENCSR370BHF	ENC4_403a, ENC4_404a B6Cast F1 PND 2 months_Female Gastrocnemius	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF095FKV	reads	877052749	2	2_1	ENCSR370BHF_2_1	mouse
+ENCSR370BHF	ENC4_403a, ENC4_404a B6Cast F1 PND 2 months_Female Gastrocnemius	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF721JWI	alignments	312203104	2	2_1	ENCSR370BHF_2_1	mouse
+ENCSR370BHF	ENC4_403a, ENC4_404a B6Cast F1 PND 2 months_Female Gastrocnemius	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF385JNL	alignments	288979210	1	1_1	ENCSR370BHF_1_1	mouse
+ENCSR370BHF	ENC4_403a, ENC4_404a B6Cast F1 PND 2 months_Female Gastrocnemius	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF970PLN	unfiltered alignments	1083307023	1	1_1	ENCSR370BHF_1_1	mouse
+ENCSR370BHF	ENC4_403a, ENC4_404a B6Cast F1 PND 2 months_Female Gastrocnemius	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF949HWT	unfiltered alignments	1135605374	2	2_1	ENCSR370BHF_2_1	mouse
+ENCSR026WRM	ENC4_415, ENC4_416 hippocampus_B6CastF1_PND14_3x male_7,8,9_ENC4_cDNA499	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF402OZL	reads	608284430	1	1_1	ENCSR026WRM_1_1	mouse
+ENCSR026WRM	ENC4_415, ENC4_416 hippocampus_B6CastF1_PND14_3x male_7,8,9_ENC4_cDNA499	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF182ZKL	reads	537204609	2	2_1	ENCSR026WRM_2_1	mouse
+ENCSR026WRM	ENC4_415, ENC4_416 hippocampus_B6CastF1_PND14_3x male_7,8,9_ENC4_cDNA499	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF587QKV	alignments	193933133	2	2_1	ENCSR026WRM_2_1	mouse
+ENCSR026WRM	ENC4_415, ENC4_416 hippocampus_B6CastF1_PND14_3x male_7,8,9_ENC4_cDNA499	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF574LQO	unfiltered alignments	652403788	2	2_1	ENCSR026WRM_2_1	mouse
+ENCSR026WRM	ENC4_415, ENC4_416 hippocampus_B6CastF1_PND14_3x male_7,8,9_ENC4_cDNA499	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF655BWX	unfiltered alignments	736677338	1	1_1	ENCSR026WRM_1_1	mouse
+ENCSR026WRM	ENC4_415, ENC4_416 hippocampus_B6CastF1_PND14_3x male_7,8,9_ENC4_cDNA499	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF753VCG	alignments	217560981	1	1_1	ENCSR026WRM_1_1	mouse
+ENCSR512EWP	ENC4_215 B6Cast F1 PND4_Male 03_Adrenals	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF141ZHE	reads	387445436	1	1_1	ENCSR512EWP_1_1	mouse
+ENCSR512EWP	ENC4_215 B6Cast F1 PND4_Male 03_Adrenals	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF177RGM	reads	421163559	2	2_1	ENCSR512EWP_2_1	mouse
+ENCSR512EWP	ENC4_215 B6Cast F1 PND4_Male 03_Adrenals	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF639UOD	unfiltered alignments	525563446	2	2_1	ENCSR512EWP_2_1	mouse
+ENCSR512EWP	ENC4_215 B6Cast F1 PND4_Male 03_Adrenals	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF571ZLW	alignments	149017968	2	2_1	ENCSR512EWP_2_1	mouse
+ENCSR512EWP	ENC4_215 B6Cast F1 PND4_Male 03_Adrenals	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF034HGS	unfiltered alignments	481236265	1	1_1	ENCSR512EWP_1_1	mouse
+ENCSR512EWP	ENC4_215 B6Cast F1 PND4_Male 03_Adrenals	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF545VGM	alignments	133349184	1	1_1	ENCSR512EWP_1_1	mouse
+ENCSR524XLA	ENC4_383a, ENC4_384a B6Cast F1 PND4_Female Gastrocnemius	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF477GNS	reads	879188970	1	1_1	ENCSR524XLA_1_1	mouse
+ENCSR524XLA	ENC4_383a, ENC4_384a B6Cast F1 PND4_Female Gastrocnemius	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF462TIY	reads	516614958	2	2_1	ENCSR524XLA_2_1	mouse
+ENCSR524XLA	ENC4_383a, ENC4_384a B6Cast F1 PND4_Female Gastrocnemius	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF142YJX	unfiltered alignments	1077560738	1	1_1	ENCSR524XLA_1_1	mouse
+ENCSR524XLA	ENC4_383a, ENC4_384a B6Cast F1 PND4_Female Gastrocnemius	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF757HQI	alignments	179374798	2	2_1	ENCSR524XLA_2_1	mouse
+ENCSR524XLA	ENC4_383a, ENC4_384a B6Cast F1 PND4_Female Gastrocnemius	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF449IWN	unfiltered alignments	643949008	2	2_1	ENCSR524XLA_2_1	mouse
+ENCSR524XLA	ENC4_383a, ENC4_384a B6Cast F1 PND4_Female Gastrocnemius	female postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF107OBP	alignments	299194022	1	1_1	ENCSR524XLA_1_1	mouse
+ENCSR152PAT	ENC4_443, ENC4_444 hippocampus_B6Cast F1_18 - 20 months_male_6_ENC4_cDNA515	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF532MMA	reads	583233093	1	1_1	ENCSR152PAT_1_1	mouse
+ENCSR152PAT	ENC4_443, ENC4_444 hippocampus_B6Cast F1_18 - 20 months_male_6_ENC4_cDNA515	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF175BNQ	reads	985051958	2	2_1	ENCSR152PAT_2_1	mouse
+ENCSR152PAT	ENC4_443, ENC4_444 hippocampus_B6Cast F1_18 - 20 months_male_6_ENC4_cDNA515	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF064YWB	unfiltered alignments	699078968	1	1_1	ENCSR152PAT_1_1	mouse
+ENCSR152PAT	ENC4_443, ENC4_444 hippocampus_B6Cast F1_18 - 20 months_male_6_ENC4_cDNA515	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF600WNB	alignments	351896671	2	2_1	ENCSR152PAT_2_1	mouse
+ENCSR152PAT	ENC4_443, ENC4_444 hippocampus_B6Cast F1_18 - 20 months_male_6_ENC4_cDNA515	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF662KKK	unfiltered alignments	1171594020	2	2_1	ENCSR152PAT_2_1	mouse
+ENCSR152PAT	ENC4_443, ENC4_444 hippocampus_B6Cast F1_18 - 20 months_male_6_ENC4_cDNA515	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF128HJT	alignments	224490276	1	1_1	ENCSR152PAT_1_1	mouse
+ENCSR223AZQ	ENC4_407, ENC4_408 B6Cast F1 PND 18-20 months_Female Gastrocnemius	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF281GTL	reads	686475352	1	1_1	ENCSR223AZQ_1_1	mouse
+ENCSR223AZQ	ENC4_407, ENC4_408 B6Cast F1 PND 18-20 months_Female Gastrocnemius	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF028QQV	reads	696710653	2	2_1	ENCSR223AZQ_2_1	mouse
+ENCSR223AZQ	ENC4_407, ENC4_408 B6Cast F1 PND 18-20 months_Female Gastrocnemius	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF463IFJ	unfiltered alignments	901919188	1	1_1	ENCSR223AZQ_1_1	mouse
+ENCSR223AZQ	ENC4_407, ENC4_408 B6Cast F1 PND 18-20 months_Female Gastrocnemius	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF523LUA	alignments	264349402	2	2_1	ENCSR223AZQ_2_1	mouse
+ENCSR223AZQ	ENC4_407, ENC4_408 B6Cast F1 PND 18-20 months_Female Gastrocnemius	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF794AWQ	unfiltered alignments	915468846	2	2_1	ENCSR223AZQ_2_1	mouse
+ENCSR223AZQ	ENC4_407, ENC4_408 B6Cast F1 PND 18-20 months_Female Gastrocnemius	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF033HBE	alignments	246494845	1	1_1	ENCSR223AZQ_1_1	mouse
+ENCSR861RCH	ENC4_467, ENC4_468 B6Cast F1 PND 2 months Female 03 L. cortex	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF605NQH	reads	692005580	1	1_1	ENCSR861RCH_1_1	mouse
+ENCSR861RCH	ENC4_467, ENC4_468 B6Cast F1 PND 2 months Female 03 L. cortex	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF937WKF	reads	872244702	2	2_1	ENCSR861RCH_2_1	mouse
+ENCSR861RCH	ENC4_467, ENC4_468 B6Cast F1 PND 2 months Female 03 L. cortex	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF101RZW	unfiltered alignments	825956103	1	1_1	ENCSR861RCH_1_1	mouse
+ENCSR861RCH	ENC4_467, ENC4_468 B6Cast F1 PND 2 months Female 03 L. cortex	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF413JMT	unfiltered alignments	1035030404	2	2_1	ENCSR861RCH_2_1	mouse
+ENCSR861RCH	ENC4_467, ENC4_468 B6Cast F1 PND 2 months Female 03 L. cortex	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF484SWE	alignments	266629665	1	1_1	ENCSR861RCH_1_1	mouse
+ENCSR861RCH	ENC4_467, ENC4_468 B6Cast F1 PND 2 months Female 03 L. cortex	female adult (2 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF981KWX	alignments	332803565	2	2_1	ENCSR861RCH_2_1	mouse
+ENCSR893GCO	ENC4_229 B6Cast F1 PND25_ Female 03_Adrenals	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF167GYW	reads	242800298	1	1_1	ENCSR893GCO_1_1	mouse
+ENCSR893GCO	ENC4_229 B6Cast F1 PND25_ Female 03_Adrenals	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF589EMD	reads	423080341	2	2_1	ENCSR893GCO_2_1	mouse
+ENCSR893GCO	ENC4_229 B6Cast F1 PND25_ Female 03_Adrenals	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF587AMI	unfiltered alignments	525929068	2	2_1	ENCSR893GCO_2_1	mouse
+ENCSR893GCO	ENC4_229 B6Cast F1 PND25_ Female 03_Adrenals	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF637NBP	alignments	152092422	2	2_1	ENCSR893GCO_2_1	mouse
+ENCSR893GCO	ENC4_229 B6Cast F1 PND25_ Female 03_Adrenals	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF833EUH	alignments	92118247	1	1_1	ENCSR893GCO_1_1	mouse
+ENCSR893GCO	ENC4_229 B6Cast F1 PND25_ Female 03_Adrenals	female postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF444SZT	unfiltered alignments	301003047	1	1_1	ENCSR893GCO_1_1	mouse
+ENCSR588IRT	ENC4_399a, ENC4_400a B6Cast F1 PND36_Female Gastrocnemius	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF524YTF	reads	392929831	1	1_1	ENCSR588IRT_1_1	mouse
+ENCSR588IRT	ENC4_399a, ENC4_400a B6Cast F1 PND36_Female Gastrocnemius	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF294TJX	reads	591751983	2	2_1	ENCSR588IRT_2_1	mouse
+ENCSR588IRT	ENC4_399a, ENC4_400a B6Cast F1 PND36_Female Gastrocnemius	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF608LPM	unfiltered alignments	805417289	2	2_1	ENCSR588IRT_2_1	mouse
+ENCSR588IRT	ENC4_399a, ENC4_400a B6Cast F1 PND36_Female Gastrocnemius	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF882CXN	alignments	202289723	2	2_1	ENCSR588IRT_2_1	mouse
+ENCSR588IRT	ENC4_399a, ENC4_400a B6Cast F1 PND36_Female Gastrocnemius	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF558RAL	unfiltered alignments	532932712	1	1_1	ENCSR588IRT_1_1	mouse
+ENCSR588IRT	ENC4_399a, ENC4_400a B6Cast F1 PND36_Female Gastrocnemius	female postnatal (36 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF183WGH	alignments	145656784	1	1_1	ENCSR588IRT_1_1	mouse
+ENCSR550KPM	ENC4_471, ENC4_472 B6Cast F1 PND 18-20 months Male 03 L. cortex	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF520HCL	reads	608756759	1	1_1	ENCSR550KPM_1_1	mouse
+ENCSR550KPM	ENC4_471, ENC4_472 B6Cast F1 PND 18-20 months Male 03 L. cortex	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF132MEJ	reads	626221045	2	2_1	ENCSR550KPM_2_1	mouse
+ENCSR550KPM	ENC4_471, ENC4_472 B6Cast F1 PND 18-20 months Male 03 L. cortex	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF054XPK	alignments	218505873	1	1_1	ENCSR550KPM_1_1	mouse
+ENCSR550KPM	ENC4_471, ENC4_472 B6Cast F1 PND 18-20 months Male 03 L. cortex	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF436XRC	unfiltered alignments	742073176	1	1_1	ENCSR550KPM_1_1	mouse
+ENCSR550KPM	ENC4_471, ENC4_472 B6Cast F1 PND 18-20 months Male 03 L. cortex	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF521YYK	unfiltered alignments	760775629	2	2_1	ENCSR550KPM_2_1	mouse
+ENCSR550KPM	ENC4_471, ENC4_472 B6Cast F1 PND 18-20 months Male 03 L. cortex	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF269APD	alignments	237842654	2	2_1	ENCSR550KPM_2_1	mouse
+ENCSR842KTN	ENC4_481, ENC4_482 heart_B6Cast F1 PND14 3x Males 03 heart_ENC4_cDNA593, cDNA_594	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF584WWA	reads	641112700	1	1_1	ENCSR842KTN_1_1	mouse
+ENCSR842KTN	ENC4_481, ENC4_482 heart_B6Cast F1 PND14 3x Males 03 heart_ENC4_cDNA593, cDNA_594	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF860CBL	reads	692194222	2	2_1	ENCSR842KTN_2_1	mouse
+ENCSR842KTN	ENC4_481, ENC4_482 heart_B6Cast F1 PND14 3x Males 03 heart_ENC4_cDNA593, cDNA_594	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF594CLT	unfiltered alignments	857865322	2	2_1	ENCSR842KTN_2_1	mouse
+ENCSR842KTN	ENC4_481, ENC4_482 heart_B6Cast F1 PND14 3x Males 03 heart_ENC4_cDNA593, cDNA_594	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF867QMB	alignments	230289774	2	2_1	ENCSR842KTN_2_1	mouse
+ENCSR842KTN	ENC4_481, ENC4_482 heart_B6Cast F1 PND14 3x Males 03 heart_ENC4_cDNA593, cDNA_594	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF747EXS	unfiltered alignments	797542301	1	1_1	ENCSR842KTN_1_1	mouse
+ENCSR842KTN	ENC4_481, ENC4_482 heart_B6Cast F1 PND14 3x Males 03 heart_ENC4_cDNA593, cDNA_594	male postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF953BLN	alignments	211218571	1	1_1	ENCSR842KTN_1_1	mouse
+ENCSR885NRP	ENC4_239 B6Cast F1 PND 18-20 months_Male 03_Adrenals	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF811RRD	reads	514145335	1	1_1	ENCSR885NRP_1_1	mouse
+ENCSR885NRP	ENC4_239 B6Cast F1 PND 18-20 months_Male 03_Adrenals	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF167IJD	unfiltered alignments	631034991	1	1_1	ENCSR885NRP_1_1	mouse
+ENCSR885NRP	ENC4_239 B6Cast F1 PND 18-20 months_Male 03_Adrenals	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF684SLZ	alignments	176433776	1	1_1	ENCSR885NRP_1_1	mouse
+ENCSR628IMW	ENC4_469, ENC4_470 B6Cast F1 PND 18-20 months Female 03 L. cortex	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF565RLW	reads	911894622	1	1_1	ENCSR628IMW_1_1	mouse
+ENCSR628IMW	ENC4_469, ENC4_470 B6Cast F1 PND 18-20 months Female 03 L. cortex	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF325BXV	reads	881897056	2	2_1	ENCSR628IMW_2_1	mouse
+ENCSR628IMW	ENC4_469, ENC4_470 B6Cast F1 PND 18-20 months Female 03 L. cortex	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF691BND	alignments	325256235	1	1_1	ENCSR628IMW_1_1	mouse
+ENCSR628IMW	ENC4_469, ENC4_470 B6Cast F1 PND 18-20 months Female 03 L. cortex	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF315DLM	unfiltered alignments	1061410424	2	2_1	ENCSR628IMW_2_1	mouse
+ENCSR628IMW	ENC4_469, ENC4_470 B6Cast F1 PND 18-20 months Female 03 L. cortex	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF851BOA	unfiltered alignments	1099006291	1	1_1	ENCSR628IMW_1_1	mouse
+ENCSR628IMW	ENC4_469, ENC4_470 B6Cast F1 PND 18-20 months Female 03 L. cortex	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF603QTD	alignments	308071365	2	2_1	ENCSR628IMW_2_1	mouse
+ENCSR920WYI	ENC4_391a, ENC4_392a B6Cast F1 PND14 Females Gastrocnemius	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF618PJT	reads	780580666	1	1_1	ENCSR920WYI_1_1	mouse
+ENCSR920WYI	ENC4_391a, ENC4_392a B6Cast F1 PND14 Females Gastrocnemius	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF124DBU	reads	430486503	2	2_1	ENCSR920WYI_2_1	mouse
+ENCSR920WYI	ENC4_391a, ENC4_392a B6Cast F1 PND14 Females Gastrocnemius	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF524FPE	alignments	149977166	2	2_1	ENCSR920WYI_2_1	mouse
+ENCSR920WYI	ENC4_391a, ENC4_392a B6Cast F1 PND14 Females Gastrocnemius	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF823CFA	unfiltered alignments	1014524497	1	1_1	ENCSR920WYI_1_1	mouse
+ENCSR920WYI	ENC4_391a, ENC4_392a B6Cast F1 PND14 Females Gastrocnemius	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF736MDK	alignments	266741946	1	1_1	ENCSR920WYI_1_1	mouse
+ENCSR920WYI	ENC4_391a, ENC4_392a B6Cast F1 PND14 Females Gastrocnemius	female postnatal (14 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF285TTM	unfiltered alignments	579005316	2	2_1	ENCSR920WYI_2_1	mouse
+ENCSR665XLM	ENC4_221 - B6Cast F1 PND10_Female 03_Adrenals	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF863AGD	reads	411345445	2	2_1	ENCSR665XLM_2_1	mouse
+ENCSR665XLM	ENC4_221 - B6Cast F1 PND10_Female 03_Adrenals	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF321AJK	reads	341273543	1	1_1	ENCSR665XLM_1_1	mouse
+ENCSR665XLM	ENC4_221 - B6Cast F1 PND10_Female 03_Adrenals	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF276HLF	unfiltered alignments	511721155	2	2_1	ENCSR665XLM_2_1	mouse
+ENCSR665XLM	ENC4_221 - B6Cast F1 PND10_Female 03_Adrenals	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF550NPJ	alignments	132950172	1	1_1	ENCSR665XLM_1_1	mouse
+ENCSR665XLM	ENC4_221 - B6Cast F1 PND10_Female 03_Adrenals	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF218PAQ	alignments	149051786	2	2_1	ENCSR665XLM_2_1	mouse
+ENCSR665XLM	ENC4_221 - B6Cast F1 PND10_Female 03_Adrenals	female postnatal (10 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF756SOZ	unfiltered alignments	423218863	1	1_1	ENCSR665XLM_1_1	mouse
+ENCSR964OKW	ENC4_381a, ENC4_382a B6Cast F1 PND4_Male Gastrocnemius	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF798HCT	reads	807744599	1	1_1	ENCSR964OKW_1_1	mouse
+ENCSR964OKW	ENC4_381a, ENC4_382a B6Cast F1 PND4_Male Gastrocnemius	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF069POP	reads	722851313	2	2_1	ENCSR964OKW_2_1	mouse
+ENCSR964OKW	ENC4_381a, ENC4_382a B6Cast F1 PND4_Male Gastrocnemius	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF541JWV	unfiltered alignments	988554886	1	1_1	ENCSR964OKW_1_1	mouse
+ENCSR964OKW	ENC4_381a, ENC4_382a B6Cast F1 PND4_Male Gastrocnemius	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF362LGG	unfiltered alignments	898126529	2	2_1	ENCSR964OKW_2_1	mouse
+ENCSR964OKW	ENC4_381a, ENC4_382a B6Cast F1 PND4_Male Gastrocnemius	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF643TDK	alignments	275590347	1	1_1	ENCSR964OKW_1_1	mouse
+ENCSR964OKW	ENC4_381a, ENC4_382a B6Cast F1 PND4_Male Gastrocnemius	male postnatal (4 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF821NRP	alignments	250311462	2	2_1	ENCSR964OKW_2_1	mouse
+ENCSR791CDT	ENC4_393a, ENC4_394a B6Cast F1 PND25_Male Gastrocnemius	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF221ABY	reads	768570549	1	1_1	ENCSR791CDT_1_1	mouse
+ENCSR791CDT	ENC4_393a, ENC4_394a B6Cast F1 PND25_Male Gastrocnemius	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF435GLV	reads	548239642	2	2_1	ENCSR791CDT_2_1	mouse
+ENCSR791CDT	ENC4_393a, ENC4_394a B6Cast F1 PND25_Male Gastrocnemius	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF977HLZ	unfiltered alignments	754238490	2	2_1	ENCSR791CDT_2_1	mouse
+ENCSR791CDT	ENC4_393a, ENC4_394a B6Cast F1 PND25_Male Gastrocnemius	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF984UIN	alignments	186185265	2	2_1	ENCSR791CDT_2_1	mouse
+ENCSR791CDT	ENC4_393a, ENC4_394a B6Cast F1 PND25_Male Gastrocnemius	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF767GXC	unfiltered alignments	1014280864	1	1_1	ENCSR791CDT_1_1	mouse
+ENCSR791CDT	ENC4_393a, ENC4_394a B6Cast F1 PND25_Male Gastrocnemius	male postnatal (25 days) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF960HIF	alignments	275005598	1	1_1	ENCSR791CDT_1_1	mouse
+ENCSR267XBT	ENC4_499, ENC4_500 heart_B6Cast F1 PND 18-20 months Female 03 heart_ENC4_cDNA611, cDNA612	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF032HOK	reads	239207588	1	1_1	ENCSR267XBT_1_1	mouse
+ENCSR267XBT	ENC4_499, ENC4_500 heart_B6Cast F1 PND 18-20 months Female 03 heart_ENC4_cDNA611, cDNA612	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF356MNK	reads	251732066	2	2_1	ENCSR267XBT_2_1	mouse
+ENCSR267XBT	ENC4_499, ENC4_500 heart_B6Cast F1 PND 18-20 months Female 03 heart_ENC4_cDNA611, cDNA612	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF917ONC	alignments	90370751	1	1_1	ENCSR267XBT_1_1	mouse
+ENCSR267XBT	ENC4_499, ENC4_500 heart_B6Cast F1 PND 18-20 months Female 03 heart_ENC4_cDNA611, cDNA612	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF688VMD	alignments	94430748	2	2_1	ENCSR267XBT_2_1	mouse
+ENCSR267XBT	ENC4_499, ENC4_500 heart_B6Cast F1 PND 18-20 months Female 03 heart_ENC4_cDNA611, cDNA612	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF828VWI	unfiltered alignments	325160549	2	2_1	ENCSR267XBT_2_1	mouse
+ENCSR267XBT	ENC4_499, ENC4_500 heart_B6Cast F1 PND 18-20 months Female 03 heart_ENC4_cDNA611, cDNA612	female adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF957PNF	unfiltered alignments	310851436	1	1_1	ENCSR267XBT_1_1	mouse
+ENCSR410XGE	ENC4_497, ENC4_498 heart_B6Cast F1 PND 18-20 months Male 03 heart_ENC4_cDNA609, cDNA610	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF177KNR	reads	347146234	1	1_1	ENCSR410XGE_1_1	mouse
+ENCSR410XGE	ENC4_497, ENC4_498 heart_B6Cast F1 PND 18-20 months Male 03 heart_ENC4_cDNA609, cDNA610	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF468BPP	reads	466260320	2	2_1	ENCSR410XGE_2_1	mouse
+ENCSR410XGE	ENC4_497, ENC4_498 heart_B6Cast F1 PND 18-20 months Male 03 heart_ENC4_cDNA609, cDNA610	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF800GKP	alignments	121513955	1	1_1	ENCSR410XGE_1_1	mouse
+ENCSR410XGE	ENC4_497, ENC4_498 heart_B6Cast F1 PND 18-20 months Male 03 heart_ENC4_cDNA609, cDNA610	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF458JBD	unfiltered alignments	438242742	1	1_1	ENCSR410XGE_1_1	mouse
+ENCSR410XGE	ENC4_497, ENC4_498 heart_B6Cast F1 PND 18-20 months Male 03 heart_ENC4_cDNA609, cDNA610	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF107ZLE	unfiltered alignments	592098515	2	2_1	ENCSR410XGE_2_1	mouse
+ENCSR410XGE	ENC4_497, ENC4_498 heart_B6Cast F1 PND 18-20 months Male 03 heart_ENC4_cDNA609, cDNA610	male adult (18-20 months) strain B6CASTF1/J C57BL/6JxCAST/EiJ	ENCFF510KLD	alignments	161805781	2	2_1	ENCSR410XGE_2_1	mouse
+ENCSR214HSG	Hippocampus1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF309DMQ	reads	725027830	2	2_1	ENCSR214HSG_2_1	mouse
+ENCSR214HSG	Hippocampus1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF103DSA	reads	681131622	1	1_1	ENCSR214HSG_1_1	mouse
+ENCSR214HSG	Hippocampus1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF428AJY	alignments	229259801	2	2_1	ENCSR214HSG_2_1	mouse
+ENCSR214HSG	Hippocampus1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF946NWJ	unfiltered alignments	866729473	1	1_1	ENCSR214HSG_1_1	mouse
+ENCSR214HSG	Hippocampus1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF894ESP	unfiltered alignments	915884243	2	2_1	ENCSR214HSG_2_1	mouse
+ENCSR214HSG	Hippocampus1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF648REP	alignments	222264400	1	1_1	ENCSR214HSG_1_1	mouse
+ENCSR340GWV	Cortex1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF479GNP	reads	631136514	1	1_1	ENCSR340GWV_1_1	mouse
+ENCSR340GWV	Cortex1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF402ZUC	reads	593694898	2	2_1	ENCSR340GWV_2_1	mouse
+ENCSR340GWV	Cortex1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF378JMO	unfiltered alignments	767996371	2	2_1	ENCSR340GWV_2_1	mouse
+ENCSR340GWV	Cortex1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF797SZT	unfiltered alignments	814128541	1	1_1	ENCSR340GWV_1_1	mouse
+ENCSR340GWV	Cortex1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF839PZB	alignments	211784918	1	1_1	ENCSR340GWV_1_1	mouse
+ENCSR340GWV	Cortex1 from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF773TTA	alignments	201669929	2	2_1	ENCSR340GWV_2_1	mouse
+ENCSR082JMB	Mus musculus strain B6NCrl embryo (13 days) forelimb tissue	embryo (13 days) strain B6NCrl C57BL/6	ENCFF417EKT	reads	499049970	1	1_1	ENCSR082JMB_1_1	mouse
+ENCSR082JMB	Mus musculus strain B6NCrl embryo (13 days) forelimb tissue	embryo (13 days) strain B6NCrl C57BL/6	ENCFF479KNZ	alignments	201024135	1	1_1	ENCSR082JMB_1_1	mouse
+ENCSR082JMB	Mus musculus strain B6NCrl embryo (13 days) forelimb tissue	embryo (13 days) strain B6NCrl C57BL/6	ENCFF804XPQ	unfiltered alignments	620930536	1	1_1	ENCSR082JMB_1_1	mouse
+ENCSR060OTU	5xFAD hippo het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF448KBZ	reads	1505678456	1	1_1	ENCSR060OTU_1_1	mouse
+ENCSR060OTU	5xFAD hippo het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF890RGD	reads	1404524207	2	2_1	ENCSR060OTU_2_1	mouse
+ENCSR060OTU	5xFAD hippo het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF033LIM	alignments	474299519	1	1_1	ENCSR060OTU_1_1	mouse
+ENCSR060OTU	5xFAD hippo het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF466LIU	unfiltered alignments	1690474752	2	2_1	ENCSR060OTU_2_1	mouse
+ENCSR060OTU	5xFAD hippo het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF412YGK	unfiltered alignments	1815724692	1	1_1	ENCSR060OTU_1_1	mouse
+ENCSR060OTU	5xFAD hippo het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF794EDV	alignments	478080669	2	2_1	ENCSR060OTU_2_1	mouse
+ENCSR418ZYU	Myoblast cell line derived from thigh muscle of C3H mice after crush injury	C3H	ENCFF008ATT	reads	392924744	1	1_1	ENCSR418ZYU_1_1	mouse
+ENCSR418ZYU	Myoblast cell line derived from thigh muscle of C3H mice after crush injury	C3H	ENCFF238DPX	reads	407714101	2	2_1	ENCSR418ZYU_2_1	mouse
+ENCSR418ZYU	Myoblast cell line derived from thigh muscle of C3H mice after crush injury	C3H	ENCFF176BGR	unfiltered alignments	533870978	1	1_1	ENCSR418ZYU_1_1	mouse
+ENCSR418ZYU	Myoblast cell line derived from thigh muscle of C3H mice after crush injury	C3H	ENCFF423BZA	unfiltered alignments	561133874	2	2_1	ENCSR418ZYU_2_1	mouse
+ENCSR418ZYU	Myoblast cell line derived from thigh muscle of C3H mice after crush injury	C3H	ENCFF163ANR	alignments	137316050	2	2_1	ENCSR418ZYU_2_1	mouse
+ENCSR418ZYU	Myoblast cell line derived from thigh muscle of C3H mice after crush injury	C3H	ENCFF999UDH	alignments	134676264	1	1_1	ENCSR418ZYU_1_1	mouse
+ENCSR131CES	Control cortex Female	adult (8 months) strain B6NCrl C57BL/6	ENCFF046XAX	reads	1492296354	2	2_1	ENCSR131CES_2_1	mouse
+ENCSR131CES	Control cortex Female	adult (8 months) strain B6NCrl C57BL/6	ENCFF319GBG	reads	1687553637	1	1_1	ENCSR131CES_1_1	mouse
+ENCSR131CES	Control cortex Female	adult (8 months) strain B6NCrl C57BL/6	ENCFF609BFL	unfiltered alignments	2036249306	1	1_1	ENCSR131CES_1_1	mouse
+ENCSR131CES	Control cortex Female	adult (8 months) strain B6NCrl C57BL/6	ENCFF505EPC	alignments	465040844	2	2_1	ENCSR131CES_2_1	mouse
+ENCSR131CES	Control cortex Female	adult (8 months) strain B6NCrl C57BL/6	ENCFF525AQR	alignments	517723035	1	1_1	ENCSR131CES_1_1	mouse
+ENCSR131CES	Control cortex Female	adult (8 months) strain B6NCrl C57BL/6	ENCFF607CUC	unfiltered alignments	1804198671	2	2_1	ENCSR131CES_2_1	mouse
+ENCSR735IBE	adrenal gland BL6 female	strain C57BL/6J C57BL/6	ENCFF560ONE	reads	434424820	1	1_1	ENCSR735IBE_1_1	mouse
+ENCSR735IBE	adrenal gland BL6 female	strain C57BL/6J C57BL/6	ENCFF445VZL	reads	586569449	2	2_1	ENCSR735IBE_2_1	mouse
+ENCSR735IBE	adrenal gland BL6 female	strain C57BL/6J C57BL/6	ENCFF343IGL	unfiltered alignments	743507128	2	2_1	ENCSR735IBE_2_1	mouse
+ENCSR735IBE	adrenal gland BL6 female	strain C57BL/6J C57BL/6	ENCFF540TLC	unfiltered alignments	565434917	1	1_1	ENCSR735IBE_1_1	mouse
+ENCSR735IBE	adrenal gland BL6 female	strain C57BL/6J C57BL/6	ENCFF498FMF	alignments	146031446	1	1_1	ENCSR735IBE_1_1	mouse
+ENCSR735IBE	adrenal gland BL6 female	strain C57BL/6J C57BL/6	ENCFF134BVW	alignments	196433512	2	2_1	ENCSR735IBE_2_1	mouse
+ENCSR644GDT	Cortex from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF683BZL	reads	1973988218	1	1_1	ENCSR644GDT_1_1	mouse
+ENCSR644GDT	Cortex from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF476MLA	reads	2005536663	2	2_1	ENCSR644GDT_2_1	mouse
+ENCSR644GDT	Cortex from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF699JUB	unfiltered alignments	2380922969	1	1_1	ENCSR644GDT_1_1	mouse
+ENCSR644GDT	Cortex from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF405HLV	alignments	610427938	2	2_1	ENCSR644GDT_2_1	mouse
+ENCSR644GDT	Cortex from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF149EOM	alignments	596471373	1	1_1	ENCSR644GDT_1_1	mouse
+ENCSR644GDT	Cortex from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF346JJP	unfiltered alignments	2399855014	2	2_1	ENCSR644GDT_2_1	mouse
+ENCSR404AEI	5xFAD hippo 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF110OOL	reads	1922910120	1	1_1	ENCSR404AEI_1_1	mouse
+ENCSR404AEI	5xFAD hippo 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF997NDX	reads	2023671790	2	2_1	ENCSR404AEI_2_1	mouse
+ENCSR404AEI	5xFAD hippo 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF008ZCM	alignments	605003327	2	2_1	ENCSR404AEI_2_1	mouse
+ENCSR404AEI	5xFAD hippo 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF292SMA	unfiltered alignments	2330062134	1	1_1	ENCSR404AEI_1_1	mouse
+ENCSR404AEI	5xFAD hippo 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF076JGT	unfiltered alignments	2447090267	2	2_1	ENCSR404AEI_2_1	mouse
+ENCSR404AEI	5xFAD hippo 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF458RBM	alignments	576844443	1	1_1	ENCSR404AEI_1_1	mouse
+ENCSR674BKT	5xFAD ctx 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF095CHU	reads	2019435349	1	1_1	ENCSR674BKT_1_1	mouse
+ENCSR674BKT	5xFAD ctx 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF201HBC	reads	1551701967	2	2_1	ENCSR674BKT_2_1	mouse
+ENCSR674BKT	5xFAD ctx 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF045LNO	unfiltered alignments	2447813191	1	1_1	ENCSR674BKT_1_1	mouse
+ENCSR674BKT	5xFAD ctx 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF550PML	alignments	493730271	2	2_1	ENCSR674BKT_2_1	mouse
+ENCSR674BKT	5xFAD ctx 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF016RAT	unfiltered alignments	1876150102	2	2_1	ENCSR674BKT_2_1	mouse
+ENCSR674BKT	5xFAD ctx 8 mo Male	adult (8 months) strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF244NTP	alignments	614206407	1	1_1	ENCSR674BKT_1_1	mouse
+ENCSR411ZHA	Control hippo Female	strain B6NCrl C57BL/6	ENCFF978EIJ	reads	1507303462	1	1_1	ENCSR411ZHA_1_1	mouse
+ENCSR411ZHA	Control hippo Female	strain B6NCrl C57BL/6	ENCFF228VBQ	reads	1315296443	2	2_1	ENCSR411ZHA_2_1	mouse
+ENCSR411ZHA	Control hippo Female	strain B6NCrl C57BL/6	ENCFF242EDW	unfiltered alignments	1836141917	1	1_1	ENCSR411ZHA_1_1	mouse
+ENCSR411ZHA	Control hippo Female	strain B6NCrl C57BL/6	ENCFF316LYP	alignments	395708688	2	2_1	ENCSR411ZHA_2_1	mouse
+ENCSR411ZHA	Control hippo Female	strain B6NCrl C57BL/6	ENCFF362HIV	unfiltered alignments	1609406783	2	2_1	ENCSR411ZHA_2_1	mouse
+ENCSR411ZHA	Control hippo Female	strain B6NCrl C57BL/6	ENCFF041PKK	alignments	479184203	1	1_1	ENCSR411ZHA_1_1	mouse
+ENCSR942UFC	adrenal gland BL6 male	strain C57BL/6J C57BL/6	ENCFF311BUV	reads	437948217	1	1_1	ENCSR942UFC_1_1	mouse
+ENCSR942UFC	adrenal gland BL6 male	strain C57BL/6J C57BL/6	ENCFF698CVI	reads	492087691	2	2_1	ENCSR942UFC_2_1	mouse
+ENCSR942UFC	adrenal gland BL6 male	strain C57BL/6J C57BL/6	ENCFF897FRD	unfiltered alignments	567807175	1	1_1	ENCSR942UFC_1_1	mouse
+ENCSR942UFC	adrenal gland BL6 male	strain C57BL/6J C57BL/6	ENCFF245MJA	unfiltered alignments	623512811	2	2_1	ENCSR942UFC_2_1	mouse
+ENCSR942UFC	adrenal gland BL6 male	strain C57BL/6J C57BL/6	ENCFF694ZVY	alignments	149330145	1	1_1	ENCSR942UFC_1_1	mouse
+ENCSR942UFC	adrenal gland BL6 male	strain C57BL/6J C57BL/6	ENCFF343ZMH	alignments	165138206	2	2_1	ENCSR942UFC_2_1	mouse
+ENCSR926OGQ	Hippocampus from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF376LTY	reads	2225591748	1	1_1	ENCSR926OGQ_1_1	mouse
+ENCSR926OGQ	Hippocampus from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF314QJI	reads	2288269517	2	2_1	ENCSR926OGQ_2_1	mouse
+ENCSR926OGQ	Hippocampus from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF988VNH	unfiltered alignments	2747647240	2	2_1	ENCSR926OGQ_2_1	mouse
+ENCSR926OGQ	Hippocampus from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF131HHK	alignments	672846821	1	1_1	ENCSR926OGQ_1_1	mouse
+ENCSR926OGQ	Hippocampus from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF764ZXE	alignments	680640359	2	2_1	ENCSR926OGQ_2_1	mouse
+ENCSR926OGQ	Hippocampus from 6 mo C57BL/6 male	adult (6 months) strain B6NCrl C57BL/6	ENCFF949ERN	unfiltered alignments	2681480561	1	1_1	ENCSR926OGQ_1_1	mouse
+ENCSR280VKU	5xFAD cortex het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF944JXN	reads	1459600700	1	1_1	ENCSR280VKU_1_1	mouse
+ENCSR280VKU	5xFAD cortex het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF148ESR	reads	1116378084	2	2_1	ENCSR280VKU_2_1	mouse
+ENCSR280VKU	5xFAD cortex het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF832UPU	unfiltered alignments	1766249951	1	1_1	ENCSR280VKU_1_1	mouse
+ENCSR280VKU	5xFAD cortex het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF211JXU	alignments	461473996	1	1_1	ENCSR280VKU_1_1	mouse
+ENCSR280VKU	5xFAD cortex het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF663GCV	alignments	355698684	2	2_1	ENCSR280VKU_2_1	mouse
+ENCSR280VKU	5xFAD cortex het Female	strain B6.Cg-Tg(APPSwFlLon,PSEN1*M146L*L286V)6799Vas/Mmjax B6J	ENCFF971OCD	unfiltered alignments	1354911249	2	2_1	ENCSR280VKU_2_1	mouse
+ENCSR221XGR	C2C12 Myoblast	C3H	ENCFF019HRC	reads	1959919091	1	1_1	ENCSR221XGR_1_1	mouse
+ENCSR221XGR	C2C12 Myoblast	C3H	ENCFF676BYQ	reads	1819466237	2	2_1	ENCSR221XGR_2_1	mouse
+ENCSR221XGR	C2C12 Myoblast	C3H	ENCFF421MIL	unfiltered alignments	2384741492	1	1_1	ENCSR221XGR_1_1	mouse
+ENCSR221XGR	C2C12 Myoblast	C3H	ENCFF408MUF	alignments	515361180	2	2_1	ENCSR221XGR_2_1	mouse
+ENCSR221XGR	C2C12 Myoblast	C3H	ENCFF772LYG	unfiltered alignments	2230981040	2	2_1	ENCSR221XGR_2_1	mouse
+ENCSR221XGR	C2C12 Myoblast	C3H	ENCFF652XIT	alignments	558763699	1	1_1	ENCSR221XGR_1_1	mouse
+ENCSR804QMV	Mus musculus strain B6NCrl embryo (11 days) forelimb tissue	embryo (11 days) strain B6NCrl C57BL/6	ENCFF348TRU	reads	377254896	1	1_1	ENCSR804QMV_1_1	mouse
+ENCSR804QMV	Mus musculus strain B6NCrl embryo (11 days) forelimb tissue	embryo (11 days) strain B6NCrl C57BL/6	ENCFF226FNF	alignments	146280503	1	1_1	ENCSR804QMV_1_1	mouse
+ENCSR804QMV	Mus musculus strain B6NCrl embryo (11 days) forelimb tissue	embryo (11 days) strain B6NCrl C57BL/6	ENCFF566IYO	unfiltered alignments	500390118	1	1_1	ENCSR804QMV_1_1	mouse

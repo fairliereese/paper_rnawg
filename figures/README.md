@@ -19,7 +19,7 @@ from scripts.utils import *
 df = get_lr_exp_meta('human')
 df['species'] = 'human'
 df2 = get_lr_exp_meta('mouse')
-df2['species'] = 'human'
+df2['species'] = 'mouse'
 df = pd.concat([df, df2], axis=0)
 output_types = ['unfiltered alignments', 'alignments', 'reads']
 df = df.loc[df.output_type.isin(output_types)]
@@ -36,7 +36,7 @@ snakemake \
 
 snakemake \
   -s snakemake/Snakefile \
-  -j 10 \
+  -j 30 \
   --latency-wait 120 \
   --cluster "sbatch -A seyedam_lab --partition=highmem --mem={resources.mem_gb}GB -c {resources.threads} --mail-user=freese@uci.edu --mail-type=START,END,FAIL --time=24:00:00" -n
 ```

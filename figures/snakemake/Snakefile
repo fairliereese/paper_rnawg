@@ -91,12 +91,8 @@ rule all:
         #        event=['AF', 'AL'])
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
-        # expand(config['data']['spikes']['talon_config'], species=species),
-        # config['ref']['spikes']['spike_gtf']
-        expand(config['data']['label_bam']['ids'], species=species),
-        expand(config['data']['bam']['ids'], species=species),
-        expand(config['data']['fastq']['ids'], species=species),
-
+        expand(config['data']['spikes']['talon_config'], species=species),
+        config['ref']['spikes']['spike_gtf']
 
 rule dl:
     resources:
@@ -242,7 +238,7 @@ rule get_lr_file_ids:
     run:
         df = pd.DataFrame()
         df['file_id'] = params.encids
-        df.to_csv(ids, sep='\t', index=False)
+        df.to_csv(output.ids, sep='\t', index=False)
 
 use rule get_lr_file_ids as rule get_label_bam_lr_file_ids with:
     params:
@@ -252,15 +248,27 @@ use rule get_lr_file_ids as rule get_label_bam_lr_file_ids with:
 
 use rule get_lr_file_ids as rule get_bam_lr_file_ids with:
     params:
-        encids = get_lr_ids('bam', species=wc.species)
+        encids = lambda wc:get_lr_ids('bam', species=wc.species)
     output:
         ids = config['data']['bam']['ids']
 
 use rule get_lr_file_ids as rule get_fastq_lr_file_ids with:
     params:
-        encids = get_lr_ids('fastq', species=wc.species)
+        encids = lambda wc:get_lr_ids('fastq', species=wc.species)
     output:
         ids = config['data']['fastq']['ids']
+
+def get_lr_ids_from_file(file_format, species, how):
+    """
+    how (str): Return either list of file IDs or the
+        name of the file that contains the IDs {'ids', 'fname'}
+    """
+    fname = expand(config['data'][file_format]['ids'],
+                   zip,
+                   species=species)[0]
+    df = pd.read_csv(fname, sep='\t')
+    ids = df.file_id.tolist()
+    return ids
 
 ################################################################################
 ######################### Spike download / processing ##########################
@@ -577,7 +585,7 @@ rule dl_lr_bam:
         mem_gb = 32,
         threads = 8
     output:
-        bam = temporary(config['data']['bam'])
+        bam = temporary(config['data']['bam']['bam'])
     shell:
         "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.bam -O {output.bam}"
 
@@ -586,14 +594,20 @@ rule dl_lr_fastq:
         mem_gb = 32,
         threads = 8
     output:
-        fastq = config['data']['fastq_gz']
+        fastq = config['data']['fastq']['fastq_gz']
     shell:
         "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.fastq.gz -O {output.fastq}"
 
 rule get_lr_read_lens:
     input:
-        bams = expand(config['data']['bam'], species='human', encid=get_lr_ids('bam')),
-        fastqs = expand(config['data']['fastq_gz'], species='human', encid=get_lr_ids('fastq'))
+        bam_ids = get_lr_ids_from_file('bam', 'human', 'fname'),
+        fastq_ids = get_lr_ids_from_file('fastq', 'human', 'fname'),
+        bams = expand(config['data']['bam']['bam'],
+                      species='human',
+                      encid=get_lr_ids_from_file('bam', 'human', 'ids')),
+        fastqs = expand(config['data']['fastq']['fastq_gz'],
+                        species='human',
+                        encid=get_lr_ids_from_file('fastq', 'human', 'ids'))
     resources:
         mem_gb = 32,
         threads = 8
@@ -1055,7 +1069,9 @@ rule get_spike_reads:
 #         """
 
 def get_talon_run_files(wc):
-    bam_ids = encid=get_lr_ids('label_bam', species=wc.species)
+    bam_ids = encid=get_lr_ids_from_file('label_bam',
+                                         wc.species,
+                                         'ids')
     files = expand(config['data']['spikes']['bam'],
                    species=wc.species,
                    encid=bam_ids)

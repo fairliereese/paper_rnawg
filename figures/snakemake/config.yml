@@ -45,17 +45,14 @@ rampage:
 
 data:
   label_bam:
-    ids: data/{species}/{file_format}/file_ids.txt
-    bam: data/{species}/{file_format}/{encid}.bam
-
+    ids: data/{species}/label_bam/file_ids.txt
+    bam: data/{species}/label_bam/{encid}.bam
   bam:
-    ids: data/{species}/{file_format}/file_ids.txt
-    bam: data/{species}/{file_format}/{encid}.bam
-
+    ids: data/{species}/bam/file_ids.txt
+    bam: data/{species}/bam/{encid}.bam
   fastq:
-    ids: data/{species}/{file_format}/file_ids.txt
-    fastq_gz: fastq_gz: data/{species}/{file_format}/{encid}.fastq.gz
-
+    ids: data/{species}/fastq/file_ids.txt
+    fastq_gz: data/{species}/fastq/{encid}.fastq.gz
   ab: data/{species}/abundance.tsv
   talon_filt_ab: data/{species}/talon_abundance_filtered.tsv
   lapa_filt_ab: data/{species}/lapa_abundance_filtered.tsv
@@ -119,12 +116,9 @@ data:
     summary: data/{species}/protein_pred/{species}_summary.tsv
   spikes:
     bam: data/{species}/spike/{encid}.bam
-
     talon_config: data/{species}/spike/talon/talon_config.csv
 
-
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/
-
 
 # this will be vM21 for mouse and v40 for human
 ref:

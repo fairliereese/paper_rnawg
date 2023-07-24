@@ -1,139 +1,139 @@
-ENCODE_file_id	ENCODE_experiment_id	dataset	sample	sample_display	general_tissue_cell_type	fig1_tissue_label	health_status	tissue_or_cell_line	sample_color_hex_code	matching_mouse_samples	reads_post_talon
-ENCFF045ZQI	ENCSR989ZYL	a673_1_1	a673	A673	a673	bone		cell_line	#de3700		1330194
-ENCFF320GCF	ENCSR989ZYL	a673_1_2	a673	A673	a673	bone		cell_line	#de3700		1707207
-ENCFF147OYL	ENCSR081NRO	adrenal_gland_1_1	adrenal gland	Adrenal gland	adrenal gland	adrenal gland		tissue	#e69b00	adrenal,adrenal_10d,adrenal_14d,adrenal_18-20mo,adrenal_25d,adrenal_2mo,adrenal_36d,adrenal_4d	765655
-ENCFF791WUV	ENCSR563RLX	adrenal_gland_2_1	adrenal gland	Adrenal gland	adrenal gland	adrenal gland		tissue	#e69b00	adrenal,adrenal_10d,adrenal_14d,adrenal_18-20mo,adrenal_25d,adrenal_2mo,adrenal_36d,adrenal_4d	1579294
-ENCFF243PFI	ENCSR995WKW	adrenal_gland_3_1	adrenal gland	Adrenal gland	adrenal gland	adrenal gland		tissue	#e69b00	adrenal,adrenal_10d,adrenal_14d,adrenal_18-20mo,adrenal_25d,adrenal_2mo,adrenal_36d,adrenal_4d	577077
-ENCFF745HHL	ENCSR425HFS	aorta_1_1	vessels	Vessels	vessels	vessels		tissue	#e48171		1934703
-ENCFF099TJN	ENCSR700EBI	aorta_2_1	vessels	Vessels	vessels	vessels		tissue	#e48171		945858
-ENCFF773RAW	ENCSR094NFM	brodmann_area_46_1_1	brain	Brain	cortex	brain	healthy	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	562346
-ENCFF114VSO	ENCSR169YNI	brodmann_area_46_2_1	brain	Brain	cortex	brain	healthy	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	1726437
-ENCFF279ABL	ENCSR205QMF	brodmann_area_46_3_1	brain	Brain	cortex	brain	healthy	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	1002116
-ENCFF877QJZ	ENCSR257YUB	brodmann_area_46_4_1	brain	Brain	cortex	brain	AD	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	2658856
-ENCFF564ONS	ENCSR316ZTD	brodmann_area_46_5_1	brain	Brain	cortex	brain	AD	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	2538322
-ENCFF678TEN	ENCSR462COR	brodmann_area_46_6_1	brain	Brain	cortex	brain	AD	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	2890438
-ENCFF222UTL	ENCSR463IDK	brodmann_area_46_7_1	brain	Brain	cortex	brain	healthy	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	2066432
-ENCFF378STM	ENCSR690QHM	brodmann_area_46_8_1	brain	Brain	cortex	brain	AD	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	2243462
-ENCFF406GQU	ENCSR697ASE	brodmann_area_46_9_1	brain	Brain	cortex	brain	AD	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	2772400
-ENCFF835KGV	ENCSR580IDG	caco2_1_1	caco2	Caco2	caco2	colon		cell_line	#ff9000		1668485
-ENCFF899RYN	ENCSR580IDG	caco2_1_2	caco2	Caco2	caco2	colon		cell_line	#ff9000		1396844
-ENCFF563QXX	ENCSR583KCB	calu3_1_1	calu3	Calu-3	calu3	lung		cell_line	#009801		1684340
-ENCFF395SXY	ENCSR583KCB	calu3_1_2	calu3	Calu-3	calu3	lung		cell_line	#009801		1665742
-ENCFF626QRV	ENCSR549ELD	cardiac_septum_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1463725
-ENCFF596ODX	ENCSR706ANY	gm12878_1_1	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		715140
-ENCFF192PJS	ENCSR706ANY	gm12878_1_2	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		605674
-ENCFF694CBG	ENCSR706ANY	gm12878_1_3	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		537713
-ENCFF538BNH	ENCSR706ANY	gm12878_1_4	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		656794
-ENCFF648NAR	ENCSR838WFC	gm12878_2_1	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		2026295
-ENCFF225CCJ	ENCSR838WFC	gm12878_2_2	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		2428259
-ENCFF219UJG	ENCSR962BVU	gm12878_3_1	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		1487483
-ENCFF213XDA	ENCSR271KEJ	h1_1_1	h1	H1	ES	dish		cell_line	#E76624	f1219	608009
-ENCFF281VKZ	ENCSR271KEJ	h1_1_2	h1	H1	ES	dish		cell_line	#E76624	f1219	217660
-ENCFF250BDM	ENCSR271KEJ	h1_1_3	h1	H1	ES	dish		cell_line	#E76624	f1219	1148162
-ENCFF168AZV	ENCSR127HKN	h1_de_1_1	h1_de	H1-derived definitive endoderm	DE	dish		cell_line	#C8403D		1070530
-ENCFF362CPC	ENCSR127HKN	h1_de_1_2	h1_de	H1-derived definitive endoderm	DE	dish		cell_line	#C8403D		1366812
-ENCFF940WVU	ENCSR127HKN	h1_de_1_3	h1_de	H1-derived definitive endoderm	DE	dish		cell_line	#C8403D		1329159
-ENCFF292UIE	ENCSR044ARQ	h9_1_1	h9	H9	ES	dish		cell_line	#9e4013		3190785
-ENCFF738RAA	ENCSR044ARQ	h9_1_2	h9	H9	ES	dish		cell_line	#9e4013		2743994
-ENCFF439BVT	ENCSR470HYQ	h9_chondro_1_1	h9_chondro	H9-derived chondrocytes	Chondrocyte	cartilage		cell_line	#811e18		1552738
-ENCFF545CXA	ENCSR470HYQ	h9_chondro_1_2	h9_chondro	H9-derived chondrocytes	Chondrocyte	cartilage		cell_line	#811e18		887837
-ENCFF469ATL	ENCSR470HYQ	h9_chondro_1_3	h9_chondro	H9-derived chondrocytes	Chondrocyte	cartilage		cell_line	#811e18		1301572
-ENCFF936VUF	ENCSR904KAT	h9_de_1_1	h9_de	H9-derived definitive endoderm	DE	dish		cell_line	#b04948		2459464
-ENCFF939EUU	ENCSR904KAT	h9_de_1_2	h9_de	H9-derived definitive endoderm	DE	dish		cell_line	#b04948		2333663
-ENCFF319JFG	ENCSR056MYH	h9_neural_crest_1_1	h9_neural_crest	H9-derived neural crest	Neural_Crest	dish		cell_line	#1a472a		865088
-ENCFF901XCR	ENCSR056MYH	h9_neural_crest_1_2	h9_neural_crest	H9-derived neural crest	Neural_Crest	dish		cell_line	#1a472a		1137068
-ENCFF925MYC	ENCSR296PQZ	h9_osteocyte_1_1	h9_osteocyte	H9-derived osteocytes	Osteocyte	bone		cell_line	#f5f5dc	forelimb_e11,forelimb_e13	2027523
-ENCFF558QPF	ENCSR296PQZ	h9_osteocyte_1_2	h9_osteocyte	H9-derived osteocytes	Osteocyte	bone		cell_line	#f5f5dc	forelimb_e11,forelimb_e13	1600065
-ENCFF973OML	ENCSR130CIK	h9_panc_beta_1_1	h9_panc_beta	H9-derived pancreatic beta cells	Panc_Beta	pancreas		cell_line	#c88a2c		1567044
-ENCFF058HQU	ENCSR130CIK	h9_panc_beta_1_2	h9_panc_beta	H9-derived pancreatic beta cells	Panc_Beta	pancreas		cell_line	#c88a2c		1614116
-ENCFF509GHY	ENCSR530BOC	h9_panc_progen_1_1	h9_panc_progen	H9-derived pancreatic progenitors	Panc_Progenitor	pancreas		cell_line	#4c6216		1157404
-ENCFF803KIA	ENCSR530BOC	h9_panc_progen_1_2	h9_panc_progen	H9-derived pancreatic progenitors	Panc_Progenitor	pancreas		cell_line	#4c6216		1610328
-ENCFF400LRT	ENCSR388RWE	hct116_1_1	hct116	HCT116	hct116	colon		cell_line	#82ae4d		1386892
-ENCFF989FKA	ENCSR194YUY	heart_left_ventricle_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	477204
-ENCFF437SYY	ENCSR575LWI	heart_left_ventricle_2_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	2554594
-ENCFF502LAB	ENCSR700XDQ	heart_left_ventricle_3_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1213979
-ENCFF623IBV	ENCSR994YZY	heart_left_ventricle_4_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	983958
-ENCFF305AFY	ENCSR329ZQG	heart_right_ventricle_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1594564
-ENCFF660UTF	ENCSR782LGT	heart_right_ventricle_2_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1269372
-ENCFF018PZX	ENCSR984OAE	heart_right_ventricle_3_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1041655
-ENCFF814ABW	ENCSR634AKC	hepg2_1_1	hepg2	HepG2	hepg2	liver		cell_line	#660f26		2456623
-ENCFF470UHX	ENCSR834DQL	hepg2_2_1	hepg2	HepG2	hepg2	liver		cell_line	#660f26		1090307
-ENCFF054YYA	ENCSR834DQL	hepg2_2_2	hepg2	HepG2	hepg2	liver		cell_line	#660f26		633758
-ENCFF016SHE	ENCSR902GAF	hffc6_1_1	hffc6	HFFc6	hffc6	cartilage		cell_line	#98528D		1052582
-ENCFF479EHE	ENCSR902GAF	hffc6_1_2	hffc6	HFFc6	hffc6	cartilage		cell_line	#98528D		826024
-ENCFF914XOH	ENCSR902GAF	hffc6_1_3	hffc6	HFFc6	hffc6	cartilage		cell_line	#98528D		1039934
-ENCFF810FRP	ENCSR887LTD	hl60_1_1	hl60	HL60	hl60	blood		cell_line	#d2b48c		2772633
-ENCFF600MGT	ENCSR887LTD	hl60_1_2	hl60	HL60	hl60	blood		cell_line	#d2b48c		2365326
-ENCFF624BUU	ENCSR546DFO	hl60_m0_1_1	hl60_m0	HL60-derived M0 macrophages	hl60_mac	blood		cell_line	#BDBDBD		1779350
-ENCFF172UBZ	ENCSR546DFO	hl60_m0_1_2	hl60_m0	HL60-derived M0 macrophages	hl60_mac	blood		cell_line	#BDBDBD		1805489
-ENCFF294TRC	ENCSR121FDE	hl60_m1_12hr_1_1	hl60_m1_12hr	HL60-derived M1 macrophages 12 hr	hl60_mac	blood		cell_line	#FCC5C0		1795828
-ENCFF535QSI	ENCSR121FDE	hl60_m1_12hr_1_2	hl60_m1_12hr	HL60-derived M1 macrophages 12 hr	hl60_mac	blood		cell_line	#FCC5C0		1550774
-ENCFF531AEO	ENCSR583KAF	hl60_m1_24hr_1_1	hl60_m1_24hr	HL60-derived M1 macrophages 24 hr	hl60_mac	blood		cell_line	#F984AB		837198
-ENCFF074AZE	ENCSR583KAF	hl60_m1_24hr_1_2	hl60_m1_24hr	HL60-derived M1 macrophages 24 hr	hl60_mac	blood		cell_line	#F984AB		1029961
-ENCFF551HOX	ENCSR398SKD	hl60_m1_72hr_1_1	hl60_m1_72hr	HL60-derived M1 macrophages 72 hr	hl60_mac	blood		cell_line	#DD3497		1980928
-ENCFF856OAO	ENCSR398SKD	hl60_m1_72hr_1_2	hl60_m1_72hr	HL60-derived M1 macrophages 72 hr	hl60_mac	blood		cell_line	#DD3497		1864041
-ENCFF215GZH	ENCSR278ZPI	hl60_m2_12hr_1_1	hl60_m2_12hr	HL60-derived M2 macrophages 12 hr	hl60_mac	blood		cell_line	#A6BDDB		1276162
-ENCFF945VII	ENCSR278ZPI	hl60_m2_12hr_1_2	hl60_m2_12hr	HL60-derived M2 macrophages 12 hr	hl60_mac	blood		cell_line	#A6BDDB		1177117
-ENCFF893MWY	ENCSR930GRQ	hl60_m2_24hr_1_1	hl60_m2_24hr	HL60-derived M2 macrophages 24 hr	hl60_mac	blood		cell_line	#559DC8		1076375
-ENCFF832PKO	ENCSR930GRQ	hl60_m2_24hr_1_2	hl60_m2_24hr	HL60-derived M2 macrophages 24 hr	hl60_mac	blood		cell_line	#559DC8		1352572
-ENCFF950CCD	ENCSR159ICU	hl60_m2_72hr_1_1	hl60_m2_72hr	HL60-derived M2 macrophages 72 hr	hl60_mac	blood		cell_line	#0570B0		1814493
-ENCFF103QSB	ENCSR159ICU	hl60_m2_72hr_1_2	hl60_m2_72hr	HL60-derived M2 macrophages 72 hr	hl60_mac	blood		cell_line	#0570B0		2036266
-ENCFF903XBV	ENCSR998KIZ	hmec_1_1	hmec	HMEC	hmec	breast		cell_line	#9e99cd		2580425
-ENCFF349CHO	ENCSR998KIZ	hmec_1_2	hmec	HMEC	hmec	breast		cell_line	#9e99cd		2441884
-ENCFF600UQU	ENCSR687RWI	huvec_1_1	huvec	HUVEC	huvec	vessels		cell_line	#9b009b		2563091
-ENCFF049QIP	ENCSR687RWI	huvec_1_2	huvec	HUVEC	huvec	vessels		cell_line	#9b009b		2513718
-ENCFF545PJV	ENCSR113MEY	imr90_1_1	imr90	IMR-90	imr90	lung		cell_line	#71145b		1161276
-ENCFF322UJU	ENCSR526TQU	k562_1_1	k562	K562	k562	blood		cell_line	#2e0e6b		1909706
-ENCFF504GVG	ENCSR589FUJ	k562_2_1	k562	K562	k562	blood		cell_line	#2e0e6b		1169035
-ENCFF479SQR	ENCSR589FUJ	k562_2_2	k562	K562	k562	blood		cell_line	#2e0e6b		549651
-ENCFF661OEY	ENCSR983KDL	k562_3_1	k562	K562	k562	blood		cell_line	#2e0e6b		2526610
-ENCFF645UVN	ENCSR983KDL	k562_3_2	k562	K562	k562	blood		cell_line	#2e0e6b		2623089
-ENCFF239CWJ	ENCSR432YKA	kidney_1_1	kidney	Kidney	kidney	kidney		tissue	#2f357c		847743
-ENCFF344KQF	ENCSR424QFN	left_cardiac_atrium_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	737972
-ENCFF886FZQ	ENCSR450GAR	left_colon_1_1	colon	Colon	colon	colon		tissue	#355828		1130537
-ENCFF757LOZ	ENCSR426KOP	left_lung_1_1	lung	Lung	lung	lung		tissue	#6c5d9e		743976
-ENCFF809QBD	ENCSR746ITG	left_lung_2_1	lung	Lung	lung	lung		tissue	#6c5d9e		706257
-ENCFF132YCF	ENCSR786FLO	left_ventricle_myocardium_inferior_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1349573
-ENCFF850YMO	ENCSR777CCI	left_ventricle_myocardium_superior_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1373613
-ENCFF779VVX	ENCSR261GOA	lower_lobe_of_left_lung_1_1	lung	Lung	lung	lung		tissue	#6c5d9e		2483648
-ENCFF924HBV	ENCSR986WKB	lower_lobe_of_left_lung_2_1	lung	Lung	lung	lung		tissue	#6c5d9e		729018
-ENCFF767KXS	ENCSR323XND	lower_lobe_of_right_lung_1_1	lung	Lung	lung	lung		tissue	#6c5d9e		1528088
-ENCFF990ZNY	ENCSR813UIT	mcf10a_1_1	mcf10a	MCF10A	mcf10a	breast		cell_line	#056879		1904358
-ENCFF702KGD	ENCSR813UIT	mcf10a_1_2	mcf10a	MCF10A	mcf10a	breast		cell_line	#056879		1932460
-ENCFF118JEI	ENCSR810XLL	mcf7_1_1	mcf7	MCF7	mcf7	breast		cell_line	#2f3d4a		1639352
-ENCFF971JDY	ENCSR648QZP	mesenteric_fat_pad_1_1	adipose	Adipose	adipose	adipose		tissue	#f5bb50		1794731
-ENCFF731THW	ENCSR803XXZ	mucosa_of_descending_colon_1_1	colon	Colon	colon	colon		tissue	#355828		673120
-ENCFF171AQO	ENCSR997RFW	mucosa_of_descending_colon_2_1	colon	Colon	colon	colon		tissue	#355828		1105691
-ENCFF007EDQ	ENCSR700SUP	ocily7_1_1	ocily7	OCILY7	ocily7	blood		cell_line	#143727		1670293
-ENCFF259PEY	ENCSR700SUP	ocily7_1_2	ocily7	OCILY7	ocily7	blood		cell_line	#143727		1364816
-ENCFF583MSU	ENCSR477HHG	ovary_1_1	ovary	Ovary	ovary	ovary		tissue	#17154f		2054310
-ENCFF984RMR	ENCSR507WZC	ovary_2_1	ovary	Ovary	ovary	ovary		tissue	#17154f		1267793
-ENCFF644PGG	ENCSR587WPR	ovary_3_1	ovary	Ovary	ovary	ovary		tissue	#17154f		376401
-ENCFF745DHX	ENCSR181CES	panc1_1_1	panc1	PANC-1	panc1	pancreas		cell_line	#6eb4cf		1583465
-ENCFF044LIA	ENCSR947JHA	pc3_1_1	pc3	PC3	pc3	prostate		cell_line	#85927f		1905298
-ENCFF100YYU	ENCSR916JDV	pc9_1_1	pc9	PC9	pc9	lung		cell_line	#af7864		1771848
-ENCFF100EPL	ENCSR916JDV	pc9_1_2	pc9	PC9	pc9	lung		cell_line	#af7864		1651624
-ENCFF846YHI	ENCSR676IWT	pgp1_1_1	pgp1	PGP1	iPSC	dish		cell_line	#1F709A		730349
-ENCFF049QGQ	ENCSR676IWT	pgp1_1_2	pgp1	PGP1	iPSC	dish		cell_line	#1F709A		790050
-ENCFF319FBW	ENCSR071IHY	pgp1_astro_1_1	pgp1_astro	PGP1-derived astrocytes	Astrocyte	brain		cell_line	#278D89	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	788494
-ENCFF992ZVE	ENCSR071IHY	pgp1_astro_1_2	pgp1_astro	PGP1-derived astrocytes	Astrocyte	brain		cell_line	#278D89	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	455052
-ENCFF100RGC	ENCSR148IIG	pgp1_endo_1_1	pgp1_endo	PGP1-derived endothelial	Endothelial	dish		cell_line	#4FA770		696271
-ENCFF927MKK	ENCSR148IIG	pgp1_endo_1_2	pgp1_endo	PGP1-derived endothelial	Endothelial	dish		cell_line	#4FA770		601739
-ENCFF772MSZ	ENCSR257JBF	pgp1_excite_neuron_1_1	pgp1_excite_neuron	PGP1-derived excitatory neurons	Exc_Neuron	brain		cell_line	#92C051	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	689480
-ENCFF117DUA	ENCSR257JBF	pgp1_excite_neuron_1_2	pgp1_excite_neuron	PGP1-derived excitatory neurons	Exc_Neuron	brain		cell_line	#92C051	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	631095
-ENCFF472TSL	ENCSR138TAS	posterior_vena_cava_1_1	vessels	Vessels	vessels	vessels		tissue	#e48171		1299619
-ENCFF693YCD	ENCSR853YZN	posterior_vena_cava_2_1	vessels	Vessels	vessels	vessels		tissue	#e48171		511706
-ENCFF698UNA	ENCSR243DYK	psoas_muscle_1_1	muscle	Muscle	muscle	muscle		tissue	#f6b3b0	c2c12_myoblast,c2c12_myotube,forelimb_e11,forelimb_e13,gastroc_10d,gastroc_14d,gastroc_18-20mo,gastroc_25d,gastroc_2mo,gastroc_36d,gastroc_4d	1508710
-ENCFF193WEX	ENCSR803QWH	psoas_muscle_2_1	muscle	Muscle	muscle	muscle		tissue	#f6b3b0	c2c12_myoblast,c2c12_myotube,forelimb_e11,forelimb_e13,gastroc_10d,gastroc_14d,gastroc_18-20mo,gastroc_25d,gastroc_2mo,gastroc_36d,gastroc_4d	731284
-ENCFF291EKY	ENCSR435UUS	right_cardiac_atrium_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	727828
-ENCFF613SDS	ENCSR514YQN	right_cardiac_atrium_2_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	751076
-ENCFF911RNV	ENCSR553SVP	right_cardiac_atrium_3_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	2370290
-ENCFF875QHC	ENCSR728TXV	right_cardiac_atrium_4_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1492063
-ENCFF158KCA	ENCSR293MOX	right_lobe_of_liver_1_1	liver	Liver	liver	liver		tissue	#ada43b		613529
-ENCFF074WRN	ENCSR657HJW	right_lobe_of_liver_2_1	liver	Liver	liver	liver		tissue	#ada43b		507703
-ENCFF173JOL	ENCSR591OZR	right_ventricle_myocardium_inferior_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	647734
-ENCFF840OVC	ENCSR899GAP	right_ventricle_myocardium_superior_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1560166
-ENCFF449MVA	ENCSR096QUP	upper_lobe_of_right_lung_1_1	lung	Lung	lung	lung		tissue	#6c5d9e		1445367
-ENCFF373TKM	ENCSR507JOF	wtc11_1_1	wtc11	WTC11	iPSC	dish		cell_line	#ce661e	f1219	2332639
-ENCFF985LGZ	ENCSR507JOF	wtc11_1_2	wtc11	WTC11	iPSC	dish		cell_line	#ce661e	f1219	1358180
-ENCFF388HXU	ENCSR507JOF	wtc11_1_3	wtc11	WTC11	iPSC	dish		cell_line	#ce661e	f1219	2851975
+ENCODE_experiment_id	dataset	sample	sample_display	general_tissue_cell_type	fig1_tissue_label	health_status	tissue_or_cell_line	sample_color_hex_code	matching_mouse_samples	reads_post_talon	ENCODE_alignments_id	ENCODE_reads_id	ENCODE_unfiltered_alignments_id
+ENCSR989ZYL	a673_1_1	a673	A673	a673	bone		cell_line	#de3700		1330194	ENCFF045ZQI	ENCFF168MIB	ENCFF440LXJ
+ENCSR989ZYL	a673_1_2	a673	A673	a673	bone		cell_line	#de3700		1707207	ENCFF320GCF	ENCFF861BKY	ENCFF240FZT
+ENCSR081NRO	adrenal_gland_1_1	adrenal gland	Adrenal gland	adrenal gland	adrenal gland		tissue	#e69b00	adrenal,adrenal_10d,adrenal_14d,adrenal_18-20mo,adrenal_25d,adrenal_2mo,adrenal_36d,adrenal_4d	765655	ENCFF147OYL	ENCFF211SQY	ENCFF967OHL
+ENCSR563RLX	adrenal_gland_2_1	adrenal gland	Adrenal gland	adrenal gland	adrenal gland		tissue	#e69b00	adrenal,adrenal_10d,adrenal_14d,adrenal_18-20mo,adrenal_25d,adrenal_2mo,adrenal_36d,adrenal_4d	1579294	ENCFF791WUV	ENCFF417ALN	ENCFF900XHI
+ENCSR995WKW	adrenal_gland_3_1	adrenal gland	Adrenal gland	adrenal gland	adrenal gland		tissue	#e69b00	adrenal,adrenal_10d,adrenal_14d,adrenal_18-20mo,adrenal_25d,adrenal_2mo,adrenal_36d,adrenal_4d	577077	ENCFF243PFI	ENCFF912HPY	ENCFF020MWV
+ENCSR425HFS	aorta_1_1	vessels	Vessels	vessels	vessels		tissue	#e48171		1934703	ENCFF745HHL	ENCFF902BIU	ENCFF999NQY
+ENCSR700EBI	aorta_2_1	vessels	Vessels	vessels	vessels		tissue	#e48171		945858	ENCFF099TJN	ENCFF144KHH	ENCFF266NIM
+ENCSR094NFM	brodmann_area_46_1_1	brain	Brain	cortex	brain	healthy	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	562346	ENCFF773RAW	ENCFF260AWP	ENCFF568SDQ
+ENCSR169YNI	brodmann_area_46_2_1	brain	Brain	cortex	brain	healthy	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	1726437	ENCFF114VSO	ENCFF827DUW	ENCFF753EDC
+ENCSR205QMF	brodmann_area_46_3_1	brain	Brain	cortex	brain	healthy	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	1002116	ENCFF279ABL	ENCFF206TQZ	ENCFF706EMQ
+ENCSR257YUB	brodmann_area_46_4_1	brain	Brain	cortex	brain	AD	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	2658856	ENCFF877QJZ	ENCFF311CZO	ENCFF646VGI
+ENCSR316ZTD	brodmann_area_46_5_1	brain	Brain	cortex	brain	AD	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	2538322	ENCFF564ONS	ENCFF446EFU	ENCFF983ETQ
+ENCSR462COR	brodmann_area_46_6_1	brain	Brain	cortex	brain	AD	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	2890438	ENCFF678TEN	ENCFF708BOP	ENCFF565SOM
+ENCSR463IDK	brodmann_area_46_7_1	brain	Brain	cortex	brain	healthy	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	2066432	ENCFF222UTL	ENCFF838DFB	ENCFF512RTX
+ENCSR690QHM	brodmann_area_46_8_1	brain	Brain	cortex	brain	AD	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	2243462	ENCFF378STM	ENCFF785KVJ	ENCFF070TEQ
+ENCSR697ASE	brodmann_area_46_9_1	brain	Brain	cortex	brain	AD	tissue	#b0799a	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	2772400	ENCFF406GQU	ENCFF156TTD	ENCFF963DJZ
+ENCSR580IDG	caco2_1_1	caco2	Caco2	caco2	colon		cell_line	#ff9000		1668485	ENCFF835KGV	ENCFF827OXR	ENCFF155MSE
+ENCSR580IDG	caco2_1_2	caco2	Caco2	caco2	colon		cell_line	#ff9000		1396844	ENCFF899RYN	ENCFF649CYY	ENCFF821XDE
+ENCSR583KCB	calu3_1_1	calu3	Calu-3	calu3	lung		cell_line	#009801		1684340	ENCFF563QXX	ENCFF569KOA	ENCFF933RHX
+ENCSR583KCB	calu3_1_2	calu3	Calu-3	calu3	lung		cell_line	#009801		1665742	ENCFF395SXY	ENCFF548JGS	ENCFF129OLY
+ENCSR549ELD	cardiac_septum_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1463725	ENCFF626QRV	ENCFF680XXE	ENCFF516YCH
+ENCSR706ANY	gm12878_1_1	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		715140	ENCFF596ODX	ENCFF475ORL	ENCFF234YIJ
+ENCSR706ANY	gm12878_1_2	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		605674	ENCFF192PJS	ENCFF281TNJ	ENCFF132HLS
+ENCSR706ANY	gm12878_1_3	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		537713	ENCFF694CBG	ENCFF329AYV	ENCFF810UWA
+ENCSR706ANY	gm12878_1_4	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		656794	ENCFF538BNH	ENCFF902UIT	ENCFF615XZM
+ENCSR838WFC	gm12878_2_1	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		2026295	ENCFF648NAR	ENCFF450VAU	ENCFF407TMX
+ENCSR838WFC	gm12878_2_2	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		2428259	ENCFF225CCJ	ENCFF694DIE	ENCFF592BQN
+ENCSR962BVU	gm12878_3_1	gm12878	GM12878	gm12878	blood		cell_line	#0798c8		1487483	ENCFF219UJG	ENCFF417VHJ	ENCFF277NCZ
+ENCSR271KEJ	h1_1_1	h1	H1	ES	dish		cell_line	#E76624	f1219	608009	ENCFF213XDA	ENCFF853OFP	ENCFF510OTC
+ENCSR271KEJ	h1_1_2	h1	H1	ES	dish		cell_line	#E76624	f1219	217660	ENCFF281VKZ	ENCFF400BQQ	ENCFF410FON
+ENCSR271KEJ	h1_1_3	h1	H1	ES	dish		cell_line	#E76624	f1219	1148162	ENCFF250BDM	ENCFF436GKZ	ENCFF657BYH
+ENCSR127HKN	h1_de_1_1	h1_de	H1-derived definitive endoderm	DE	dish		cell_line	#C8403D		1070530	ENCFF168AZV	ENCFF731HST	ENCFF438WZJ
+ENCSR127HKN	h1_de_1_2	h1_de	H1-derived definitive endoderm	DE	dish		cell_line	#C8403D		1366812	ENCFF362CPC	ENCFF712CBL	ENCFF334KYW
+ENCSR127HKN	h1_de_1_3	h1_de	H1-derived definitive endoderm	DE	dish		cell_line	#C8403D		1329159	ENCFF940WVU	ENCFF235QXW	ENCFF874IIX
+ENCSR044ARQ	h9_1_1	h9	H9	ES	dish		cell_line	#9e4013		3190785	ENCFF292UIE	ENCFF688QGB	ENCFF193ZRQ
+ENCSR044ARQ	h9_1_2	h9	H9	ES	dish		cell_line	#9e4013		2743994	ENCFF738RAA	ENCFF272VSN	ENCFF455IAW
+ENCSR470HYQ	h9_chondro_1_1	h9_chondro	H9-derived chondrocytes	Chondrocyte	cartilage		cell_line	#811e18		1552738	ENCFF439BVT	ENCFF011BFA	ENCFF295ZPV
+ENCSR470HYQ	h9_chondro_1_2	h9_chondro	H9-derived chondrocytes	Chondrocyte	cartilage		cell_line	#811e18		887837	ENCFF545CXA	ENCFF352CGL	ENCFF554PGV
+ENCSR470HYQ	h9_chondro_1_3	h9_chondro	H9-derived chondrocytes	Chondrocyte	cartilage		cell_line	#811e18		1301572	ENCFF469ATL	ENCFF342HOS	ENCFF591RTN
+ENCSR904KAT	h9_de_1_1	h9_de	H9-derived definitive endoderm	DE	dish		cell_line	#b04948		2459464	ENCFF936VUF	ENCFF142LPL	ENCFF170KET
+ENCSR904KAT	h9_de_1_2	h9_de	H9-derived definitive endoderm	DE	dish		cell_line	#b04948		2333663	ENCFF939EUU	ENCFF561HIY	ENCFF381WCH
+ENCSR056MYH	h9_neural_crest_1_1	h9_neural_crest	H9-derived neural crest	Neural_Crest	dish		cell_line	#1a472a		865088	ENCFF319JFG	ENCFF026VEI	ENCFF858LGV
+ENCSR056MYH	h9_neural_crest_1_2	h9_neural_crest	H9-derived neural crest	Neural_Crest	dish		cell_line	#1a472a		1137068	ENCFF901XCR	ENCFF249GFH	ENCFF322UOY
+ENCSR296PQZ	h9_osteocyte_1_1	h9_osteocyte	H9-derived osteocytes	Osteocyte	bone		cell_line	#f5f5dc	forelimb_e11,forelimb_e13	2027523	ENCFF925MYC	ENCFF556DYU	ENCFF660BPA
+ENCSR296PQZ	h9_osteocyte_1_2	h9_osteocyte	H9-derived osteocytes	Osteocyte	bone		cell_line	#f5f5dc	forelimb_e11,forelimb_e13	1600065	ENCFF558QPF	ENCFF560XTG	ENCFF655UCV
+ENCSR130CIK	h9_panc_beta_1_1	h9_panc_beta	H9-derived pancreatic beta cells	Panc_Beta	pancreas		cell_line	#c88a2c		1567044	ENCFF973OML	ENCFF489XQJ	ENCFF324FZW
+ENCSR130CIK	h9_panc_beta_1_2	h9_panc_beta	H9-derived pancreatic beta cells	Panc_Beta	pancreas		cell_line	#c88a2c		1614116	ENCFF058HQU	ENCFF580BQX	ENCFF408QQI
+ENCSR530BOC	h9_panc_progen_1_1	h9_panc_progen	H9-derived pancreatic progenitors	Panc_Progenitor	pancreas		cell_line	#4c6216		1157404	ENCFF509GHY	ENCFF988RQM	ENCFF528JQR
+ENCSR530BOC	h9_panc_progen_1_2	h9_panc_progen	H9-derived pancreatic progenitors	Panc_Progenitor	pancreas		cell_line	#4c6216		1610328	ENCFF803KIA	ENCFF471YEK	ENCFF039JBB
+ENCSR388RWE	hct116_1_1	hct116	HCT116	hct116	colon		cell_line	#82ae4d		1386892	ENCFF400LRT	ENCFF337VWR	ENCFF776BTJ
+ENCSR194YUY	heart_left_ventricle_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	477204	ENCFF989FKA	ENCFF185VYD	ENCFF146VCF
+ENCSR575LWI	heart_left_ventricle_2_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	2554594	ENCFF437SYY	ENCFF537NCV	ENCFF044XQA
+ENCSR700XDQ	heart_left_ventricle_3_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1213979	ENCFF502LAB	ENCFF429JUP	ENCFF795TPX
+ENCSR994YZY	heart_left_ventricle_4_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	983958	ENCFF623IBV	ENCFF602MAI	ENCFF666QGE
+ENCSR329ZQG	heart_right_ventricle_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1594564	ENCFF305AFY	ENCFF615FIC	ENCFF531MPH
+ENCSR782LGT	heart_right_ventricle_2_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1269372	ENCFF660UTF	ENCFF793PGJ	ENCFF327SFR
+ENCSR984OAE	heart_right_ventricle_3_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1041655	ENCFF018PZX	ENCFF425VDL	ENCFF294CAJ
+ENCSR634AKC	hepg2_1_1	hepg2	HepG2	hepg2	liver		cell_line	#660f26		2456623	ENCFF814ABW	ENCFF483HTA	ENCFF834RIH
+ENCSR834DQL	hepg2_2_1	hepg2	HepG2	hepg2	liver		cell_line	#660f26		1090307	ENCFF470UHX	ENCFF589SMB	ENCFF978TOO
+ENCSR834DQL	hepg2_2_2	hepg2	HepG2	hepg2	liver		cell_line	#660f26		633758	ENCFF054YYA	ENCFF427JDY	ENCFF102RHW
+ENCSR902GAF	hffc6_1_1	hffc6	HFFc6	hffc6	cartilage		cell_line	#98528D		1052582	ENCFF016SHE	ENCFF385QZZ	ENCFF224GJB
+ENCSR902GAF	hffc6_1_2	hffc6	HFFc6	hffc6	cartilage		cell_line	#98528D		826024	ENCFF479EHE	ENCFF728ITF	ENCFF027FIG
+ENCSR902GAF	hffc6_1_3	hffc6	HFFc6	hffc6	cartilage		cell_line	#98528D		1039934	ENCFF914XOH	ENCFF288CJF	ENCFF128JBZ
+ENCSR887LTD	hl60_1_1	hl60	HL60	hl60	blood		cell_line	#d2b48c		2772633	ENCFF810FRP	ENCFF609QIM	ENCFF067OVE
+ENCSR887LTD	hl60_1_2	hl60	HL60	hl60	blood		cell_line	#d2b48c		2365326	ENCFF600MGT	ENCFF274DYS	ENCFF494IOG
+ENCSR546DFO	hl60_m0_1_1	hl60_m0	HL60-derived M0 macrophages	hl60_mac	blood		cell_line	#BDBDBD		1779350	ENCFF624BUU	ENCFF805YXK	ENCFF834VFJ
+ENCSR546DFO	hl60_m0_1_2	hl60_m0	HL60-derived M0 macrophages	hl60_mac	blood		cell_line	#BDBDBD		1805489	ENCFF172UBZ	ENCFF810XST	ENCFF359OMJ
+ENCSR121FDE	hl60_m1_12hr_1_1	hl60_m1_12hr	HL60-derived M1 macrophages 12 hr	hl60_mac	blood		cell_line	#FCC5C0		1795828	ENCFF294TRC	ENCFF032UMC	ENCFF067DBD
+ENCSR121FDE	hl60_m1_12hr_1_2	hl60_m1_12hr	HL60-derived M1 macrophages 12 hr	hl60_mac	blood		cell_line	#FCC5C0		1550774	ENCFF535QSI	ENCFF457TIY	ENCFF191AOF
+ENCSR583KAF	hl60_m1_24hr_1_1	hl60_m1_24hr	HL60-derived M1 macrophages 24 hr	hl60_mac	blood		cell_line	#F984AB		837198	ENCFF531AEO	ENCFF260AJN	ENCFF116WMS
+ENCSR583KAF	hl60_m1_24hr_1_2	hl60_m1_24hr	HL60-derived M1 macrophages 24 hr	hl60_mac	blood		cell_line	#F984AB		1029961	ENCFF074AZE	ENCFF145QNC	ENCFF009MPL
+ENCSR398SKD	hl60_m1_72hr_1_1	hl60_m1_72hr	HL60-derived M1 macrophages 72 hr	hl60_mac	blood		cell_line	#DD3497		1980928	ENCFF551HOX	ENCFF417RYS	ENCFF899UPY
+ENCSR398SKD	hl60_m1_72hr_1_2	hl60_m1_72hr	HL60-derived M1 macrophages 72 hr	hl60_mac	blood		cell_line	#DD3497		1864041	ENCFF856OAO	ENCFF782UMU	ENCFF242KLI
+ENCSR278ZPI	hl60_m2_12hr_1_1	hl60_m2_12hr	HL60-derived M2 macrophages 12 hr	hl60_mac	blood		cell_line	#A6BDDB		1276162	ENCFF215GZH	ENCFF407SUN	ENCFF890YUF
+ENCSR278ZPI	hl60_m2_12hr_1_2	hl60_m2_12hr	HL60-derived M2 macrophages 12 hr	hl60_mac	blood		cell_line	#A6BDDB		1177117	ENCFF945VII	ENCFF199OTG	ENCFF569ATS
+ENCSR930GRQ	hl60_m2_24hr_1_1	hl60_m2_24hr	HL60-derived M2 macrophages 24 hr	hl60_mac	blood		cell_line	#559DC8		1076375	ENCFF893MWY	ENCFF173QRD	ENCFF081LTT
+ENCSR930GRQ	hl60_m2_24hr_1_2	hl60_m2_24hr	HL60-derived M2 macrophages 24 hr	hl60_mac	blood		cell_line	#559DC8		1352572	ENCFF832PKO	ENCFF321PMP	ENCFF773THM
+ENCSR159ICU	hl60_m2_72hr_1_1	hl60_m2_72hr	HL60-derived M2 macrophages 72 hr	hl60_mac	blood		cell_line	#0570B0		1814493	ENCFF950CCD	ENCFF564TOK	ENCFF177JIB
+ENCSR159ICU	hl60_m2_72hr_1_2	hl60_m2_72hr	HL60-derived M2 macrophages 72 hr	hl60_mac	blood		cell_line	#0570B0		2036266	ENCFF103QSB	ENCFF666JCQ	ENCFF931BCL
+ENCSR998KIZ	hmec_1_1	hmec	HMEC	hmec	breast		cell_line	#9e99cd		2580425	ENCFF903XBV	ENCFF237FMP	ENCFF120RHU
+ENCSR998KIZ	hmec_1_2	hmec	HMEC	hmec	breast		cell_line	#9e99cd		2441884	ENCFF349CHO	ENCFF617YVE	ENCFF960GPB
+ENCSR687RWI	huvec_1_1	huvec	HUVEC	huvec	vessels		cell_line	#9b009b		2563091	ENCFF600UQU	ENCFF096UHO	ENCFF714EJD
+ENCSR687RWI	huvec_1_2	huvec	HUVEC	huvec	vessels		cell_line	#9b009b		2513718	ENCFF049QIP	ENCFF033LRZ	ENCFF717UEN
+ENCSR113MEY	imr90_1_1	imr90	IMR-90	imr90	lung		cell_line	#71145b		1161276	ENCFF545PJV	ENCFF197DCI	ENCFF320RGU
+ENCSR526TQU	k562_1_1	k562	K562	k562	blood		cell_line	#2e0e6b		1909706	ENCFF322UJU	ENCFF696GDL	ENCFF103OYU
+ENCSR589FUJ	k562_2_1	k562	K562	k562	blood		cell_line	#2e0e6b		1169035	ENCFF504GVG	ENCFF763VZC	ENCFF092NLB
+ENCSR589FUJ	k562_2_2	k562	K562	k562	blood		cell_line	#2e0e6b		549651	ENCFF479SQR	ENCFF694INI	ENCFF433YKW
+ENCSR983KDL	k562_3_1	k562	K562	k562	blood		cell_line	#2e0e6b		2526610	ENCFF661OEY	ENCFF429VVB	ENCFF515YRZ
+ENCSR983KDL	k562_3_2	k562	K562	k562	blood		cell_line	#2e0e6b		2623089	ENCFF645UVN	ENCFF634YSN	ENCFF475XQX
+ENCSR432YKA	kidney_1_1	kidney	Kidney	kidney	kidney		tissue	#2f357c		847743	ENCFF239CWJ	ENCFF492BYP	ENCFF405KOD
+ENCSR424QFN	left_cardiac_atrium_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	737972	ENCFF344KQF	ENCFF920VXE	ENCFF131UMN
+ENCSR450GAR	left_colon_1_1	colon	Colon	colon	colon		tissue	#355828		1130537	ENCFF886FZQ	ENCFF245MBY	ENCFF970ZPO
+ENCSR426KOP	left_lung_1_1	lung	Lung	lung	lung		tissue	#6c5d9e		743976	ENCFF757LOZ	ENCFF196WMM	ENCFF818VIC
+ENCSR746ITG	left_lung_2_1	lung	Lung	lung	lung		tissue	#6c5d9e		706257	ENCFF809QBD	ENCFF733RRO	ENCFF386BBR
+ENCSR786FLO	left_ventricle_myocardium_inferior_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1349573	ENCFF132YCF	ENCFF793CMQ	ENCFF755YKI
+ENCSR777CCI	left_ventricle_myocardium_superior_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1373613	ENCFF850YMO	ENCFF624IQY	ENCFF560GYE
+ENCSR261GOA	lower_lobe_of_left_lung_1_1	lung	Lung	lung	lung		tissue	#6c5d9e		2483648	ENCFF779VVX	ENCFF552NVU	ENCFF243QTD
+ENCSR986WKB	lower_lobe_of_left_lung_2_1	lung	Lung	lung	lung		tissue	#6c5d9e		729018	ENCFF924HBV	ENCFF341BSQ	ENCFF494CUI
+ENCSR323XND	lower_lobe_of_right_lung_1_1	lung	Lung	lung	lung		tissue	#6c5d9e		1528088	ENCFF767KXS	ENCFF250IWT	ENCFF369PVJ
+ENCSR813UIT	mcf10a_1_1	mcf10a	MCF10A	mcf10a	breast		cell_line	#056879		1904358	ENCFF990ZNY	ENCFF041EGI	ENCFF966CRV
+ENCSR813UIT	mcf10a_1_2	mcf10a	MCF10A	mcf10a	breast		cell_line	#056879		1932460	ENCFF702KGD	ENCFF702KLU	ENCFF740SLF
+ENCSR810XLL	mcf7_1_1	mcf7	MCF7	mcf7	breast		cell_line	#2f3d4a		1639352	ENCFF118JEI	ENCFF887DGG	ENCFF476CVK
+ENCSR648QZP	mesenteric_fat_pad_1_1	adipose	Adipose	adipose	adipose		tissue	#f5bb50		1794731	ENCFF971JDY	ENCFF907SZK	ENCFF025MQM
+ENCSR803XXZ	mucosa_of_descending_colon_1_1	colon	Colon	colon	colon		tissue	#355828		673120	ENCFF731THW	ENCFF511AVQ	ENCFF932COO
+ENCSR997RFW	mucosa_of_descending_colon_2_1	colon	Colon	colon	colon		tissue	#355828		1105691	ENCFF171AQO	ENCFF387HPO	ENCFF863NLH
+ENCSR700SUP	ocily7_1_1	ocily7	OCILY7	ocily7	blood		cell_line	#143727		1670293	ENCFF007EDQ	ENCFF417UQV	ENCFF975PWU
+ENCSR700SUP	ocily7_1_2	ocily7	OCILY7	ocily7	blood		cell_line	#143727		1364816	ENCFF259PEY	ENCFF511KJB	ENCFF125FVV
+ENCSR477HHG	ovary_1_1	ovary	Ovary	ovary	ovary		tissue	#17154f		2054310	ENCFF583MSU	ENCFF756AHG	ENCFF056MAB
+ENCSR507WZC	ovary_2_1	ovary	Ovary	ovary	ovary		tissue	#17154f		1267793	ENCFF984RMR	ENCFF422XLS	ENCFF664IVZ
+ENCSR587WPR	ovary_3_1	ovary	Ovary	ovary	ovary		tissue	#17154f		376401	ENCFF644PGG	ENCFF187BTK	ENCFF650CQV
+ENCSR181CES	panc1_1_1	panc1	PANC-1	panc1	pancreas		cell_line	#6eb4cf		1583465	ENCFF745DHX	ENCFF990CUL	ENCFF786LUJ
+ENCSR947JHA	pc3_1_1	pc3	PC3	pc3	prostate		cell_line	#85927f		1905298	ENCFF044LIA	ENCFF834KTE	ENCFF369ZIJ
+ENCSR916JDV	pc9_1_1	pc9	PC9	pc9	lung		cell_line	#af7864		1771848	ENCFF100YYU	ENCFF107YRM	ENCFF366IUC
+ENCSR916JDV	pc9_1_2	pc9	PC9	pc9	lung		cell_line	#af7864		1651624	ENCFF100EPL	ENCFF860AWQ	ENCFF529CMY
+ENCSR676IWT	pgp1_1_1	pgp1	PGP1	iPSC	dish		cell_line	#1F709A		730349	ENCFF846YHI	ENCFF251CBB	ENCFF601FEJ
+ENCSR676IWT	pgp1_1_2	pgp1	PGP1	iPSC	dish		cell_line	#1F709A		790050	ENCFF049QGQ	ENCFF954UFG	ENCFF840GRV
+ENCSR071IHY	pgp1_astro_1_1	pgp1_astro	PGP1-derived astrocytes	Astrocyte	brain		cell_line	#278D89	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	788494	ENCFF319FBW	ENCFF316EZQ	ENCFF672WCL
+ENCSR071IHY	pgp1_astro_1_2	pgp1_astro	PGP1-derived astrocytes	Astrocyte	brain		cell_line	#278D89	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	455052	ENCFF992ZVE	ENCFF474GEK	ENCFF011XVU
+ENCSR148IIG	pgp1_endo_1_1	pgp1_endo	PGP1-derived endothelial	Endothelial	dish		cell_line	#4FA770		696271	ENCFF100RGC	ENCFF595PPR	ENCFF155FLU
+ENCSR148IIG	pgp1_endo_1_2	pgp1_endo	PGP1-derived endothelial	Endothelial	dish		cell_line	#4FA770		601739	ENCFF927MKK	ENCFF770DXN	ENCFF295PZY
+ENCSR257JBF	pgp1_excite_neuron_1_1	pgp1_excite_neuron	PGP1-derived excitatory neurons	Exc_Neuron	brain		cell_line	#92C051	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	689480	ENCFF772MSZ	ENCFF982WKN	ENCFF826VUW
+ENCSR257JBF	pgp1_excite_neuron_1_2	pgp1_excite_neuron	PGP1-derived excitatory neurons	Exc_Neuron	brain		cell_line	#92C051	cortex,cortex_14d,cortex_18-20mo,cortex_2mo,hippocampus,hippocampus_14d,hippocampus_18-20mo,hippocampus_2mo	631095	ENCFF117DUA	ENCFF919JFJ	ENCFF451GPX
+ENCSR138TAS	posterior_vena_cava_1_1	vessels	Vessels	vessels	vessels		tissue	#e48171		1299619	ENCFF472TSL	ENCFF658OZB	ENCFF798BHO
+ENCSR853YZN	posterior_vena_cava_2_1	vessels	Vessels	vessels	vessels		tissue	#e48171		511706	ENCFF693YCD	ENCFF960KBO	ENCFF710OYJ
+ENCSR243DYK	psoas_muscle_1_1	muscle	Muscle	muscle	muscle		tissue	#f6b3b0	c2c12_myoblast,c2c12_myotube,forelimb_e11,forelimb_e13,gastroc_10d,gastroc_14d,gastroc_18-20mo,gastroc_25d,gastroc_2mo,gastroc_36d,gastroc_4d	1508710	ENCFF698UNA	ENCFF750LYC	ENCFF993HIM
+ENCSR803QWH	psoas_muscle_2_1	muscle	Muscle	muscle	muscle		tissue	#f6b3b0	c2c12_myoblast,c2c12_myotube,forelimb_e11,forelimb_e13,gastroc_10d,gastroc_14d,gastroc_18-20mo,gastroc_25d,gastroc_2mo,gastroc_36d,gastroc_4d	731284	ENCFF193WEX	ENCFF630XEC	ENCFF947ICH
+ENCSR435UUS	right_cardiac_atrium_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	727828	ENCFF291EKY	ENCFF242WRZ	ENCFF330VRX
+ENCSR514YQN	right_cardiac_atrium_2_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	751076	ENCFF613SDS	ENCFF722JJS	ENCFF592ULG
+ENCSR553SVP	right_cardiac_atrium_3_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	2370290	ENCFF911RNV	ENCFF899MTI	ENCFF819CFZ
+ENCSR728TXV	right_cardiac_atrium_4_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1492063	ENCFF875QHC	ENCFF905RVF	ENCFF548VFY
+ENCSR293MOX	right_lobe_of_liver_1_1	liver	Liver	liver	liver		tissue	#ada43b		613529	ENCFF158KCA	ENCFF318SKH	ENCFF430RUG
+ENCSR657HJW	right_lobe_of_liver_2_1	liver	Liver	liver	liver		tissue	#ada43b		507703	ENCFF074WRN	ENCFF306ZPP	ENCFF425JER
+ENCSR591OZR	right_ventricle_myocardium_inferior_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	647734	ENCFF173JOL	ENCFF738UZJ	ENCFF656BTN
+ENCSR899GAP	right_ventricle_myocardium_superior_1_1	heart	Heart	heart	heart		tissue	#bf3729	heart_14d,heart_18-20mo,heart_2mo	1560166	ENCFF840OVC	ENCFF665LBS	ENCFF717ARV
+ENCSR096QUP	upper_lobe_of_right_lung_1_1	lung	Lung	lung	lung		tissue	#6c5d9e		1445367	ENCFF449MVA	ENCFF934MBW	ENCFF835YYO
+ENCSR507JOF	wtc11_1_1	wtc11	WTC11	iPSC	dish		cell_line	#ce661e	f1219	2332639	ENCFF373TKM	ENCFF563QZR	ENCFF166IXJ
+ENCSR507JOF	wtc11_1_2	wtc11	WTC11	iPSC	dish		cell_line	#ce661e	f1219	1358180	ENCFF985LGZ	ENCFF370NFS	ENCFF169CBQ
+ENCSR507JOF	wtc11_1_3	wtc11	WTC11	iPSC	dish		cell_line	#ce661e	f1219	2851975	ENCFF388HXU	ENCFF245IPA	ENCFF708JUG

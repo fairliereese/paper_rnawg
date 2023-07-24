@@ -42,11 +42,19 @@ cage:
     meta: data/{species}/cage/metadata.tsv
 rampage:
     meta: data/{species}/rampage/metadata.tsv
+procap:
+    meta: data/{species}/procap/metadata.tsv
+    bed_gz: data/{species}/procap/{encid}.bed.gz
+    bed: data/{species}/procap/{encid}.bed
 
 data:
-  label_bam: data/{species}/label_bam/{encid}.bam
-  bam: data/{species}/bam/{encid}.bam
-  fastq_gz: data/{species}/fastq/{encid}.fastq.gz
+  label_bam: data/{species}/label_bam/{dataset}.bam
+  bam: data/{species}/bam/{dataset}.bam
+  fastq_gz: data/{species}/fastq/{dataset}.fastq.gz
+
+  minimap:
+      sam: data/{species}/minimap2/{dataset}.sam
+      bam: data/{species}/minimap2/{dataset}.bam
 
   ab: data/{species}/abundance.tsv
   talon_filt_ab: data/{species}/talon_abundance_filtered.tsv
@@ -110,18 +118,21 @@ data:
     cds_bed: data/{species}/protein_pred/{species}_cds.bed
     summary: data/{species}/protein_pred/{species}_summary.tsv
   spikes:
-    bam: data/{species}/spike/{encid}.bam
-    talon_config: data/{species}/spike/talon/talon_config.csv
-    
-    talon_db: data/{species}/talon/annot_talon.db
-    read_annot: data/{species}/talon/annot_talon_read_annot.tsv
+    bam: data/{species}/spike/{dataset}.bam
 
-    filt_list: data/{species}/talon/talon_pass_list.tsv
-    filt_gtf: data/talon/annot_talon_observedOnly.gtf
+    sam_label: data/{species}/spike/label/{dataset}.sam
+    bam_label: data/{species}/spike/label/{dataset}.bam
+    talon_config: data/spike/talon/talon_config.csv
 
-    ab: data/{species}/talon/annot_talon_abundance.tsv
-    gene_ab: data/{species}/talon/annot_talon_gene_abundance.tsv
-    filt_ab: data/{species}/talon/annot_talon_abundance_filtered.tsv
+    talon_db: data/spike/talon/annot_talon.db
+    read_annot: data/spike/talon/annot_talon_read_annot.tsv
+
+    filt_list: data/spike/talon/talon_pass_list.tsv
+    filt_gtf: data/spike/talon/annot_talon_observedOnly.gtf
+
+    ab: data/spike/talon/annot_talon_abundance.tsv
+    gene_ab: data/spike/talon/annot_talon_gene_abundance.tsv
+    filt_ab: data/spike/talon/annot_talon_abundance_filtered.tsv
 
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/

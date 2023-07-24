@@ -672,7 +672,7 @@ rule dl_procap:
     output:
         bed = config['procap']['bed_gz']
     shell:
-        "wget https://www.encodeproject.org/files/{params.encid}/@@download/{params.encid}.tsv -O {output.bed}"
+        "wget https://www.encodeproject.org/files/{params.encid}/@@download/{params.encid}.bed.gz -O {output.bed}"
 
 use rule gunzip as gz_procap with:
     input:

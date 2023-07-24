@@ -1,0 +1,95 @@
+ENCSR989ZYL	A673			a673
+ENCSR580IDG	Caco-2			caco2
+ENCSR583KCB	Calu3			calu3
+ENCSR838WFC	GM12878			GM12878
+ENCSR962BVU	GM12878			GM12878
+ENCSR706ANY	GM12878			GM12878
+ENCSR676IWT	GM23338			pgp1
+ENCSR271KEJ	H1			h1
+ENCSR044ARQ	H9			H9
+ENCSR388RWE	HCT116			HCT116
+ENCSR902GAF	HFFc6			HFFc6
+ENCSR583KAF	HL-60	lipopolysaccharide, interferon gamma, phorbol 13-acetate 12-myristate	120 hour, 24 hour	hl60_m1_24hr
+ENCSR930GRQ	HL-60	interleukin-4, phorbol 13-acetate 12-myristate, interleukin-13	120 hour, 24 hour	hl60_m2_24hr
+ENCSR398SKD	HL-60	lipopolysaccharide, interferon gamma, phorbol 13-acetate 12-myristate	120 hour, 72 hour	hl60_m1_72hr
+ENCSR887LTD	HL-60			hl60
+ENCSR546DFO	HL-60	phorbol 13-acetate 12-myristate	120 hour	hl60_m0
+ENCSR121FDE	HL-60	lipopolysaccharide, interferon gamma, phorbol 13-acetate 12-myristate	120 hour, 12 hour	hl60_m1_12hr
+ENCSR159ICU	HL-60	interleukin-4, phorbol 13-acetate 12-myristate, interleukin-13	120 hour, 72 hour	hl60_m2_72hr
+ENCSR278ZPI	HL-60	interleukin-4, phorbol 13-acetate 12-myristate, interleukin-13	120 hour, 12 hour	hl60_m2_12hr
+ENCSR834DQL	HepG2			HepG2
+ENCSR634AKC	HepG2			HepG2
+ENCSR113MEY	IMR-90			imr90
+ENCSR526TQU	K562			K562
+ENCSR983KDL	K562			K562
+ENCSR589FUJ	K562			K562
+ENCSR813UIT	MCF 10A			mcf10a
+ENCSR810XLL	MCF-7			mcf7
+ENCSR700SUP	OCI-LY7			OCILY7
+ENCSR947JHA	PC-3			pc3
+ENCSR916JDV	PC-9			pc9
+ENCSR181CES	Panc1			Panc1
+ENCSR591OZR	Right ventricle myocardium inferior			Right ventricle myocardium inferior
+ENCSR899GAP	Right ventricle myocardium superior			Right ventricle myocardium superior
+ENCSR507JOF	WTC11			wtc11
+ENCSR563RLX	adrenal gland			adrenal gland
+ENCSR995WKW	adrenal gland			adrenal gland
+ENCSR081NRO	adrenal gland			adrenal gland
+ENCSR425HFS	aorta			aorta
+ENCSR700EBI	aorta			aorta
+ENCSR071IHY	astrocyte			pgp1_astro
+ENCSR549ELD	cardiac septum			cardiac septum
+ENCSR470HYQ	chondrocyte			h9_chondro
+ENCSR904KAT	endodermal cell			h9_de
+ENCSR127HKN	endodermal cell			h1_de
+ENCSR148IIG	endothelial cell			pgp1_endo
+ENCSR687RWI	endothelial cell of umbilical vein			huvec
+ENCSR257JBF	excitatory neuron			pgp1_excite_neuron
+ENCSR575LWI	heart left ventricle			heart left ventricle
+ENCSR194YUY	heart left ventricle			heart left ventricle
+ENCSR700XDQ	heart left ventricle			heart left ventricle
+ENCSR994YZY	heart left ventricle			heart left ventricle
+ENCSR782LGT	heart right ventricle			heart right ventricle
+ENCSR984OAE	heart right ventricle			heart right ventricle
+ENCSR329ZQG	heart right ventricle			heart right ventricle
+ENCSR432YKA	kidney			kidney
+ENCSR424QFN	left cardiac atrium			left cardiac atrium
+ENCSR450GAR	left colon			left colon
+ENCSR426KOP	left lung			left lung
+ENCSR746ITG	left lung			left lung
+ENCSR786FLO	left ventricle myocardium inferior			left ventricle myocardium inferior
+ENCSR777CCI	left ventricle myocardium superior			left ventricle myocardium superior
+ENCSR261GOA	lower lobe of left lung			lower lobe of left lung
+ENCSR986WKB	lower lobe of left lung			lower lobe of left lung
+ENCSR323XND	lower lobe of right lung			lower lobe of right lung
+ENCSR998KIZ	mammary epithelial cell			hmec
+ENCSR648QZP	mesenteric fat pad			mesenteric fat pad
+ENCSR205QMF	middle frontal area 46			brodmann area 46
+ENCSR316ZTD	middle frontal area 46			brodmann area 46
+ENCSR462COR	middle frontal area 46			brodmann area 46
+ENCSR094NFM	middle frontal area 46			brodmann area 46
+ENCSR463IDK	middle frontal area 46			brodmann area 46
+ENCSR690QHM	middle frontal area 46			brodmann area 46
+ENCSR257YUB	middle frontal area 46			brodmann area 46
+ENCSR169YNI	middle frontal area 46			brodmann area 46
+ENCSR697ASE	middle frontal area 46			brodmann area 46
+ENCSR803XXZ	mucosa of descending colon			mucosa of descending colon
+ENCSR997RFW	mucosa of descending colon			mucosa of descending colon
+ENCSR056MYH	neural crest cell			h9_neural_crest
+ENCSR296PQZ	osteocyte			h9_osteocyte
+ENCSR477HHG	ovary			ovary
+ENCSR587WPR	ovary			ovary
+ENCSR507WZC	ovary			ovary
+ENCSR138TAS	posterior vena cava			posterior vena cava
+ENCSR853YZN	posterior vena cava			posterior vena cava
+ENCSR530BOC	progenitor cell of endocrine pancreas			h9_panc_progen
+ENCSR803QWH	psoas muscle			psoas muscle
+ENCSR243DYK	psoas muscle			psoas muscle
+ENCSR435UUS	right cardiac atrium			right cardiac atrium
+ENCSR553SVP	right cardiac atrium			right cardiac atrium
+ENCSR514YQN	right cardiac atrium			right cardiac atrium
+ENCSR728TXV	right cardiac atrium			right cardiac atrium
+ENCSR293MOX	right lobe of liver			right lobe of liver
+ENCSR657HJW	right lobe of liver			right lobe of liver
+ENCSR130CIK	type B pancreatic cell			h9_panc_beta
+ENCSR096QUP	upper lobe of right lung			upper lobe of right lung

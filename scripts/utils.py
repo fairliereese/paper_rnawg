@@ -23,6 +23,8 @@ import numpy
 from pathlib import Path
 from tqdm import tqdm
 from xopen import xopen
+from snakemake.io import expand
+
 
 def get_datasets(species='human',
                  classification=None,
@@ -1961,7 +1963,7 @@ def get_tpm_table(df,
     """
     Parameters:
         df (pandas DataFrame): TALON abundance table
-        sample (str): {'cell_line', 'tissue', None, 'lr_match'}, or 
+        sample (str): {'cell_line', 'tissue', None, 'lr_match'}, or
             list of sample names
         how (str): {'gene', 'iso', 'tss', 'tes', 'ic'}
         groupby (str): Choose from 'library' or 'sample'. Sample will avg.
@@ -1993,7 +1995,7 @@ def get_tpm_table(df,
         dataset_cols = get_datasets(species=species)
         df = rm_sirv_ercc(df)
         df['gid_stable'] = cerberus.get_stable_gid(df, 'annot_gene_id')
-        
+
         if type(sample) == list:
             print(f'Subsetting for {sample} samples')
             temp = pd.DataFrame(data=get_datasets(species=species), columns=['dataset'])
@@ -2002,7 +2004,7 @@ def get_tpm_table(df,
             dataset_cols = temp['dataset'].tolist()
         elif sample == 'cell_line' or sample == 'tissue':
             print('Subsetting for {} datasets'.format(sample))
-        
+
 
         # merge with information about the gene
         if species == 'human':
@@ -3860,3 +3862,112 @@ def get_no_hit_blastp_entries(fname, tids):
 
     df = df[cols]
     return df
+
+def convert_encode_desc(df, col):
+    """
+    Convert encode desc. of a sample into something more parseable
+    """
+    df[col] = df[col].str.lower()
+    df[col] = df[col].str.replace(', ', '_')
+    df[col] = df[col].str.replace(' ', '_')
+    df[col] = df[col].str.replace('-', '_')
+
+    return df
+
+# def add_dataset_names_from_metadata(meta_file, biosamp_map_file):
+#     """
+#     Add a dataset name for each file in an ENCODE download metadata file
+#     """
+#     df = pd.read_csv(meta_file, sep='\t')
+#     df = df[['File accession', 'Experiment accession', 'Biosample term name', 'Biosample type', 'Technical replicate(s)', 'Biological replicate(s)']]
+#     df['classification'] = 'cell_line'
+#     df.loc[df['Biosample type']=='tissue', 'classification'] = 'tissue'
+#     df = convert_encode_desc(df, 'Biosample term name')
+
+#     # convert hyphenated cell line names
+#     term_map = pd.read_csv(biosamp_map_file, sep='\t',
+#                            header=None, names=['eid', 'old_name', 'idk1', 'idk2', 'new_name'])
+#     term_map = convert_encode_desc(term_map, 'old_name')
+#     term_map = convert_encode_desc(term_map, 'new_name')
+#     term_map = term_map[['old_name', 'new_name']]
+#     term_map.drop_duplicates(inplace=True)
+#     n1 = len(df.index)
+#     # print(n1)
+#     df = df.merge(term_map, how='left', left_on='Biosample term name', right_on='old_name')
+#     n2 = len(df.index)
+#     # print(n2)
+#     if n1 != n2:
+#         print('Duplicated thingies, check for DE samples')
+#     df.rename({'Biosample term name': 'sample'}, axis=1, inplace=True)
+#     df.loc[~df.new_name.isnull(), 'sample'] = df.loc[~df.new_name.isnull(), 'new_name']
+
+#     return df
+
+def get_lib_meta_from_enc_meta(meta_file,
+                               biosamp_map_file,
+                               ofile):
+
+    df = pd.read_csv(meta_file, sep='\t')
+
+    # get only one output type so that you don't have multiple entries per thing
+    df = df.loc[df['Output type'] == df['Output type'].tolist()[0]]
+
+    df = df[['File accession', 'Experiment accession', 'Biosample term name', 'Biosample type', 'Technical replicate(s)', 'Biological replicate(s)']]
+    df['classification'] = 'cell_line'
+    df.loc[df['Biosample type']=='tissue', 'classification'] = 'tissue'
+    df = convert_encode_desc(df, 'Biosample term name')
+
+    # convert hyphenated cell line names
+    term_map = pd.read_csv(biosamp_map_file, sep='\t',
+                           header=None, names=['eid', 'old_name', 'idk1', 'idk2', 'new_name'])
+    term_map = convert_encode_desc(term_map, 'old_name')
+    term_map = convert_encode_desc(term_map, 'new_name')
+    term_map = term_map[['old_name', 'new_name']]
+    term_map.drop_duplicates(inplace=True)
+    n1 = len(df.index)
+    # print(n1)
+    df = df.merge(term_map, how='left', left_on='Biosample term name', right_on='old_name')
+    n2 = len(df.index)
+    # print(n2)
+    if n1 != n2:
+        print('Duplicated thingies, check for DE samples')
+    df.rename({'Biosample term name': 'sample'}, axis=1, inplace=True)
+    df.loc[~df.new_name.isnull(), 'sample'] = df.loc[~df.new_name.isnull(), 'new_name']
+
+    # df.loc[df['Experiment accession'].duplicated(keep=False)].sort_values(by='Experiment accession')
+    # df.loc[df['sample']!=df['new_name']]
+    temp = df[['Experiment accession', 'sample', 'File accession']].groupby(['Experiment accession', 'sample']).count().reset_index()
+    temp['biorep'] = temp.groupby('sample').cumcount()+1
+    temp = temp[['Experiment accession', 'biorep']]
+    temp.biorep = temp.biorep.astype(str)
+    df = df.merge(temp, on='Experiment accession')
+    # df['techrep'] = df.groupby('Experiment accession').cumcount()+1
+    df['dataset'] = df['sample']+'_'+df.biorep#+'_'+df.techrep.astype(str)
+
+    # get the different output type files and merge in
+    cols = ['Experiment accession', 'sample', 'classification', 'Technical replicate(s)', 'dataset']
+    df = df[cols]
+
+    df2 = pd.read_csv(meta_file, sep='\t')
+    df2 = df2[['File accession', 'Experiment accession', 'Output type']]
+
+    df2 = df2[['Experiment accession',
+               'File accession',
+               'Output type']].pivot(values='File accession',
+                                     index='Experiment accession',
+                                     columns='Output type')
+
+    df2.columns.name = ''
+    df2.reset_index(inplace=True)
+    df = df.merge(df2, how='left', on='Experiment accession')
+    df.to_csv(ofile, sep='\t', index=False)
+
+def get_meta_df(config, species):
+    meta_df = pd.DataFrame()
+    for f, s in zip(list(expand(config['data']['meta'], species=species)), species):
+        temp = pd.read_csv(f, sep='\t')
+        temp['species'] = s
+        meta_df = pd.concat([meta_df, temp], axis=0)
+    # if meta_df.dataset.duplicated.any():
+    #     raise ValueError('Mouse and human dataset names not unique')
+    return meta_df

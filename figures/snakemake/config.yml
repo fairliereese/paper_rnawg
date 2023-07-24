@@ -46,8 +46,10 @@ rampage:
     meta: data/{species}/rampage/metadata.tsv
 procap:
     meta: data/{species}/procap/metadata.tsv
-    bed_gz: data/{species}/procap/{encid}.bed.gz
-    bed: data/{species}/procap/{encid}.bed
+    lib_meta: data/{species}/procap/lib_metadata.tsv
+
+    bed_gz: data/{species}/procap/{procap_dataset}_{output_type}.bed.gz
+    bed: data/{species}/procap/{procap_dataset}_{output_type}.bed
 
 data:
   label_bam: data/{species}/label_bam/{dataset}.bam
@@ -137,7 +139,6 @@ data:
     ab: data/spike/talon/annot_talon_abundance.tsv
     gene_ab: data/spike/talon/annot_talon_gene_abundance.tsv
     filt_ab: data/spike/talon/annot_talon_abundance_filtered.tsv
-
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/
 

@@ -60,20 +60,17 @@ def get_mirna_ids(config):
 #     ids = df.file.tolist()
 #     return ids
 
-# encode lr meta
-def get_meta_df():
-    meta_df = pd.DataFrame()
-    for f, s in zip(list(expand(config['data']['meta'], species=species)), species):
-        temp = pd.read_csv(f, sep='\t')
-        temp['species'] = s
-        meta_df = pd.concat([meta_df, temp], axis=0)
-    # if meta_df.dataset.duplicated.any():
-    #     raise ValueError('Mouse and human dataset names not unique')
-    return meta_df
-meta_df = get_meta_df()
+# lr meta
+meta_df = get_meta_df(config, species)
+
+# procap meta
+procap_meta = pd.read_csv(expand(config['procap']['lib_meta'],
+                                 species='human')[0],
+                                 sep='\t')
 
 wildcard_constraints:
-    dataset= '|'.join([re.escape(x) for x in meta_df.dataset.tolist()]),
+    dataset='|'.join([re.escape(x) for x in meta_df.dataset.tolist()]),
+    procap_dataset='|'.join([re.escape(x) for x in procap_meta.dataset.tolist()])
 
 def get_col_from_meta_df(wc, col):
     temp = meta_df.copy(deep=True)
@@ -82,20 +79,15 @@ def get_col_from_meta_df(wc, col):
     return temp[col].tolist()
 
 
-def get_encid_from_dataset(dataset, file_format):
+def get_encid_from_dataset(dataset, meta, file_format):
     m = {'label_bam': 'ENCODE_alignments_id',
          'bam': 'ENCODE_unfiltered_alignments_id',
          'fastq': 'ENCODE_reads_id'}
-    id = meta_df.loc[meta_df.dataset == dataset, m[file_format]].values[0]
+    if file_format in list(m.keys()):
+        id = meta.loc[meta.dataset == dataset, m[file_format]].values[0]
+    else:
+        id = meta.loc[meta.dataset == dataset, file_format].values[0]
     return id
-
-
-
-
-# meta = pd.read_csv('ref/lr_file_ids.tsv', sep='\t')
-
-# encode procap meta
-# procap_meta = pd.read_csv('data/human/procap/metadata.tsv')
 
 rule all:
     input:
@@ -140,12 +132,17 @@ rule all:
         #        event=['AF', 'AL'])
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
-        config['data']['spikes']['talon_config']
+        # config['data']['spikes']['talon_config']
         # config['data']['spikes']['ab'],
         # config['data']['spikes']['gene_ab'],
         # config['data']['spikes']['filt_ab'],
         # config['data']['spikes']['filt_gtf'],
-
+        expand(expand(config['procap']['bed'],
+               zip,
+               procap_dataset=procap_meta.dataset.unique().tolist(),
+               allow_missing=True),
+               species='human',
+               output_type=['bidirectional peaks', 'unidirectional peaks'])
 
 rule dl:
     resources:
@@ -312,8 +309,14 @@ rule minimap2:
             """
 
 ################################################################################
-######################### Save list of file ids for LR #########################
+################################ Metadata files ################################
 ################################################################################
+rule get_lib_meta:
+    run:
+        get_lib_meta_from_enc_meta(input.meta,
+                                   input.biosamp_map,
+                                   output.meta)
+
 rule get_lr_file_ids:
     resources:
         mem_gb = 16,
@@ -651,14 +654,31 @@ rule dl_mirna:
 ################################################################################
 ################################## Procap ######################################
 ################################################################################
+use rule get_lib_meta as procap_lib_meta with:
+    input:
+        meta = config['procap']['meta'],
+        biosamp_map = config['ref']['biosamp_map']
+    output:
+        meta = config['procap']['lib_meta']
+
 rule dl_procap:
     resources:
         mem_gb = 32,
         threads = 1
+    params:
+        encid = lambda w:get_encid_from_dataset(w.procap_dataset,
+                                                procap_meta,
+                                                w.output_type)
     output:
         bed = config['procap']['bed_gz']
     shell:
-        "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.tsv -O {output.tsv}"
+        "wget https://www.encodeproject.org/files/{params.encid}/@@download/{params.encid}.tsv -O {output.bed}"
+
+use rule gunzip as gz_procap with:
+    input:
+        gz = config['procap']['bed_gz']
+    output:
+        out = config['procap']['bed']
 
 ################################################################################
 ############################## Diane's stuff ###################################
@@ -668,7 +688,9 @@ rule dl_lr_bam:
         mem_gb = 32,
         threads = 8
     params:
-        encid = lambda w:get_encid_from_dataset(w.dataset, 'bam')
+        encid = lambda w:get_encid_from_dataset(w.dataset,
+                                                meta_df,
+                                                'bam')
     output:
         bam = temporary(config['data']['bam'])
     shell:
@@ -679,7 +701,9 @@ rule dl_lr_label_bam:
         mem_gb = 32,
         threads = 8
     params:
-        encid = lambda w:get_encid_from_dataset(w.dataset, 'label_bam')
+        encid = lambda w:get_encid_from_dataset(w.dataset,
+                                                meta_df,
+                                                'label_bam')
     output:
         bam = temporary(config['data']['label_bam'])
     shell:
@@ -691,7 +715,9 @@ rule dl_lr_fastq:
         mem_gb = 32,
         threads = 8
     params:
-        encid = lambda w:get_encid_from_dataset(w.dataset, 'fastq')
+        encid = lambda w:get_encid_from_dataset(w.dataset,
+                                                meta_df,
+                                                'fastq')
     output:
         fastq = temporary(config['data']['fastq_gz'])
     shell:
@@ -1172,14 +1198,14 @@ rule talon_label:
 
 def get_spike_talon_run_files():
     # TODO fix this to use label bam
-    # files = expand(config['data']['spikes']['bam_label'],
-    #                zip,
-    #                species=meta_df.species.tolist(),
-    #                dataset=meta_df.dataset.tolist())
-    files = expand(config['data']['spikes']['bam'],
+    files = expand(config['data']['spikes']['bam_label'],
                    zip,
                    species=meta_df.species.tolist(),
                    dataset=meta_df.dataset.tolist())
+    # files = expand(config['data']['spikes']['bam'],
+    #                zip,
+    #                species=meta_df.species.tolist(),
+    #                dataset=meta_df.dataset.tolist())
     return files
 
 rule talon_config:
@@ -1399,25 +1425,25 @@ rule get_spike_reads:
 
 use rule tc_sjs as tc_sjs_spike with:
     input:
-        gtf = config['ref']['spike']['spike_gtf'],
-        fa = config['ref']['spike']['spike_fa']
+        gtf = config['ref']['spikes']['spike_gtf'],
+        fa = config['ref']['spikes']['spike_fa']
     output:
-        sjs = config['ref']['spike']['sjs']
+        sjs = config['ref']['spikes']['sjs']
 
 use rule tc as tc_spike with:
     input:
-        align = config['data']['spike']['bam'],
-        fa = config['ref']['spike']['fa'],
-        sjs = config['ref']['spike']['sjs']
+        align = config['data']['spikes']['bam'],
+        fa = config['ref']['spikes']['spike_fa'],
+        sjs = config['ref']['spikes']['sjs']
     params:
         tc = config['tc_path'],
-        opref = config['data']['spike']['sam_clean'].rsplit('_clean.sam', maxsplit=1)[0]
+        opref = config['data']['spikes']['sam_clean'].rsplit('_clean.sam', maxsplit=1)[0]
     output:
-        sam = temporary(config['data']['spike']['sam_clean'])
+        sam = temporary(config['data']['spikes']['sam_clean'])
 
 use rule talon_label as talon_label_spike with:
         input:
-            align = config['data']['spike']['sam_clean'],
+            align = config['data']['spikes']['sam_clean'],
             fa = config['ref']['spikes']['spike_fa'],
         params:
             a_range = 20,

@@ -4132,9 +4132,9 @@ def plot_novel_supported_triplet_feats(filt_ab,
     ref_sources = [['v29', 'v40'],
                    ['v29', 'v40'],
                    ['v29', 'v40']]
-    support_sources = [['encode_cage', 'fantom_cage', 'encode_rampage'],
+    support_sources = [['encode_cage', 'fantom_cage', 'encode_rampage', 'gtex'],
                        ['gtex'],
-                       ['pas', 'polya_atlas']]
+                       ['pas', 'polya_atlas', 'gtex']]
 
     plt.figure(figsize=(3,20))
     sns.set_context('paper', font_scale=2)

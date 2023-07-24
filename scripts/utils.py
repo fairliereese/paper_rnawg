@@ -1963,7 +1963,7 @@ def get_tpm_table(df,
         df (pandas DataFrame): TALON abundance table
         sample (str): {'cell_line', 'tissue', None, 'lr_match'}, or 
             list of sample names
-        how (str): Choose from 'gene' or 'iso'
+        how (str): {'gene', 'iso', 'tss', 'tes', 'ic'}
         groupby (str): Choose from 'library' or 'sample'. Sample will avg.
         nov (list of str): List of accepted novelty types (w/ how='iso')
         min_tpm (float): Keep only genes / isos that have at least one

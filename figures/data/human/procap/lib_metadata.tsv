@@ -1,4 +1,4 @@
-Experiment accession	sample	classification	Technical replicate(s)	dataset	bidirectional peaks	unidirectional peaks
+Experiment accession	sample	classification	Technical replicate(s)	dataset	bidirectional_peaks	unidirectional_peaks
 ENCSR799DGV	mcf10a	cell_line	1_1, 2_1	mcf10a_1	ENCFF478BHR	ENCFF875PER
 ENCSR756TPG	k562	cell_line	1_1, 1_2, 2_1, 2_2	k562_5	ENCFF106YWP	ENCFF200THH
 ENCSR882DWM	k562	cell_line	1_1, 1_2, 2_1, 2_2	k562_6	ENCFF681WCY	ENCFF902VME

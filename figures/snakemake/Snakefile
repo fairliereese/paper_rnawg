@@ -285,6 +285,9 @@ rule get_chrom_sizes:
 ################################# Minimap2 #####################################
 ################################################################################
 rule sam_to_bam:
+    resources:
+        threads = 16,
+        mem_gb = 32
     shell:
         """
         samtools view -Sb {input.sam} > {output.bam}
@@ -664,19 +667,23 @@ rule dl_lr_bam:
     resources:
         mem_gb = 32,
         threads = 8
+    params:
+        encid = lambda w:get_encid_from_dataset(w.dataset, 'bam')
     output:
         bam = temporary(config['data']['bam'])
     shell:
-        "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.bam -O {output.bam}"
+        "wget https://www.encodeproject.org/files/{params.encid}/@@download/{params.encid}.bam -O {output.bam}"
 
 rule dl_lr_label_bam:
     resources:
         mem_gb = 32,
         threads = 8
+    params:
+        encid = lambda w:get_encid_from_dataset(w.dataset, 'label_bam')
     output:
         bam = temporary(config['data']['label_bam'])
     shell:
-        "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.bam -O {output.bam}"
+        "wget https://www.encodeproject.org/files/{params.encid}/@@download/{params.encid}.bam -O {output.bam}"
 
 
 rule dl_lr_fastq:
@@ -686,9 +693,9 @@ rule dl_lr_fastq:
     params:
         encid = lambda w:get_encid_from_dataset(w.dataset, 'fastq')
     output:
-        fastq = config['data']['fastq_gz']
+        fastq = temporary(config['data']['fastq_gz'])
     shell:
-        "wget https://www.encodeproject.org/files/{params.encid}/@@download/{wildcards.encid}.fastq.gz -O {output.fastq}"
+        "wget https://www.encodeproject.org/files/{params.encid}/@@download/{params.encid}.fastq.gz -O {output.fastq}"
 
 rule get_lr_read_lens:
     input:
@@ -1107,6 +1114,44 @@ rule get_pp_summary:
                     output.summary)
 
 ################################################################################
+############################# TranscriptClean ##################################
+################################################################################
+rule tc_sjs:
+    resources:
+        mem_gb = 16,
+        threads = 4
+    params:
+        tc = config['tc_path']
+    shell:
+        """
+        python {params.tc}accessory_scripts/get_SJs_from_gtf.py \
+             --f {input.gtf} \
+             --g {input.fa} \
+             --minIntronSize 21 \
+             --o {output.sjs}
+        """
+rule tc:
+    resources:
+        mem_gb = 80,
+        threads = 16
+    shell:
+        """
+        python {params.tc}TranscriptClean.py \
+            -sam {input.align} \
+            --genome {input.fa} \
+            --spliceJns {input.sjs} \
+            --maxLenIndel 5 \
+            --maxSJOffset 5 \
+            -m true \
+            -i true \
+            --correctSJs true \
+            --primaryOnly \
+            --outprefix {params.opref} \
+            --threads {resources.threads} \
+            --canonOnly
+        """
+
+################################################################################
 ############################# TALON utilities ##################################
 ################################################################################
 rule talon_label:
@@ -1116,56 +1161,54 @@ rule talon_label:
     shell:
         """
         talon_label_reads \
-            --f {input.bam} \
+            --f {input.align} \
             --g {input.fa} \
             --tmpDir {params.opref} \
             --ar 20  \
+            --t {resources.threads} \
             --deleteTmp  \
             --o {params.opref}
         """
 
 def get_spike_talon_run_files():
-    files = expand(config['data']['spikes']['bam_label'],
-                   species=meta_df.species.tolist()[:5],
-                   dataset=meta_df.dataset.tolist()[:5])
+    # TODO fix this to use label bam
+    # files = expand(config['data']['spikes']['bam_label'],
+    #                zip,
+    #                species=meta_df.species.tolist(),
+    #                dataset=meta_df.dataset.tolist())
+    files = expand(config['data']['spikes']['bam'],
+                   zip,
+                   species=meta_df.species.tolist(),
+                   dataset=meta_df.dataset.tolist())
     return files
 
 rule talon_config:
     input:
-        files = get_spike_talon_run_files(),
-        meta = expand(config['data']['meta'], species=species)
+        files = get_spike_talon_run_files()
     resources:
         threads = 1,
         mem_gb = 1
     output:
-        config = config['data']['spikes']['talon_config']
+        config_file = config['data']['spikes']['talon_config']
     run:
-        config = pd.DataFrame()
-        config['file'] = list(input.files)
-        config['file_base'] = config.file.str.rsplit('/', n=1, expand=True)[1]
-        config['file_base'] = config.file_base.str.rsplit('.bam', n=1, expand=True)[0]
-        config['platform'] = 'PacBio'
-        # import pdb; pdb.set_trace()
+        df = pd.DataFrame()
+        df['file'] = list(input.files)
+        df['file_base'] = df.file.str.rsplit('/', n=1, expand=True)[1]
+        df['dataset'] = df.file_base.str.rsplit('.bam', n=1, expand=True)[0]
 
-        # fix this -- use meta_df; make sure to append species to dataset name as well
+        # get species from path and append to sample / dataset
+        df['species'] = np.nan()
+        df.loc[config.df.str.contains('human'), 'species'] = 'human'
+        df.loc[df.file.str.contains('mouse'), 'species'] = 'mouse'
+        df['dataset'] = df['dataset']+'_'+df['species']
+        df['sample'] = df['dataset']
 
-        # # get the dataset / sample IDs from the metadata file
-        # df = pd.DataFrame()
-        # for meta_file in list(input.meta):
-        #     temp = pd.read_csv(meta_file, sep='\t')
-        #     df = pd.concat([df, temp], axis=0)
-        #
-        # df = df[['ENCODE_file_id', 'dataset']].rename({'ENCODE_file_id': 'file_base'}, axis=1)
-        # df = df[['file_base', 'dataset']]
-        #
-        # # import pdb;pdb.set_trace()
-        # config = config.merge(df, how='left', on='file_base')
-        #
-        # config['sample'] = config['dataset']
-        #
-        # config = config[['dataset', 'sample', 'platform', 'file']]
-        #
-        # config.to_csv(output.config, header=None, sep=',', index=False)
+        # all platforms are pacbio
+        df['platform'] = 'PacBio'
+
+        # write
+        df = df[['dataset', 'sample', 'platform', 'file']]
+        df.to_csv(output.config_file, header=None, sep=',', index=False)
 
 rule talon_init:
 	input:
@@ -1326,7 +1369,8 @@ use rule minimap2 as map_spikes with:
         fastq = config['data']['fastq_gz'],
         fa = config['ref']['spikes']['spike_fa']
     output:
-        sam = temporary(config['data']['minimap']['sam'])
+        # sam = temporary(config['data']['minimap']['sam'])
+        sam = config['data']['minimap']['sam']
 
 use rule sam_to_bam as sb_spikes with:
     input:
@@ -1344,23 +1388,40 @@ rule get_spike_reads:
         mem_gb = 32,
         threads = 8
     output:
+        sorted_bam = temporary(config['data']['minimap']['bam_sorted']),
         bam = config['data']['spikes']['bam']
     shell:
         """
-        samtools index {input.bam}
-        samtools view -bh --regions-file {input.spike_bed} {input.bam} > {output.bam}
+        samtools sort {input.bam} > {output.sorted_bam}
+        samtools index {output.sorted_bam}
+        samtools view -bh --regions-file {input.spike_bed} {output.sorted_bam} > {output.bam}
         """
+
+use rule tc_sjs as tc_sjs_spike with:
+    input:
+        gtf = config['ref']['spike']['spike_gtf'],
+        fa = config['ref']['spike']['spike_fa']
+    output:
+        sjs = config['ref']['spike']['sjs']
+
+use rule tc as tc_spike with:
+    input:
+        align = config['data']['spike']['bam'],
+        fa = config['ref']['spike']['fa'],
+        sjs = config['ref']['spike']['sjs']
+    params:
+        tc = config['tc_path'],
+        opref = config['data']['spike']['sam_clean'].rsplit('_clean.sam', maxsplit=1)[0]
+    output:
+        sam = temporary(config['data']['spike']['sam_clean'])
 
 use rule talon_label as talon_label_spike with:
         input:
-            bam = config['data']['minimap']['sam'],
-            fa = config['ref']['spikes']['spike_fa']
+            align = config['data']['spike']['sam_clean'],
+            fa = config['ref']['spikes']['spike_fa'],
         params:
             a_range = 20,
-            opref = lambda w:expand(config['data']['spikes']['sam_label'],
-                                    zip,
-                                    species=w.species,
-                                    dataset=get_col_from_meta_df(w, 'dataset'))[0].rsplit('_labeled.sam', maxsplit=1)[0]
+            opref = config['data']['spikes']['sam_label'].rsplit('_labeled.sam', maxsplit=1)[0]
         output:
             bam = config['data']['spikes']['sam_label']
 

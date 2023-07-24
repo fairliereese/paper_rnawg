@@ -1,3 +1,5 @@
+tc_path: ~/mortazavi_lab/bin/TranscriptClean/
+
 
 encode:
   human:
@@ -55,6 +57,7 @@ data:
   minimap:
       sam: data/{species}/minimap2/{dataset}.sam
       bam: data/{species}/minimap2/{dataset}.bam
+      bam_sorted: data/{species}/minimap2/{dataset}_sorted.bam
 
   ab: data/{species}/abundance.tsv
   talon_filt_ab: data/{species}/talon_abundance_filtered.tsv
@@ -119,9 +122,10 @@ data:
     summary: data/{species}/protein_pred/{species}_summary.tsv
   spikes:
     bam: data/{species}/spike/{dataset}.bam
+    sam_clean: data/{species}/spike/tc/{dataset}_clean.sam
 
-    sam_label: data/{species}/spike/label/{dataset}.sam
-    bam_label: data/{species}/spike/label/{dataset}.bam
+    sam_label: data/{species}/spike/label/{dataset}_labeled.sam
+    bam_label: data/{species}/spike/label/{dataset}_labeled.bam
     talon_config: data/spike/talon/talon_config.csv
 
     talon_db: data/spike/talon/annot_talon.db
@@ -168,6 +172,7 @@ ref:
 
     spike_gtf: ref/spikes/spikes.gtf
     spike_fa: ref/spikes/spikes.fa
+    sjs: ref/spikes/spikes_sjs.tsv
 
     chrom_sizes: ref/spikes/chrom_sizes.fa
     chrom_bed: ref/spikes/chroms.bed

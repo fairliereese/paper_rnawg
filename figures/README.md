@@ -29,16 +29,19 @@ df.to_csv('ref/lr_file_ids.tsv', sep='\t', index=False)
 ```bash
 snakemake \
   -s snakemake/Snakefile \
-  -j 20 \
+  -j 30 \
   --latency-wait 120 \
   --use-conda \
   -n
+
+conda activate viz_snakemake
+snakemake -s snakemake/Snakefile --dag | dot -Tpng > ruledag.png
 
 snakemake \
   -s snakemake/Snakefile \
   -j 30 \
   --latency-wait 120 \
-  --cluster "sbatch -A seyedam_lab --partition=highmem --mem={resources.mem_gb}GB -c {resources.threads} --mail-user=freese@uci.edu --mail-type=START,END,FAIL --time=24:00:00" -n
+  --cluster "sbatch -A seyedam_lab --partition=highmem --mem={resources.mem_gb}GB -c {resources.threads} --mail-user=freese@uci.edu --mail-type=START,END,FAIL --time=8:00:00" -n
 ```
 
 Currently, the figures and numbers generated for the paper are in Python notebooks roughly split by section of the paper.

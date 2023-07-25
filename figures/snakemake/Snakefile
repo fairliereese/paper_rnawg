@@ -142,7 +142,7 @@ rule all:
                procap_dataset=procap_meta.dataset.unique().tolist(),
                allow_missing=True),
                species='human',
-               output_type=['bidirectional peaks', 'unidirectional peaks'])
+               output_type=['bidirectional_peaks', 'unidirectional_peaks'])
 
 rule dl:
     resources:
@@ -1198,10 +1198,11 @@ rule talon_label:
 
 def get_spike_talon_run_files():
     # TODO fix this to use label bam
+    temp = meta_df.loc[meta_df.spikeins==True].copy(deep=True)
     files = expand(config['data']['spikes']['bam_label'],
                    zip,
-                   species=meta_df.species.tolist(),
-                   dataset=meta_df.dataset.tolist())
+                   species=temp.species.tolist(),
+                   dataset=temp.dataset.tolist())
     # files = expand(config['data']['spikes']['bam'],
     #                zip,
     #                species=meta_df.species.tolist(),

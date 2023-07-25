@@ -40,6 +40,12 @@ sr:
   ab: data/{species}/sr/abundance.tsv
   meta: data/{species}/sr/metadata.tsv
 
+fantom:
+  # download link: https://fantom.gsc.riken.jp/5/datafiles/latest/extra/CAGE_peaks/mm9.cage_peak_phase1and2combined_coord.bed.gz
+
+lrgasp_cage:
+  # geo accession https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE185917
+
 cage:
     meta: data/{species}/cage/metadata.tsv
 rampage:

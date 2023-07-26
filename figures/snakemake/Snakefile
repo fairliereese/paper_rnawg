@@ -1294,16 +1294,11 @@ rule talon_label:
         """
 
 def get_spike_talon_run_files():
-    # TODO fix this to use label bam
     temp = meta_df.loc[meta_df.spikeins==True].copy(deep=True)
     files = expand(config['data']['spikes']['bam_label'],
                    zip,
                    species=temp.species.tolist(),
                    dataset=temp.dataset.tolist())
-    # files = expand(config['data']['spikes']['bam'],
-    #                zip,
-    #                species=meta_df.species.tolist(),
-    #                dataset=meta_df.dataset.tolist())
     return files
 
 rule talon_config:
@@ -1510,9 +1505,10 @@ def get_lapa_settings(wc, lapa_ends, kind):
 #     return datasets
 
 def get_lapa_run_info(wc, df, config_entry=None, col=False):
-    datasets = df.dataset.tolist()
-    species = df.species.tolist()
-    samples = df['sample'].tolist()
+    temp = df.loc[df.spikeins==True].copy(deep=True)
+    datasets = temp.dataset.tolist()
+    species = temp.species.tolist()
+    samples = temp['sample'].tolist()
     temp = pd.DataFrame()
     if config_entry:
         files = expand(config_entry,

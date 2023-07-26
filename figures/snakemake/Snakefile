@@ -67,10 +67,17 @@ meta_df = get_meta_df(config, species)
 procap_meta = pd.read_csv(expand(config['procap']['lib_meta'],
                                  species='human')[0],
                                  sep='\t')
+procap_output_types = ['bidirectional_peaks', 'unidirectional_peaks']
+
+# lrgasp cage meta
+lrgasp_cage_meta = pd.read_csv(expand(config['lrgasp_cage']['meta'],
+                                species='human')[0],
+                                sep='\t')
 
 wildcard_constraints:
     dataset='|'.join([re.escape(x) for x in meta_df.dataset.tolist()]),
-    procap_dataset='|'.join([re.escape(x) for x in procap_meta.dataset.tolist()])
+    procap_dataset='|'.join([re.escape(x) for x in procap_meta.dataset.tolist()]),
+    output_type='|'.join([re.escape(x) for x in procap_output_types]),
 
 def get_col_from_meta_df(wc, col):
     temp = meta_df.copy(deep=True)
@@ -133,16 +140,22 @@ rule all:
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
         # config['data']['spikes']['talon_config']
-        # config['data']['spikes']['ab'],
-        # config['data']['spikes']['gene_ab'],
-        # config['data']['spikes']['filt_ab'],
-        # config['data']['spikes']['filt_gtf'],
-        expand(expand(config['procap']['bed'],
-               zip,
-               procap_dataset=procap_meta.dataset.unique().tolist(),
-               allow_missing=True),
-               species='human',
-               output_type=['bidirectional_peaks', 'unidirectional_peaks'])
+        config['data']['spikes']['ab'],
+        config['data']['spikes']['gene_ab'],
+        config['data']['spikes']['filt_ab'],
+        config['data']['spikes']['filt_gtf'],
+        # expand(expand(config['procap']['bed'],
+        #        zip,
+        #        procap_dataset=procap_meta.dataset.unique().tolist(),
+        #        allow_missing=True),
+        #        species='human',
+        #        output_type=['bidirectional_peaks', 'unidirectional_peaks']),
+        # expand(config['procap']['format_uni_bed'],
+        #        procap_dataset=procap_meta.dataset.unique().tolist(),
+        #        species='human',
+        #        output_type='unidirectional_peaks')
+        # expand(config['data']['ca_plus'],
+        #        species='human')
 
 rule dl:
     resources:
@@ -680,6 +693,102 @@ use rule gunzip as gz_procap with:
     output:
         out = config['procap']['bed']
 
+rule reformat_procap_uni:
+    input:
+        bed = config['procap']['bed']
+    resources:
+        mem_gb = 10,
+        threads = 1
+    output:
+        bed = config['procap']['format_uni_bed']
+    run:
+        df = pd.read_csv(input.bed, sep='\t',
+                         header=None,
+                         names=['Chromosome', 'Start',
+                                'End', 'idk1', 'idk2',
+                                'Strand'], usecols=[i for i in range(6)])
+        df.drop(['idk1', 'idk2'], axis=1, inplace=True)
+        pr.PyRanges(df).to_bed(output.bed)
+
+################################################################################
+############################## LRGASP CAGE #####################################
+################################################################################
+def get_col_from_dataset(dataset, meta, col):
+    return meta.loc[meta.dataset==dataset, col].values[0]
+
+use rule dl as dl_lrgasp_cage with:
+    params:
+        link = lambda w:get_col_from_dataset(w.lrgasp_cage_dataset,
+                                             lrgasp_cage_meta,
+                                             'link')
+    output:
+        out = config['lrgasp_cage']['bed_gz']
+
+use rule gunzip as gz_lrgasp_cage with:
+    input:
+        gz = config['lrgasp_cage']['bed_gz']
+    output:
+        out = config['lrgasp_cage']['bed']
+
+################################################################################
+########################### Adding adtl support ################################
+################################################################################
+
+def get_tss_ca_add_settings(wc, how):
+    """
+    Get files or sources for additional tss support
+
+    Parameters:
+        how (str): {'file', 'source'}
+    """
+
+    files = []
+    sources = []
+
+    # procap bidirectional
+    files += expand(config['procap']['bed'],
+                    procap_dataset=procap_meta.dataset.unique().tolist(),
+                    species=wc.species,
+                    output_type='bidirectional_peaks')
+    sources += [d+'_bi_procap' for d in procap_meta.dataset.unique().tolist()]
+
+    # procap unidirectional
+    files += expand(config['procap']['format_uni_bed'],
+                    procap_dataset=procap_meta.dataset.unique().tolist(),
+                    species=wc.species,
+                    output_type='unidirectional_peaks')
+    sources += [d+'_uni_procap' for d in procap_meta.dataset.unique().tolist()]
+
+    # lrgasp cage
+    files += expand(config['lrgasp_cage']['bed'],
+                    lrgasp_cage_dataset=lrgasp_cage_meta.dataset.unique().tolist(),
+                    species=wc.species)
+    sources += [d+'_lrgasp_cage' for d in lrgasp_cage_meta.dataset.unique().tolist()]
+
+    if how == 'file':
+        return files
+    elif how == 'source':
+        return sources
+
+rule add_tss_to_ca:
+    input:
+        files = lambda w:get_tss_ca_add_settings(w,'file'),
+        h5 = config['data']['cerb_annot']
+    params:
+        sources = lambda w:get_tss_ca_add_settings(w,'source'),
+        slack = 20,
+        ref = False,
+        add_ends = False
+    output:
+        h5 = config['data']['ca_plus']
+    run:
+        ca = cerberus.read(input.h5)
+        refs = False
+        add_ends = False
+        for bed, source in zip(input.files, params.sources):
+            ca.add_bed(bed, False, False, source, 'tss', slack=20)
+        ca.write(output.h5)
+
 ################################################################################
 ############################## Diane's stuff ###################################
 ################################################################################
@@ -1163,7 +1272,7 @@ rule tc:
     shell:
         """
         python {params.tc}TranscriptClean.py \
-            -sam {input.align} \
+            --sam {input.align} \
             --genome {input.fa} \
             --spliceJns {input.sjs} \
             --maxLenIndel 5 \
@@ -1416,12 +1525,14 @@ rule get_spike_reads:
         threads = 8
     output:
         sorted_bam = temporary(config['data']['minimap']['bam_sorted']),
-        bam = config['data']['spikes']['bam']
+        bam = temporary(config['data']['spikes']['bam']),
+        sam = temporary(config['data']['spikes']['sam'])
     shell:
         """
         samtools sort {input.bam} > {output.sorted_bam}
         samtools index {output.sorted_bam}
         samtools view -bh --regions-file {input.spike_bed} {output.sorted_bam} > {output.bam}
+        samtools view -h {output.bam} > {output.sam}
         """
 
 use rule tc_sjs as tc_sjs_spike with:
@@ -1433,12 +1544,12 @@ use rule tc_sjs as tc_sjs_spike with:
 
 use rule tc as tc_spike with:
     input:
-        align = config['data']['spikes']['bam'],
+        align = config['data']['spikes']['sam'],
         fa = config['ref']['spikes']['spike_fa'],
         sjs = config['ref']['spikes']['sjs']
     params:
         tc = config['tc_path'],
-        opref = config['data']['spikes']['sam_clean'].rsplit('_clean.sam', maxsplit=1)[0]
+        opref = config['data']['spikes']['sam_clean'].split('_clean.sam', maxsplit=1)[0]
     output:
         sam = temporary(config['data']['spikes']['sam_clean'])
 

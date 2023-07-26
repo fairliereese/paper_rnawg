@@ -1,3 +1,5 @@
+*bed
+*.h5
 *tsv.gz
 *gtf.gz
 *pdf

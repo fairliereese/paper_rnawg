@@ -44,6 +44,10 @@ fantom:
   # download link: https://fantom.gsc.riken.jp/5/datafiles/latest/extra/CAGE_peaks/mm9.cage_peak_phase1and2combined_coord.bed.gz
 
 lrgasp_cage:
+    meta: data/{species}/lrgasp_cage/metadata.tsv
+
+    bed_gz: data/{species}/lrgasp_cage/{lrgasp_cage_dataset}.bed.gz
+    bed: data/{species}/lrgasp_cage/{lrgasp_cage_dataset}.bed
   # geo accession https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE185917
 
 cage:
@@ -56,6 +60,9 @@ procap:
 
     bed_gz: data/{species}/procap/{procap_dataset}_{output_type}.bed.gz
     bed: data/{species}/procap/{procap_dataset}_{output_type}.bed
+
+    format_uni_bed: data/{species}/procap/{procap_dataset}_{output_type}_reformat.bed
+
 
 data:
   label_bam: data/{species}/label_bam/{dataset}.bam
@@ -77,6 +84,7 @@ data:
   cerb_gtf_gz: data/{species}/cerberus.gtf.gz
   cerb_gtf: data/{species}/cerberus.gtf
   cerb_annot: data/{species}/cerberus_annot.h5
+  ca_plus: data/{species}/cerberus_annot_plus.h5
   t_info: data/{species}/cerberus_t_metadata.tsv
   meta: ref/{species}/lr_{species}_library_data_summary.tsv
   sg: data/{species}/swan_graph.p
@@ -130,6 +138,7 @@ data:
     summary: data/{species}/protein_pred/{species}_summary.tsv
   spikes:
     bam: data/{species}/spike/{dataset}.bam
+    sam: data/{species}/spike/{dataset}.sam
     sam_clean: data/{species}/spike/tc/{dataset}_clean.sam
 
     sam_label: data/{species}/spike/label/{dataset}_labeled.sam

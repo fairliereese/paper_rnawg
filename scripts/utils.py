@@ -3950,6 +3950,8 @@ def get_lib_meta_from_enc_meta(meta_file,
 
     df2 = pd.read_csv(meta_file, sep='\t')
     df2 = df2[['File accession', 'Experiment accession', 'Output type']]
+    df2 = convert_encode_desc(df2, 'Output type')
+
 
     df2 = df2[['Experiment accession',
                'File accession',

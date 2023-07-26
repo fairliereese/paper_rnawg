@@ -143,17 +143,26 @@ data:
 
     sam_label: data/{species}/spike/label/{dataset}_labeled.sam
     bam_label: data/{species}/spike/label/{dataset}_labeled.bam
-    talon_config: data/spike/talon/talon_config.csv
 
+    # talon
+    talon_config: data/spike/talon/talon_config.csv
     talon_db: data/spike/talon/annot_talon.db
     read_annot: data/spike/talon/annot_talon_read_annot.tsv
-
     filt_list: data/spike/talon/talon_pass_list.tsv
     filt_gtf: data/spike/talon/annot_talon_observedOnly.gtf
-
     ab: data/spike/talon/annot_talon_abundance.tsv
     gene_ab: data/spike/talon/annot_talon_gene_abundance.tsv
     filt_ab: data/spike/talon/annot_talon_abundance_filtered.tsv
+
+    # lapa
+    lapa_config: data/spike/lapa/lapa_config.csv
+    lapa_ends: data/spike/lapa/{end_mode}/{end_mode}_clusters.bed
+    lapa_links: data/spike/lapa/tss_to_tes_links.csv
+    lapa_gtf: data/spike/lapa/lapa_corrected.gtf
+    lapa_ab: data/spike/lapa/lapa_corrected_abundance.tsv
+
+
+
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/
 
@@ -181,7 +190,6 @@ ref:
     sirv_gtf: ref/spikes/sirv4.gtf
     sirv_fa_gz: ref/spikes/sirv4.fa.gz
     sirv_fa: ref/spikes/sirv4.fa
-
     ercc_fa_gz: ref/spikes/ercc.fa.gz
     ercc_fa: ref/spikes/ercc.fa
     ercc_gtf: ref/spikes/ercc.gtf
@@ -189,8 +197,7 @@ ref:
     spike_gtf: ref/spikes/spikes.gtf
     spike_fa: ref/spikes/spikes.fa
     sjs: ref/spikes/spikes_sjs.tsv
-
     chrom_sizes: ref/spikes/chrom_sizes.fa
-    chrom_bed: ref/spikes/chroms.bed
 
+    chrom_bed: ref/spikes/chroms.bed
     talon_db: ref/spikes/talon/ref.db

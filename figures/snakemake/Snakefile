@@ -139,21 +139,7 @@ rule all:
         #        event=['AF', 'AL'])
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
-        # config['data']['spikes']['talon_config']
-        config['data']['spikes']['ab'],
-        config['data']['spikes']['gene_ab'],
-        config['data']['spikes']['filt_ab'],
-        config['data']['spikes']['filt_gtf'],
-        # expand(expand(config['procap']['bed'],
-        #        zip,
-        #        procap_dataset=procap_meta.dataset.unique().tolist(),
-        #        allow_missing=True),
-        #        species='human',
-        #        output_type=['bidirectional_peaks', 'unidirectional_peaks']),
-        # expand(config['procap']['format_uni_bed'],
-        #        procap_dataset=procap_meta.dataset.unique().tolist(),
-        #        species='human',
-        #        output_type='unidirectional_peaks')
+        config['data']['spikes']['lapa_ab']
         # expand(config['data']['ca_plus'],
         #        species='human')
 
@@ -1279,6 +1265,8 @@ rule tc:
             --maxSJOffset 5 \
             -m true \
             -i true \
+            --deleteTmp \
+            --tmpDir {params.opref}_temp/ \
             --correctSJs true \
             --primaryOnly \
             --outprefix {params.opref} \
@@ -1333,8 +1321,8 @@ rule talon_config:
         df['dataset'] = df.file_base.str.rsplit('.bam', n=1, expand=True)[0]
 
         # get species from path and append to sample / dataset
-        df['species'] = np.nan()
-        df.loc[config.df.str.contains('human'), 'species'] = 'human'
+        df['species'] = np.nan
+        df.loc[df.file.str.contains('human'), 'species'] = 'human'
         df.loc[df.file.str.contains('mouse'), 'species'] = 'mouse'
         df['dataset'] = df['dataset']+'_'+df['species']
         df['sample'] = df['dataset']
@@ -1498,6 +1486,166 @@ rule talon_gene_counts:
         get_gene_counts_matrix(input.ab, output.gene_ab)
 
 ################################################################################
+################################# LAPA #########################################
+################################################################################
+def get_lapa_settings(wc, lapa_ends, kind):
+    lapa_ends = expand(lapa_ends,
+                       zip,
+                       end_mode=wc.end_mode)[0]
+    if kind == 'temp_file':
+        temp = os.path.dirname(lapa_ends)+'/'
+        if wc.end_mode == 'tes':
+            temp += 'polyA_clusters.bed'
+        elif wc.end_mode == 'tss':
+            temp += 'tss_clusters.bed'
+        return temp
+    elif kind == 'lapa_cmd':
+        if wc.end_mode == 'tes':
+            return 'lapa'
+        elif wc.end_mode == 'tss':
+            return 'lapa_tss'
+
+# def get_study_datasets(wc, dataset_df):
+#     datasets = dataset_df.loc[dataset_df.study==wc.study, 'dataset'].tolist()
+#     return datasets
+
+def get_lapa_run_info(wc, df, config_entry=None, col=False):
+    datasets = df.dataset.tolist()
+    species = df.species.tolist()
+    samples = df['sample'].tolist()
+    temp = pd.DataFrame()
+    if config_entry:
+        files = expand(config_entry,
+                       zip,
+                       species=species,
+                       dataset=datasets)
+        temp['path'] = files
+    temp['dataset'] = datasets
+    temp['sample'] = samples
+    temp = temp[['sample', 'dataset', 'path']]
+    if col:
+        return temp[col].tolist()
+    else:
+        return temp
+
+rule lapa_config:
+    resources:
+        threads = 1,
+        mem_gb = 1
+    run:
+        config = get_lapa_run_info(wildcards, params.df)
+        config = config[['sample', 'dataset']].copy(deep=True)
+        config['file'] = input.files
+        config.columns = ['sample', 'dataset', 'path']
+        config.to_csv(output.config, sep=',', index=False)
+
+rule lapa_call_ends:
+    resources:
+        threads = 4,
+        mem_gb = 32
+    shell:
+        """
+        rm -rf {params.opref}
+        {params.lapa_cmd} \
+            --alignment {input.config} \
+            --fasta {input.fa} \
+            --annotation {input.gtf} \
+            --chrom_sizes {input.chrom_sizes} \
+            --output_dir {params.opref}
+        if [ {params.lapa_end_temp} != {output.ends} ]
+        then
+            cp {params.lapa_end_temp} {output.ends}
+        fi
+        """
+
+rule lapa_link:
+    resources:
+        threads = 1,
+        mem_gb = 256
+    shell:
+        """
+        lapa_link_tss_to_tes \
+            --alignment {input.annot} \
+            --lapa_dir {params.tes_dir} \
+            --lapa_tss_dir {params.tss_dir} \
+            --output {output.links}
+        """
+
+rule lapa_correct_talon:
+    resources:
+        threads = 1,
+        mem_gb = 64
+    shell:
+        """
+        lapa_correct_talon \
+                --links {input.links} \
+                --read_annot {input.annot} \
+                --gtf_input {input.gtf} \
+                --gtf_output {output.gtf} \
+                --abundance_input {input.ab} \
+                --abundance_output {output.ab} \
+                --keep_unsupported
+        """
+
+# rule filt_lapa:
+#     input:
+#         ab = config['data']['lapa_ab'],
+#         gtf = config['data']['lapa_gtf']
+#     resources:
+#         threads = 1,
+#         mem_gb = 32
+#     params:
+#         t_novs = ['Known', 'NIC', 'NNC', 'ISM_rescue'],
+#         g_novs = ['Known'],
+#         filt_spikes = True
+#     output:
+#         filt_list = config['data']['lapa_filt_list']
+#     run:
+#         # filter based on novelty after defining
+#         # rescue ISMS
+#         df = ab_add_rescue_ism_cat(input.ab)
+#         filt_df = filter_lapa_on_nov(df,
+#                                      params.t_novs,
+#                                      params.g_novs)
+#
+#         # filter out spike-ins
+#         if params.filt_spikes:
+#             temp = filter_spikes(input.gtf)
+#             filt_df = filt_df.merge(temp, how='inner')
+#
+#         filt_df.to_csv(output.filt_list, index=False, sep='\t')
+#
+# rule filt_lapa_ab:
+#     input:
+#         ab = config['data']['lapa_ab'],
+#         filt_list = config['data']['lapa_filt_list']
+#     resources:
+#         threads = 4,
+#         mem_gb = 32
+#     output:
+#         ab = config['data']['lapa_filt_ab']
+#     run:
+#         df = filt_lapa_ab(input.ab,
+#                           input.filt_list)
+#         df.to_csv(output.ab, sep='\t', index=False)
+#
+# rule filt_lapa_gtf:
+#     input:
+#         gtf = config['data']['lapa_gtf'],
+#         filt_list = config['data']['lapa_filt_list']
+#     resources:
+#         threads = 4,
+#         mem_gb = 32
+#     output:
+#         gtf = config['data']['lapa_filt_gtf']
+#     run:
+#         gtf = filt_lapa_gtf(input.gtf,
+#                             input.filt_list)
+#         gtf.to_gtf(output.gtf)
+
+
+
+################################################################################
 ############################## Spike data proc #################################
 ################################################################################
 use rule minimap2 as map_spikes with:
@@ -1525,7 +1673,7 @@ rule get_spike_reads:
         threads = 8
     output:
         sorted_bam = temporary(config['data']['minimap']['bam_sorted']),
-        bam = temporary(config['data']['spikes']['bam']),
+        bam = config['data']['spikes']['bam'],
         sam = temporary(config['data']['spikes']['sam'])
     shell:
         """
@@ -1551,7 +1699,9 @@ use rule tc as tc_spike with:
         tc = config['tc_path'],
         opref = config['data']['spikes']['sam_clean'].split('_clean.sam', maxsplit=1)[0]
     output:
-        sam = temporary(config['data']['spikes']['sam_clean'])
+        # sam = temporary(config['data']['spikes']['sam_clean'])
+        sam = config['data']['spikes']['sam_clean']
+
 
 use rule talon_label as talon_label_spike with:
         input:
@@ -1568,3 +1718,45 @@ use rule sam_to_bam as sb_label_spikes with:
         sam = config['data']['spikes']['sam_label']
     output:
         bam = config['data']['spikes']['bam_label']
+
+use rule lapa_config as spike_lapa_config with:
+    input:
+        files = lambda wc: get_lapa_run_info(wc, meta_df, config['data']['spikes']['bam_label'], 'path')
+    params:
+        df = meta_df
+    output:
+        config = config['data']['spikes']['lapa_config']
+
+use rule lapa_call_ends as spike_lapa_call_ends with:
+    input:
+        config = config['data']['spikes']['lapa_config'],
+        fa = config['ref']['spikes']['spike_fa'],
+        gtf = config['ref']['spikes']['spike_gtf'],
+        chrom_sizes = config['ref']['spikes']['chrom_sizes']
+    params:
+        opref = config['data']['spikes']['lapa_ends'].rsplit('/', maxsplit=1)[0]+'/',
+        lapa_cmd = lambda wc: get_lapa_settings(wc, config['data']['spikes']['lapa_ends'], 'lapa_cmd'),
+        lapa_end_temp = lambda wc: get_lapa_settings(wc, config['data']['spikes']['lapa_ends'], 'temp_file'),
+    output:
+        ends = config['data']['spikes']['lapa_ends']
+
+use rule lapa_link as spike_lapa_link with:
+    input:
+        annot = config['data']['spikes']['read_annot'],
+        tss = expand(config['data']['spikes']['lapa_ends'], end_mode='tss', allow_missing=True)[0],
+        tes = expand(config['data']['spikes']['lapa_ends'], end_mode='tes', allow_missing=True)[0]
+    params:
+        tss_dir = expand(config['data']['spikes']['lapa_ends'], end_mode='tss', allow_missing=True)[0].rsplit('/', maxsplit=1)[0]+'/',
+        tes_dir = expand(config['data']['spikes']['lapa_ends'], end_mode='tes', allow_missing=True)[0].rsplit('/', maxsplit=1)[0]+'/'
+    output:
+        links = config['data']['spikes']['lapa_links']
+
+use rule lapa_correct_talon as spike_lapa_correct_talon with:
+    input:
+        gtf = config['data']['spikes']['filt_gtf'],
+        ab = config['data']['spikes']['filt_ab'],
+        annot = config['data']['spikes']['read_annot'],
+        links = config['data']['spikes']['lapa_links']
+    output:
+        gtf = config['data']['spikes']['lapa_gtf'],
+        ab = config['data']['spikes']['lapa_ab']

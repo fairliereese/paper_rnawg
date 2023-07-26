@@ -1753,6 +1753,7 @@ use rule lapa_call_ends as spike_lapa_call_ends with:
         opref = config['data']['spikes']['lapa_ends'].rsplit('/', maxsplit=1)[0]+'/',
         lapa_cmd = lambda wc: get_lapa_settings(wc, config['data']['spikes']['lapa_ends'], 'lapa_cmd'),
         lapa_end_temp = lambda wc: get_lapa_settings(wc, config['data']['spikes']['lapa_ends'], 'temp_file'),
+        require_utr = False
     output:
         ends = config['data']['spikes']['lapa_ends']
 

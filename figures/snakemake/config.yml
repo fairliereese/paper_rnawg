@@ -143,6 +143,8 @@ data:
 
     sam_label: data/{species}/spike/label/{dataset}_labeled.sam
     bam_label: data/{species}/spike/label/{dataset}_labeled.bam
+    bam_label_sorted: data/{species}/spike/label/{dataset}_labeled_sorted.bam
+    bam_label_index: data/{species}/spike/label/{dataset}_labeled_sorted.bam.bai
 
     # talon
     talon_config: data/spike/talon/talon_config.csv

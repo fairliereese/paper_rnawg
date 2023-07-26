@@ -288,6 +288,15 @@ rule sam_to_bam:
         """
         samtools view -Sb {input.sam} > {output.bam}
         """
+rule index_bam:
+    resources:
+        threads = 16,
+        mem_gb = 32
+    shell:
+        """
+        samtools sort {input.bam} > {output.sorted_bam}
+        samtools index {output.sorted_bam}
+        """
 
 rule minimap2:
     resources:
@@ -1518,7 +1527,7 @@ def get_lapa_run_info(wc, df, config_entry=None, col=False):
         temp['path'] = files
     temp['dataset'] = datasets
     temp['sample'] = samples
-    temp = temp[['sample', 'dataset', 'path']]
+    # temp = temp[['sample', 'dataset']]
     if col:
         return temp[col].tolist()
     else:
@@ -1529,9 +1538,9 @@ rule lapa_config:
         threads = 1,
         mem_gb = 1
     run:
-        config = get_lapa_run_info(wildcards, params.df)
+        config = get_lapa_run_info(wildcards, params.df) # todo
         config = config[['sample', 'dataset']].copy(deep=True)
-        config['file'] = input.files
+        config['path'] = input.files
         config.columns = ['sample', 'dataset', 'path']
         config.to_csv(output.config, sep=',', index=False)
 
@@ -1547,6 +1556,7 @@ rule lapa_call_ends:
             --fasta {input.fa} \
             --annotation {input.gtf} \
             --chrom_sizes {input.chrom_sizes} \
+            --require_utr {params.require_utr} \
             --output_dir {params.opref}
         if [ {params.lapa_end_temp} != {output.ends} ]
         then
@@ -1715,9 +1725,17 @@ use rule sam_to_bam as sb_label_spikes with:
     output:
         bam = config['data']['spikes']['bam_label']
 
+use rule index_bam as spike_index_bam with:
+    input:
+        bam = config['data']['spikes']['bam_label']
+    output:
+        sorted_bam = temporary(config['data']['spikes']['bam_label_sorted']),
+        bam_ind = config['data']['spikes']['bam_label_index']
+
 use rule lapa_config as spike_lapa_config with:
     input:
-        files = lambda wc: get_lapa_run_info(wc, meta_df, config['data']['spikes']['bam_label'], 'path')
+        files = lambda wc: get_lapa_run_info(wc, meta_df, config['data']['spikes']['bam_label_sorted'], 'path'),
+        inds = lambda wc: get_lapa_run_info(wc, meta_df, config['data']['spikes']['bam_label_index'], 'path'),
     params:
         df = meta_df
     output:
@@ -1728,7 +1746,9 @@ use rule lapa_call_ends as spike_lapa_call_ends with:
         config = config['data']['spikes']['lapa_config'],
         fa = config['ref']['spikes']['spike_fa'],
         gtf = config['ref']['spikes']['spike_gtf'],
-        chrom_sizes = config['ref']['spikes']['chrom_sizes']
+        chrom_sizes = config['ref']['spikes']['chrom_sizes'],
+        files = lambda wc: get_lapa_run_info(wc, meta_df, config['data']['spikes']['bam_label_sorted'], 'path'),
+        inds = lambda wc: get_lapa_run_info(wc, meta_df, config['data']['spikes']['bam_label_index'], 'path')
     params:
         opref = config['data']['spikes']['lapa_ends'].rsplit('/', maxsplit=1)[0]+'/',
         lapa_cmd = lambda wc: get_lapa_settings(wc, config['data']['spikes']['lapa_ends'], 'lapa_cmd'),

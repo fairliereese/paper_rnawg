@@ -139,7 +139,8 @@ rule all:
         #        event=['AF', 'AL'])
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
-        config['data']['spikes']['lapa_ab']
+        config['data']['spikes']['lapa_filt_ab'],
+        config['data']['spikes']['lapa_filt_gtf']
         # expand(config['data']['ca_plus'],
         #        species='human')
 
@@ -1556,7 +1557,6 @@ rule lapa_call_ends:
             --fasta {input.fa} \
             --annotation {input.gtf} \
             --chrom_sizes {input.chrom_sizes} \
-            --require_utr {params.require_utr} \
             --output_dir {params.opref}
         if [ {params.lapa_end_temp} != {output.ends} ]
         then
@@ -1593,63 +1593,88 @@ rule lapa_correct_talon:
                 --keep_unsupported
         """
 
-# rule filt_lapa:
-#     input:
-#         ab = config['data']['lapa_ab'],
-#         gtf = config['data']['lapa_gtf']
-#     resources:
-#         threads = 1,
-#         mem_gb = 32
-#     params:
-#         t_novs = ['Known', 'NIC', 'NNC', 'ISM_rescue'],
-#         g_novs = ['Known'],
-#         filt_spikes = True
-#     output:
-#         filt_list = config['data']['lapa_filt_list']
-#     run:
-#         # filter based on novelty after defining
-#         # rescue ISMS
-#         df = ab_add_rescue_ism_cat(input.ab)
-#         filt_df = filter_lapa_on_nov(df,
-#                                      params.t_novs,
-#                                      params.g_novs)
-#
-#         # filter out spike-ins
-#         if params.filt_spikes:
-#             temp = filter_spikes(input.gtf)
-#             filt_df = filt_df.merge(temp, how='inner')
-#
-#         filt_df.to_csv(output.filt_list, index=False, sep='\t')
-#
-# rule filt_lapa_ab:
-#     input:
-#         ab = config['data']['lapa_ab'],
-#         filt_list = config['data']['lapa_filt_list']
-#     resources:
-#         threads = 4,
-#         mem_gb = 32
-#     output:
-#         ab = config['data']['lapa_filt_ab']
-#     run:
-#         df = filt_lapa_ab(input.ab,
-#                           input.filt_list)
-#         df.to_csv(output.ab, sep='\t', index=False)
-#
-# rule filt_lapa_gtf:
-#     input:
-#         gtf = config['data']['lapa_gtf'],
-#         filt_list = config['data']['lapa_filt_list']
-#     resources:
-#         threads = 4,
-#         mem_gb = 32
-#     output:
-#         gtf = config['data']['lapa_filt_gtf']
-#     run:
-#         gtf = filt_lapa_gtf(input.gtf,
-#                             input.filt_list)
-#         gtf.to_gtf(output.gtf)
+# update lapa gtf w/ novelty category "ISM_rescue"
+rule update_lapa_gtf:
+    resources:
+        mem_gb = 64,
+        threads = 1
+    run:
+        gtf = pr.read_gtf(input.lapa_gtf, as_df=True)
+        gtf.loc[(gtf.transcript_id.str.contains('#'))&(gtf.ISM_transcript=='TRUE'),
+                 'transcript_novelty'] = 'ISM_rescue'
+        gtf = pr.PyRanges(gtf)
+        gtf.to_gtf(output.nov_gtf)
 
+# update lapa abundance file w/ novelty category "ISM_rescue"
+rule update_lapa_ab:
+    resources:
+        mem_gb = 64,
+        threads = 1
+    run:
+        df = pd.read_csv(input.lapa_ab, sep='\t')
+        df.loc[(df.annot_transcript_id.str.contains('#'))&(df.transcript_novelty=='ISM'), 'transcript_novelty'] = 'ISM_rescue'
+        df.to_csv(output.nov_ab, sep='\t', index=False)
 
+def filter_lapa(ab, novs):
+    df = pd.read_csv(ab, sep='\t')
+    # novs = ['Known', 'NIC', 'NNC', 'ISM_rescue']
+    df = df.loc[df.transcript_novelty.isin(novs)]
+    df = df.loc[df.gene_novelty == 'Known']
+    tids = df.annot_transcript_id.tolist()
+    return tids
+
+def filter_no_t_genes(df):
+    gids = df.loc[df.Feature == 'transcript', 'gene_id'].unique().tolist()
+    df = df.loc[df.gene_id.isin(gids)]
+    return df
+
+def filter_spikes(df):
+    df = df.loc[~df.Chromosome.str.contains('SIRV')]
+    df = df.loc[~df.Chromosome.str.contains('ERCC')]
+
+    return df
+
+def filter_novel_genes(df):
+    df = df.loc[df.gene_novelty=='Known']
+    return df
+
+# create abundance file only with novelty categories we want
+rule filter_lapa_ab:
+    params:
+        novs = ['Known', 'NIC', 'NNC', 'ISM_rescue']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    run:
+        tids = filter_lapa(input.nov_ab, params.novs)
+        df = pd.read_csv(input.nov_ab, sep='\t')
+        df = df.loc[df.annot_transcript_id.isin(tids)]
+        df.to_csv(output.filt_ab, sep='\t', index=False)
+
+# create gtf only with novelty categories we want
+# and remove sirv / ercc
+rule filter_lapa_gtf:
+    params:
+        filter_spikes = True,
+        novs = ['Known', 'NIC', 'NNC', 'ISM_rescue']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    run:
+        # remove novelty categories we don't want
+        tids = filter_lapa(input.nov_ab, novs)
+        gtf = pr.read_gtf(input.nov_gtf).df
+        gtf = gtf.loc[(gtf.transcript_id.isin(tids))|(gtf.Feature=='gene')]
+
+        # remove sirvs / erccs
+        if params.filter_spikes:
+            gtf = filter_spikes(gtf)
+
+        # remove genes with no transcripts
+        gtf = filter_no_t_genes(gtf)
+
+        gtf = pr.PyRanges(gtf)
+        gtf.to_gtf(output.filt_gtf)
 
 ################################################################################
 ############################## Spike data proc #################################
@@ -1752,8 +1777,7 @@ use rule lapa_call_ends as spike_lapa_call_ends with:
     params:
         opref = config['data']['spikes']['lapa_ends'].rsplit('/', maxsplit=1)[0]+'/',
         lapa_cmd = lambda wc: get_lapa_settings(wc, config['data']['spikes']['lapa_ends'], 'lapa_cmd'),
-        lapa_end_temp = lambda wc: get_lapa_settings(wc, config['data']['spikes']['lapa_ends'], 'temp_file'),
-        require_utr = False
+        lapa_end_temp = lambda wc: get_lapa_settings(wc, config['data']['spikes']['lapa_ends'], 'temp_file')
     output:
         ends = config['data']['spikes']['lapa_ends']
 
@@ -1777,3 +1801,31 @@ use rule lapa_correct_talon as spike_lapa_correct_talon with:
     output:
         gtf = config['data']['spikes']['lapa_gtf'],
         ab = config['data']['spikes']['lapa_ab']
+
+use rule update_lapa_gtf as spike_update_lapa_gtf with:
+    input:
+        lapa_gtf = config['data']['spikes']['gtf']
+    output:
+        nov_gtf = config['data']['spikes']['lapa_nov_gtf']
+
+use rule update_lapa_ab as spike_update_lapa_ab with:
+    input:
+        lapa_ab = config['data']['spikes']['lapa_ab']
+    output:
+        nov_ab = config['data']['spikes']['nov_ab']
+
+use rule filter_lapa_ab as spike_filter_lapa_ab with:
+    input:
+        nov_ab = config['data']['spikes']['lapa_nov_ab']
+    output:
+        filt_ab = config['data']['spikes']['lapa_filt_ab']
+
+use rule filter_lapa_gtf as spike_filter_lapa_gtf with:
+    input:
+        nov_gtf = config['spikes']['lapa']['lapa_nov_gtf'],
+        nov_ab = config['spikes']['lapa']['lapa_nov_ab']
+    params:
+        filter_spikes = False,
+        novs = ['Known', 'NIC', 'NNC', 'ISM_rescue']
+    output:
+        filt_gtf = config['spikes']['lapa']['lapa_filt_gtf']

@@ -163,7 +163,11 @@ data:
     lapa_gtf: data/spike/lapa/lapa_corrected.gtf
     lapa_ab: data/spike/lapa/lapa_corrected_abundance.tsv
 
-
+    # lapa filtering
+    lapa_nov_gtf: data/spike/lapa/lapa_nov.gtf
+    lapa_nov_ab: data/spike/lapa/lapa_nov_ab.tsv
+    lapa_filt_ab: data/spike/lapa/lapa_filt_ab.tsv
+    lapa_filt_gtf: data/spike/lapa/lapa_filt.gtf
 
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/

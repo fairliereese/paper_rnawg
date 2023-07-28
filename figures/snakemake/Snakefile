@@ -12,7 +12,11 @@ from scripts.utils import *
 from scripts.plotting import *
 from scripts.mane_utils import *
 
-include: cerberus.smk
+include: 'cerberus.smk'
+
+cerb_tsv = 'cerberus.tsv' # gtf_to_bed and agg_ends settings
+cerb_settings = pd.read_csv(cerb_tsv, sep='\t')
+
 
 warnings.filterwarnings('ignore')
 
@@ -1893,7 +1897,7 @@ use rule cerb_gtf_to_ics as spike_cerb_gtf_to_ics with:
 
 use rule cerb_gtf_to_bed as ref_spike_cerb_gtf_to_bed with:
     input:
-        gtf = config['ref']['spikes']['lapa_filt_gtf']
+        gtf = config['ref']['spikes']['spike_gtf']
     output:
         ends = config['ref']['spikes']['ends']
     params:
@@ -1969,8 +1973,8 @@ use rule cerb_write_ref as spike_cerb_write_ref with:
                      end_mode='tss'),
         tes = expand(config['data']['spikes']['agg_ends'],
                      end_mode='tes')[0]
-     output:
-         h5 = config['data']['spikes']['ca_ref']
+    output:
+        h5 = config['data']['spikes']['ca_ref']
 
 use rule cerb_annot as ref_cerb_annot with:
     input:
@@ -1987,7 +1991,7 @@ use rule cerb_annot as spike_lapa_annot with:
         h5 = config['data']['spikes']['ca_ref_annot'],
         gtf = config['data']['spikes']['lapa_filt_gtf']
     params:
-        source = 'lapa'
+        source = 'lapa',
         gene_source = 'spike_ref'
     output:
         h5 = config['data']['spikes']['ca_annot']

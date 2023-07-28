@@ -12,6 +12,8 @@ from scripts.utils import *
 from scripts.plotting import *
 from scripts.mane_utils import *
 
+include: cerberus.smk
+
 warnings.filterwarnings('ignore')
 
 configfile: 'snakemake/config.yml'
@@ -143,7 +145,10 @@ rule all:
         # config['data']['spikes']['lapa_filt_gtf']
         # expand(config['data']['ca_plus'],
         #        species='human')
-        expand(config['intropolis']['bed'], species='human')
+        # expand(config['intropolis']['bed'], species='human')
+        config['ref']['spikes']['ca_ref_gtf'],
+        config['data']['spikes']['ca_gtf'],
+        config['data']['spikes']['ca_ab']
 
 rule dl:
     resources:
@@ -714,13 +719,31 @@ use rule dl as dl_intropolis with:
     params:
         link = config['intropolis']['link']
     output:
-        out = config['intropolis']['bed_gz']
+        out = config['intropolis']['tab_gz']
 
 use rule gunzip as gz_intrpolis with:
     input:
-        gz = config['intropolis']['bed_gz']
+        gz = config['intropolis']['tab_gz']
     output:
-        out = config['intropolis']['bed']
+        out = config['intropolis']['tab']
+
+rule format_intropolis:
+    input:
+        tab = config['intropolis']['tab']
+    resources:
+        mem_gb = 32,
+        threads = 2
+    output:
+        bed = config['intropolis']['bed']
+    run:
+        df = pd.read_csv(input.tab,
+                         header=None,
+                         usecols=[0,1,2,3],
+                         names=['Chromosome', 'Start',
+                                'End', 'Strand'],
+                         sep='\t')
+        df = pr.PyRanges(df)
+        df.to_bed(output.bed)
 
 ################################################################################
 ############################## LRGASP CAGE #####################################
@@ -1845,3 +1868,153 @@ use rule filter_lapa_gtf as spike_filter_lapa_gtf with:
         novs = ['Known', 'NIC', 'NNC', 'ISM_rescue']
     output:
         filt_gtf = config['data']['spikes']['lapa_filt_gtf']
+
+def get_cerb_settings(wc, df, col):
+    """
+    Get Cerberus end-related settings
+    """
+    col = f'{wc.end_mode}_{col}'
+    return df[col].tolist()[0]
+
+use rule cerb_gtf_to_bed as spike_cerb_gtf_to_bed with:
+    input:
+        gtf = config['data']['spikes']['lapa_filt_gtf']
+    output:
+        ends = config['data']['spikes']['ends']
+    params:
+        slack = lambda wc:get_cerb_settings(wc, cerb_settings, 'slack'),
+        dist = lambda wc:get_cerb_settings(wc, cerb_settings, 'dist')
+
+use rule cerb_gtf_to_ics as spike_cerb_gtf_to_ics with:
+    input:
+        gtf = config['data']['spikes']['lapa_filt_gtf']
+    output:
+        ics = config['data']['spikes']['ics']
+
+use rule cerb_gtf_to_bed as ref_spike_cerb_gtf_to_bed with:
+    input:
+        gtf = config['ref']['spikes']['lapa_filt_gtf']
+    output:
+        ends = config['ref']['spikes']['ends']
+    params:
+        slack = lambda wc:get_cerb_settings(wc, cerb_settings, 'slack'),
+        dist = lambda wc:get_cerb_settings(wc, cerb_settings, 'dist')
+
+use rule cerb_gtf_to_ics as ref_spike_cerb_gtf_to_ics with:
+    input:
+        gtf = config['ref']['spikes']['spike_gtf']
+    output:
+        ics = config['ref']['spikes']['ics']
+
+def get_agg_settings(wc, param='files'):
+    settings = {}
+    files = []
+    sources = []
+
+    if 'end_mode' in wc.keys():
+        ic = False
+    else:
+        ic = True
+
+    # get reference ics / tsss / tess first
+    # first source is 'cerberus' to indicate
+    # preservation of source / novelty
+    if ic == True:
+        files += [config['ref']['spikes']['ca_ics']]
+    else:
+        files += expand(config['ref']['spikes']['ca_ends'],
+                        zip,
+                        end_mode=wc.end_mode)
+    sources += ['cerberus']
+
+    # then get the files from each study
+    # use the studies as the sources
+    if ic == True:
+        files += config['data']['spikes']['ics']
+    else:
+        files += expand(config['data']['spikes']['ends'],
+               zip,
+               end_mode=wc.end_mode)
+    sources += studies
+
+    settings['file'] = files
+    settings['source'] = sources
+
+    return settings[param]
+
+use rule cerb_agg_ends as spike_cerb_agg_ends with:
+    input:
+        files = lambda wc:get_agg_settings(wc, 'file')
+    params:
+        add_ends = True,
+        refs = False,
+        slack = lambda wc:get_cerb_settings(wc, cerb_settings, 'agg_slack'),
+        sources = lambda wc:get_agg_settings(wc, 'source')
+    output:
+        ends = config['data']['spikes']['agg_ends']
+
+use rule cerb_agg_ics as spike_cerb_agg_ics with:
+    input:
+        files = lambda wc:get_agg_settings(wc, 'file')
+    params:
+        refs = False,
+        sources = lambda wc:get_agg_settings(wc, 'source')
+    output:
+        ics = config['data']['spikes']['agg_ics']
+
+use rule cerb_write_ref as spike_cerb_write_ref with:
+    input:
+        ic = config['data']['spikes']['agg_ics'],
+        tss = expand(config['data']['spikes']['agg_ends'],
+                     end_mode='tss'),
+        tes = expand(config['data']['spikes']['agg_ends'],
+                     end_mode='tes')[0]
+     output:
+         h5 = config['data']['spikes']['ca_ref']
+
+use rule cerb_annot as ref_cerb_annot with:
+    input:
+        h5 = config['data']['spikes']['ca_ref'],
+        gtf = config['ref']['spikes']['spike_gtf']
+    params:
+        source = 'spike_ref',
+        gene_source = None
+    output:
+        h5 = config['data']['spikes']['ca_ref_annot']
+
+use rule cerb_annot as spike_lapa_annot with:
+    input:
+        h5 = config['data']['spikes']['ca_ref_annot'],
+        gtf = config['data']['spikes']['lapa_filt_gtf']
+    params:
+        source = 'lapa'
+        gene_source = 'spike_ref'
+    output:
+        h5 = config['data']['spikes']['ca_annot']
+
+use rule cerb_gtf_ids as spike_ref_cerb_gtf with:
+    input:
+        h5 = config['data']['spikes']['ca_ref_annot'],
+        gtf = config['ref']['spikes']['spike_gtf']
+    params:
+        source = 'spike_ref',
+    output:
+        gtf = config['ref']['spikes']['ca_ref_gtf']
+
+use rule cerb_gtf_ids as spike_lapa_cerb_gtf with:
+    input:
+        h5 = config['data']['spikes']['ca_annot'],
+        gtf = config['data']['spikes']['lapa_filt_gtf']
+    params:
+        source = 'lapa'
+    output:
+        gtf = config['data']['spikes']['ca_gtf']
+
+use rule cerb_ab_ids as study_cerb_ab with:
+    input:
+        h5 = config['data']['spikes']['ca_annot'],
+        ab = config['data']['spikes']['lapa_filt_ab']
+    params:
+        source = 'lapa'
+    output:
+        ab = config['data']['spikes']['ca_ab']

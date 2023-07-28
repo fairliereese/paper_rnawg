@@ -52,7 +52,8 @@ lrgasp_cage:
 
 intropolis:
   link: http://bit.ly/2cEUnHJ
-  bed_gz: data/{species}/intropolis/intropolis.bed.gz
+  tab_gz: data/{species}/intropolis/intropolis.tab.gz
+  tab: data/{species}/intropolis/intropolis.tab
   bed: data/{species}/intropolis/intropolis.bed
 
 cage:
@@ -174,6 +175,19 @@ data:
     lapa_filt_ab: data/spike/lapa/lapa_filt_ab.tsv
     lapa_filt_gtf: data/spike/lapa/lapa_filt.gtf
 
+    # cerberus
+    ics: data/spike/cerberus/ics.tsv
+    ends: data/spike/cerberus/{end_mode}.bed
+    agg_ics: data/spike/cerberus/agg_ics.tsv
+    agg_ends: data/spike/cerberus/agg_{end_mode}.bed
+    ca_ref: data/spike/cerberus/ca_ref.h5
+
+    # ceberus annot
+    ca_ref_annot: data/spike/cerberus/ca_ref_annot.h5
+    ca_annot: data/spike/cerberus/ca_annot.h5
+    ca_gtf: data/spike/cerberus/ca.gtf
+    ca_ab: data/spike/cerberus/ca_ab.tsv
+
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/
 
@@ -212,3 +226,8 @@ ref:
 
     chrom_bed: ref/spikes/chroms.bed
     talon_db: ref/spikes/talon/ref.db
+
+    # cerberus
+    ca_ref_gtf: ref/spikes/cerberus/ca_ref.gtf
+    ca_ics: ref/spikes/ca_ic.tsv
+    ca_ends: ref/spikes/ca_{end_mode}.bed

@@ -50,6 +50,11 @@ lrgasp_cage:
     bed: data/{species}/lrgasp_cage/{lrgasp_cage_dataset}.bed
   # geo accession https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE185917
 
+intropolis:
+  link: http://bit.ly/2cEUnHJ
+  bed_gz: data/{species}/intropolis/intropolis.bed.gz
+  bed: data/{species}/intropolis/intropolis.bed
+
 cage:
     meta: data/{species}/cage/metadata.tsv
 rampage:

@@ -139,10 +139,11 @@ rule all:
         #        event=['AF', 'AL'])
         # expand(config['data']['p_pred']['summary'], species=species),
         # expand(config['data']['p_pred']['blastp_6'], species=species)
-        config['data']['spikes']['lapa_filt_ab'],
-        config['data']['spikes']['lapa_filt_gtf']
+        # config['data']['spikes']['lapa_filt_ab'],
+        # config['data']['spikes']['lapa_filt_gtf']
         # expand(config['data']['ca_plus'],
         #        species='human')
+        expand(config['intropolis']['bed'], species='human')
 
 rule dl:
     resources:
@@ -705,6 +706,21 @@ rule reformat_procap_uni:
                                 'Strand'], usecols=[i for i in range(6)])
         df.drop(['idk1', 'idk2'], axis=1, inplace=True)
         pr.PyRanges(df).to_bed(output.bed)
+
+################################################################################
+############################### Intropolis #####################################
+################################################################################
+use rule dl as dl_intropolis with:
+    params:
+        link = config['intropolis']['link']
+    output:
+        out = config['intropolis']['bed_gz']
+
+use rule gunzip as gz_intrpolis with:
+    input:
+        gz = config['intropolis']['bed_gz']
+    output:
+        out = config['intropolis']['bed']
 
 ################################################################################
 ############################## LRGASP CAGE #####################################

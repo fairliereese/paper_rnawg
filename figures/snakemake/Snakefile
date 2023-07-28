@@ -1662,7 +1662,7 @@ rule filter_lapa_gtf:
         threads = 1
     run:
         # remove novelty categories we don't want
-        tids = filter_lapa(input.nov_ab, novs)
+        tids = filter_lapa(input.nov_ab, params.novs)
         gtf = pr.read_gtf(input.nov_gtf).df
         gtf = gtf.loc[(gtf.transcript_id.isin(tids))|(gtf.Feature=='gene')]
 
@@ -1804,7 +1804,7 @@ use rule lapa_correct_talon as spike_lapa_correct_talon with:
 
 use rule update_lapa_gtf as spike_update_lapa_gtf with:
     input:
-        lapa_gtf = config['data']['spikes']['gtf']
+        lapa_gtf = config['data']['spikes']['lapa_gtf']
     output:
         nov_gtf = config['data']['spikes']['lapa_nov_gtf']
 
@@ -1812,7 +1812,7 @@ use rule update_lapa_ab as spike_update_lapa_ab with:
     input:
         lapa_ab = config['data']['spikes']['lapa_ab']
     output:
-        nov_ab = config['data']['spikes']['nov_ab']
+        nov_ab = config['data']['spikes']['lapa_nov_ab']
 
 use rule filter_lapa_ab as spike_filter_lapa_ab with:
     input:
@@ -1822,10 +1822,10 @@ use rule filter_lapa_ab as spike_filter_lapa_ab with:
 
 use rule filter_lapa_gtf as spike_filter_lapa_gtf with:
     input:
-        nov_gtf = config['spikes']['lapa']['lapa_nov_gtf'],
-        nov_ab = config['spikes']['lapa']['lapa_nov_ab']
+        nov_gtf = config['data']['spikes']['lapa_nov_gtf'],
+        nov_ab = config['data']['spikes']['lapa_nov_ab']
     params:
         filter_spikes = False,
         novs = ['Known', 'NIC', 'NNC', 'ISM_rescue']
     output:
-        filt_gtf = config['spikes']['lapa']['lapa_filt_gtf']
+        filt_gtf = config['data']['spikes']['lapa_filt_gtf']

@@ -84,6 +84,7 @@ wildcard_constraints:
     dataset='|'.join([re.escape(x) for x in meta_df.dataset.tolist()]),
     procap_dataset='|'.join([re.escape(x) for x in procap_meta.dataset.tolist()]),
     output_type='|'.join([re.escape(x) for x in procap_output_types]),
+    end_mode='|'.join([re.escape(x) for x in ['tss', 'tes']])
 
 def get_col_from_meta_df(wc, col):
     temp = meta_df.copy(deep=True)
@@ -150,9 +151,10 @@ rule all:
         # expand(config['data']['ca_plus'],
         #        species='human')
         # expand(config['intropolis']['bed'], species='human')
-        config['ref']['spikes']['ca_ref_gtf'],
-        config['data']['spikes']['ca_gtf'],
-        config['data']['spikes']['ca_ab']
+        # config['ref']['spikes']['ca_ref_gtf'],
+        # config['data']['spikes']['ca_gtf'],
+        # config['data']['spikes']['ca_ab'],
+        config['ref']['phastcons100']['txt']
 
 rule dl:
     resources:
@@ -231,6 +233,18 @@ use rule gunzip as gunzip_gencode_fa with:
     gz = config['ref']['p_fa_gz']
   output:
     out = config['ref']['p_fa']
+
+use rule dl as dl_phastcons with:
+  params:
+    link = config['ref']['phastcons100']['link']
+  output:
+    out = config['ref']['phastcons100']['txt_gz']
+
+use rule gunzip as gunzip_phastcons with:
+  input:
+    gz = config['ref']['phastcons100']['txt_gz']
+  output:
+    out = config['ref']['phastcons100']['txt']
 
 rule fix_gencode_fa_headers:
     input:
@@ -1914,6 +1928,7 @@ def get_agg_settings(wc, param='files'):
     settings = {}
     files = []
     sources = []
+    refs = []
 
     if 'end_mode' in wc.keys():
         ic = False
@@ -1924,25 +1939,26 @@ def get_agg_settings(wc, param='files'):
     # first source is 'cerberus' to indicate
     # preservation of source / novelty
     if ic == True:
-        files += [config['ref']['spikes']['ca_ics']]
+        files.append(config['ref']['spikes']['ics'])
     else:
-        files += expand(config['ref']['spikes']['ca_ends'],
+        files.append(expand(config['ref']['spikes']['ends'],
                         zip,
-                        end_mode=wc.end_mode)
-    sources += ['cerberus']
+                        end_mode=wc.end_mode)[0])
+    sources += ['spike_ref']
+    refs += [True]
 
-    # then get the files from each study
-    # use the studies as the sources
     if ic == True:
-        files += config['data']['spikes']['ics']
+        files.append(config['data']['spikes']['ics'])
     else:
-        files += expand(config['data']['spikes']['ends'],
+        files.append(expand(config['data']['spikes']['ends'],
                zip,
-               end_mode=wc.end_mode)
-    sources += studies
+               end_mode=wc.end_mode)[0])
+    sources += ['lapa']
+    refs += [False]
 
     settings['file'] = files
     settings['source'] = sources
+    settings['ref'] = refs
 
     return settings[param]
 
@@ -1951,7 +1967,7 @@ use rule cerb_agg_ends as spike_cerb_agg_ends with:
         files = lambda wc:get_agg_settings(wc, 'file')
     params:
         add_ends = True,
-        refs = False,
+        refs = lambda wc:get_agg_settings(wc, 'ref'),
         slack = lambda wc:get_cerb_settings(wc, cerb_settings, 'agg_slack'),
         sources = lambda wc:get_agg_settings(wc, 'source')
     output:
@@ -1961,7 +1977,7 @@ use rule cerb_agg_ics as spike_cerb_agg_ics with:
     input:
         files = lambda wc:get_agg_settings(wc, 'file')
     params:
-        refs = False,
+        refs = lambda wc:get_agg_settings(wc, 'ref'),
         sources = lambda wc:get_agg_settings(wc, 'source')
     output:
         ics = config['data']['spikes']['agg_ics']
@@ -1970,7 +1986,7 @@ use rule cerb_write_ref as spike_cerb_write_ref with:
     input:
         ic = config['data']['spikes']['agg_ics'],
         tss = expand(config['data']['spikes']['agg_ends'],
-                     end_mode='tss'),
+                     end_mode='tss')[0],
         tes = expand(config['data']['spikes']['agg_ends'],
                      end_mode='tes')[0]
     output:
@@ -2014,7 +2030,7 @@ use rule cerb_gtf_ids as spike_lapa_cerb_gtf with:
     output:
         gtf = config['data']['spikes']['ca_gtf']
 
-use rule cerb_ab_ids as study_cerb_ab with:
+use rule cerb_ab_ids as spike_cerb_ab with:
     input:
         h5 = config['data']['spikes']['ca_annot'],
         ab = config['data']['spikes']['lapa_filt_ab']

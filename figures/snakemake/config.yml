@@ -214,6 +214,11 @@ ref:
     link: https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/phastConsElements100way.txt.gz
     txt_gz: ref/phastcons_100_elements.txt.gz
     txt: ref/phastcons_100_elements.txt
+  repeats:
+    link: http://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/rmsk.txt.gz
+    txt_gz: ref/human/rmsk.txt.gz
+    txt: ref/human/rmsk.txt
+    alu_bed: ref/human/alu.bed
 
   spikes:
     sirv_gtf_gz: ref/spikes/sirv4.gtf.gz

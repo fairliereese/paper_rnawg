@@ -27,11 +27,10 @@ rule cerb_agg_ends:
       threads = 4,
       mem_gb = 32
     run:
-        refs = [params.refs for i in range(len(input.files))]
         add_ends = [params.add_ends for i in range(len(input.files))]
-        cerberus.agg_ends(input.files,
+        cerberus.agg_ends(list(input.files),
                           add_ends,
-                          refs,
+                          params.refs,
                           params.sources,
                           wildcards.end_mode,
                           params.slack,
@@ -42,9 +41,8 @@ rule cerb_agg_ics:
     threads = 4,
     mem_gb = 32
   run:
-      refs = [params.refs for i in range(len(input.files))]
       cerberus.agg_ics(input.files,
-                        refs,
+                        params.refs,
                         params.sources,
                         output.ics)
 

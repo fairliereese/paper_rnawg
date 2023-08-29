@@ -703,7 +703,7 @@ rule get_pi_tpm:
         sg = swan.read(input.swan_file)
 
         # add biosample info in case we're using that
-        meta_df = pd.read_csv(enc_meta_file, sep='\t')
+        meta_df = pd.read_csv(input.enc_meta, sep='\t')
         meta_df = format_metadata_col(meta_df, 'Biosample term name', 'biosample')
         meta_df = meta_df[['Experiment accession', 'biosample']]
         meta_df.drop_duplicates(inplace=True)

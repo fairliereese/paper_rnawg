@@ -1393,6 +1393,8 @@ def plot_biosamp_det(df,
 
     if groupby == 'sample':
         xlabel = '# samples'
+    elif groupby == 'biosample':
+        xlabel = '# ENCODE biosamples'
     elif groupby == 'tissue':
         xlabel = '# tissues'
     elif groupby == 'cell_line':
@@ -2889,6 +2891,7 @@ def plot_gene_det_by_biotype_tpm(df,
                 add_n_2(rects, n)
                 print(b)
                 print(curr_y)
+                print(det_df.loc[(det_df.biotype_category == b)&(det_df.tpm_thresh==c), ['obs_counts', 'annot_counts']])
                 print()
             y = y+curr_y
 
@@ -5155,6 +5158,7 @@ def human_v_mouse_sectors(h_h5, m_h5, h_source, m_source,
     df = df.loc[~(df.sector_human.isnull())&~(df.sector_mouse.isnull())]
 
     # count up instances of each sector pair
+    df_back = df.copy(deep=True)
     df = df[['Gene stable ID', 'sector_human', 'sector_mouse']].groupby(['sector_human', 'sector_mouse']).count().reset_index()
     df.rename({'Gene stable ID': 'n_genes'}, axis=1, inplace=True)
 
@@ -5185,7 +5189,7 @@ def human_v_mouse_sectors(h_h5, m_h5, h_source, m_source,
     n_cons_genes = df.loc[df.sector_human == df.sector_mouse].n_genes.sum(axis=0)
     print('{}/{} ({:.2f}%) of genes have conserved sectors between human and mouse.'.format(n_cons_genes, n_genes, (n_cons_genes/n_genes)*100))
 
-    return df
+    return df_back, df
 
 def plot_human_mouse_simplex(ca, m_ca, h_gene, m_gene, odir):
 
@@ -5499,6 +5503,7 @@ def plot_n_predom_transcripts(pi_tpm_file,
     
 
     # count number of unique predominant transcripts
+    df_back = df.copy(deep=True)
     df = df[['tid', 'gid']].groupby(['gid']).nunique().reset_index()
     df.rename({'tid': 'n_predom_ts'}, axis=1, inplace=True)
 
@@ -5562,7 +5567,7 @@ def plot_n_predom_transcripts(pi_tpm_file,
 
     # ax.tick_params(axis="x", rotation=90)
 
-    return df
+    return df_back, df
 
 def plot_perc_mane_det_by_len(ab,
                               filt_ab,

@@ -1508,12 +1508,15 @@ def get_det_table(df,
         except:
             nov = ['Known']
 
+
     # add min_tpm to kwargs as it's needed for both
     # functions
     kwargs['min_tpm'] = min_tpm
+    # kwargs['groupby'] = groupby
 
     # calc TPM per library on desired samples
     df, tids = get_tpm_table(df, **kwargs)
+    # import pdb; pdb.set_trace()
 
     df = df.transpose()
     df.index.name = 'dataset'
@@ -1537,6 +1540,7 @@ def get_det_table(df,
 
         print('Found {} total samples'.format(len(df.biosample.unique().tolist())))
         df = df.groupby('biosample').max()
+        # import pdb; pdb.set_trace()
 
     elif groupby == 'library':
         df.rename({'dataset': 'library'}, axis=1, inplace=True)
@@ -1554,7 +1558,21 @@ def get_det_table(df,
         df.drop('dataset', axis=1, inplace=True)
         df = df.groupby('health_status').max()
 
-    # pdb.set_trace()
+    elif groupby == 'biosample':
+        if kwargs['how'] == 'sr':
+            print('Averaging over ENCODE biosample')
+            d = os.path.dirname(__file__)
+            fname = f'{d}/../figures/data/human/sr/metadata.tsv'
+            meta = pd.read_csv(fname, sep='\t')
+            meta.rename({'hr': 'dataset',
+                         'Biosample term name': 'biosample'},
+                         axis=1, inplace=True)
+            df = df.merge(meta[['dataset', 'biosample']], on='dataset', how='left')
+            df.drop('dataset', axis=1, inplace=True)
+            df = df.groupby('biosample').mean()
+        else:
+            print('u need to implement this')
+
     if min_tpm != 0:
         df = (df >= min_tpm)
     # if min_tpm is 0, just take everything that has at least one read
@@ -1840,7 +1858,7 @@ def get_sr_tpm_table(df,
     df.drop('biotype_category', axis=1, inplace=True)
 
     d = os.path.dirname(__file__)
-    fname = f'{d}/../figures/data/sr/metadata.tsv'
+    fname = f'{d}/../figures/data/human/sr/metadata.tsv'
     meta = pd.read_csv(fname, sep='\t')
 
     id_col = 'gid_stable'
@@ -1853,6 +1871,7 @@ def get_sr_tpm_table(df,
     for key, item in meta.items():
         meta[key] = item['hr']
     df.rename(meta, axis=1, inplace=True)
+
 
     df['gid_stable'] = cerberus.get_stable_gid(df, 'gene_id')
 
@@ -1870,6 +1889,9 @@ def get_sr_tpm_table(df,
             gene_inds = df.loc[df.biotype_category.isin(polya_cats), id_col].tolist()
         elif gene_subset == 'tf':
             gene_inds = df.loc[df.tf == True, id_col].tolist()
+        else:
+            gene_inds = df.loc[df.biotype_category==gene_subset, id_col].tolist()
+
     else:
         gene_inds = df[id_col].tolist()
     subset_inds = gene_inds
@@ -1912,6 +1934,20 @@ def get_sr_tpm_table(df,
 
         print('Found {} total samples'.format(len(df.biosample.unique().tolist())))
 
+        df = df.groupby('biosample').mean()
+        df = df.transpose()
+    elif groupby == 'biosample':
+        print('Averaging over ENCODE biosample')
+        fname = f'{d}/../figures/data/human/sr/metadata.tsv'
+        meta = pd.read_csv(fname, sep='\t')
+        meta.rename({'hr': 'index',
+                     'Biosample term name': 'biosample'},
+                     axis=1, inplace=True)
+
+        df = df.transpose()
+        df = df.reset_index()
+        df = df.merge(meta[['index', 'biosample']], on='index', how='left')
+        df.drop('index', axis=1, inplace=True)
         df = df.groupby('biosample').mean()
         df = df.transpose()
 
@@ -1972,11 +2008,13 @@ def get_tpm_table(df,
             TPM >= the value across the libraries
         gene_subset (str): Choose from 'polya' or None
         save (bool): Whether or not to save the output matrix
+        species (str): {'human', 'mouse', 'spikes'}
 
     Returns:
         df (pandas DataFrame): TPMs for gene or isoforms in the requested
             samples above the input detection threshold.
         ids (list of str): List of str indexing the table
+
     """
 
     if how == 'sr':
@@ -1992,9 +2030,18 @@ def get_tpm_table(df,
     else:
         print('Calculating {} TPM values'.format(how))
 
-        dataset_cols = get_datasets(species=species)
-        df = rm_sirv_ercc(df)
-        df['gid_stable'] = cerberus.get_stable_gid(df, 'annot_gene_id')
+        if species != 'spikes':
+            dataset_cols = get_datasets(species=species)
+            df = rm_sirv_ercc(df)
+            df['gid_stable'] = cerberus.get_stable_gid(df, 'annot_gene_id')
+        else:
+            non_dataset_columns = ['gene_ID', 'transcript_ID', 'annot_gene_id',
+                           'annot_transcript_id', 'annot_gene_name',
+                           'annot_transcript_name', 'n_exons', 'length',
+                           'gene_novelty', 'transcript_novelty', 'ISM_subtype']
+            dataset_cols = [ x for x in list(df.columns) \
+                                if x not in non_dataset_columns ]
+            df['gid_stable'] = df.annot_gene_id
 
         if type(sample) == list:
             print(f'Subsetting for {sample} samples')
@@ -2007,13 +2054,14 @@ def get_tpm_table(df,
 
 
         # merge with information about the gene
-        if species == 'human':
-            annot_ver = 'v40_cerberus'
-        elif species == 'mouse':
-            annot_ver = 'vM25_cerberus'
-        gene_df, _, _ = get_gtf_info(how='gene', add_stable_gid=True, ver=annot_ver)
-        gene_df = gene_df[['gid_stable', 'biotype_category', 'tf']]
-        df = df.merge(gene_df, how='left', on='gid_stable')
+        if species != 'spikes':
+            if species == 'human':
+                annot_ver = 'v40_cerberus'
+            elif species == 'mouse':
+                annot_ver = 'vM25_cerberus'
+            gene_df, _, _ = get_gtf_info(how='gene', add_stable_gid=True, ver=annot_ver)
+            gene_df = gene_df[['gid_stable', 'biotype_category', 'tf']]
+            df = df.merge(gene_df, how='left', on='gid_stable')
 
         # get indices that we'll need to subset on
         if how == 'gene':
@@ -3285,10 +3333,11 @@ def compute_dists(cas,
                       suffixes=(f'_{sources[0]}', f'_{sources[1]}'))
 
     # compute distances
-    pandarallel.initialize(nb_workers=8, verbose=1)
-    df['dist'] = df.parallel_apply(simplex_dist,
-                                   args=(f'_{sources[0]}', f'_{sources[1]}'),
-                                   axis=1)
+    # pandarallel.initialize(nb_workers=8, verbose=1)
+    df['dist'] = df.apply(simplex_dist,
+                           args=(f'_{sources[0]}',
+                                 f'_{sources[1]}'),
+                           axis=1)
     df.dist = df.dist.fillna(0)
 
     # compute z_scores
@@ -3973,3 +4022,9 @@ def get_meta_df(config, species):
     # if meta_df.dataset.duplicated.any():
     #     raise ValueError('Mouse and human dataset names not unique')
     return meta_df
+
+def format_metadata_col(df, col, new_col):
+    df[new_col] = df[col].str.lower()
+    df[new_col] = df[new_col].str.replace('-', '_')
+    df[new_col] = df[new_col].str.replace(' ', '_')
+    return df

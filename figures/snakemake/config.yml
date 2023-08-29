@@ -93,6 +93,7 @@ data:
   ca_plus: data/{species}/cerberus_annot_plus.h5
   t_info: data/{species}/cerberus_t_metadata.tsv
   meta: ref/{species}/lr_{species}_library_data_summary.tsv
+  enc_meta: ref/{species}/metadata.tsv
   sg: data/{species}/swan_graph.p
   major_isos: data/{species}/{obs_col}_major_isos.tsv
   exp_gene_subset: data/{species}/exp_gids_{obs_col}.tsv
@@ -219,6 +220,8 @@ ref:
     txt_gz: ref/human/rmsk.txt.gz
     txt: ref/human/rmsk.txt
     alu_bed: ref/human/alu.bed
+  # biomart query:http://www.ensembl.org/biomart/martview/ed2022418791261d0372a8c8443cfc2e?VIRTUALSCHEMANAME=default&ATTRIBUTES=hsapiens_gene_ensembl.default.feature_page.ensembl_gene_id|hsapiens_gene_ensembl.default.feature_page.ensembl_gene_id_version|hsapiens_gene_ensembl.default.feature_page.ensembl_transcript_id|hsapiens_gene_ensembl.default.feature_page.ensembl_transcript_id_version&FILTERS=hsapiens_gene_ensembl.default.filters.go_parent_term."GO:0008380"&VISIBLEPANEL=resultspanel
+  sfs: ref/{species}/sfs.tsv
 
   spikes:
     sirv_gtf_gz: ref/spikes/sirv4.gtf.gz

@@ -125,6 +125,7 @@ rule all:
         # expand(config['data']['pi_tpm']['tes'], species='human', obs_col=['sample', 'dataset']),
         # expand(config['data']['pi_tpm']['triplet'], species='human', obs_col=['sample', 'dataset']),
         # expand(config['data']['pi_tpm']['triplet'], species='mouse', obs_col=['sample']),
+        expand(config['data']['pi_tpm']['triplet'], species='human', obs_col=['biosample']),
         # expand(config['ref']['t_info'], species=species),
         # expand(config['ref']['g_info'], species=species),
         # expand(config['data']['sg'], species=species),
@@ -155,7 +156,7 @@ rule all:
         # config['data']['spikes']['ca_gtf'],
         # config['data']['spikes']['ca_ab'],
         # config['ref']['phastcons100']['txt']
-        config['ref']['repeats']['alu_bed']
+        # config['ref']['repeats']['alu_bed']
 
 
 rule dl:
@@ -686,7 +687,8 @@ rule get_exp_genes:
 
 rule get_pi_tpm:
     input:
-        swan_file = config['data']['sg']
+        swan_file = config['data']['sg'],
+        enc_meta = config['data']['enc_meta']
     resources:
         mem_gb = 32,
         threads = 8
@@ -699,6 +701,19 @@ rule get_pi_tpm:
         config['data']['pi_tpm']['triplet']
     run:
         sg = swan.read(input.swan_file)
+
+        # add biosample info in case we're using that
+        meta_df = pd.read_csv(enc_meta_file, sep='\t')
+        meta_df = format_metadata_col(meta_df, 'Biosample term name', 'biosample')
+        meta_df = meta_df[['Experiment accession', 'biosample']]
+        meta_df.drop_duplicates(inplace=True)
+        meta_df.rename({'Experiment accession': 'ENCODE_experiment_id'},
+                       axis=1, inplace=True)
+        sg.adata.obs = sg.adata.obs.merge(meta_df,
+                  how='left',
+                  on='ENCODE_experiment_id')
+
+        # get the actual table
         get_pi_tpm_tables(sg, wildcards.obs_col, params.odir)
 
 ################################################################################

@@ -1,0 +1,50 @@
+import pandas as pd
+import os
+import sys
+import numpy as np
+
+p = os.getcwd()
+sys.path.append(p)
+
+from utils import *
+
+include: 'download.smk'
+include: 'samtools.smk'
+configfile: 'config.yml'
+
+species=['human']
+
+# lr stuff
+lr_df = pd.read_csv(expand(config['lr']['meta'], species=species), sep='\t')
+lr_meta = process_encode_metadata(expand(config['lr']['encode_meta'], species=species)[0])
+
+wildcard_constraints:
+    dataset='|'.join([re.escape(x) for x in lr_meta.dataset.tolist()])
+
+
+################################################################################
+############################### LR Download ####################################
+################################################################################
+def get_lr_encid(wc, df):
+    dataset = wc.dataset
+    temp = df.loc[(df.dataset==dataset)&]
+    return temp['ENCODE_alignments_id'].values[0]
+
+use rule dl_encid as lr_dl with:
+    params:
+        encid = lambda wc:get_lr_encid(wc, procap_meta),
+        file_ext = 'bam'
+    output:
+        out = temporary(config['lr']['bam'])
+
+use rule sort_bam as lr_sort_bam with:
+    input:
+        bam = config['lr']['bam']
+    output:
+        bam = config['lr']['bam_sort']
+
+use rule index_bam as lr_index_bam with:
+    input:
+        bam = config['lr']['bam_sort']
+    output:
+        ind = config['lr']['bam_ind']

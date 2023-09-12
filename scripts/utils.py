@@ -1501,7 +1501,7 @@ def get_det_table(df,
     Returns:
         df (pandas DataFrame): DataFrame with True / False entries
             for each isoform / gene per library / sample
-    """
+    """    
     if 'nov' not in kwargs:
         try:
             nov = df.transcript_novelty.unique().tolist()
@@ -1571,7 +1571,29 @@ def get_det_table(df,
             df.drop('dataset', axis=1, inplace=True)
             df = df.groupby('biosample').mean()
         else:
-            print('u need to implement this')
+            print('this currently only works for human')
+            
+            # encode biosample info
+            d = os.path.dirname(__file__)
+            fname = f'{d}/../figures/ref/human/metadata.tsv'
+            meta_df = pd.read_csv(fname, sep='\t')
+            meta_df = format_metadata_col(meta_df, 'Biosample term name', 'biosample')
+            meta_df = meta_df[['Experiment accession', 'biosample']]
+            meta_df.drop_duplicates(inplace=True)
+            meta_df.rename({'Experiment accession': 'ENCODE_experiment_id'},
+                           axis=1, inplace=True)
+            
+            # dataset names
+            fname = f'{d}/../figures/ref/human/lr_human_library_data_summary.tsv'
+            lib_df = pd.read_csv(fname, sep='\t')
+            lib_df = lib_df.merge(meta_df,
+                  how='left',
+                  on='ENCODE_experiment_id')
+            
+            # add biosample lables and take mean
+            df = df.merge(lib_df[['dataset', 'biosample']], on='dataset', how='left')
+            df.drop('dataset', axis=1, inplace=True)
+            df = df.groupby('biosample').mean()
 
     if min_tpm != 0:
         df = (df >= min_tpm)
@@ -2170,7 +2192,7 @@ def get_tpm_table(df,
             print('Applying gene type and novelty subset')
             df = df.loc[df.index.isin(subset_inds)]
 
-        # average over biosample
+        # average over biosample        
         if groupby == 'sample':
             print('Averaging over biosample')
             df = df.transpose()
@@ -2193,7 +2215,9 @@ def get_tpm_table(df,
 
             df = df.groupby('biosample').mean()
             df = df.transpose()
-
+        elif groupby == 'biosample':
+            print('u need to implement biosample tpm avging')
+        
         print('Number of {}s reported: {}'.format(how, len(df.index)))
 
         if save:

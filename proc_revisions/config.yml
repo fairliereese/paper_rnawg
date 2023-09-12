@@ -1,6 +1,6 @@
 lr:
-  meta: data/lr/{species}/lr_{species}_library_data_summary.tsv
-  encode_meta: data/lr/{species}/encode_metadata.tsv
-  bam: data/lr/{species}/tc/{dataset}.bam
-  bam_sort: data/lr/{species}/tc/{dataset}_sorted.bam
-  bam_ind: data/lr/{species}/tc/{dataset}_sorted.bam.bai
+  meta: data/{species}/lr/lr_{species}_library_data_summary.tsv
+  encode_meta: data/{species}/lr/encode_metadata.tsv
+  bam: data/{species}/lr/tc/{dataset}.bam
+  bam_sort: data/{species}/lr/tc/{dataset}_sorted.bam
+  bam_ind: data/{species}/lr/tc/{dataset}_sorted.bam.bai

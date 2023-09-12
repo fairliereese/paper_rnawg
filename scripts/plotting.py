@@ -5491,14 +5491,17 @@ def plot_n_predom_transcripts(pi_tpm_file,
 
     # only predominant transcripts
     df = df.loc[df.triplet_rank==1]
-    
+        
     # only expressed transcripts in each sample
     det_df = det_df.melt(ignore_index=False,
                 var_name='tid',
-                value_name='det').reset_index().rename({'biosample': 'sample'}, axis=1)
+                value_name='det').reset_index()
+    if obs_col=='sample':
+        det_df.rename({'biosample': 'sample'}, axis=1)
+        
     det_df = det_df.loc[det_df.det==True]
     print(len(df.index))
-    df = df.merge(det_df, how='inner', on=['sample', 'tid'])
+    df = df.merge(det_df, how='inner', on=[obs_col, 'tid'])
     print(len(df.index))
     
 

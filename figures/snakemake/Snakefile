@@ -125,7 +125,7 @@ rule all:
         # expand(config['data']['pi_tpm']['tes'], species='human', obs_col=['sample', 'dataset']),
         # expand(config['data']['pi_tpm']['triplet'], species='human', obs_col=['sample', 'dataset']),
         # expand(config['data']['pi_tpm']['triplet'], species='mouse', obs_col=['sample']),
-        expand(config['data']['pi_tpm']['triplet'], species='human', obs_col=['biosample']),
+        # expand(config['data']['pi_tpm']['triplet'], species='human', obs_col=['biosample']),
         # expand(config['ref']['t_info'], species=species),
         # expand(config['ref']['g_info'], species=species),
         # expand(config['data']['sg'], species=species),
@@ -151,7 +151,7 @@ rule all:
         # config['data']['spikes']['lapa_filt_gtf']
         # expand(config['data']['ca_plus'],
         #        species='human')
-        # expand(config['intropolis']['bed'], species='human')
+        expand(config['intropolis']['bed'], species='human')
         # config['ref']['spikes']['ca_ref_gtf'],
         # config['data']['spikes']['ca_gtf'],
         # config['data']['spikes']['ca_ab'],
@@ -712,6 +712,15 @@ rule get_pi_tpm:
         sg.adata.obs = sg.adata.obs.merge(meta_df,
                   how='left',
                   on='ENCODE_experiment_id')
+        sg.tss_adata.obs = sg.tss_adata.obs.merge(meta_df,
+                how='left',
+                on='ENCODE_experiment_id')
+        sg.ic_adata.obs = sg.ic_adata.obs.merge(meta_df,
+                how='left',
+                on='ENCODE_experiment_id')
+        sg.tes_adata.obs = sg.tes_adata.obs.merge(meta_df,
+                how='left',
+                on='ENCODE_experiment_id')
 
         # get the actual table
         get_pi_tpm_tables(sg, wildcards.obs_col, params.odir)
@@ -801,10 +810,12 @@ rule format_intropolis:
     run:
         df = pd.read_csv(input.tab,
                          header=None,
-                         usecols=[0,1,2,3],
+                         usecols=[8,9,10,11],
                          names=['Chromosome', 'Start',
                                 'End', 'Strand'],
                          sep='\t')
+        df['Start'] = df['Start'] - 1
+        df = df.loc[df.Start.notnull()]
         df = pr.PyRanges(df)
         df.to_bed(output.bed)
 

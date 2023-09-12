@@ -15,11 +15,22 @@ configfile: 'config.yml'
 species=['human']
 
 # lr stuff
-lr_df = pd.read_csv(expand(config['lr']['meta'], species=species), sep='\t')
+lr_df = pd.read_csv(expand(config['lr']['meta'], species=species)[0], sep='\t')
 lr_meta = process_encode_metadata(expand(config['lr']['encode_meta'], species=species)[0])
 
 wildcard_constraints:
-    dataset='|'.join([re.escape(x) for x in lr_meta.dataset.tolist()])
+    dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()])
+
+rule all:
+    input:
+        expand(config['lr']['bam_ind'],
+               species=species,
+               dataset=lr_df.dataset.tolist())
+        # expand(config['lr']['bam_ind'],
+        #        species=species,
+        #        dataset=['hl60_1_1',
+        #                 'brodmann_area_46_1_1'])
+
 
 
 ################################################################################
@@ -27,12 +38,12 @@ wildcard_constraints:
 ################################################################################
 def get_lr_encid(wc, df):
     dataset = wc.dataset
-    temp = df.loc[(df.dataset==dataset)&]
+    temp = df.loc[(df.dataset==dataset)]
     return temp['ENCODE_alignments_id'].values[0]
 
 use rule dl_encid as lr_dl with:
     params:
-        encid = lambda wc:get_lr_encid(wc, procap_meta),
+        encid = lambda wc:get_lr_encid(wc, lr_df),
         file_ext = 'bam'
     output:
         out = temporary(config['lr']['bam'])

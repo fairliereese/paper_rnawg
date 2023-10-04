@@ -14,6 +14,7 @@ encode:
     cerb_annot: https://www.encodeproject.org/files/ENCFF229IBK/@@download/ENCFF229IBK.h5
     gtex_gtf_gz: https://www.encodeproject.org/files/ENCFF652XQK/@@download/ENCFF652XQK.gtf.gz
     fa_gz: https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz
+    chrom_sizes: https://www.encodeproject.org/files/ENCFF667IGK/@@download/ENCFF667IGK.tsv
   mouse:
     ab: https://www.encodeproject.org/files/ENCFF811SVZ/@@download/ENCFF811SVZ.tsv
     talon_filt_ab: https://www.encodeproject.org/files/ENCFF961XZJ/@@download/ENCFF961XZJ.tsv
@@ -198,9 +199,19 @@ data:
   tracks:
     sample:
         gtf: data/{species}/tracks/{sample}.gtf
-        
+        gtf_sort: data/{species}/tracks/{sample}_sorted.gtf
+        gtf_ind: data/{species}/tracks/{sample}.gtf.ind
+
+        gp: data/{species}/tracks/{sample}.gp
+        bgp: data/{species}/tracks/{sample}.bgp
+        bgp_sort: data/{species}/tracks/{sample}_sorted.bgp
+        bgp_sort_filt: data/{species}/tracks/{sample}_sorted_filtered.bgp
+        bb: data/{species}/tracks/{sample}.bb
 
 
+ucsc:
+  as_link: https://genome.ucsc.edu/goldenPath/help/examples/bigGenePred.as
+  as: ref/bigGenePred.as
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/
 
@@ -211,6 +222,7 @@ ref:
   gtex_gtf: ref/{species}/gtex.gtf
   fa_gz: ref/{species}/genome.fa.gz
   fa: ref/{species}/genome.fa
+  chrom_sizes: ref/{species}/chrom_sizes.tsv
   new_gencode_gtf_gz: ref/{species}/gencode_annotation.gtf.gz
   new_gencode_gtf: ref/{species}/gencode_annotation.gtf
   p_fa_gz: ref/{species}/gencode_protein.fa.gz

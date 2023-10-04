@@ -84,7 +84,8 @@ wildcard_constraints:
     dataset='|'.join([re.escape(x) for x in meta_df.dataset.tolist()]),
     procap_dataset='|'.join([re.escape(x) for x in procap_meta.dataset.tolist()]),
     output_type='|'.join([re.escape(x) for x in procap_output_types]),
-    end_mode='|'.join([re.escape(x) for x in ['tss', 'tes']])
+    end_mode='|'.join([re.escape(x) for x in ['tss', 'tes']]),
+    sample='|'.join([re.escape(x) for x in meta_df['sample'].tolist())
 
 def get_col_from_meta_df(wc, col):
     temp = meta_df.copy(deep=True)
@@ -161,7 +162,7 @@ rule all:
         # config['data']['spikes']['ca_ab'],
         # config['ref']['phastcons100']['txt']
         # config['ref']['repeats']['alu_bed']
-        expand(expand(config['data']['tracks']['sample']['gtf'],
+        expand(expand(config['data']['tracks']['sample']['bb'],
                       zip,
                       sample=meta_df.loc[meta_df.species=='human']['sample'].tolist(),
                       allow_missing=True),
@@ -185,6 +186,12 @@ rule gunzip:
 ################################################################################
 ########################### Data download ######################################
 ################################################################################
+
+use rule dl as dl_chrom_sizes with:
+  params:
+    link = lambda w:config['encode'][w.species]['chrom_sizes']
+  output:
+    out = config['ref']['chrom_sizes']
 
 use rule dl as dl_ab with:
   params:
@@ -2163,3 +2170,90 @@ rule tracks_sample_gtf:
                        params.min_tpm,
                        wildcards.sample,
                        output.gtf)
+
+rule tracks_gene_pred:
+    input:
+        ifile = config['data']['tracks']['sample']['gtf']
+    conda:
+        "ucsctools"
+    resources:
+        mem_gb = 16,
+        threads = 1
+    output:
+        ofile = temporary(config['data']['tracks']['sample']['gp'])
+    shell:
+        """
+        gtfToGenePred -genePredExt {input.ifile} {output.ofile}
+        """
+
+rule tracks_big_gene_pred:
+    input:
+        ifile = config['data']['tracks']['sample']['gp']
+    conda:
+        "ucsctools"
+    resources:
+        mem_gb = 16,
+        threads = 1
+    output:
+        ofile = temporary(config['data']['tracks']['sample']['bgp'])
+    shell:
+        """
+        genePredToBigGenePred {input.ifile} {output.ofile}
+        """
+
+rule bed_sort:
+    resources:
+        mem_gb = 64,
+        threads = 1
+    shell:
+        """
+        sort -k1,1 -k2,2n {input.ifile} > {output.ofile}
+        """
+
+use rule bed_sort as tracks_bed_sort with:
+    input:
+        ifile = config['data']['tracks']['sample']['bgp']
+    output:
+        ofile = temporary(config['data']['tracks']['bgp_sort'])
+
+rule tracks_filt:
+    input:
+        ifile = config['data']['tracks']['sample']['bgp_sort']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        ofile = config['data']['tracks']['sample']['bgp_sort_filt']
+    shell:
+        """
+        grep -c chrM {input.ifile} {output.ofile}
+        """
+
+use rule dl as dl_ucsc_as with:
+  params:
+    link = config['ucsc']['as_link']
+  output:
+    out = config['ucsc']['as']
+
+rule tracks_bigbed:
+    input:
+        ifile = config['data']['tracks']['sample']['bgp_sort_filt'],
+        as_file = config['ucsc']['as'],
+        chrom_sizes = config['ref']['chrom_sizes']
+    conda:
+        "ucsctools"
+    resources:
+        mem_gb = 16,
+        threads = 1
+    output:
+        ofile = config['data']['tracks']['sample']['bb']
+    shell:
+        """
+        bedToBigBed \
+            -type=bed12+8 \
+            -tab \
+            -as={input.as_file} \
+            {input.ifile} \
+            {input.chrom_sizes}
+            {output.ofile}
+        """

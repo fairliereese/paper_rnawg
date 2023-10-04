@@ -2162,4 +2162,4 @@ rule tracks_sample_gtf:
                        input.gtf,
                        params.min_tpm,
                        wildcards.sample,
-                       output.ofile)
+                       output.gtf)

@@ -91,6 +91,12 @@ data:
   cerb_gtf: data/{species}/cerberus.gtf
   cerb_annot: data/{species}/cerberus_annot.h5
   ca_plus: data/{species}/cerberus_annot_plus.h5
+
+  sj: data/{species}/sj.tsv
+  sj_ic: data/{species}/sj_ic.tsv
+  ss: data/{species}/ss.tsv
+  ss_ic: data/{species}/ss_ic.tsv
+
   t_info: data/{species}/cerberus_t_metadata.tsv
   meta: ref/{species}/lr_{species}_library_data_summary.tsv
   enc_meta: ref/{species}/metadata.tsv
@@ -188,6 +194,12 @@ data:
     ca_annot: data/spike/cerberus/ca_annot.h5
     ca_gtf: data/spike/cerberus/ca.gtf
     ca_ab: data/spike/cerberus/ca_ab.tsv
+
+  tracks:
+    sample:
+        gtf: data/{species}/tracks/{sample}.gtf
+        
+
 
 
 tama_dir: ~/mortazavi_lab/bin/tama/tama_go/

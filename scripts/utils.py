@@ -1501,7 +1501,7 @@ def get_det_table(df,
     Returns:
         df (pandas DataFrame): DataFrame with True / False entries
             for each isoform / gene per library / sample
-    """    
+    """
     if 'nov' not in kwargs:
         try:
             nov = df.transcript_novelty.unique().tolist()
@@ -1572,7 +1572,7 @@ def get_det_table(df,
             df = df.groupby('biosample').mean()
         else:
             print('this currently only works for human')
-            
+
             # encode biosample info
             d = os.path.dirname(__file__)
             fname = f'{d}/../figures/ref/human/metadata.tsv'
@@ -1582,14 +1582,14 @@ def get_det_table(df,
             meta_df.drop_duplicates(inplace=True)
             meta_df.rename({'Experiment accession': 'ENCODE_experiment_id'},
                            axis=1, inplace=True)
-            
+
             # dataset names
             fname = f'{d}/../figures/ref/human/lr_human_library_data_summary.tsv'
             lib_df = pd.read_csv(fname, sep='\t')
             lib_df = lib_df.merge(meta_df,
                   how='left',
                   on='ENCODE_experiment_id')
-            
+
             # add biosample lables and take mean
             df = df.merge(lib_df[['dataset', 'biosample']], on='dataset', how='left')
             df.drop('dataset', axis=1, inplace=True)
@@ -2192,7 +2192,7 @@ def get_tpm_table(df,
             print('Applying gene type and novelty subset')
             df = df.loc[df.index.isin(subset_inds)]
 
-        # average over biosample        
+        # average over biosample
         if groupby == 'sample':
             print('Averaging over biosample')
             df = df.transpose()
@@ -2217,7 +2217,7 @@ def get_tpm_table(df,
             df = df.transpose()
         elif groupby == 'biosample':
             print('u need to implement biosample tpm avging')
-        
+
         print('Number of {}s reported: {}'.format(how, len(df.index)))
 
         if save:
@@ -4052,3 +4052,303 @@ def format_metadata_col(df, col, new_col):
     df[new_col] = df[new_col].str.replace('-', '_')
     df[new_col] = df[new_col].str.replace(' ', '_')
     return df
+
+
+#########################################################################################
+################################# SJ / SS stuff #########################################
+#########################################################################################
+def add_ss_type_to_intron(df):
+    """
+    Given a bed-style df, add "ss_3" and "ss_5" columns to
+    indicate which splice site each coordinate is used
+
+    Parameters:
+        df (pandas DataFrame): Bed-style DF of introns
+
+    Returns:
+        df (pandas DataFrame): Bed-style DF of introns w/ ss_3 and ss_5 columns added
+    """
+
+    df['ss_5'] = np.nan
+    df.loc[df.Strand=='+', 'ss_5'] = df.loc[df.Strand=='+', ['Start', 'End']].min(axis=1)
+    df.loc[df.Strand=='-', 'ss_5'] = df.loc[df.Strand=='-', ['Start', 'End']].max(axis=1)
+
+    df['ss_3'] = np.nan
+    df.loc[df.Strand=='+', 'ss_3'] = df.loc[df.Strand=='+', ['Start', 'End']].max(axis=1)
+    df.loc[df.Strand=='-', 'ss_3'] = df.loc[df.Strand=='-', ['Start', 'End']].min(axis=1)
+
+    assert len(df.loc[(df.ss_3<df.ss_5)&(df.Strand=='+')].index) == 0
+    assert len(df.loc[(df.ss_3>df.ss_5)&(df.Strand=='-')].index) == 0
+
+    return df
+
+
+def intron_to_ss(df, id_cols=None):
+    """
+    Get splice site coordinates from intron coordinates in bed format
+
+    Parameters:
+        df (pandas DataFrame): Pandas DF of intron coordinates in bed format
+        id_cols (None or list of str): List of columns to use as ss identifier
+            during melt, otherwise None
+
+    Returns:
+        df (pandas DataFrame): Pandas DF of splice site coordinates in semi
+            bed format (ie no end positions, just starts, as these are single bp)
+    """
+
+
+    # since these are intron coords, the start defines a 3' ss
+    # and the end defines a 5' ss.
+    # df.rename({'Start':'ss_3', 'End':'ss_5'}, axis=1, inplace=True)
+#     df['ss_5'] = np.nan
+#     df.loc[df.Strand=='+', 'ss_5'] = df.loc[df.Strand=='+', ['Start', 'End']].min(axis=1)
+#     df.loc[df.Strand=='-', 'ss_5'] = df.loc[df.Strand=='-', ['Start', 'End']].max(axis=1)
+
+#     df['ss_3'] = np.nan
+#     df.loc[df.Strand=='+', 'ss_3'] = df.loc[df.Strand=='+', ['Start', 'End']].max(axis=1)
+#     df.loc[df.Strand=='-', 'ss_3'] = df.loc[df.Strand=='-', ['Start', 'End']].min(axis=1)
+
+    df = add_ss_type_to_intron(df)
+
+    assert len(df.loc[(df.ss_3<df.ss_5)&(df.Strand=='+')].index) == 0
+    assert len(df.loc[(df.ss_3>df.ss_5)&(df.Strand=='-')].index) == 0
+
+    df.drop(['Start', 'End'], axis=1, inplace=True)
+
+    if id_cols:
+        id_cols += ['Chromosome', 'Strand']
+    else:
+        id_cols = ['Chromosome', 'Strand']
+
+    df = df.melt(id_vars=id_cols,
+                 var_name='ss_type',
+                 value_name='Start')
+
+    # remove duplicates, which would result from the same
+    # ss being used in different sjs
+    df = df.drop_duplicates()
+
+    return df
+
+def get_source_table(df):
+    """
+    Get a melted form table for each entry in a tss, ic, or tes table
+    for each form of support for each triplet feature.
+
+    Parameters:
+        df (pandas DataFrame): DataFrame of tsss, ics, or tess
+
+    Returns:
+        df (pandas DataFrame): Long-form DataFrame of support for each tss, ic, or tes
+    """
+    keep_cols = ['Name', 'source']
+    df = df[keep_cols].copy(deep=True)
+    df['list_source'] = df.source.str.split(',')
+    df = df.explode('list_source')
+    df.drop('source', axis=1, inplace=True)
+
+    return df
+
+# chatgpt wrote this for me thanx chatgpt
+def sequential_pairs(x):
+    """
+    Get sequential pairs of tuples in list.
+    Example: [1,2,3,4] -> [(1,2),(3,4)]
+    """
+    p = []
+    for i in range(0, len(x) - 1, 2):
+        p.append((x[i], x[i + 1]))
+    return p
+
+def explode_ic(ic):
+    """
+    Explode an ic df to long form with splice junction entries
+    """
+    # remove the monoexonic entries
+    ic = ic.loc[~(ic.Coordinates == '-')]
+
+    # explode into series of ss coords
+    keep_cols = ['Chromosome', 'Coordinates',
+                 'Strand', 'gene_id',
+                 'Name']
+    df = ic.copy(deep=True)
+    df = df[keep_cols]
+    df['ss_coords'] = df.Coordinates.str.split('-')
+
+    # get pairs of sss to form sjs
+    df['sj_coords'] = df.ss_coords.apply(sequential_pairs)
+    df = df.explode('sj_coords')
+    df.drop(['Coordinates', 'ss_coords'], axis=1, inplace=True)
+
+    return df
+
+def get_ss_sj_from_ic(ic, ref_sources, how):
+    ic = ic.copy(deep=True)
+
+    # get coords of each splice site in each splice junction
+    df = explode_ic(ic)
+    df['Start'] = df['sj_coords'].str[0].astype(int)
+    df['End'] = df['sj_coords'].str[1].astype(int)
+    df.drop('sj_coords', axis=1, inplace=True)
+
+    # label sss as 5' or 3' and melt
+    if how == 'ss':
+        # assert len(df.loc[(df.Start>df.End)&(df.Strand=='+')].index) == 0
+        # # since these are intron coords, the start defines a 3' ss
+        # # and the end defines a 5' ss
+        # df.rename({'Start':'ss_3', 'End':'ss_5'}, axis=1, inplace=True)
+        # id_cols = ['Chromosome', 'Strand', 'gene_id', 'Name']
+        # df = df.melt(id_vars=id_cols,
+        #              var_name='ss_type',
+        #              value_name='Start')
+        df = intron_to_ss(df, ['gene_id', 'Name'])
+
+    # for sjs, reorder according to min and max coords
+    # in bed standard format
+    elif how == 'sj':
+        df['temp_Start'] = df.Start
+        df['temp_End'] = df.End
+        df['Start'] = df[['temp_Start', 'temp_End']].min(axis=1)
+        df['End'] = df[['temp_Start', 'temp_End']].max(axis=1)
+        df.drop(['temp_Start', 'temp_End'], axis=1, inplace=True)
+
+    # df to hold ic to ss or sj info
+    ic_df = df.copy(deep=True)
+
+    # merge source info in w/ coord info
+    df2 = get_source_table(ic)
+    df = df.merge(df2, how='left', on=['Name'])
+
+    # figure out novelty and source of each ss / sj
+    df.drop('Name', axis=1, inplace=True)
+    df.drop_duplicates(inplace=True)
+    gb_cols = ['Chromosome', 'Strand', 'gene_id', 'Start']
+    if how == 'ss':
+        gb_cols += ['ss_type']
+    elif how == 'sj':
+        gb_cols += ['End']
+    df.rename({'list_source': 'source'},
+              axis=1, inplace=True)
+    df['novelty'] = df.source.isin(ref_sources).map({True: 'Known',
+                                                     False: 'Novel'})
+    df = df.groupby(gb_cols).agg(','.join).reset_index()
+    df = cerberus.update_novelty(df)
+
+    # add novelty and support information to the ic / (ss or sj) df
+    merge_cols = ['Chromosome', 'Strand', 'gene_id', 'Start']
+    if how == 'ss':
+        merge_cols += ['ss_type']
+    elif how == 'sj':
+        merge_cols += ['End']
+    ic_df = ic_df.merge(df, how='left',
+                        on=merge_cols)
+
+
+    return df, ic_df
+
+def get_sj_from_ic(ic, ref_sources):
+    """
+    Get a splice junction table from an intron chain table.
+    Retain source and novelty information.
+
+    Parameters:
+        ic (pandas DataFrame): DataFrame formatted as cerberus ic table
+        ref_sources (list of str): List of sources to use as references
+
+    Returns:
+        df (pandas DataFrame): DataFrame with entries for each splice junction
+        ic_df (pandas DataFrame): DataFrame with entries for each splice junction /
+            intron chain combination
+
+    """
+    return get_ss_sj_from_ic(ic, ref_sources, 'sj')
+
+def get_ss_from_ic(ic, ref_sources):
+    """
+    Get a splice site table from an intron chain table.
+    Retain source and novelty information.
+
+    Parameters:
+        ic (pandas DataFrame): DataFrame formatted as cerberus ic table
+        ref_sources (list of str): List of sources to use as references
+
+    Returns:
+        df (pandas DataFrame): DataFrame with entries for each splice site
+        ic_df (pandas DataFrame): DataFrame with entries for each splice site /
+            intron chain combination
+    """
+    return get_ss_sj_from_ic(ic, ref_sources, 'ss')
+
+def get_sj_files(h5, ref_sources, sj_ofile, sj_ic_ofile):
+    """
+    Save a file with splice junctions from cerberus intron chains
+
+    Parameters:
+        h5 (str): Path to Cerberus h5 object
+        ref_sources (list of str): List of source names to consider
+            as known sources
+    """
+    ca = cerberus.read(h5)
+
+    sj_df, sj_ic_df = get_sj_from_ic(ca.ic, ref_sources)
+    sj_df = add_ss_type_to_intron(sj_df)
+
+    # get novelty of the sss as well and add to the thing
+    ss_df, ss_ic_df = get_ss_from_ic(ca.ic, ref_sources)
+    sj_ic_df = add_ss_type_to_intron(sj_ic_df)
+
+    # merge this in with the sj-level info
+    for s in ss_df.ss_type.unique():
+        nov_col = f'{s}_novelty'
+        keep_cols = ['Chromosome', 'Start', 'Strand', 'gene_id', 'novelty']
+
+        temp = ss_df.loc[ss_df.ss_type==s].copy(deep=True)
+        temp = temp[keep_cols]
+        temp.rename({'novelty':nov_col,
+                     'Start':s}, axis=1, inplace=True)
+
+        sj_df = sj_df.merge(temp,
+                            how='left',
+                            on=['Chromosome', 'Strand', 'gene_id', s])
+        sj_ic_df = sj_ic_df.merge(temp,
+                                  how='left',
+                                  on=['Chromosome', 'Strand', 'gene_id', s])
+
+    sj_df.to_csv(sj_ofile, sep='\t', index=False)
+    sj_ic_df.to_csv(sj_ic_ofile, sep='\t', index=False)
+
+def get_ss_files(h5, ref_sources, ss_ofile, ss_ic_ofile):
+    """
+    Save a file with splice sites from cerberus intron chains
+
+    Parameters:
+        h5 (str): Path to Cerberus h5 object
+        ref_sources (list of str): List of source names to consider
+            as known sources
+    """
+    ca = cerberus.read(h5)
+
+    ss_df, ss_ic_df = get_ss_from_ic(ca.ic, ref_sources)
+
+    ss_df.to_csv(ss_ofile, sep='\t', index=False)
+    ss_ic_df.to_csv(ss_ic_ofile, sep='\t', index=False)
+
+def get_sample_gtf(ab, gtf, min_tpm, sample, ofile):
+    """
+    Get a GTF file for one sample
+    """
+
+    df = pd.read_csv(ab, sep='\t')
+    df = get_det_table(df,
+                       groupby='sample',
+                       how='iso',
+                       min_tpm=min_tpm)
+    df = df.transpose()
+    tids = df.loc[df[sample]==True].index.tolist()
+
+    gtf_df = pr.read_gtf(gtf, rename_attr=True).as_df()
+    gtf_df = gtf_df.loc[gtf_df.transcript_id.isin(tids)]
+    gtf_df = pr.PyRanges(gtf_df)
+
+    gtf_df.to_gtf(ofile)

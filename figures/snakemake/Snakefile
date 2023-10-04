@@ -151,12 +151,21 @@ rule all:
         # config['data']['spikes']['lapa_filt_gtf']
         # expand(config['data']['ca_plus'],
         #        species='human')
-        expand(config['intropolis']['bed'], species='human')
+        # expand(config['intropolis']['bed'], species='human')
+        # expand(config['data']['sj'], species='human'),
+        # expand(config['data']['sj_ic'], species='human'),
+        # expand(config['data']['ss'], species='human'),
+        # expand(config['data']['ss_ic'], species='human')
         # config['ref']['spikes']['ca_ref_gtf'],
         # config['data']['spikes']['ca_gtf'],
         # config['data']['spikes']['ca_ab'],
         # config['ref']['phastcons100']['txt']
         # config['ref']['repeats']['alu_bed']
+        expand(expand(config['data']['tracks']['sample']['gtf'],
+                      zip,
+                      sample=meta_df.loc[meta_df.species=='human']['sample'].tolist(),
+                      allow_missing=True),
+                      species='human')
 
 
 rule dl:
@@ -838,6 +847,45 @@ use rule gunzip as gz_lrgasp_cage with:
         gz = config['lrgasp_cage']['bed_gz']
     output:
         out = config['lrgasp_cage']['bed']
+
+################################################################################
+############################## SJ / SS Stuff ###################################
+################################################################################
+
+def get_ref_sources(wc):
+    if wc.species=='human':
+        ref_sources = ['v40', 'v29']
+    elif wc.species=='mouse':
+        ref_sources = ['vM21', 'vM25']
+    return ref_sources
+
+rule cerb_get_ss:
+    input:
+        ca = config['data']['cerb_annot']
+    params:
+        ref_sources = lambda wc:get_ref_sources(wc)
+    output:
+        ss = config['data']['ss'],
+        ss_ic = config['data']['ss_ic']
+    run:
+        get_ss_files(input.ca,
+                     params.ref_sources,
+                     output.ss,
+                     output.ss_ic)
+
+rule cerb_get_sj:
+    input:
+        ca = config['data']['cerb_annot']
+    params:
+        ref_sources = lambda wc:get_ref_sources(wc)
+    output:
+        sj = config['data']['sj'],
+        sj_ic = config['data']['sj_ic']
+    run:
+        get_sj_files(input.ca,
+                  params.ref_sources,
+                  output.sj,
+                  output.sj_ic)
 
 ################################################################################
 ########################### Adding adtl support ################################
@@ -2094,3 +2142,20 @@ use rule cerb_ab_ids as spike_cerb_ab with:
         source = 'lapa'
     output:
         ab = config['data']['spikes']['ca_ab']
+
+################################################################################
+######################## GTF tracks for each sample ############################
+################################################################################
+rule tracks_sample_gtf:
+    input:
+        ab = config['data']['filt_ab'],
+        gtf = config['data']['cerb_gtf']
+    params:
+        min_tpm = 1
+    resources:
+        mem_gb = 16,
+        threads = 2
+    output:
+        gtf = config['data']['tracks']['sample']['gtf']
+    run:
+        get_sample_gtf(ab, gtf, min_tpm, wildcards.sample, ofile)

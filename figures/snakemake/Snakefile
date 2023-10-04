@@ -85,7 +85,7 @@ wildcard_constraints:
     procap_dataset='|'.join([re.escape(x) for x in procap_meta.dataset.tolist()]),
     output_type='|'.join([re.escape(x) for x in procap_output_types]),
     end_mode='|'.join([re.escape(x) for x in ['tss', 'tes']]),
-    sample='|'.join([re.escape(x) for x in meta_df['sample'].tolist())
+    sample='|'.join([re.escape(x) for x in meta_df['sample'].tolist()])
 
 def get_col_from_meta_df(wc, col):
     temp = meta_df.copy(deep=True)

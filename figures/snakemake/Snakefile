@@ -2158,4 +2158,8 @@ rule tracks_sample_gtf:
     output:
         gtf = config['data']['tracks']['sample']['gtf']
     run:
-        get_sample_gtf(ab, gtf, min_tpm, wildcards.sample, ofile)
+        get_sample_gtf(input.ab,
+                       input.gtf,
+                       params.min_tpm,
+                       wildcards.sample,
+                       output.ofile)

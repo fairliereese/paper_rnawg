@@ -2222,7 +2222,7 @@ rule tracks_filt:
         ofile = config['data']['tracks']['sample']['bgp_sort_filt']
     shell:
         """
-        grep -v chrM {input.ifile} {output.ofile}
+        grep -v chrM {input.ifile} > {output.ofile}
         """
 
 use rule dl as dl_ucsc_as with:

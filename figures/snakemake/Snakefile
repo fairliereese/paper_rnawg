@@ -2174,8 +2174,6 @@ rule tracks_sample_gtf:
 rule tracks_gene_pred:
     input:
         ifile = config['data']['tracks']['sample']['gtf']
-    conda:
-        "ucsctools"
     resources:
         mem_gb = 16,
         threads = 1
@@ -2189,8 +2187,6 @@ rule tracks_gene_pred:
 rule tracks_big_gene_pred:
     input:
         ifile = config['data']['tracks']['sample']['gp']
-    conda:
-        "ucsctools"
     resources:
         mem_gb = 16,
         threads = 1
@@ -2214,7 +2210,7 @@ use rule bed_sort as tracks_bed_sort with:
     input:
         ifile = config['data']['tracks']['sample']['bgp']
     output:
-        ofile = temporary(config['data']['tracks']['bgp_sort'])
+        ofile = temporary(config['data']['tracks']['sample']['bgp_sort'])
 
 rule tracks_filt:
     input:
@@ -2240,8 +2236,6 @@ rule tracks_bigbed:
         ifile = config['data']['tracks']['sample']['bgp_sort_filt'],
         as_file = config['ucsc']['as'],
         chrom_sizes = config['ref']['chrom_sizes']
-    conda:
-        "ucsctools"
     resources:
         mem_gb = 16,
         threads = 1

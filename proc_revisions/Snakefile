@@ -23,7 +23,8 @@ species=['human', 'mouse']
 
 # lr stuff
 # lr_df = pd.read_csv(expand(config['lr']['meta'], species=species)[0], sep='\t')
-lr_df = process_lr_metadata(config['lr']['meta'], ['human', 'mouse'])
+lr_df = process_lr_metadata(config['lr']['meta'], ['human', 'mouse'],
+                            datasets_per_talon_run)
 
 # need to generalize this for multiple species
 # lr_meta = process_encode_metadata(expand(config['lr']['encode_meta'], species=species)[0])

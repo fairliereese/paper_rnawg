@@ -1,6 +1,3 @@
-configfile: 'config.yml'
-
-
 rule talon_init:
 	resources:
 		mem_gb = 32,

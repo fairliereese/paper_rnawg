@@ -14,6 +14,7 @@ include: 'download.smk'
 include: 'samtools.smk'
 include: 'spike_refs.smk'
 include: 'refs.smk'
+include: 'talon.smk'
 
 ############# config stuff
 configfile: 'config.yml'

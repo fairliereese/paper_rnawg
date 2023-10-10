@@ -15,9 +15,9 @@ def get_talon_run_info(wc, df, cfg_entry, files=True):
     """
     temp = df.copy(deep=True)
     temp = temp.loc[(temp.species==wc.species)&\
-                  (temp.talon_run==wc.talon_run)]
-    datasets = df.dataset.tolist()
-    species = df.species.tolist()
+                  (temp.talon_run==int(wc.talon_run))]
+    datasets = temp.dataset.tolist()
+    species = temp.species.tolist()
     files = expand(cfg_entry,
                    zip,
                    dataset=datasets,

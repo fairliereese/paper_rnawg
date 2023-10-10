@@ -34,8 +34,8 @@ wildcard_constraints:
     dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()]),
     species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()])
 
-ruleorder:
-    first_talon > seq_talon
+# ruleorder:
+#     first_talon > seq_talon
 
 
 ############ rules

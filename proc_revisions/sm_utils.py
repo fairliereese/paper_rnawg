@@ -43,11 +43,14 @@ def process_lr_metadata(cfg_entry, species, datasets_per_talon_run):
             temp['species'] = s
             df = pd.concat([df, temp], axis=0)
 
-    df['talon_run'] = ((df.sort_values(['species', 'dataset'],
+    # get number to mod each talon run by
+    df['n_datasets'] = df[['dataset', 'species']].groupby('species')[['dataset']].transform('count')
+    df['mod_num'] = np.ceil(df.n_datasets/datasets_per_talon_run)
+    df['talon_run'] = (df.sort_values(['species', 'dataset'],
                                     ascending=[True, True])\
                                     .groupby('species')\
-                                    .cumcount() + 1)\
-                                    %datasets_per_talon_run).tolist()
+                                    .cumcount() + 1).to_numpy()\
+                                    % df.mod_num.to_numpy()
     return df
 
 

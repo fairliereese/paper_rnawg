@@ -144,6 +144,7 @@ rule talon_config:
         cfg_df = get_talon_run_info(wildcards, params.df,
                                     config['lr']['talon']['bam_sort'],
                                     files=False)
+        import pdb; pdb.set_trace()
         cfg_df = cfg_df[['dataset', 'sample', 'platform', 'talon_file']]
         cfg_df.to_csv(output.config, header=None, sep=',', index=False)
 

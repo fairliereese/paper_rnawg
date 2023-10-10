@@ -2,6 +2,21 @@ import pandas as pd
 import pyranges as pr
 import cerberus
 import numpy as np
+from snakemake.io import expand
+
+
+def process_lr_metadata(cfg_entry, species):
+    for i,s in enumerate(species):
+        f = expand(cfg_entry, species=s)[0]
+        if i == 0:
+            df = pd.read_csv(f, sep='\t')
+            df['species'] = s
+        else:
+            temp = pd.read_csv(f, sep='\t')
+            temp['species'] = s
+            df = pd.concat([df, temp], axis=0)
+    return df
+    
 
 def format_metadata_col(df, col, new_col):
     df[new_col] = df[col].str.lower()

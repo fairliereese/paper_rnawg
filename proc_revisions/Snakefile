@@ -1,4 +1,5 @@
 # TODO add that daataset that you're missing from mouse to the cart!!!
+# TODO rename "adrenal gland" to "adrenal_gland"
 import pandas as pd
 import os
 import sys
@@ -7,25 +8,34 @@ import numpy as np
 p = os.getcwd()
 sys.path.append(p)
 
-from utils import *
+from sm_utils import *
 
 include: 'download.smk'
 include: 'samtools.smk'
+include: 'spike_refs.smk'
+include: 'refs.smk'
+
 configfile: 'config.yml'
 
-species=['human']
+species=['human', 'mouse']
 
 # lr stuff
-lr_df = pd.read_csv(expand(config['lr']['meta'], species=species)[0], sep='\t')
-lr_meta = process_encode_metadata(expand(config['lr']['encode_meta'], species=species)[0])
+# lr_df = pd.read_csv(expand(config['lr']['meta'], species=species)[0], sep='\t')
+lr_df = df = process_lr_metadata(config['lr']['meta'], ['human', 'mouse'])
+
+# need to generalize this for multiple species
+# lr_meta = process_encode_metadata(expand(config['lr']['encode_meta'], species=species)[0])
 
 wildcard_constraints:
-    dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()])
+    dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()]),
+    species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()])
+
 
 rule all:
     input:
-        expand(config['lr']['bam_ind'],
-               species=species,
+        expand(config['lr']['talon']['bam_ind'],
+               zip,
+               species=lr_df.species.tolist(),
                dataset=lr_df.dataset.tolist())
         # expand(config['lr']['bam_ind'],
         #        species=species,
@@ -39,7 +49,9 @@ rule all:
 ################################################################################
 def get_lr_encid(wc, df):
     dataset = wc.dataset
-    temp = df.loc[(df.dataset==dataset)]
+    species = wc.species
+    temp = df.loc[(df.dataset==dataset)&\
+                  (df.species==species)]
     return temp['ENCODE_alignments_id'].values[0]
 
 use rule dl_encid as lr_dl with:
@@ -48,15 +60,40 @@ use rule dl_encid as lr_dl with:
         file_ext = 'bam'
     output:
         out = temporary(config['lr']['bam'])
+################################################################################
+#################################### TALON #####################################
+################################################################################
+
+rule talon_label:
+    input:
+        bam = config['lr']['bam'],
+        fa = config['ref']['talon']['fa']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    params:
+        opref = config['lr']['talon']['bam_label'].rsplit('_labeled.bam')[0]
+    output:
+        bam = config['lr']['talon']['bam_label']
+    shell:
+        """
+        talon_label_reads \
+            --f {input.bam} \
+            --g {input.fa} \
+            --tmpDir {params.opref}_tmp/ \
+            --ar 20  \
+            --deleteTmp  \
+            --o {params.opref}
+        """
 
 use rule sort_bam as lr_sort_bam with:
     input:
-        bam = config['lr']['bam']
+        bam = config['lr']['talon']['bam_label']
     output:
-        bam = config['lr']['bam_sort']
+        bam = config['lr']['talon']['bam_sort']
 
 use rule index_bam as lr_index_bam with:
     input:
-        bam = config['lr']['bam_sort']
+        bam = config['lr']['talon']['bam_sort']
     output:
-        ind = config['lr']['bam_ind']
+        ind = config['lr']['talon']['bam_ind']

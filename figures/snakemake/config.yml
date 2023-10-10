@@ -197,6 +197,7 @@ data:
     ca_ab: data/spike/cerberus/ca_ab.tsv
 
   tracks:
+    as: ref/genepred_format.as
     sample:
         gtf: data/{species}/tracks/{sample}.gtf
         gtf_sort: data/{species}/tracks/{sample}_sorted.gtf

@@ -2243,11 +2243,5 @@ rule tracks_bigbed:
         ofile = config['data']['tracks']['sample']['bb']
     shell:
         """
-        bedToBigBed \
-            -type=bed12+8 \
-            -tab \
-            -as={input.as_file} \
-            {input.ifile} \
-            {input.chrom_sizes}
-            {output.ofile}
+        bedToBigBed -type=bed12+8 -tab -as={input.as_file} {input.ifile} {input.chrom_sizes} {output.ofile}
         """

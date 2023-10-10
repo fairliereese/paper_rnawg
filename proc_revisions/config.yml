@@ -1,6 +1,55 @@
+ref:
+  # links to download
+  human:
+    gtf_link: https://www.encodeproject.org/files/gencode.v29.primary_assembly.annotation_UCSC_names/@@download/gencode.v29.primary_assembly.annotation_UCSC_names.gtf.gz
+    new_gtf_link: https://www.encodeproject.org/files/ENCFF691CWD/@@download/ENCFF691CWD.gtf.gz
+    fa_link: https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz
+    chrom_sizes_link: https://www.encodeproject.org/files/ENCFF667IGK/@@download/ENCFF667IGK.tsv
+  mouse:
+    gtf_link: https://www.encodeproject.org/files/gencode.vM21.primary_assembly.annotation_UCSC_names/@@download/gencode.vM21.primary_assembly.annotation_UCSC_names.gtf.gz
+    new_gtf_link: https://www.encodeproject.org/files/ENCFF060VNF/@@download/ENCFF060VNF.gtf.gz
+    fa_link: https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/@@download/mm10_no_alt_analysis_set_ENCODE.fasta.gz
+
+  # links and locations of spikes
+  spike:
+    sirv_gtf_link: https://www.encodeproject.org/files/ENCFF873AAI/@@download/ENCFF873AAI.gtf.gz
+    sirv_gtf_gz: ref/spike/sirv.gtf.gz
+    sirv_gtf: ref/spike/sirv.gtf
+    sirv_fa_link: https://www.encodeproject.org/files/ENCFF473RJX/@@download/ENCFF473RJX.fasta.gz
+    sirv_fa_gz: ref/spike/sirv.fa.gz
+    sirv_fa: ref/spike/sirv.fa
+    ercc_gtf: ref/spike/ercc.gtf
+    ercc_fa_link: https://www.encodeproject.org/files/ENCFF001RTP/@@download/ENCFF001RTP.fasta.gz
+    ercc_fa_gz: ref/spike/ercc.fa.gz
+    ercc_fa: ref/spike/ercc.fa
+
+
+  # vM21 or v29
+  gtf_gz: ref/{species}/annot.gtf.gz
+  gtf: ref/{species}/annot.gtf
+
+  # vM25 or v40
+  new_gtf_gz: ref/{species}/new_annot.gtf.gz
+  new_gtf: ref/{species}/new_annot.gtf
+
+  fa_gz: ref/{species}/ref.fa.gz
+  fa: ref/{species}/ref.fa
+
+  # TALON reference - ENCODE refs (vM21 or v29) + SIRV + ERCC
+  talon:
+    fa: ref/{species}/talon/ref.fa
+    gtf: ref/{species}/talon/ref.gtf
+
+
+
+
+
 lr:
   meta: data/{species}/lr/lr_{species}_library_data_summary.tsv
   encode_meta: data/{species}/lr/encode_metadata.tsv
   bam: data/{species}/lr/tc/{dataset}.bam
-  bam_sort: data/{species}/lr/tc/{dataset}_sorted.bam
-  bam_ind: data/{species}/lr/tc/{dataset}_sorted.bam.bai
+
+  talon:
+    bam_label: data/{species}/lr/talon/{dataset}_labeled.bam
+    bam_sort: data/{species}/lr/talon/{dataset}_sorted.bam
+    bam_ind: data/{species}/lr/talon/{dataset}_sorted.bam.bai

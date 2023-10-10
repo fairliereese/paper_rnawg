@@ -1,13 +1,19 @@
 ref:
   # links to download
   human:
+    gtf_ver: 'v29'
     gtf_link: https://www.encodeproject.org/files/gencode.v29.primary_assembly.annotation_UCSC_names/@@download/gencode.v29.primary_assembly.annotation_UCSC_names.gtf.gz
+    new_gtf_ver: 'v40'
     new_gtf_link: https://www.encodeproject.org/files/ENCFF691CWD/@@download/ENCFF691CWD.gtf.gz
+    fa_ver: 'hg38'
     fa_link: https://www.encodeproject.org/files/GRCh38_no_alt_analysis_set_GCA_000001405.15/@@download/GRCh38_no_alt_analysis_set_GCA_000001405.15.fasta.gz
     chrom_sizes_link: https://www.encodeproject.org/files/ENCFF667IGK/@@download/ENCFF667IGK.tsv
   mouse:
+    gtf_ver: 'vM21'
     gtf_link: https://www.encodeproject.org/files/gencode.vM21.primary_assembly.annotation_UCSC_names/@@download/gencode.vM21.primary_assembly.annotation_UCSC_names.gtf.gz
+    new_gtf_ver: 'vM25'
     new_gtf_link: https://www.encodeproject.org/files/ENCFF060VNF/@@download/ENCFF060VNF.gtf.gz
+    fa_ver: 'mm10'
     fa_link: https://www.encodeproject.org/files/mm10_no_alt_analysis_set_ENCODE/@@download/mm10_no_alt_analysis_set_ENCODE.fasta.gz
 
   # links and locations of spikes
@@ -56,3 +62,8 @@ lr:
     bam: data/{species}/lr/talon/label/{dataset}.bam
     bam_sort: data/{species}/lr/talon/label/{dataset}_sorted.bam
     bam_ind: data/{species}/lr/talon/label/{dataset}_sorted.bam.bai
+
+    ref_db: data/{species}/lr/talon/ref/ref.db
+
+    config: data/{species}/lr/talon/{talon_run}_config.csv
+    db: data/{species}/lr/talon/{talon_run}_talon.db

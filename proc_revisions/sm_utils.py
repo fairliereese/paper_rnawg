@@ -4,8 +4,35 @@ import cerberus
 import numpy as np
 from snakemake.io import expand
 
+def get_talon_run_info(wc, df, cfg_entry, files=True):
+    """
+    Get all files for a talon run
 
-def process_lr_metadata(cfg_entry, species):
+    Parameters:
+        files (bool): True if it should return just the
+            list of input files for this TALON run,
+            False if it should return the whole DF
+    """
+    temp = df.copy(deep=True)
+    temp = temp.loc[(temp.species==wc.species)&\
+                  (temp.talon_run==wc.talon_run)]
+    datasets = df.dataset.tolist()
+    species = df.species.tolist()
+    files = expand(cfg_entry,
+                   zip,
+                   dataset=datasets,
+                   species=species)
+    temp['talon_file'] = files
+    if files:
+        return files
+    else:
+        return df
+
+def process_lr_metadata(cfg_entry, species, datasets_per_talon_run):
+    """
+    Concatenate metadata for each dataset from multiple species together.
+    Assign each dataset to a talon run number
+    """
     for i,s in enumerate(species):
         f = expand(cfg_entry, species=s)[0]
         if i == 0:
@@ -15,8 +42,14 @@ def process_lr_metadata(cfg_entry, species):
             temp = pd.read_csv(f, sep='\t')
             temp['species'] = s
             df = pd.concat([df, temp], axis=0)
+
+    df['talon_run'] = ((df.sort_values(['species', 'dataset'],
+                                    ascending=[True, True])\
+                                    .groupby('species')\
+                                    .cumcount() + 1)\
+                                    %datasets_per_talon_run).tolist()
     return df
-    
+
 
 def format_metadata_col(df, col, new_col):
     df[new_col] = df[col].str.lower()

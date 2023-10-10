@@ -23,7 +23,7 @@ def get_talon_run_info(wc, df, cfg_entry, dataframe=False):
                    dataset=datasets,
                    species=species)
     temp['talon_file'] = files
-    if dataframe:
+    if not dataframe:
         return files
     else:
         return temp

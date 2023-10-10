@@ -74,7 +74,7 @@ rule talon_label:
     params:
         opref = config['lr']['talon']['bam_label'].rsplit('_labeled.bam')[0]
     output:
-        bam = config['lr']['talon']['bam_label']
+        bam = temporary(config['lr']['talon']['bam_label'])
     shell:
         """
         talon_label_reads \

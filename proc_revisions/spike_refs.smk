@@ -9,7 +9,7 @@ use rule dl as dl_sirv_gtf with:
   params:
     link = config['ref']['spike']['sirv_gtf_link']
   output:
-    out = config['ref']['spike']['sirv_gtf_gz']
+    out = temporary(config['ref']['spike']['sirv_gtf_gz'])
 
 use rule gunzip as gunzip_sirv_gtf with:
   input:
@@ -21,7 +21,7 @@ use rule dl as dl_sirv_fa with:
   params:
     link = config['ref']['spike']['sirv_fa_link']
   output:
-    out = config['ref']['spike']['sirv_fa_gz']
+    out = temporary(config['ref']['spike']['sirv_fa_gz'])
 
 use rule gunzip as gunzip_sirv_fa with:
   input:
@@ -33,7 +33,7 @@ use rule dl as dl_ercc_fa with:
   params:
     link = config['ref']['spike']['ercc_fa_link']
   output:
-    out = config['ref']['spike']['ercc_fa_gz']
+    out = temporary(config['ref']['spike']['ercc_fa_gz'])
 
 use rule gunzip as gunzip_ercc_fa with:
   input:

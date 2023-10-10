@@ -4,14 +4,14 @@ import cerberus
 import numpy as np
 from snakemake.io import expand
 
-def get_talon_run_info(wc, df, cfg_entry, files=True):
+def get_talon_run_info(wc, df, cfg_entry, dataframe=False):
     """
     Get all files for a talon run
 
     Parameters:
-        files (bool): True if it should return just the
+        dataframe (bool): False if it should return just the
             list of input files for this TALON run,
-            False if it should return the whole DF
+            True if it should return the whole DF
     """
     temp = df.copy(deep=True)
     temp = temp.loc[(temp.species==wc.species)&\

@@ -132,7 +132,7 @@ rule talon_config:
     input:
         files = lambda wc:get_talon_run_info(wc, lr_df,
                             cfg_entry=config['lr']['talon']['bam_sort'],
-                            files=True)
+                            dataframe=False)
     resources:
         threads = 1,
         mem_gb = 1
@@ -143,8 +143,7 @@ rule talon_config:
     run:
         cfg_df = get_talon_run_info(wildcards, params.df,
                                     config['lr']['talon']['bam_sort'],
-                                    files=False)
-        import pdb; pdb.set_trace()
+                                    dataframe=True)
         cfg_df = cfg_df[['dataset', 'sample', 'platform', 'talon_file']]
         cfg_df.to_csv(output.config, header=None, sep=',', index=False)
 

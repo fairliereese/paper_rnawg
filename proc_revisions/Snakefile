@@ -19,7 +19,7 @@ include: 'talon.smk'
 ############# config stuff
 configfile: 'config.yml'
 
-datasets_per_talon_run = 7
+datasets_per_talon_run = 14
 species=['human', 'mouse']
 
 # lr stuff

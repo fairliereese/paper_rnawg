@@ -51,6 +51,7 @@ def process_lr_metadata(cfg_entry, species, datasets_per_talon_run):
                                     .groupby('species')\
                                     .cumcount() + 1).to_numpy()\
                                     % df.mod_num.to_numpy()
+    df['talon_run'] = df.talon_run.astype('int')
     return df
 
 

@@ -72,9 +72,10 @@ rule talon_label:
         mem_gb = 64,
         threads = 1
     params:
-        opref = config['lr']['talon']['bam_label'].rsplit('_labeled.bam')[0]
+        opref = config['lr']['talon']['sam_label'].rsplit('_labeled.sam')[0]
     output:
-        bam = temporary(config['lr']['talon']['bam_label'])
+        bam = temporary(config['lr']['talon']['sam_label']),
+        tsv = temporary(config['lr']['talon']['read_labels'])
     shell:
         """
         talon_label_reads \
@@ -86,9 +87,15 @@ rule talon_label:
             --o {params.opref}
         """
 
+use rule sam_to_bam as lr_sam_to_bam with:
+    input:
+        sam = config['lr']['talon']['sam_label']
+    ouptut:
+        bam = temporary(config['lr']['talon']['bam'])
+
 use rule sort_bam as lr_sort_bam with:
     input:
-        bam = config['lr']['talon']['bam_label']
+        bam = config['lr']['talon']['bam']
     output:
         bam = config['lr']['talon']['bam_sort']
 

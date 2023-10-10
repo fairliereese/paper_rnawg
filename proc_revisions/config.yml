@@ -50,6 +50,9 @@ lr:
   bam: data/{species}/lr/tc/{dataset}.bam
 
   talon:
-    bam_label: data/{species}/lr/talon/{dataset}_labeled.bam
-    bam_sort: data/{species}/lr/talon/{dataset}_sorted.bam
-    bam_ind: data/{species}/lr/talon/{dataset}_sorted.bam.bai
+    sam_label: data/{species}/lr/talon/label/{dataset}_labeled.sam
+    read_labels: data/{species}/lr/talon/label/{dataset}_read_labels.tsv
+
+    bam: data/{species}/lr/talon/label/{dataset}.bam
+    bam_sort: data/{species}/lr/talon/label/{dataset}_sorted.bam
+    bam_ind: data/{species}/lr/talon/label/{dataset}_sorted.bam.bai

@@ -1,3 +1,13 @@
+rule sam_to_bam:
+    resources:
+        threads = 16,
+        mem_gb = 16
+    shell:
+        """
+        module load samtools
+        samtools view -hSb {input.sam} > {output.bam}
+        """
+
 rule sort_bam:
     resources:
         threads = 16,

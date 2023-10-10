@@ -1,4 +1,5 @@
 *bed
+figures/exon_coexp/*tsv
 *.h5
 *tsv.gz
 *gtf.gz

@@ -26,7 +26,7 @@ def get_talon_run_info(wc, df, cfg_entry, dataframe=False):
     if files:
         return files
     else:
-        return df
+        return temp
 
 def process_lr_metadata(cfg_entry, species, datasets_per_talon_run):
     """

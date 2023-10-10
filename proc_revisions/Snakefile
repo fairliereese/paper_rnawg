@@ -90,7 +90,7 @@ rule talon_label:
 use rule sam_to_bam as lr_sam_to_bam with:
     input:
         sam = config['lr']['talon']['sam_label']
-    ouptut:
+    output:
         bam = temporary(config['lr']['talon']['bam'])
 
 use rule sort_bam as lr_sort_bam with:

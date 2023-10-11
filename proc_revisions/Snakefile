@@ -157,7 +157,7 @@ use rule talon as first_talon with:
         read_annot = get_talon_run_file(0, config['lr']['talon']['annot'])
 
 # sequential talon runs
-use rule talon as seq_talon:
+use rule talon as seq_talon with:
     input:
         ref = lambda wc:get_talon_run_file(int(wc.talon_run)-1),
                         config['lr']['talon']['db'],

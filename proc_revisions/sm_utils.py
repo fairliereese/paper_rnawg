@@ -4,6 +4,30 @@ import cerberus
 import numpy as np
 from snakemake.io import expand
 
+def get_lr_encid(wc, df):
+    """
+    Get the ENCID of the alignments file
+    given the dataset and species name
+    """
+    dataset = wc.dataset
+    species = wc.species
+    temp = df.loc[(df.dataset==dataset)&\
+                  (df.species==species)]
+    return temp['ENCODE_alignments_id'].values[0]
+
+def get_talon_run_file(talon_run, cfg_entry):
+    """
+    Get the config entry associated with the talon
+    run number. Goal of this function is
+    to make my expand statements more reproducible
+    """
+    files = expand(cfg_entry,
+                   zip,
+                   talon_run=int(talon_run),
+                   allow_missing=True)
+    assert len(files) == 1
+    return files[0]
+
 def get_talon_run_info(wc, df, cfg_entry, dataframe=False):
     """
     Get all files for a talon run
@@ -52,6 +76,7 @@ def process_lr_metadata(cfg_entry, species, datasets_per_talon_run):
                                     .cumcount() + 1).to_numpy()\
                                     % df.mod_num.to_numpy()
     df['talon_run'] = df.talon_run.astype('int')
+    df['max_talon_run'] = df[['talon_run', 'species']].groupby('species')[['talon_run']].transform('max')
     return df
 
 

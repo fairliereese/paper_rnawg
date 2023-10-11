@@ -19,7 +19,7 @@ rule talon:
         threads = 30
     shell:
         """
-        ref_db={input.ref}_{wildcards.dataset}_{wildcards.talon_run}
+        ref_db={input.ref}_{wildcards.species}
         cp {input.ref} ${{ref_db}}
         talon \
             --f {input.config} \

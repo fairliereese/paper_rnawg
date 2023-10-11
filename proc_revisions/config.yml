@@ -68,3 +68,4 @@ lr:
     config: data/{species}/lr/talon/{talon_run}_config.csv
     db: data/{species}/lr/talon/{talon_run}_talon.db
     annot: data/{species}/lr/talon/{talon_run}_talon_read_annot.tsv
+    debug_log: data/{species}/lr/talon/{talon_run}_debug_log.txt

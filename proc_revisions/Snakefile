@@ -30,10 +30,11 @@ lr_df = process_lr_metadata(config['lr']['meta'],
 
 wildcard_constraints:
     dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()]),
-    species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()])
+    species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()]),
+    talon_run='|'.join([re.escape(x) for x in lr_df.talon_run.astype(str).unique().tolist()]),
 
-# ruleorder:
-#     first_talon > seq_talon
+ruleorder:
+    first_talon > seq_talon
 
 
 ############ rules
@@ -43,10 +44,13 @@ rule all:
                zip,
                species=lr_df.species.tolist(),
                dataset=lr_df.dataset.tolist()),
-        expand(config['lr']['talon']['bam_ind'],
-               zip,
-               species=lr_df.species.tolist(),
-               talon_run=lr_df.max_talon_run.tolist())
+        expand(config['lr']['talon']['db'],
+              species=lr_df.species.tolist(),
+              talon_run=0)
+        # expand(config['lr']['talon']['db'],
+        #        zip,
+        #        species=lr_df.species.tolist(),
+        #        talon_run=lr_df.max_talon_run.tolist())
         # expand(config['lr']['talon']['config'],
         #        zip,
         #        species=lr_df.species.tolist(),
@@ -121,6 +125,8 @@ use rule talon_init as talon_init_db with:
         genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],
         annot_ver = lambda wc:config['ref'][wc.species]['gtf_ver'],
         opref = config['lr']['talon']['ref_db'].rsplit('.db', maxsplit=1)[0]
+    output:
+        db = config['lr']['talon']['ref_db']
 
 # get config files for each talon run
 rule talon_config:
@@ -153,14 +159,14 @@ use rule talon as first_talon with:
         opref = get_talon_run_file(0, config['lr']['talon']['db']).rsplit('_talon.db',
                                    maxsplit=1)[0]
     output:
-        db = get_talon_run_file(0, config['lr']['talon']['db'])
+        db = get_talon_run_file(0, config['lr']['talon']['db']),
         read_annot = get_talon_run_file(0, config['lr']['talon']['annot'])
 
 # sequential talon runs
 use rule talon as seq_talon with:
     input:
-        ref = lambda wc:get_talon_run_file(int(wc.talon_run)-1),
-                        config['lr']['talon']['db'],
+        ref = lambda wc:get_talon_run_file(int(wc.talon_run)-1,
+                        config['lr']['talon']['db']),
         config = config['lr']['talon']['config']
     params:
         genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],

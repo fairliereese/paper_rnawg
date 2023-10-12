@@ -40,7 +40,7 @@ use rule gunzip as gz_ercc_fa with:
   output:
     out = config['ref']['spike']['ercc_fa']
 
-rule get_ercc_gtf:
+rule mkref_ercc_gtf:
     input:
         fa = config['ref']['spike']['ercc_fa']
     resources:

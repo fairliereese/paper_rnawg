@@ -95,7 +95,7 @@ rule talon:
             --threads {resources.threads} \
             --create_novel_spliced_genes \
             --o {params.opref} \
-            -v 2 > {output.debug_log}
+            -v 1 > {output.debug_log}
         mv ${{ref_db}} {params.opref}_talon.db
         """
 

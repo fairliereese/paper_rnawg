@@ -21,3 +21,8 @@ snakemake \
   --latency-wait 120 \
   --use-conda -n
 ```
+
+```bash
+snakemake --forceall --dag | dot -Tpdf > dag.pdf
+snakemake --forceall --rulegraph | dot -Tpdf > dag.pdf
+```

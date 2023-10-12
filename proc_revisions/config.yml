@@ -62,9 +62,6 @@ ref:
   lapa:
     gtf: ref/{species}/lapa/ref.gtf
 
-
-
-
 lr:
   meta: data/{species}/lr/lr_{species}_library_data_summary.tsv
   encode_meta: data/{species}/lr/encode_metadata.tsv

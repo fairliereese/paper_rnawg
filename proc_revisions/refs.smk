@@ -90,6 +90,7 @@ rule mkref_chrom_sizes:
         faidx {input.fa} -i chromsizes > {output.chrom_sizes}
         """
 
+# installable from here: https://github.com/MuhammedHasan/gencode_utr_fix
 rule mkref_utr_fix_gtf:
     input:
         gtf = config['ref']['talon']['gtf']

@@ -15,43 +15,6 @@ def get_lr_encid(wc, df):
                   (df.species==species)]
     return temp['ENCODE_alignments_id'].values[0]
 
-def get_talon_run_file(talon_run, cfg_entry):
-    """
-    Get the config entry associated with the talon
-    run number. Goal of this function is
-    to make my expand statements more reproducible
-    """
-    files = expand(cfg_entry,
-                   zip,
-                   talon_run=int(talon_run),
-                   allow_missing=True)
-    assert len(files) == 1
-    return files[0]
-
-def get_talon_run_info(wc, df, cfg_entry, dataframe=False):
-    """
-    Get all files for a talon run
-
-    Parameters:
-        dataframe (bool): False if it should return just the
-            list of input files for this TALON run,
-            True if it should return the whole DF
-    """
-    temp = df.copy(deep=True)
-    temp = temp.loc[(temp.species==wc.species)&\
-                  (temp.talon_run==int(wc.talon_run))]
-    datasets = temp.dataset.tolist()
-    species = temp.species.tolist()
-    files = expand(cfg_entry,
-                   zip,
-                   dataset=datasets,
-                   species=species)
-    temp['talon_file'] = files
-    if not dataframe:
-        return files
-    else:
-        return temp
-
 def process_lr_metadata(cfg_entry, species, datasets_per_talon_run):
     """
     Concatenate metadata for each dataset from multiple species together.

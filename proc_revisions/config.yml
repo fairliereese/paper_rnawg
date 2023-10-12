@@ -44,8 +44,12 @@ ref:
   # TALON reference - ENCODE refs (vM21 or v29) + SIRV + ERCC
   talon:
     fa: ref/{species}/talon/ref.fa
+    chrom_sizes: ref/{species}/talon/ref.fa
     gtf: ref/{species}/talon/ref.gtf
 
+  # LAPA reference - ENCODE refs (vM21 or v29) + SIRV + ERCC + GENCODE UTRs
+  lapa:
+    gtf: ref/{species}/lapa/ref.gtf
 
 
 
@@ -69,3 +73,23 @@ lr:
     db: data/{species}/lr/talon/{talon_run}_talon.db
     annot: data/{species}/lr/talon/{talon_run}_talon_read_annot.tsv
     debug_log: data/{species}/lr/talon/{talon_run}_debug_log.txt
+
+    full_annot: data/{species}/lr/talon/full_talon_read_annot.tsv
+    pass_list: data/{species}/lr/talon/talon_pass_list.csv
+    ab: data/{species}/lr/talon/unfilt_talon_abundance.tsv
+    filt_ab: data/{species}/lr/talon/talon_abundance_filtered.tsv
+    gtf: data/{species}/lr/annot_talon_observedOnly.gtf
+
+
+  lapa:
+    config: data/{species}/lr/lapa/config.csv
+    ends: data/{species}/lapa/{end_mode}/{end_mode}_clusters.bed
+    links: data/{species}/lapa/tss_to_tes_links.csv
+
+    gtf: data/{species}/lapa/lapa_corrected.gtf
+    filt_ab: data/{species}/lapa/lapa_corrected_filtered_abundance.tsv
+
+    filt:
+      pass_list: data/{species}/lapa/filt/lapa_pass_list.tsv
+      filt_ab: data/{species}/lapa/filt/lapa_corrected_filtered_abundance.tsv
+      gtf: data/{species}/lapa/filt/lapa_corrected.gtf

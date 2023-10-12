@@ -31,11 +31,7 @@ lr_df = process_lr_metadata(config['lr']['meta'],
 wildcard_constraints:
     dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()]),
     species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()]),
-    talon_run='|'.join([re.escape(x) for x in lr_df.talon_run.astype(str).unique().tolist()]),
-
-ruleorder:
-    first_talon > seq_talon
-
+    talon_run='|'.join([re.escape(x) for x in lr_df.talon_run.astype(str).unique().tolist()])
 
 ############ rules
 rule all:
@@ -45,12 +41,9 @@ rule all:
                species=lr_df.species.tolist(),
                dataset=lr_df.dataset.tolist()),
         expand(config['lr']['talon']['db'],
-              species=lr_df.species.tolist(),
-              talon_run=0)
-        # expand(config['lr']['talon']['db'],
-        #        zip,
-        #        species=lr_df.species.tolist(),
-        #        talon_run=lr_df.max_talon_run.tolist())
+               zip,
+               species=lr_df.species.tolist(),
+               talon_run=lr_df.max_talon_run.tolist())
         # expand(config['lr']['talon']['config'],
         #        zip,
         #        species=lr_df.species.tolist(),
@@ -71,106 +64,3 @@ use rule dl_encid as lr_dl with:
         file_ext = 'bam'
     output:
         out = temporary(config['lr']['bam'])
-################################################################################
-#################################### TALON #####################################
-################################################################################
-
-# label reads and create indexed BAM files to retain
-rule talon_label:
-    input:
-        bam = config['lr']['bam'],
-        fa = config['ref']['talon']['fa']
-    resources:
-        mem_gb = 64,
-        threads = 1
-    params:
-        opref = config['lr']['talon']['sam_label'].rsplit('_labeled.sam')[0]
-    output:
-        bam = temporary(config['lr']['talon']['sam_label']),
-        tsv = temporary(config['lr']['talon']['read_labels'])
-    shell:
-        """
-        talon_label_reads \
-            --f {input.bam} \
-            --g {input.fa} \
-            --tmpDir {params.opref}_tmp/ \
-            --ar 20  \
-            --deleteTmp  \
-            --o {params.opref}
-        """
-
-use rule sam_to_bam as lr_sam_to_bam with:
-    input:
-        sam = config['lr']['talon']['sam_label']
-    output:
-        bam = temporary(config['lr']['talon']['bam'])
-
-use rule sort_bam as lr_sort_bam with:
-    input:
-        bam = config['lr']['talon']['bam']
-    output:
-        bam = config['lr']['talon']['bam_sort']
-
-use rule index_bam as lr_index_bam with:
-    input:
-        bam = config['lr']['talon']['bam_sort']
-    output:
-        ind = config['lr']['talon']['bam_ind']
-
-# initialize TALON db
-use rule talon_init as talon_init_db with:
-    input:
-        gtf = config['ref']['talon']['gtf']
-    params:
-        genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],
-        annot_ver = lambda wc:config['ref'][wc.species]['gtf_ver'],
-        opref = config['lr']['talon']['ref_db'].rsplit('.db', maxsplit=1)[0]
-    output:
-        db = config['lr']['talon']['ref_db']
-
-# get config files for each talon run
-rule talon_config:
-    input:
-        files = lambda wc:get_talon_run_info(wc, lr_df,
-                            cfg_entry=config['lr']['talon']['bam_sort'],
-                            dataframe=False)
-    resources:
-        threads = 1,
-        mem_gb = 1
-    params:
-        df = lr_df
-    output:
-        config = config['lr']['talon']['config']
-    run:
-        cfg_df = get_talon_run_info(wildcards, params.df,
-                                    config['lr']['talon']['bam_sort'],
-                                    dataframe=True)
-        cfg_df = cfg_df[['dataset', 'sample', 'platform', 'talon_file']]
-        cfg_df.to_csv(output.config, header=None, sep=',', index=False)
-
-
-# first talon run
-use rule talon as first_talon with:
-    input:
-        ref = config['lr']['talon']['ref_db'],
-        config = get_talon_run_file(0, config['lr']['talon']['config'])
-    params:
-        genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],
-        opref = get_talon_run_file(0, config['lr']['talon']['db']).rsplit('_talon.db',
-                                   maxsplit=1)[0]
-    output:
-        db = get_talon_run_file(0, config['lr']['talon']['db']),
-        read_annot = get_talon_run_file(0, config['lr']['talon']['annot'])
-
-# sequential talon runs
-use rule talon as seq_talon with:
-    input:
-        ref = lambda wc:get_talon_run_file(int(wc.talon_run)-1,
-                        config['lr']['talon']['db']),
-        config = config['lr']['talon']['config']
-    params:
-        genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],
-        opref = config['lr']['talon']['db'].rsplit('_talon.db', maxsplit=1)[0]
-    output:
-        db = config['lr']['talon']['db'],
-        read_annot = config['lr']['talon']['annot']

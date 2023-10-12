@@ -77,3 +77,31 @@ rule mkref_spike_fa:
         cat {input.sirv} >> {output.all}
         cat {input.ercc} >> {output.all}
         """
+
+rule get_chrom_sizes:
+    input:
+        fa = config['ref']['talon']['fa']
+    resources:
+        threads = 1,
+        mem_gb = 8
+    output:
+        chrom_sizes = config['ref']['talon']['chrom_sizes']
+    shell:
+        """
+        faidx {input.fa} -i chromsizes > {output.chrom_sizes}
+        """
+
+rule get_utr_fix_gtf:
+    input:
+        gtf = config['ref']['talon']['gtf']
+    resources:
+        threads = 1,
+        mem_gb = 8
+    output:
+        gtf = config['ref']['lapa']['gtf_utr']
+    shell:
+        """
+        gencode_utr_fix \
+            --input_gtf {input.gtf} \
+            --output_gtf {output.gtf}
+        """

@@ -43,7 +43,7 @@ use rule gunzip as gz_new_annot with:
 ####################### Ref. w/ spikes for TALON ################################
 ################################################################################
 
-rule mkref_gtf_with_spike:
+rule mkref_spike_gtf:
     input:
         sirv = config['ref']['spike']['sirv_gtf'],
         ercc = config['ref']['spike']['ercc_gtf'],
@@ -69,15 +69,15 @@ rule mkref_spike_fa:
         threads = 1,
         mem_gb = 4
     output:
-        all = config['ref']['talon']['fa']
+        cat_fa = config['ref']['talon']['fa']
     shell:
         """
-        cat {input.fa} >> {output.all}
-        cat {input.sirv} >> {output.all}
-        cat {input.ercc} >> {output.all}
+        cat {input.fa} >> {output.cat_fa}
+        cat {input.sirv} >> {output.cat_fa}
+        cat {input.ercc} >> {output.cat_fa}
         """
 
-rule get_chrom_sizes:
+rule mkref_chrom_sizes:
     input:
         fa = config['ref']['talon']['fa']
     resources:
@@ -90,7 +90,7 @@ rule get_chrom_sizes:
         faidx {input.fa} -i chromsizes > {output.chrom_sizes}
         """
 
-rule get_utr_fix_gtf:
+rule mkref_utr_fix_gtf:
     input:
         gtf = config['ref']['talon']['gtf']
     resources:

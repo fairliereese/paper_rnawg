@@ -19,7 +19,7 @@ lr_df = process_lr_metadata(config['lr']['meta'],
 
 ############# snakemake settings stuff
 ruleorder:
-    first_talon > seq_talon
+    talon_first > talon_seq
 
 def get_talon_run_file(talon_run, cfg_entry):
     """
@@ -250,7 +250,7 @@ rule talon_config:
 
 
 # first talon run
-use rule talon as first_talon with:
+use rule talon as talon_first with:
     input:
         ref = config['lr']['talon']['ref_db'],
         config = get_talon_run_file(0, config['lr']['talon']['config'])
@@ -264,7 +264,7 @@ use rule talon as first_talon with:
         debug_log = get_talon_run_file(0, config['lr']['talon']['debug_log'])
 
 # sequential talon runs
-use rule talon as seq_talon with:
+use rule talon as talon_seq with:
     input:
         ref = lambda wc:get_talon_run_file(int(wc.talon_run)-1,
                         config['lr']['talon']['db']),

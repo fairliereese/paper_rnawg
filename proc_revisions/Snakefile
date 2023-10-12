@@ -41,7 +41,7 @@ rule all:
                dataset=lr_df.dataset.tolist()),
         expand(config['lr']['lapa']['filt']['gtf'],
                zip,
-               species=lr_df.species.tolist())
+               species=lr_df.species.tolist()),
         # expand(config['lr']['talon']['db'],
         #        zip,
         #        species=lr_df.species.tolist(),
@@ -60,7 +60,7 @@ rule all:
 ################################################################################
 ############################### LR Download ####################################
 ################################################################################
-use rule dl_encid as lr_dl with:
+use rule dl_encid as dl_lr with:
     params:
         encid = lambda wc:get_lr_encid(wc, lr_df),
         file_ext = 'bam'

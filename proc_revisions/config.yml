@@ -55,7 +55,7 @@ ref:
   # TALON reference - ENCODE refs (vM21 or v29) + SIRV + ERCC
   talon:
     fa: ref/{species}/talon/ref.fa
-    chrom_sizes: ref/{species}/talon/ref.fa
+    chrom_sizes: ref/{species}/talon/ref_chrom_sizes.txt
     gtf: ref/{species}/talon/ref.gtf
 
   # LAPA reference - ENCODE refs (vM21 or v29) + SIRV + ERCC + GENCODE UTRs

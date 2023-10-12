@@ -10,7 +10,7 @@ use rule dl as dl_sirv_gtf with:
   output:
     out = temporary(config['ref']['spike']['sirv_gtf_gz'])
 
-use rule gunzip as gunzip_sirv_gtf with:
+use rule gunzip as gz_sirv_gtf with:
   input:
     gz = config['ref']['spike']['sirv_gtf_gz']
   output:
@@ -22,7 +22,7 @@ use rule dl as dl_sirv_fa with:
   output:
     out = temporary(config['ref']['spike']['sirv_fa_gz'])
 
-use rule gunzip as gunzip_sirv_fa with:
+use rule gunzip as gz_sirv_fa with:
   input:
     gz = config['ref']['spike']['sirv_fa_gz']
   output:
@@ -34,7 +34,7 @@ use rule dl as dl_ercc_fa with:
   output:
     out = temporary(config['ref']['spike']['ercc_fa_gz'])
 
-use rule gunzip as gunzip_ercc_fa with:
+use rule gunzip as gz_ercc_fa with:
   input:
     gz = config['ref']['spike']['ercc_fa_gz']
   output:

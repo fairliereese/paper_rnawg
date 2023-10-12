@@ -95,7 +95,7 @@ rule talon:
             --threads {resources.threads} \
             --create_novel_spliced_genes \
             --o {params.opref} \
-            -v 1 > {output.debug_log}
+            -v 1
         mv ${{ref_db}} {params.opref}_talon.db
         """
 
@@ -260,9 +260,7 @@ use rule talon as talon_first with:
                                    maxsplit=1)[0]
     output:
         db = get_talon_run_file(0, config['lr']['talon']['db']),
-        read_annot = get_talon_run_file(0, config['lr']['talon']['annot']),
-        debug_log = get_talon_run_file(0, config['lr']['talon']['debug_log'])
-
+        read_annot = get_talon_run_file(0, config['lr']['talon']['annot'])
 # sequential talon runs
 use rule talon as talon_seq with:
     input:
@@ -274,9 +272,7 @@ use rule talon as talon_seq with:
         opref = config['lr']['talon']['db'].rsplit('_talon.db', maxsplit=1)[0]
     output:
         db = config['lr']['talon']['db'],
-        read_annot = config['lr']['talon']['annot'],
-        debug_log = config['lr']['talon']['debug_log']
-
+        read_annot = config['lr']['talon']['annot']
 ################################################################################
 ################################# TALON output #################################
 ################################################################################

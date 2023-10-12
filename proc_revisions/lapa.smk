@@ -186,8 +186,8 @@ rule lapa_correct_talon:
                 --read_annot {input.annot} \
                 --gtf_input {input.gtf} \
                 --gtf_output {output.gtf} \
-                --abundance_input {input.ab} \
-                --abundance_output {output.ab} \
+                --abundance_input {input.filt_ab} \
+                --abundance_output {output.filt_ab} \
                 --keep_unsupported
         """
 
@@ -238,7 +238,7 @@ rule lapa_config:
     params:
         df = lr_df
     output:
-        config = config['lr']['lapa_config']
+        config = config['lr']['lapa']['config']
     run:
         config = get_lapa_run_info(wildcards, params.df,
                     config['lr']['talon']['bam_sort'],
@@ -247,7 +247,7 @@ rule lapa_config:
         config.columns = ['sample', 'dataset', 'path']
         config.to_csv(output.config, sep=',', index=False)
 
-use rule lapa_call_ends as lapa_call_ends_full:
+use rule lapa_call_ends as lapa_call_ends_full with:
     input:
         config = config['lr']['lapa']['config'],
         fa = config['ref']['talon']['fa'],
@@ -294,18 +294,18 @@ use rule lapa_filt as lapa_filt_full with:
         g_novs = filt_g_novs,
         filt_spikes = filt_spikes
     output:
-        filt_list = config['lr']['lapa']['pass_list']
+        filt_list = config['lr']['lapa']['filt']['pass_list']
 
 use rule lapa_filt_ab as lapa_filt_ab_full with:
     input:
         ab = config['lr']['lapa']['filt_ab'],
-        filt_list = config['lr']['lapa']['pass_list']
+        filt_list = config['lr']['lapa']['filt']['pass_list']
     output:
         ab = config['lr']['lapa']['filt']['filt_ab']
 
-use rule lapa_filt_gtf as lapa_filt_gtf_full:
+use rule lapa_filt_gtf as lapa_filt_gtf_full with:
     input:
-        gtf = config['lr']['lapa']['gtf']
-        filt_list = config['lr']['lapa']['pass_list']
+        gtf = config['lr']['lapa']['gtf'],
+        filt_list = config['lr']['lapa']['filt']['pass_list']
     output:
         gtf = config['lr']['lapa']['filt']['gtf']

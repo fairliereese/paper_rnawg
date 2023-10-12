@@ -1,3 +1,14 @@
+params:
+  talon:
+    datasets_per_run: 14
+    min_transcript_len: 0
+    int_priming_a_range: 20
+    max_5_dist: 500
+    max_3_dist: 300
+    max_frac_a: 0.5
+    min_count: 5
+    min_datasets: 2
+
 ref:
   # links to download
   human:

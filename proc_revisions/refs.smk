@@ -1,4 +1,3 @@
-include: 'download.smk'
 configfile: 'config.yml'
 
 ################################################################################
@@ -98,7 +97,7 @@ rule get_utr_fix_gtf:
         threads = 1,
         mem_gb = 8
     output:
-        gtf = config['ref']['lapa']['gtf_utr']
+        gtf = config['ref']['lapa']['gtf']
     shell:
         """
         gencode_utr_fix \

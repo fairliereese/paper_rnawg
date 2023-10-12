@@ -1,20 +1,23 @@
 from sm_utils import *
 
-# config
+############# config stuff
 configfile: 'config.yml'
-min_transcript_len = 0
-int_priming_a_range = 20
-max_5_dist = 500
-max_3_dist = 300
-max_frac_a = 0.5
-min_count = 5
-min_datasets = 2
+
+datasets_per_talon_run = config['params']['talon']['datasets_per_run']
+min_transcript_len = config['params']['talon']['min_transcript_len']
+int_priming_a_range = config['params']['talon']['int_priming_a_range']
+max_5_dist = config['params']['talon']['max_5_dist']
+max_3_dist = config['params']['talon']['max_3_dist']
+max_frac_a = config['params']['talon']['max_frac_a']
+min_count = config['params']['talon']['min_count']
+min_datasets = config['params']['talon']['min_datasets']
 
 
 lr_df = process_lr_metadata(config['lr']['meta'],
                             ['human', 'mouse'],
                             datasets_per_talon_run)
 
+############# snakemake settings stuff
 ruleorder:
     first_talon > seq_talon
 
@@ -104,7 +107,7 @@ rule talon_annot:
         """
 		talon_fetch_reads \
             --db {input.db} \
-            --build {params.genome_build} \
+            --build {params.genome_ver} \
             --o {params.opref}
 		"""
 
@@ -161,7 +164,7 @@ rule talon_gtf:
             -a {params.annot_ver} \
             -b {params.genome_ver} \
             --whitelist {input.pass_list} \
-            --o {params.prefix}
+            --o {params.opref}
 		"""
 
 ################################################################################
@@ -178,7 +181,7 @@ rule talon_label:
         threads = 1
     params:
         opref = config['lr']['talon']['sam_label'].rsplit('_labeled.sam')[0],
-		int_priming_a_range = int_priming_a_range
+        int_priming_a_range = int_priming_a_range
     output:
         bam = temporary(config['lr']['talon']['sam_label']),
         tsv = temporary(config['lr']['talon']['read_labels'])
@@ -216,9 +219,9 @@ use rule talon_init as talon_init_db with:
     input:
         gtf = config['ref']['talon']['gtf']
     params:
-		min_transcript_len = min_transcript_len,
-		max_5_dist = max_5_dist,
-		max_3_dist = max_3_dist,
+        min_transcript_len = min_transcript_len,
+        max_5_dist = max_5_dist,
+        max_3_dist = max_3_dist,
         genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],
         annot_ver = lambda wc:config['ref'][wc.species]['gtf_ver'],
         opref = config['lr']['talon']['ref_db'].rsplit('.db', maxsplit=1)[0]
@@ -287,69 +290,59 @@ def get_max_talon_run_cfg(wc, df, cfg_entry):
 	max_talon_run = temp.max_talon_run.tolist()[0]
 	file = expand(cfg_entry,
 				  zip,
-				  talon_run=max_talon_run),
+				  talon_run=max_talon_run,
 				  species=wc.species)
-	assert len(file) == 0
+	assert len(file) == 1
 	return file
 
 use rule talon_annot as talon_annot_full with:
     input:
-        db = lambda wc:get_max_talon_run_cfg(wc,
-				 lr_df,
-				 config['lr']['talon']['db'])
+        db = lambda wc:get_max_talon_run_cfg(wc, lr_df,config['lr']['talon']['db'])
     params:
-        opref = config['lr']['talon']['full_annot'].rsplit('_talon', maxsplit=1)[0]
-        genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],
+        opref = config['lr']['talon']['full_annot'].rsplit('_talon', maxsplit=1)[0],
+        genome_ver = lambda wc:config['ref'][wc.species]['fa_ver']
     output:
         read_annot = config['lr']['talon']['full_annot']
 
 use rule talon_abundance as talon_ab_full with:
     input:
-		db = lambda wc:get_max_talon_run_cfg(wc,
-				 lr_df,
-				 config['lr']['talon']['db'])
+        db = lambda wc:get_max_talon_run_cfg(wc, lr_df, config['lr']['talon']['db'])
     params:
-		genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],
-		annot_ver = lambda wc:config['ref'][wc.species]['gtf_ver'],
-		opref = config['lr']['talon']['ab'].rsplit('_talon', maxsplit=1)[0]
+        genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],
+        annot_ver = lambda wc:config['ref'][wc.species]['gtf_ver'],
+        opref = config['lr']['talon']['ab'].rsplit('_talon', maxsplit=1)[0]
     output:
         ab = config['lr']['talon']['ab']
 
 use rule talon_filter as talon_filt_full with:
     input:
-		db = lambda wc:get_max_talon_run_cfg(wc,
-				 lr_df,
-				 config['lr']['talon']['db'])
+        db = lambda wc:get_max_talon_run_cfg(wc, lr_df, config['lr']['talon']['db'])
     params:
-		annot_ver = lambda wc:config['ref'][wc.species]['gtf_ver'],
-		max_frac_a = max_frac_a,
-		min_count = min_count,
-		min_datasets = min_datasets
+        annot_ver = lambda wc:config['ref'][wc.species]['gtf_ver'],
+        max_frac_a = max_frac_a,
+        min_count = min_count,
+        min_datasets = min_datasets
     output:
         pass_list = config['lr']['talon']['pass_list']
 
 use rule talon_filtered_abundance as talon_filt_ab_full with:
-	    input:
-		db = lambda wc:get_max_talon_run_cfg(wc,
-				 lr_df,
-				 config['lr']['talon']['db']),
-	        pass_list = config['lr']['talon']['pass_list']
-	    params:
-			opref = config['lr']['filt_ab'].rsplit('_talon', maxsplit=1)[0].
-			genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],
-			annot_ver = lambda wc:config['ref'][wc.species]['gtf_ver']
-	    output:
-	        ab = config['lr']['talon']['filt_ab']
+    input:
+        db = lambda wc:get_max_talon_run_cfg(wc, lr_df, config['lr']['talon']['db']),
+        pass_list = config['lr']['talon']['pass_list']
+    params:
+        opref = config['lr']['talon']['filt_ab'].rsplit('_talon', maxsplit=1)[0],
+        genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],
+        annot_ver = lambda wc:config['ref'][wc.species]['gtf_ver']
+    output:
+        ab = config['lr']['talon']['filt_ab']
 
 use rule talon_gtf as talon_gtf_full with:
     input:
-        db = lambda wc:get_max_talon_run_cfg(wc,
-				 lr_df,
-				 config['lr']['talon']['db']),
+        db = lambda wc:get_max_talon_run_cfg(wc, lr_df, config['lr']['talon']['db']),
         pass_list = config['lr']['talon']['pass_list']
     params:
-		opref = config['lr']['talon']['gtf'].rsplit('_talon', maxsplit=1)[0]
-		genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],
-		annot_ver = lambda wc:config['ref'][wc.species]['gtf_ver']
+        opref = config['lr']['talon']['gtf'].rsplit('_talon', maxsplit=1)[0],
+        genome_ver = lambda wc:config['ref'][wc.species]['fa_ver'],
+        annot_ver = lambda wc:config['ref'][wc.species]['gtf_ver']
     output:
         gtf = config['lr']['talon']['gtf']

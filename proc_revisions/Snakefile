@@ -1,5 +1,3 @@
-# TODO add that daataset that you're missing from mouse to the cart!!!
-# TODO rename "adrenal gland" to "adrenal_gland"
 import pandas as pd
 import os
 import sys
@@ -15,19 +13,20 @@ include: 'samtools.smk'
 include: 'spike_refs.smk'
 include: 'refs.smk'
 include: 'talon.smk'
+include: 'lapa.smk'
 
 ############# config stuff
 configfile: 'config.yml'
 
-datasets_per_talon_run = 14
+datasets_per_talon_run = config['params']['talon']['datasets_per_run']
 species=['human', 'mouse']
 
 # lr stuff
-# lr_df = pd.read_csv(expand(config['lr']['meta'], species=species)[0], sep='\t')
 lr_df = process_lr_metadata(config['lr']['meta'],
-                            ['human', 'mouse'],
+                            species,
                             datasets_per_talon_run)
 
+############# snakemake settings stuff
 wildcard_constraints:
     dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()]),
     species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()]),
@@ -40,10 +39,13 @@ rule all:
                zip,
                species=lr_df.species.tolist(),
                dataset=lr_df.dataset.tolist()),
-        expand(config['lr']['talon']['db'],
+        expand(config['lr']['lapa']['filt']['gtf'],
                zip,
-               species=lr_df.species.tolist(),
-               talon_run=lr_df.max_talon_run.tolist())
+               species=lr_df.species.tolist())
+        # expand(config['lr']['talon']['db'],
+        #        zip,
+        #        species=lr_df.species.tolist(),
+        #        talon_run=lr_df.max_talon_run.tolist())
         # expand(config['lr']['talon']['config'],
         #        zip,
         #        species=lr_df.species.tolist(),

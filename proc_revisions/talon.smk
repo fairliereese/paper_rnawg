@@ -260,7 +260,9 @@ use rule talon as talon_first with:
                                    maxsplit=1)[0]
     output:
         db = get_talon_run_file(0, config['lr']['talon']['db']),
-        read_annot = temporary(get_talon_run_file(0, config['lr']['talon']['annot']))
+        read_annot = temporary(get_talon_run_file(0, config['lr']['talon']['annot'])),
+		temp = temporary(directory(get_talon_run_file(0, config['lr']['talon']['temp'])))
+
 # sequential talon runs
 use rule talon as talon_seq with:
     input:
@@ -272,7 +274,8 @@ use rule talon as talon_seq with:
         opref = config['lr']['talon']['db'].rsplit('_talon.db', maxsplit=1)[0]
     output:
         db = config['lr']['talon']['db'],
-        read_annot = temporary(config['lr']['talon']['annot'])
+        read_annot = temporary(config['lr']['talon']['annot']),
+		temp = temporary(directory(config['lr']['talon']['temp']))
 ################################################################################
 ################################# TALON output #################################
 ################################################################################

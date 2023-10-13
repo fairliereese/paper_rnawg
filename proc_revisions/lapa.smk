@@ -240,12 +240,12 @@ rule lapa_config:
     output:
         config = config['lr']['lapa']['config']
     run:
-        config = get_lapa_run_info(wildcards, params.df,
+        df = get_lapa_run_info(wildcards, params.df,
                     config['lr']['talon']['bam_sort'],
                     dataframe=True)
-        config = config[['sample', 'dataset', 'lapa_file']].copy(deep=True)
-        config.columns = ['sample', 'dataset', 'path']
-        config.to_csv(output.config, sep=',', index=False)
+        df = df[['sample', 'dataset', 'lapa_file']].copy(deep=True)
+        df.columns = ['sample', 'dataset', 'path']
+        df.to_csv(output.config, sep=',', index=False)
 
 use rule lapa_call_ends as lapa_call_ends_full with:
     input:

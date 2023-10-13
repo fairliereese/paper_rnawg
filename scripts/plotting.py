@@ -103,11 +103,11 @@ def get_lr_bulk_sample_colors():
     #     c_dict[t] = get_tissue_colors()[0][t]
     # manually grabbed shades from shade picker to be one darker than
     # the last timecourse pt
-    c_dict['adrenal'] = '#8e361b'
+    c_dict['adrenal_gland'] = '#8e361b'
     c_dict['hippocampus'] = '#9a3c4f'
     c_dict['cortex'] = '#634273'
 
-    order += ['adrenal', 'hippocampus', 'cortex']
+    order += ['adrenal_gland', 'hippocampus', 'cortex']
 
 
     # f1219

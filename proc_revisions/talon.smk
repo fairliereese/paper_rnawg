@@ -261,7 +261,7 @@ use rule talon as talon_first with:
     output:
         db = get_talon_run_file(0, config['lr']['talon']['db']),
         read_annot = temporary(get_talon_run_file(0, config['lr']['talon']['annot'])),
-        temp_dir = temporary(get_talon_run_file(0, config['lr']['talon']['temp_dir']))
+        # temp_dir = temporary(get_talon_run_file(0, config['lr']['talon']['temp_dir']))
 
 # sequential talon runs
 use rule talon as talon_seq with:
@@ -275,7 +275,7 @@ use rule talon as talon_seq with:
     output:
         db = config['lr']['talon']['db'],
         read_annot = temporary(config['lr']['talon']['annot']),
-        temp_dir = temporary(config['lr']['talon']['temp_dir'])
+        # temp_dir = directory(temporary(config['lr']['talon']['temp_dir']))
 ################################################################################
 ################################# TALON output #################################
 ################################################################################

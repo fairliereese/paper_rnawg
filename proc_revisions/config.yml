@@ -91,13 +91,13 @@ lr:
 
   lapa:
     config: data/{species}/lr/lapa/config.csv
-    ends: data/{species}/lapa/{end_mode}/{end_mode}_clusters.bed
-    links: data/{species}/lapa/tss_to_tes_links.csv
+    ends: data/{species}/lr/lapa/{end_mode}/{end_mode}_clusters.bed
+    links: data/{species}/lr/lapa/tss_to_tes_links.csv
 
-    gtf: data/{species}/lapa/lapa_corrected.gtf
-    filt_ab: data/{species}/lapa/lapa_corrected_filtered_abundance.tsv
+    gtf: data/{species}/lr/lapa/lapa_corrected.gtf
+    filt_ab: data/{species}/lr/lapa/lapa_corrected_filtered_abundance.tsv
 
     filt:
-      pass_list: data/{species}/lapa/filt/lapa_pass_list.tsv
-      filt_ab: data/{species}/lapa/filt/lapa_corrected_filtered_abundance.tsv
-      gtf: data/{species}/lapa/filt/lapa_corrected.gtf
+      pass_list: data/{species}/lr/lapa/filt/lapa_pass_list.tsv
+      filt_ab: data/{species}/lr/lapa/filt/lapa_corrected_filtered_abundance.tsv
+      gtf: data/{species}/lr/lapa/filt/lapa_corrected.gtf

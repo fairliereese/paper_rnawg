@@ -38,9 +38,9 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
-        config['gtex']['cerberus']['ics'],
-        # expand(config['gtex']['cerberus']['ends'],
-        #        end_mode=end_modes)
+        # config['gtex']['cerberus']['ics'],
+        expand(config['gtex']['cerberus']['ends'],
+               end_mode=end_modes)
 
         # expand(config['lr']['talon']['bam_ind'],
         #        zip,

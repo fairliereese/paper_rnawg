@@ -14,12 +14,15 @@ include: 'spike_refs.smk'
 include: 'refs.smk'
 include: 'talon.smk'
 include: 'lapa.smk'
+include: 'cerberus.smk'
+include: 'gtex.smk'
 
 ############# config stuff
 configfile: 'config.yml'
 
 datasets_per_talon_run = config['params']['talon']['datasets_per_run']
 species=['human', 'mouse']
+end_modes = ['tss', 'tes']
 
 # lr stuff
 lr_df = process_lr_metadata(config['lr']['meta'],
@@ -35,13 +38,20 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
-        expand(config['lr']['talon']['bam_ind'],
-               zip,
-               species=lr_df.species.tolist(),
-               dataset=lr_df.dataset.tolist()),
-        expand(config['lr']['lapa']['filt']['gtf'],
-               zip,
-               species=lr_df.species.tolist()),
+        config['gtex']['cerberus']['ics'],
+        # expand(config['gtex']['cerberus']['ends'],
+        #        end_mode=end_modes)
+
+        # expand(config['lr']['talon']['bam_ind'],
+        #        zip,
+        #        species=lr_df.species.tolist(),
+        #        dataset=lr_df.dataset.tolist()),
+        # expand(config['lr']['lapa']['filt']['gtf'],
+        #        zip,
+        #        species=lr_df.species.tolist())
+
+
+
         # expand(config['lr']['talon']['db'],
         #        zip,
         #        species=lr_df.species.tolist(),

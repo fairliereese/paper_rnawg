@@ -40,7 +40,7 @@ rule all:
     input:
         config['gtex']['cerberus']['ics'],
         expand(config['gtex']['cerberus']['ends'],
-               end_mode=end_modes)
+               end_mode=end_modes),
         expand(config['lr']['talon']['bam_ind'],
                zip,
                species=lr_df.species.tolist(),

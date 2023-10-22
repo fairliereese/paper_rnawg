@@ -29,3 +29,11 @@ rule dl_encid:
         threads = 1
     shell:
         "wget https://www.encodeproject.org/files/{params.encid}/@@download/{params.encid}.{params.file_ext} -O {output.out}"
+
+# download w/o an alias for the name
+rule dl_encid_gz_2:
+    resources:
+        mem_gb = 4,
+        threads = 1
+    shell:
+        "wget https://www.encodeproject.org/files/{wildcards.encid}/@@download/{wildcards.encid}.{params.file_ext}.gz -O {output.out}"

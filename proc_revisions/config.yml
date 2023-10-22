@@ -8,7 +8,7 @@ params:
     max_frac_a: 0.5
     min_count: 5
     min_datasets: 2
-    
+
   cerberus:
     tss:
       dist: 50
@@ -130,3 +130,13 @@ gtex:
       ics: data/human/gtex/cerberus/ics.tsv
       ends: data/human/gtex/cerberus/{end_mode}.bed
       annot: data/human/gtex/cerberus/gtex_cerberus.h5
+
+cage:
+  encode_meta: data/{species}/cage/encode_metadata.tsv
+  bed_gz: data/{species}/cage/{encid}.bed.gz
+  merged: data/{species}/cage/merged.bed
+
+rampage:
+  encode_meta: data/{species}/rampage/encode_metadata.tsv
+  bed_gz: data/{species}/rampage/{encid}.bed.gz
+  merged: data/{species}/rampage/merged.bed

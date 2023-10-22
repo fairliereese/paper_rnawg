@@ -38,21 +38,16 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
+        config['gtex']['cerberus']['ics'],
+        expand(config['gtex']['cerberus']['ends'],
+               end_mode=end_modes)
         expand(config['lr']['talon']['bam_ind'],
                zip,
                species=lr_df.species.tolist(),
-               dataset=lr_df.dataset.tolist())
-        # config['gtex']['cerberus']['ics'],
-        # expand(config['gtex']['cerberus']['ends'],
-        #        end_mode=end_modes)
-
-        # expand(config['lr']['talon']['bam_ind'],
-        #        zip,
-        #        species=lr_df.species.tolist(),
-        #        dataset=lr_df.dataset.tolist()),
-        # expand(config['lr']['lapa']['filt']['gtf'],
-        #        zip,
-        #        species=lr_df.species.tolist())
+               dataset=lr_df.dataset.tolist()),
+        expand(config['lr']['lapa']['filt']['gtf'],
+               zip,
+               species=lr_df.species.tolist())
 
 
 

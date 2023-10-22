@@ -223,3 +223,12 @@ def intersect_ccre(ccre_file,
 
     # and save
     ccre.to_csv(ofile, sep='\t', index=False)
+
+def filter_gtex_gtf(gtf, oname):
+    df = pr.read_gtf(gtf, as_df=True)
+    df = df.loc[~df.gene_id.str.contains('chr')]
+    # df = df.loc[df.gene_id.str.contains('ENSG')]
+    # inds = df.loc[df.gene_id.str.contains('chr')].index.tolist()
+    # df.loc[inds, 'gene_id'] = df.loc[inds, 'gene_id'].str.split('_', n=1, expand=True)[1]
+    df = pr.PyRanges(df)
+    df.to_gtf(oname)

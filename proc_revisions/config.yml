@@ -72,6 +72,11 @@ ref:
   lapa:
     gtf: ref/{species}/lapa/ref.gtf
 
+ccre:
+  bed_gz: data/{species}/ccre/{ccre_type}.bed.gz
+  bed: data/{species}/ccre/{ccre_type}.bed
+  bed_format: data/{species}/ccre/{ccre_type}_formatted.bed
+
 lr:
   meta: data/{species}/lr/lr_{species}_library_data_summary.tsv
   encode_meta: data/{species}/lr/encode_metadata.tsv

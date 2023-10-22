@@ -1,0 +1,17 @@
+link	species	ccre_type
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/GRCh38-PLS.V4.bed.gz	human	pls
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/GRCh38-pELS.V4.bed.gz	human	pels
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/GRCh38-dELS.V4.bed.gz	human	dels
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/GRCh38-CA-H3K4me3.V4.bed.gz	human	ca_h3k4me3
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/GRCh38-CA-CTCF.V4.bed.gz	human	ca_ctcf
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/GRCh38-CA-TF.V4.bed.gz	human	ca_tf
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/GRCh38-CA.V4.bed.gz	human	ca
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/GRCh38-TF.V4.bed.gz	human	tf
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/mm10-PLS.V4.bed.gz	mouse	pls
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/mm10-pELS.V4.bed.gz	mouse	pels
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/mm10-dELS.V4.bed.gz	mouse	dels
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/mm10-CA-H3K4me3.V4.bed.gz	mouse	ca_h3k4me3
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/mm10-CA-CTCF.V4.bed.gz	mouse	ca_ctcf
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/mm10-CA-TF.V4.bed.gz	mouse	ca_tf
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/mm10-CA.V4.bed.gz	mouse	ca
+http://users.wenglab.org/moorej3/Registry-cCREs-WG/V4-Files/mm10-TF.V4.bed.gz	mouse	tf

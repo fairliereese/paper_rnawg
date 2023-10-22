@@ -46,7 +46,6 @@ rule merge_rampage:
     script:
         "merge_beds.py"
 
-
 rule all_tss:
     input:
         expand(rules.merge_cage.output,

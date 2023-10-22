@@ -17,6 +17,8 @@ include: 'lapa.smk'
 include: 'cerberus.smk'
 include: 'gtex.smk'
 include: 'tss.smk'
+include: 'ccre.smk'
+
 
 ############# config stuff
 configfile: 'config.yml'
@@ -39,7 +41,9 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
-        rules.all_tss.input
+        rules.all_tss.input,
+        rules.all_ccre.input
+
         # config['gtex']['cerberus']['ics'],
         # expand(config['gtex']['cerberus']['ends'],
         #        end_mode=end_modes),

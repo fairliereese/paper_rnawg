@@ -1,6 +1,11 @@
 import cerberus
 
 end_modes = ['tss', 'tes']
+species = ['human', 'mouse']
+
+wildcard_constraints:
+    end_mode='|'.join([re.escape(x) for x in end_modes]),
+
 
 ################################################################################
 #################### Get triplet features from GTF #############################
@@ -36,21 +41,17 @@ rule cerb_agg_ends:
         pass
         # TODO
 
-################################################################################
-######################### Cerberus annotation ##################################
-################################################################################
-
 rule cerberus_agg_ics:
     resources:
         mem_gb = 32,
         threads = 2
     run:
-        # only aggregating 2 things at a time
-        refs = [params.ref for i in range(2)]
-        cerberus.agg_ics([input.ref_ics, input.ics],
-                          refs,
-                          params.sources,
-                          output.ics)
+        pass
+        # TODO
+
+################################################################################
+######################### Cerberus annotation ##################################
+################################################################################
 
 rule cerb_write_ref:
   resources:
@@ -95,3 +96,74 @@ rule cerb_ab_ids:
                                 params.source,
                                 params.agg,
                                 output.ab)
+
+
+#################################################################################
+##################### Ref. ends / ics for Cerberus #############################
+################################################################################
+
+# old refs
+use rule cerb_gtf_to_bed as cerb_get_gtf_ends_ref with:
+    input:
+        gtf = config['ref']['gtf']
+    output:
+        ends = config['ref']['cerberus']['ends']
+    params:
+        slack = lambda wc:config['params']['cerberus'][wc.end_mode]['slack'],
+        dist = lambda wc:config['params']['cerberus'][wc.end_mode]['dist']
+
+use rule cerb_gtf_to_ics as cerb_get_gtf_ics_ref with:
+    input:
+        gtf = config['ref']['gtf']
+    output:
+        ics = config['ref']['cerberus']['ics']
+
+# new refs
+use rule cerb_gtf_to_bed as cerb_get_gtf_ends_ref_new with:
+    input:
+        gtf = config['ref']['new_gtf']
+    output:
+        ends = config['ref']['cerberus']['new_ends']
+    params:
+        slack = lambda wc:config['params']['cerberus'][wc.end_mode]['slack'],
+        dist = lambda wc:config['params']['cerberus'][wc.end_mode]['dist']
+
+use rule cerb_gtf_to_ics as cerb_get_gtf_ics_ref_new with:
+    input:
+        gtf = config['ref']['new_gtf']
+    output:
+        ics = config['ref']['cerberus']['new_ics']
+
+# data refs -- from lapa
+use rule cerb_gtf_to_bed as cerb_get_gtf_ends_lr with:
+    input:
+        gtf = config['lr']['lapa']['filt']['gtf']
+    output:
+        ends = config['lr']['cerberus']['ends']
+    params:
+        slack = lambda wc:config['params']['cerberus'][wc.end_mode]['slack'],
+        dist = lambda wc:config['params']['cerberus'][wc.end_mode]['dist']
+
+use rule cerb_gtf_to_ics as cerb_get_gtf_ics_lr with:
+    input:
+        gtf = config['lr']['lapa']['filt']['gtf']
+    output:
+        ics = config['lr']['cerberus']['ics']
+
+rule all_cerberus:
+    input:
+        expand(config['ref']['cerberus']['ends'],
+              species=species,
+              end_mode=end_modes),
+        expand(config['ref']['cerberus']['new_ends'],
+            species=species,
+            end_mode=end_modes),
+        expand(config['ref']['cerberus']['ics'],
+              species=species),
+        expand(config['ref']['cerberus']['new_ics'],
+            species=species),
+        expand(config['ref']['cerberus']['ends'],
+              species=species,
+              end_mode=end_modes),
+        expand(config['lr']['cerberus']['ics'],
+            species=species)

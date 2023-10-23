@@ -1,0 +1,6 @@
+"https://www.encodeproject.org/metadata/?files.output_type=alignments&files.file_format=bam&type=Experiment&cart=%2Fcarts%2Fd518f0b7-5f20-4dab-8b45-4ede530d605e%2F&files.processed=true"
+https://www.encodeproject.org/files/ENCFF222ZEY/@@download/ENCFF222ZEY.bam
+https://www.encodeproject.org/files/ENCFF029NZQ/@@download/ENCFF029NZQ.bam
+https://www.encodeproject.org/files/ENCFF194AAR/@@download/ENCFF194AAR.bam
+https://www.encodeproject.org/files/ENCFF288QGU/@@download/ENCFF288QGU.bam
+https://www.encodeproject.org/files/ENCFF074TWH/@@download/ENCFF074TWH.bam

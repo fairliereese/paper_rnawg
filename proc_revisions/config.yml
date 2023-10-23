@@ -72,6 +72,13 @@ ref:
   lapa:
     gtf: ref/{species}/lapa/ref.gtf
 
+  # Cerberus reference - ICs, ends from each annotation
+  cerberus:
+    ics: ref/{species}/cerberus/ics.tsv
+    ends: ref/{species}/cerberus/{end_mode}.bed
+    new_ics: ref/{species}/cerberus/new_ics.tsv
+    new_ends: ref/{species}/cerberus/new_{end_mode}.bed
+
 ccre:
   bed_gz: data/{species}/ccre/{ccre_type}.bed.gz
   bed: data/{species}/ccre/{ccre_type}.bed
@@ -149,18 +156,27 @@ rampage:
   merged: data/{species}/rampage/merged.bed
 
 fantom:
-  link: https://fantom.gsc.riken.jp/5/datafiles/latest/extra/CAGE_peaks/hg19.cage_peak_phase1and2combined_coord.bed.gz
-  bed_hg19_gz: data/{species}/fantom_cage/hg19_CAGE.bed.gz
-  bed_hg19: data/{species}/fantom_cage/hg19_CAGE.bed
-  bed: data/{species}/fantom_cage/hg38_CAGE.bed
+  human:
+    link: https://fantom.gsc.riken.jp/5/datafiles/latest/extra/CAGE_peaks/hg19.cage_peak_phase1and2combined_coord.bed.gz
+  mouse:
+    link: https://fantom.gsc.riken.jp/5/datafiles/latest/extra/CAGE_peaks/mm9.cage_peak_phase1and2combined_coord.bed.gz
+  bed_old_gz: data/{species}/fantom_cage/old.bed.gz
+  bed_old: data/{species}/fantom_cage/old.bed
+  bed: data/{species}/fantom_cage/fantom_cage.bed
+
 
 polya_atlas:
-  link: https://www.polyasite.unibas.ch/download/atlas/2.0/GRCh38.96/atlas.clusters.2.0.GRCh38.96.bed.gz
+  human:
+    link: https://www.polyasite.unibas.ch/download/atlas/2.0/GRCh38.96/atlas.clusters.2.0.GRCh38.96.bed.gz
+  mouse:
+    link: https://www.polyasite.unibas.ch/download/atlas/2.0/GRCm38.96/atlas.clusters.2.0.GRCm38.96.bed.gz
   bed_gz: data/{species}/polyasite_atlas/polyasite.bed.gz
   bed: data/{species}/polyasite_atlas/polyasite.bed
+  bed_formatted: data/{species}/polyasite_atlas/polyasite_formatted.bed
 
 pas:
   encode_meta: data/{species}/pas/encode_metadata.tsv
   bam: data/{species}/pas/{encid}.bam
   config: data/{species}/pas/lapa/config.csv
   ends: data/{species}/pas/lapa/{end_mode}/{end_mode}_clusters.bed
+  ends_formatted: data/{species}/pas/lapa/{end_mode}/{end_mode}_clusters_formatted.bed

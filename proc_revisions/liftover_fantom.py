@@ -8,8 +8,15 @@ from liftover import get_lifter
 logging.basicConfig(filename=snakemake.log[0],
                     level=logging.INFO)
 
+if snakemake.wildcards['human']:
+    old_ver = 'hg19'
+    new_ver = 'hg38'
+elif snakemake.wildcards['mouse']:
+    old_ver = 'mm9'
+    new_ver = 'mm10'
+
 df = pr.read_bed(snakemake.input['bed'], as_df=True)
-converter = get_lifter('hg19', 'hg38')
+converter = get_lifter(old_ver, new_ver)
 
 __import__("pdb").set_trace()
 

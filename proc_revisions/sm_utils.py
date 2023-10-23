@@ -4,6 +4,31 @@ import cerberus
 import numpy as np
 from snakemake.io import expand
 
+def format_lapa_ends(bed, o):
+    df = pd.read_csv(bed, sep='\t', header=None)
+
+    # subset on specific columns
+    df = df[[0,1,2,5,7]]
+    df.columns = ['Chromosome', 'Start', 'End', 'Strand', 'gene_id']
+
+    # get stable gid
+    df = cerberus.add_stable_gid(df)
+    df.rename({'gene_id': 'Name'}, axis=1, inplace=True)
+
+    # add indicator that this file came from lapa
+    df['ThickStart'] = 'lapa'
+
+    # remove regions not associated with a gene
+    df = df.loc[~df.Name.str.contains('intergenic')]
+
+    # add arbitrary unique index to name
+    df['ThickEnd'] = [i for i in range(len(df.index))]
+    df['Name'] = df.Name+'_'+df.ThickEnd.astype(str)
+    df.drop('ThickEnd', axis=1, inplace=True)
+    df = pr.PyRanges(df)
+    df = df.to_bed(o, chain=True)
+    return df
+
 def get_lr_encid(wc, df):
     """
     Get the ENCID of the alignments file

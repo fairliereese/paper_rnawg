@@ -164,6 +164,12 @@ fantom:
   bed_old: data/{species}/fantom_cage/old.bed
   bed: data/{species}/fantom_cage/fantom_cage.bed
 
+lrgasp_cage:
+    metadata: data/{species}/lrgasp_cage/metadata.tsv
+    bed_gz: data/{species}/lrgasp_cage/{lrgasp_cage_dataset}.bed.gz
+    bed: data/{species}/lrgasp_cage/{lrgasp_cage_dataset}.bed
+    merged: data/{species}/lrgasp_cage/merged.bed
+
 
 polya_atlas:
   human:

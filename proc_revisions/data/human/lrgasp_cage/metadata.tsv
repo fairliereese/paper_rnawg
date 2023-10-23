@@ -1,0 +1,7 @@
+link	dataset
+https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM5625nnn/GSM5625727/suppl/GSM5625727_WTC11-1_rep1.count.bed.gz	wtc11_1_1
+https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM5625nnn/GSM5625728/suppl/GSM5625728_WTC11-1_rep2.count.bed.gz	wtc11_1_2
+https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM5625nnn/GSM5625729/suppl/GSM5625729_WTC11-1_rep3.count.bed.gz	wtc11_1_3
+https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM5625nnn/GSM5625730/suppl/GSM5625730_WTC11-3_rep1.count.bed.gz	wtc11_3_1
+https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM5625nnn/GSM5625731/suppl/GSM5625731_WTC11-3_rep2.count.bed.gz	wtc11_3_2
+https://ftp.ncbi.nlm.nih.gov/geo/samples/GSM5625nnn/GSM5625732/suppl/GSM5625732_WTC11-3_rep3.count.bed.gz	wtc11_3_3

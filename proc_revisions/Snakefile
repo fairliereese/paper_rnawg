@@ -16,8 +16,9 @@ include: 'talon.smk'
 include: 'lapa.smk'
 include: 'cerberus.smk'
 include: 'gtex.smk'
-include: 'tss.smk'
+include: 'encode_tss.smk'
 include: 'ccre.smk'
+include: 'fantom_cage.smk'
 
 
 ############# config stuff
@@ -42,7 +43,8 @@ wildcard_constraints:
 rule all:
     input:
         rules.all_tss.input,
-        rules.all_ccre.input
+        rules.all_ccre.input,
+        rules.all_fantom.input
 
         # config['gtex']['cerberus']['ics'],
         # expand(config['gtex']['cerberus']['ends'],

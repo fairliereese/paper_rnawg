@@ -38,7 +38,6 @@ rule ccre_format:
         df['assay'] = wildcards.ccre_type
         df.to_csv(output.bed, index=False, sep='\t')
 
-
 rule all_ccre:
     input:
         expand(rules.ccre_format.output,

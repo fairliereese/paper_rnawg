@@ -139,9 +139,17 @@ gtex:
 cage:
   encode_meta: data/{species}/cage/encode_metadata.tsv
   bed_gz: data/{species}/cage/{encid}.bed.gz
+  bed: data/{species}/cage/{encid}.bed
   merged: data/{species}/cage/merged.bed
 
 rampage:
   encode_meta: data/{species}/rampage/encode_metadata.tsv
   bed_gz: data/{species}/rampage/{encid}.bed.gz
+  bed: data/{species}/rampage/{encid}.bed
   merged: data/{species}/rampage/merged.bed
+
+fantom:
+  link: https://fantom.gsc.riken.jp/5/datafiles/latest/extra/CAGE_peaks/hg19.cage_peak_phase1and2combined_coord.bed.gz
+  bed_hg19_gz: data/{species}/fantom_cage/hg19_CAGE.bed.gz
+  bed_hg19: data/{species}/fantom_cage/hg19_CAGE.bed
+  bed: data/{species}/fantom_cage/hg38_CAGE.bed

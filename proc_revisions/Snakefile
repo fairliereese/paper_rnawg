@@ -20,6 +20,7 @@ include: 'encode_tss.smk'
 include: 'ccre.smk'
 include: 'fantom_cage.smk'
 include: 'polyasite_atlas.smk'
+include: 'pas.smk'
 
 
 
@@ -44,11 +45,11 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
+        rules.all_pas.input,
         rules.all_tss.input,
         rules.all_ccre.input,
         rules.all_fantom.input,
         rules.all_polyasite.input
-
 
         # config['gtex']['cerberus']['ics'],
         # expand(config['gtex']['cerberus']['ends'],

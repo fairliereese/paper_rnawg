@@ -158,3 +158,9 @@ polya_atlas:
   link: https://www.polyasite.unibas.ch/download/atlas/2.0/GRCh38.96/atlas.clusters.2.0.GRCh38.96.bed.gz
   bed_gz: data/{species}/polyasite_atlas/polyasite.bed.gz
   bed: data/{species}/polyasite_atlas/polyasite.bed
+
+pas:
+  encode_meta: data/{species}/pas/encode_metadata.tsv
+  bam: data/{species}/pas/{encid}.bam
+  config: data/{species}/pas/lapa/config.csv
+  ends: data/{species}/pas/lapa/{end_mode}/{end_mode}_clusters.bed

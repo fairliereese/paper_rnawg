@@ -153,3 +153,8 @@ fantom:
   bed_hg19_gz: data/{species}/fantom_cage/hg19_CAGE.bed.gz
   bed_hg19: data/{species}/fantom_cage/hg19_CAGE.bed
   bed: data/{species}/fantom_cage/hg38_CAGE.bed
+
+polya_atlas:
+  link: https://www.polyasite.unibas.ch/download/atlas/2.0/GRCh38.96/atlas.clusters.2.0.GRCh38.96.bed.gz
+  bed_gz: data/{species}/polyasite_atlas/polyasite.bed.gz
+  bed: data/{species}/polyasite_atlas/polyasite.bed

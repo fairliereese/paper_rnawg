@@ -19,6 +19,8 @@ include: 'gtex.smk'
 include: 'encode_tss.smk'
 include: 'ccre.smk'
 include: 'fantom_cage.smk'
+include: 'polyasite_atlas.smk'
+
 
 
 ############# config stuff
@@ -44,7 +46,9 @@ rule all:
     input:
         rules.all_tss.input,
         rules.all_ccre.input,
-        rules.all_fantom.input
+        rules.all_fantom.input,
+        rules.all_polyasite.input
+
 
         # config['gtex']['cerberus']['ics'],
         # expand(config['gtex']['cerberus']['ends'],

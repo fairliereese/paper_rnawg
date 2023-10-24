@@ -22,6 +22,7 @@ include: 'fantom_cage.smk'
 include: 'polyasite_atlas.smk'
 include: 'pas.smk'
 include: 'lrgasp_cage.smk'
+include: 'procap.smk'
 
 
 
@@ -46,7 +47,11 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
-        rules.all_lrgasp_cage.input
+        expand(config['lr']['lapa']['filt']['gtf'],
+               zip,
+               species=lr_df.species.tolist())
+        # rules.all_procap.input
+        # rules.all_lrgasp_cage.input
         # rules.all_pas.input
         # rules.all_polyasite.input
         # rules.all_fantom.input,

@@ -1,4 +1,5 @@
 import cerberus
+import pandas as pd
 
 end_modes = ['tss', 'tes']
 species = ['human', 'mouse']
@@ -149,6 +150,103 @@ use rule cerb_gtf_to_ics as cerb_get_gtf_ics_lr with:
         gtf = config['lr']['lapa']['filt']['gtf']
     output:
         ics = config['lr']['cerberus']['ics']
+
+#### agg stuff
+rule cerb_agg_human_tss_config:
+    input:
+        v40 = expand(config['ref']['cerberus']['new_ends'],
+                     species='human',
+                     end_mode='tss'),
+        v29 = expand(config['ref']['cerberus']['ends'],
+                     species='human',
+                     end_mode='tss'),
+        lapa = expand(config['lr']['cerberus']['ends'],
+                      species='human',
+                      end_mode='tss'),
+        gtex = expand(config['gtex']['cerberus']['ends'],
+                      species='human',
+                      end_mode='tss'),
+        encode_cage = expand(config['cage']['merged'],
+                             species='human'),
+        fantom_cage = expand(config['fantom']['bed'],
+                             species='human'),
+        encode_rampage = expand(config['rampage']['merged'],
+                                species='human'),
+        pls = expand(config['ccre']['bed_format'],
+                     species='human',
+                     ccre_type='pls'),
+        pels = expand(config['ccre']['bed_format'],
+                      species='human',
+                      ccre_type='pels'),
+        dels = expand(config['ccre']['bed_format'],
+                      species='human',
+                      ccre_type='dels'),
+        lrgasp_cage = expand(config['lrgasp_cage']['merged'],
+                             species='human'),
+        # TODO - procap
+    params:
+        add_ends = [True, True, True, True,
+                    False, False, False,
+                    False, False, False, False],
+        refs = [True, True, False, False,
+                False, False, False,
+                False, False, False, False],
+        sources = ['v40', 'v29', 'lapa', 'gtex',
+                   'encode_cage', 'fantom_cage',
+                   'encode_rampage',
+                   'pls', 'pels', 'dels',
+                   'lrgasp_cage']
+    output:
+        cfg = expand(config['lr']['cerberus']['agg_ends_cfg'],
+                     species='human')
+    run:
+        files = [input.v40,
+                 input.v29,
+                 input.lapa_gtf,
+                 input.gtex,
+                 input.encode_cage,
+                 input.fantom_cage,
+                 input.encode_rampage,
+                 input.pls,
+                 input.pels,
+                 input.dels,
+                 input.lrgasp_cage]
+        df = pd.DataFrame()
+        df['fname'] = files
+        df['add_ends'] = params.add_ends
+        df['refs'] = params.refs
+        df['sources'] = params.sources
+        df.to_csv(output.cfg, sep=',', header=None, index=False)
+
+rule cerb_agg_human_tes_config:
+    input:
+        v40 = expand(config['ref']['cerberus']['new_ends'],
+                     species='human',
+                     end_mode='tes'),
+        v29 = expand(config['ref']['cerberus']['ends'],
+                     species='human',
+                     end_mode='tes'),
+        lapa = expand(config['lr']['cerberus']['ends'],
+                      species='human',
+                      end_mode='tes'),
+        gtex = expand(config['gtex']['cerberus']['ends'],
+                      species='human',
+                      end_mode='tes'),
+        pas = expand(config['pas']['ends_formatted'],
+                species='human',
+                end_mode='tes'),
+        atlas = expand(config['polya_atlas']['bed_formatted'],
+                       species='human')
+
+# rule cerb_agg_mouse_tss_config:
+#     input:
+#         vM21 = expand(config['ref']['gtf'],
+#                       species='mouse'),
+#         vM25 = expand(config['ref']['new_gtf'],
+#                       species='mouse'),
+#     lapa = expand(config['lr']['cerberus']['ends'],
+#                 species='human',
+#                 end_mode='tss')
 
 rule all_cerberus:
     input:

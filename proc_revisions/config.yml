@@ -127,6 +127,7 @@ lr:
   cerberus:
     ics: data/{species}/lr/cerberus/ics.tsv
     ends: data/{species}/lr/cerberus/{end_mode}.bed
+    agg_ends_cfg: data/{species}/lr/cerberus/agg/{end_mode}_config.csv
     ca: data/{species}/lr/cerberus/cerberus_ref.h5
     ca_annot: data/{species}/lr/cerberus/cerberus_annot.h5
     gtf: data/{species}/lr/cerberus/cerberus.gtf
@@ -170,6 +171,13 @@ lrgasp_cage:
     bed: data/{species}/lrgasp_cage/{lrgasp_cage_dataset}.bed
     merged: data/{species}/lrgasp_cage/merged.bed
 
+procap:
+    meta: data/{species}/procap/encode_metadata.tsv
+    lib_meta: data/{species}/procap/lib_metadata.tsv
+    bed_gz: data/{species}/procap/{dataset}_{output_type}.bed.gz
+    bed: data/{species}/procap/{dataset}_{output_type}.bed
+    bed_formatted: data/{species}/procap/{dataset}_{output_type}_reformat.bed
+    merged: data/{species}/procap/merged.bed
 
 polya_atlas:
   human:

@@ -68,7 +68,7 @@ rule merge_procap_cage:
       mem_gb = 8,
       threads = 1
   output:
-      bed = config['lrgasp_cage']['merged']
+      bed = config['procap']['merged']
   script:
       "merge_beds.py"
 

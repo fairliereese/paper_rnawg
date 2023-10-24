@@ -183,19 +183,20 @@ rule cerb_agg_human_tss_config:
                       ccre_type='dels'),
         lrgasp_cage = expand(config['lrgasp_cage']['merged'],
                              species='human'),
-        # TODO - procap
+        encode_procap = expand(config['procap']['merged'],
+                               species='human')
     params:
         add_ends = [True, True, True, True,
                     False, False, False,
-                    False, False, False, False],
+                    False, False, False, False, False],
         refs = [True, True, False, False,
                 False, False, False,
-                False, False, False, False],
+                False, False, False, False, False],
         sources = ['v40', 'v29', 'lapa', 'gtex',
                    'encode_cage', 'fantom_cage',
                    'encode_rampage',
                    'pls', 'pels', 'dels',
-                   'lrgasp_cage']
+                   'lrgasp_cage', 'encode_procap']
     output:
         cfg = expand(config['lr']['cerberus']['agg_ends_cfg'],
                      species='human',
@@ -211,7 +212,8 @@ rule cerb_agg_human_tss_config:
                  input.pls,
                  input.pels,
                  input.dels,
-                 input.lrgasp_cage]
+                 input.lrgasp_cage,
+                 input.encode_procap]
         df = pd.DataFrame()
         df['fname'] = files
         df['add_ends'] = params.add_ends
@@ -219,35 +221,62 @@ rule cerb_agg_human_tss_config:
         df['sources'] = params.sources
         df.to_csv(output.cfg, sep=',', header=None, index=False)
 
-# rule cerb_agg_human_tes_config:
-#     input:
-#         v40 = expand(config['ref']['cerberus']['new_ends'],
-#                      species='human',
-#                      end_mode='tes'),
-#         v29 = expand(config['ref']['cerberus']['ends'],
-#                      species='human',
-#                      end_mode='tes'),
-#         lapa = expand(config['lr']['cerberus']['ends'],
-#                       species='human',
-#                       end_mode='tes'),
-#         gtex = expand(config['gtex']['cerberus']['ends'],
-#                       species='human',
-#                       end_mode='tes'),
-#         pas = expand(config['pas']['ends_formatted'],
-#                 species='human',
-#                 end_mode='tes'),
-#         atlas = expand(config['polya_atlas']['bed_formatted'],
-#                        species='human')
+rule cerb_agg_human_tes_config:
+    input:
+        v40 = expand(config['ref']['cerberus']['new_ends'],
+                     species='human',
+                     end_mode='tes'),
+        v29 = expand(config['ref']['cerberus']['ends'],
+                     species='human',
+                     end_mode='tes'),
+        lapa = expand(config['lr']['cerberus']['ends'],
+                      species='human',
+                      end_mode='tes'),
+        gtex = expand(config['gtex']['cerberus']['ends'],
+                      species='human',
+                      end_mode='tes'),
+        pas = expand(config['pas']['ends_formatted'],
+                species='human',
+                end_mode='tes'),
+        atlas = expand(config['polya_atlas']['bed_formatted'],
+                       species='human')
+    resources:
+        mem_gb = 1,
+        threads = 1
+    params:
+        add_ends = [True, True, True, True,
+                    False, False],
+        refs = [True, True, False, False,
+                False, False],
+        sources = ['v40', 'v29', 'lapa', 'gtex',
+                   'pas', 'polya_atlas']
+    output:
+        cfg = expand(config['lr']['cerberus']['agg_ends_cfg'],
+                     species='human',
+                     end_mode='tes')
+    run:
+         files = [input.v40,
+                  input.v29,
+                  input.lapa_gtf,
+                  input.gtex,
+                  input.pas,
+                  input.atlas]
+         df = pd.DataFrame()
+         df['fname'] = files
+         df['add_ends'] = params.add_ends
+         df['refs'] = params.refs
+         df['sources'] = params.sources
+         df.to_csv(output.cfg, sep=',', header=None, index=False)
 
 # rule cerb_agg_mouse_tss_config:
-#     input:
-#         vM21 = expand(config['ref']['gtf'],
-#                       species='mouse'),
-#         vM25 = expand(config['ref']['new_gtf'],
-#                       species='mouse'),
-#     lapa = expand(config['lr']['cerberus']['ends'],
-#                 species='human',
-#                 end_mode='tss')
+    input:
+        vM21 = expand(config['ref']['gtf'],
+                      species='mouse'),
+        vM25 = expand(config['ref']['new_gtf'],
+                      species='mouse'),
+    lapa = expand(config['lr']['cerberus']['ends'],
+                species='mouse',
+                end_mode='tss')
 
 rule all_cerberus:
     input:

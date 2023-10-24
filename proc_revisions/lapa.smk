@@ -178,7 +178,7 @@ rule lapa_call_ends:
 rule lapa_correct_talon:
     resources:
         threads = 1,
-        mem_gb = 64
+        mem_gb = 128
     shell:
         """
         lapa_correct_talon \

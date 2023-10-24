@@ -330,8 +330,12 @@ rule cerb_agg_mouse_tes_config:
                      end_mode='tes'),
         lapa = expand(config['lr']['cerberus']['ends'],
                     species='mouse',
-                    end_mode='tes')
-        # TODO - PAS-seq mouse
+                    end_mode='tes'),
+        pas = expand(config['pas']['ends_formatted'],
+                species='mouse',
+                end_mode='tes'),
+        atlas = expand(config['polya_atlas']['bed_formatted'],
+                       species='mouse')
 
 rule all_cerberus:
     input:

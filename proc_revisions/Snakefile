@@ -25,7 +25,6 @@ include: 'lrgasp_cage.smk'
 include: 'procap.smk'
 
 
-
 ############# config stuff
 configfile: 'config.yml'
 
@@ -47,25 +46,20 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
-        expand(config['lr']['lapa']['filt']['gtf'],
-               zip,
-               species=lr_df.species.tolist()),
+        rules.all_cerberus.input,
         rules.all_procap.input,
         rules.all_lrgasp_cage.input,
         rules.all_pas.input,
         rules.all_polyasite.input,
         rules.all_fantom.input,
-        rules.all_cerberus.input,
         rules.all_pas.input,
         rules.all_tss.input,
         rules.all_ccre.input,
-        config['gtex']['cerberus']['ics'],
-        expand(config['gtex']['cerberus']['ends'],
-               end_mode=end_modes),
-        # expand(config['lr']['talon']['bam_ind'],
-        #        zip,
-        #        species=lr_df.species.tolist(),
-        #        dataset=lr_df.dataset.tolist()),
+        expand(config['lr']['talon']['bam_ind'],
+               zip,
+               species=lr_df.species.tolist(),
+               dataset=lr_df.dataset.tolist()),
+
         # expand(config['lr']['lapa']['filt']['gtf'],
         #        zip,
         #        species=lr_df.species.tolist()),

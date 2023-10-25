@@ -412,21 +412,42 @@ rule cerb_agg_mouse_ic_config:
         df['source'] = sources
         df.to_csv(output.cfg, header=None, index=False, sep=',')
 
+rule cerb_agg:
+    input:
+        cfg = config['lr']['cerberus']['agg_ends_cfg']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    params:
+        agg_slack = lambda wc:config['params']['cerberus'][wc.end_mode]['agg_slack']
+    output:
+        bed = config['lr']['cerberus']['agg_ends']
+    shell:
+        """
+        cerberus agg_ends \
+            --input {input.cfg} \
+            --mode {wildcards.end_mode} \
+            --slack {params.agg_slack} \
+            -o {output.bed}
+        """
 
 rule all_cerberus:
     input:
-        expand(config['ref']['cerberus']['ends'],
-              species=species,
-              end_mode=end_modes),
-        expand(config['ref']['cerberus']['new_ends'],
-            species=species,
-            end_mode=end_modes),
-        expand(config['ref']['cerberus']['ics'],
-              species=species),
-        expand(config['ref']['cerberus']['new_ics'],
-            species=species),
-        expand(config['ref']['cerberus']['ends'],
-              species=species,
-              end_mode=end_modes),
-        expand(config['lr']['cerberus']['ics'],
-            species=species)
+        expand(config['lr']['cerberus']['agg_ends'],
+               species=species,
+               end_mode=end_mode)
+        # expand(config['ref']['cerberus']['ends'],
+        #       species=species,
+        #       end_mode=end_modes),
+        # expand(config['ref']['cerberus']['new_ends'],
+        #     species=species,
+        #     end_mode=end_modes),
+        # expand(config['ref']['cerberus']['ics'],
+        #       species=species),
+        # expand(config['ref']['cerberus']['new_ics'],
+        #     species=species),
+        # expand(config['ref']['cerberus']['ends'],
+        #       species=species,
+        #       end_mode=end_modes),
+        # expand(config['lr']['cerberus']['ics'],
+        #     species=species)

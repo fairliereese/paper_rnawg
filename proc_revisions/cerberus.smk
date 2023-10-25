@@ -412,7 +412,7 @@ rule cerb_agg_mouse_ic_config:
         df['source'] = sources
         df.to_csv(output.cfg, header=None, index=False, sep=',')
 
-rule cerb_agg:
+rule cerb_agg_ends:
     input:
         cfg = config['lr']['cerberus']['agg_ends_cfg']
     resources:
@@ -431,11 +431,26 @@ rule cerb_agg:
             -o {output.bed}
         """
 
+rule cerb_agg_ics:
+    input:
+        cfg = config['lr']['cerberus']['agg_ics_cfg']
+    resources:
+        mem_gb = 28,
+        threads = 1
+    output:
+        ics = config['lr']['cerberus']['agg_ics']
+    shell:
+        "cerberus agg_ics \
+            --input {input.cfg} \
+            -o {output.ics}"
+
 rule all_cerberus:
     input:
         expand(config['lr']['cerberus']['agg_ends'],
                species=species,
-               end_mode=end_mode)
+               end_mode=end_mode),
+        expand(config['lr']['cerberus']['agg_ics'],
+              species=species)
         # expand(config['ref']['cerberus']['ends'],
         #       species=species,
         #       end_mode=end_modes),

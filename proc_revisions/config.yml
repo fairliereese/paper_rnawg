@@ -186,7 +186,7 @@ procap:
 
 polya_atlas:
   human:
-    link: https://www.pol22yasite.unibas.ch/download/atlas/2.0/GRCh38.96/atlas.clusters.2.0.GRCh38.96.bed.gz
+    link: https://www.polyasite.unibas.ch/download/atlas/2.0/GRCh38.96/atlas.clusters.2.0.GRCh38.96.bed.gz
   mouse:
     link: https://www.polyasite.unibas.ch/download/atlas/2.0/GRCm38.96/atlas.clusters.2.0.GRCm38.96.bed.gz
   bed_gz: data/{species}/polyasite_atlas/polyasite.bed.gz

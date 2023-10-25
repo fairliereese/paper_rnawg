@@ -371,7 +371,7 @@ rule cerb_agg_mouse_tes_config:
         sources = ['vM25', 'vM21', 'lapa',
                    'pas', 'polya_atlas']
     output:
-        cfg = config['cerberus']['tes']['cfg']
+        cfg = config['lr']['cerberus']['agg_ends_cfg']
     run:
         files = [input.vM25,
                 input.vM21,

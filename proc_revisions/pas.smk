@@ -35,8 +35,8 @@ rule pas_lapa_config:
                species=wc.species)
     params:
         df_pas = pas_df
-    threads: 1
     resources:
+        threads = 1,
         mem_gb = 4
     output:
         config = config['pas']['config']

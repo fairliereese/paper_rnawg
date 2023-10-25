@@ -49,7 +49,7 @@ rule all:
     input:
         expand(config['lr']['lapa']['filt']['gtf'],
                zip,
-               species=lr_df.species.tolist())
+               species=lr_df.species.tolist()),
         rules.all_procap.input
         rules.all_lrgasp_cage.input
         rules.all_pas.input

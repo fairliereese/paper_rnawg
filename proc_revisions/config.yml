@@ -126,6 +126,7 @@ lr:
 
   cerberus:
     ics: data/{species}/lr/cerberus/ics.tsv
+    agg_ics_cfg: data/{species}/lr/cerberus/agg/ic_config.csv
     ends: data/{species}/lr/cerberus/{end_mode}.bed
     agg_ends_cfg: data/{species}/lr/cerberus/agg/{end_mode}_config.csv
     ca: data/{species}/lr/cerberus/cerberus_ref.h5

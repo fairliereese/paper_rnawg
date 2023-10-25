@@ -164,7 +164,6 @@ rule cerb_agg_human_tss_config:
                       species='human',
                       end_mode='tss'),
         gtex = expand(config['gtex']['cerberus']['ends'],
-                      species='human',
                       end_mode='tss'),
         encode_cage = expand(config['cage']['merged'],
                              species='human'),
@@ -233,7 +232,6 @@ rule cerb_agg_human_tes_config:
                       species='human',
                       end_mode='tes'),
         gtex = expand(config['gtex']['cerberus']['ends'],
-                      species='human',
                       end_mode='tes'),
         pas = expand(config['pas']['ends_formatted'],
                 species='human',
@@ -267,6 +265,33 @@ rule cerb_agg_human_tes_config:
          df['refs'] = params.refs
          df['sources'] = params.sources
          df.to_csv(output.cfg, sep=',', header=None, index=False)
+
+rule cerb_agg_ics_human_config:
+    input:
+        v40 = expand(config['ref']['cerberus']['new_ics'],
+                     species='human'),
+        v29 = expand(config['ref']['cerberus']['ics'],
+                     species='human'),
+        lapa = expand(config['lr']['cerberus']['ics'],
+                     species='human'),
+        gtex = config['gtex']['cerberus']['ics']
+    params:
+        sources = ['v40', 'v29', 'lapa', 'gtex'],
+        refs = [True, True, False, False]
+    resources:
+        mem_gb = 1,
+        threads = 1
+    output:
+        cfg = config['lr']['cerberus']['agg_ics_cfg']
+    run:
+        files = [input.v40, input.v29, input.lapa, input.gtex]
+        refs = params.refs
+        sources = params.sources
+        df = pd.DataFrame()
+        df['fname'] = files
+        df['refs'] = refs
+        df['source'] = sources
+        df.to_csv(output.cfg, header=None, index=False, sep=',')
 
 rule cerb_agg_mouse_tss_config:
     input:
@@ -335,6 +360,58 @@ rule cerb_agg_mouse_tes_config:
                 end_mode='tes'),
         atlas = expand(config['polya_atlas']['bed_formatted'],
                        species='mouse')
+    resources:
+        mem_gb = 1,
+        threads = 1
+    params:
+        add_ends = [True, True, True,
+                   False, False],
+        refs = [True, True, False,
+                   False, False],
+        sources = ['vM25', 'vM21', 'lapa',
+                   'pas', 'polya_atlas']
+    output:
+        cfg = config['cerberus']['tes']['cfg']
+    run:
+        files = [input.vM25,
+                input.vM21,
+                input.lapa_gtf,
+                input.pas,
+                input.atlas]
+        df = pd.DataFrame()
+        df['fname'] = files
+        df['add_ends'] = params.add_ends
+        df['refs'] = params.refs
+        df['sources'] = params.sources
+        df.to_csv(output.cfg, sep=',', header=None, index=False)
+
+
+rule cerb_agg_mouse_ic_config:
+    input:
+        vM25 = expand(config['ref']['cerberus']['new_ics'],
+                     species='mouse'),
+        vM21 = expand(config['ref']['cerberus']['ics'],
+                     species='mouse'),
+        lapa = expand(config['lr']['cerberus']['ics'],
+                     species='mouse')
+    params:
+        sources = ['vM25', 'vM21', 'lapa'],
+        refs = [True, True, False]
+    resources:
+        mem_gb = 1,
+        threads = 1
+    output:
+        cfg = config['lr']['cerberus']['agg_ics_cfg']
+    run:
+        files = [input.vM25, input.vM21, input.lapa]
+        refs = params.refs
+        sources = params.sources
+        df = pd.DataFrame()
+        df['fname'] = files
+        df['refs'] = refs
+        df['source'] = sources
+        df.to_csv(output.cfg, header=None, index=False, sep=',')
+
 
 rule all_cerberus:
     input:

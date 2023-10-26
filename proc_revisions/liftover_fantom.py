@@ -18,7 +18,7 @@ elif snakemake.wildcards.species == 'mouse':
 df = pr.read_bed(snakemake.input['bed'], as_df=True)
 converter = get_lifter(old_ver, new_ver)
 
-__import__("pdb").set_trace()
+# __import__("pdb").set_trace()
 
 
 rows = list()

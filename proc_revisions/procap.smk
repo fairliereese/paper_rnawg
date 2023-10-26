@@ -58,7 +58,7 @@ rule reformat_procap_uni:
         df.drop(['idk1', 'idk2'], axis=1, inplace=True)
         pr.PyRanges(df).to_bed(output.bed)
 
-rule merge_procap_cage:
+rule merge_procap:
     input:
         beds = expand(config['procap']['bed_formatted'],
              species=species,

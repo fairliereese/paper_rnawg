@@ -10,4 +10,4 @@ pr.PyRanges(
         .rename(columns={0: 'Chromosome', 1: 'Start', 2: 'End'})
         for i in tqdm(snakemake.input['beds'])
     ])
-).merge(strand=True).drop().to_bed(snakemake.output['bed'])
+).merge(strand=False).drop().to_bed(snakemake.output['bed'])

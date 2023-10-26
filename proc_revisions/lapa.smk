@@ -115,6 +115,22 @@ def get_lapa_run_info(wc, df, cfg_entry, dataframe=False):
     else:
         return temp
 
+def filt_lapa_gtf(gtf, filt_list):
+    """
+    Filter LAPA GTF using a TALON-style pass list
+    """
+    gtf = pr.read_gtf(gtf).as_df()
+    gids, tids = get_ids_from_pass_list(filt_list)
+
+    # first filter on tids
+    gtf = gtf.loc[(gtf.transcript_id.isin(tids))|(gtf.Feature=='gene')]
+
+    # then filter on gids
+    gtf = gtf.loc[(gtf.gene_id.isin(gids))]
+
+    gtf = pr.PyRanges(gtf)
+    return gtf
+
 def get_lapa_settings(wc, lapa_ends, kind):
     """
     Get the command name or file output name

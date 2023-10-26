@@ -5,6 +5,7 @@ df = snakemake.params.df_pas[['Biosample term name']].rename(
     columns={'Biosample term name': 'dataset'})
 df = df.reset_index().rename(
     columns={'File accession': 'sample'})
+import pdb; pdb.set_trace()
 df = df.loc[df.species==snakemake.wildcards.species]
 
 bam_path = snakemake.config['pas']['bam']

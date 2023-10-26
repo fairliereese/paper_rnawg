@@ -180,6 +180,9 @@ rule cerb_agg_human_tss_config:
                    'encode_rampage',
                    'pls', 'pels', 'dels',
                    'lrgasp_cage', 'encode_procap']
+    resources:
+        threads = 1,
+        mem_gb = 1
     output:
         cfg = expand(config['lr']['cerberus']['agg_ends_cfg'],
                      species='human',

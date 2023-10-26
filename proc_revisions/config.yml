@@ -168,6 +168,7 @@ fantom:
     link: https://fantom.gsc.riken.jp/5/datafiles/latest/extra/CAGE_peaks/mm9.cage_peak_phase1and2combined_coord.bed.gz
   bed_old_gz: data/{species}/fantom_cage/old.bed.gz
   bed_old: data/{species}/fantom_cage/old.bed
+  log: data/{species}/fantom_cage/liftover.log
   bed: data/{species}/fantom_cage/fantom_cage.bed
 
 lrgasp_cage:

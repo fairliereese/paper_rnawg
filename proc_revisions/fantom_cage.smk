@@ -18,7 +18,8 @@ rule liftover_fantom:
     resources:
         threads = 1,
         mem_gb = 16
-    log: lambda wc:'logs/{species}/fantom_cage/liftover.log'
+    log: lambda wc:expand('logs/{species}/fantom_cage/liftover.log',
+                          species=wc.species)
     output:
         bed = config['fantom']['bed']
     script:

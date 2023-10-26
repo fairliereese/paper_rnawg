@@ -91,8 +91,5 @@ rule format_lapa_ends:
 rule all_pas:
     input:
         expand(rules.format_lapa_ends.output,
-               species='human',
-               end_mode='tss')
-        # expand(rules.format_lapa_ends.output,
-        #        species=species,
-        #        end_mode=end_mode)
+               species=species,
+               end_mode=end_mode)

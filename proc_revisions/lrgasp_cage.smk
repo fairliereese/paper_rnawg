@@ -17,13 +17,13 @@ use rule dl as dl_lrgasp_cage with:
                                              meta,
                                              'link')
     output:
-        out = config['lrgasp_cage']['bed_gz']
+        out = temporary(config['lrgasp_cage']['bed_gz'])
 
 use rule gunzip as gz_lrgasp_cage with:
     input:
         gz = config['lrgasp_cage']['bed_gz']
     output:
-        out = config['lrgasp_cage']['bed']
+        out = temporary(config['lrgasp_cage']['bed'])
 
 rule merge_lrgasp_cage:
     input:

@@ -70,7 +70,7 @@ rule merge_procap_cage:
     output:
         bed = config['procap']['merged']
     script:
-        "merge_beds.py"
+        "merge_beds_unstranded.py"
 
 rule all_procap:
     input:

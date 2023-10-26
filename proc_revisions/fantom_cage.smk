@@ -10,7 +10,7 @@ use rule gunzip as gz_fantom_cage with:
     input:
         gz = config['fantom']['bed_old_gz']
     output:
-        out = config['fantom']['bed_old']
+        out = temporary(config['fantom']['bed_old'])
 
 rule liftover_fantom:
     input:

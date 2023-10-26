@@ -49,6 +49,9 @@ rule lapa_call_ends_pas:
         fa = config['ref']['talon']['fa'],
         gtf = config['ref']['lapa']['gtf'],
         chrom_sizes = config['ref']['talon']['chrom_sizes']
+    resources:
+        threads = 1,
+        mem_gb = 1
     params:
         replication_num_sample = 3,
         opref = config['pas']['ends'].rsplit('/', maxsplit=1)[0]+'/',

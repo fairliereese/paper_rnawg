@@ -138,6 +138,9 @@ lr:
     gtf: data/{species}/lr/cerberus/cerberus.gtf
     ab: data/{species}/lr/cerberus/cerberus_filtered_abundance.tsv
 
+  swan:
+    sg: data/{species}/swan/swan_graph.p
+
 gtex:
     gtf_link: https://storage.googleapis.com/gtex_analysis_v9/long_read_data/flair_filter_transcripts.gtf.gz
     gtf_gz: data/human/gtex/flair_filter_transcripts.gtf.gz

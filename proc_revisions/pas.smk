@@ -51,7 +51,7 @@ rule lapa_call_ends_pas:
         chrom_sizes = config['ref']['talon']['chrom_sizes']
     resources:
         threads = 1,
-        mem_gb = 1
+        mem_gb = 128
     params:
         replication_num_sample = 3,
         opref = config['pas']['ends'].rsplit('/', maxsplit=1)[0]+'/',

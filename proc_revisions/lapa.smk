@@ -7,6 +7,12 @@ filt_spikes = True
 
 # python functions
 
+def get_ids_from_pass_list(filt_list):
+    filt_df = pd.read_csv(filt_list, sep='\t')
+    gids = filt_df.gid.unique().tolist()
+    tids = filt_df.tid.unique().tolist()
+    return gids, tids
+
 def ab_add_rescue_ism_cat(ab):
     """
     Update LAPA abundance w/ ISM rescue category for those

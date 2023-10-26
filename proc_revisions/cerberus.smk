@@ -183,7 +183,7 @@ rule cerb_agg_human_tss_config:
     output:
         cfg = expand(config['lr']['cerberus']['agg_ends_cfg'],
                      species='human',
-                     end_mode='tss')
+                     end_mode='tss')[0]
     run:
         files = [input.v40,
                  input.v29,
@@ -235,7 +235,7 @@ rule cerb_agg_human_tes_config:
     output:
         cfg = expand(config['lr']['cerberus']['agg_ends_cfg'],
                      species='human',
-                     end_mode='tes')
+                     end_mode='tes')[0]
     run:
          files = [input.v40,
                   input.v29,
@@ -267,7 +267,7 @@ rule cerb_agg_ics_human_config:
         threads = 1
     output:
         cfg = expand(config['lr']['cerberus']['agg_ics_cfg'],
-                     species='human')
+                     species='human')[0]
     run:
         files = [input.v40, input.v29, input.lapa, input.gtex]
         refs = params.refs
@@ -313,7 +313,7 @@ rule cerb_agg_mouse_tss_config:
     output:
         cfg = expand(config['lr']['cerberus']['agg_ends_cfg'],
                    species='mouse',
-                   end_mode='tss')
+                   end_mode='tss')[0]
     run:
         files = [input.vM25,
                input.vM21,

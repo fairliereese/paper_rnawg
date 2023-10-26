@@ -432,7 +432,7 @@ rule all_cerberus:
     input:
         expand(config['lr']['cerberus']['agg_ends'],
                species=species,
-               end_mode=end_mode),
+               end_mode=end_modes),
         expand(config['lr']['cerberus']['agg_ics'],
               species=species)
         # expand(config['ref']['cerberus']['ends'],

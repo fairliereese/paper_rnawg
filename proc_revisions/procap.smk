@@ -74,7 +74,7 @@ rule merge_procap:
 
 rule all_procap:
     input:
-        expand(rules.merge_procap_cage.output,
+        expand(rules.merge_procap.output,
                species=species),
         # expand(rules.merge_procap_cage.output,
         #        species=species,

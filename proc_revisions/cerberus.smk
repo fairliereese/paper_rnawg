@@ -266,7 +266,8 @@ rule cerb_agg_ics_human_config:
         mem_gb = 1,
         threads = 1
     output:
-        cfg = config['lr']['cerberus']['agg_ics_cfg']
+        cfg = expand(config['lr']['cerberus']['agg_ics_cfg'],
+                     species='human')
     run:
         files = [input.v40, input.v29, input.lapa, input.gtex]
         refs = params.refs
@@ -355,7 +356,9 @@ rule cerb_agg_mouse_tes_config:
         sources = ['vM25', 'vM21', 'lapa',
                    'pas', 'polya_atlas']
     output:
-        cfg = config['lr']['cerberus']['agg_ends_cfg']
+        cfg = expand(config['lr']['cerberus']['agg_ends_cfg'],
+                     species='mouse',
+                     end_mode='tes')
     run:
         files = [input.vM25,
                 input.vM21,
@@ -370,7 +373,7 @@ rule cerb_agg_mouse_tes_config:
         df.to_csv(output.cfg, sep=',', header=None, index=False)
 
 
-rule cerb_agg_mouse_ic_config:
+rule cerb_agg_ics_mouse_config:
     input:
         vM25 = expand(config['ref']['cerberus']['new_ics'],
                      species='mouse'),
@@ -385,7 +388,8 @@ rule cerb_agg_mouse_ic_config:
         mem_gb = 1,
         threads = 1
     output:
-        cfg = config['lr']['cerberus']['agg_ics_cfg']
+        cfg = expand(config['lr']['cerberus']['agg_ics_cfg'],
+                     species='mouse')
     run:
         files = [input.vM25, input.vM21, input.lapa]
         refs = params.refs

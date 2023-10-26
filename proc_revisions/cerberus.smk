@@ -140,34 +140,34 @@ rule cerb_agg_human_tss_config:
     input:
         v40 = expand(config['ref']['cerberus']['new_ends'],
                      species='human',
-                     end_mode='tss'),
+                     end_mode='tss')[0],
         v29 = expand(config['ref']['cerberus']['ends'],
                      species='human',
-                     end_mode='tss'),
+                     end_mode='tss')[0],
         lapa = expand(config['lr']['cerberus']['ends'],
                       species='human',
-                      end_mode='tss'),
+                      end_mode='tss')[0],
         gtex = expand(config['gtex']['cerberus']['ends'],
-                      end_mode='tss'),
+                      end_mode='tss')[0],
         encode_cage = expand(config['cage']['merged'],
                              species='human'),
         fantom_cage = expand(config['fantom']['bed'],
-                             species='human'),
+                             species='human')[0],
         encode_rampage = expand(config['rampage']['merged'],
-                                species='human'),
+                                species='human')[0],
         pls = expand(config['ccre']['bed_format'],
                      species='human',
-                     ccre_type='pls'),
+                     ccre_type='pls')[0],
         pels = expand(config['ccre']['bed_format'],
                       species='human',
-                      ccre_type='pels'),
+                      ccre_type='pels')[0],
         dels = expand(config['ccre']['bed_format'],
                       species='human',
-                      ccre_type='dels'),
+                      ccre_type='dels')[0],
         lrgasp_cage = expand(config['lrgasp_cage']['merged'],
-                             species='human'),
+                             species='human')[0],
         encode_procap = expand(config['procap']['merged'],
-                               species='human')
+                               species='human')[0]
     params:
         add_ends = [True, True, True, True,
                     False, False, False,
@@ -208,20 +208,20 @@ rule cerb_agg_human_tes_config:
     input:
         v40 = expand(config['ref']['cerberus']['new_ends'],
                      species='human',
-                     end_mode='tes'),
+                     end_mode='tes')[0],
         v29 = expand(config['ref']['cerberus']['ends'],
                      species='human',
-                     end_mode='tes'),
+                     end_mode='tes')[0],
         lapa = expand(config['lr']['cerberus']['ends'],
                       species='human',
-                      end_mode='tes'),
+                      end_mode='tes')[0],
         gtex = expand(config['gtex']['cerberus']['ends'],
-                      end_mode='tes'),
+                      end_mode='tes')[0],
         pas = expand(config['pas']['ends_formatted'],
                 species='human',
-                end_mode='tes'),
+                end_mode='tes')[0],
         atlas = expand(config['polya_atlas']['bed_formatted'],
-                       species='human')
+                       species='human')[0]
     resources:
         mem_gb = 1,
         threads = 1
@@ -253,11 +253,11 @@ rule cerb_agg_human_tes_config:
 rule cerb_agg_ics_human_config:
     input:
         v40 = expand(config['ref']['cerberus']['new_ics'],
-                     species='human'),
+                     species='human')[0],
         v29 = expand(config['ref']['cerberus']['ics'],
-                     species='human'),
+                     species='human')[0],
         lapa = expand(config['lr']['cerberus']['ics'],
-                     species='human'),
+                     species='human')[0],
         gtex = config['gtex']['cerberus']['ics']
     params:
         sources = ['v40', 'v29', 'lapa', 'gtex'],
@@ -282,24 +282,24 @@ rule cerb_agg_mouse_tss_config:
     input:
         vM21 = expand(config['ref']['cerberus']['ends'],
                      species='mouse',
-                     end_mode='tss'),
+                     end_mode='tss')[0],
         vM25 = expand(config['ref']['cerberus']['new_ends'],
                      species='mouse',
-                     end_mode='tss'),
+                     end_mode='tss')[0],
         lapa = expand(config['lr']['cerberus']['ends'],
                     species='mouse',
-                    end_mode='tss'),
+                    end_mode='tss')[0],
         fantom_cage = expand(config['fantom']['bed'],
-                             species='mouse'),
+                             species='mouse')[0],
         pls = expand(config['ccre']['bed_format'],
                      species='mouse',
-                     ccre_type='pls'),
+                     ccre_type='pls')[0],
         pels = expand(config['ccre']['bed_format'],
                       species='mouse',
-                      ccre_type='pels'),
+                      ccre_type='pels')[0],
         dels = expand(config['ccre']['bed_format'],
                       species='mouse',
-                      ccre_type='dels')
+                      ccre_type='dels')[0]
     resources:
         mem_gb = 1,
         threads = 1
@@ -333,18 +333,18 @@ rule cerb_agg_mouse_tes_config:
     input:
         vM21 = expand(config['ref']['cerberus']['ends'],
                      species='mouse',
-                     end_mode='tes'),
+                     end_mode='tes')[0],
         vM25 = expand(config['ref']['cerberus']['new_ends'],
                      species='mouse',
-                     end_mode='tes'),
+                     end_mode='tes')[0],
         lapa = expand(config['lr']['cerberus']['ends'],
                     species='mouse',
-                    end_mode='tes'),
+                    end_mode='tes')[0],
         pas = expand(config['pas']['ends_formatted'],
                 species='mouse',
-                end_mode='tes'),
+                end_mode='tes')[0],
         atlas = expand(config['polya_atlas']['bed_formatted'],
-                       species='mouse')
+                       species='mouse')[0]
     resources:
         mem_gb = 1,
         threads = 1
@@ -358,7 +358,7 @@ rule cerb_agg_mouse_tes_config:
     output:
         cfg = expand(config['lr']['cerberus']['agg_ends_cfg'],
                      species='mouse',
-                     end_mode='tes')
+                     end_mode='tes')[0]
     run:
         files = [input.vM25,
                 input.vM21,
@@ -376,11 +376,11 @@ rule cerb_agg_mouse_tes_config:
 rule cerb_agg_ics_mouse_config:
     input:
         vM25 = expand(config['ref']['cerberus']['new_ics'],
-                     species='mouse'),
+                     species='mouse')[0],
         vM21 = expand(config['ref']['cerberus']['ics'],
-                     species='mouse'),
+                     species='mouse')[0],
         lapa = expand(config['lr']['cerberus']['ics'],
-                     species='mouse')
+                     species='mouse')[0]
     params:
         sources = ['vM25', 'vM21', 'lapa'],
         refs = [True, True, False]
@@ -389,7 +389,7 @@ rule cerb_agg_ics_mouse_config:
         threads = 1
     output:
         cfg = expand(config['lr']['cerberus']['agg_ics_cfg'],
-                     species='mouse')
+                     species='mouse')[0]
     run:
         files = [input.vM25, input.vM21, input.lapa]
         refs = params.refs

@@ -8,10 +8,10 @@ from liftover import get_lifter
 logging.basicConfig(filename=snakemake.log[0],
                     level=logging.INFO)
 
-if snakemake.wildcards['human']:
+if snakemake.wildcards.species == 'human':
     old_ver = 'hg19'
     new_ver = 'hg38'
-elif snakemake.wildcards['mouse']:
+elif snakemake.wildcards.species == 'mouse':
     old_ver = 'mm9'
     new_ver = 'mm10'
 

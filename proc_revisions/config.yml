@@ -79,6 +79,12 @@ ref:
     new_ics: ref/{species}/cerberus/new_ics.tsv
     new_ends: ref/{species}/cerberus/new_{end_mode}.bed
 
+    gtf: ref/{species}/cerberus/annot.gtf
+    ca: ref/{species}/cerberus/ca.h5
+
+    new_gtf: ref/{species}/cerberus/annot.gtf
+    new_ca: ref/{species}
+
 ccre:
   bed_gz: data/{species}/ccre/{ccre_type}.bed.gz
   bed: data/{species}/ccre/{ccre_type}.bed
@@ -136,6 +142,7 @@ lr:
 
     ca: data/{species}/lr/cerberus/cerberus_ref.h5
     ca_annot: data/{species}/lr/cerberus/cerberus_annot.h5
+
     gtf: data/{species}/lr/cerberus/cerberus.gtf
     ab: data/{species}/lr/cerberus/cerberus_filtered_abundance.tsv
 
@@ -154,7 +161,7 @@ gtex:
     cerberus:
       ics: data/human/gtex/cerberus/ics.tsv
       ends: data/human/gtex/cerberus/{end_mode}.bed
-      annot: data/human/gtex/cerberus/gtex_cerberus.h5
+      ca: data/human/gtex/cerberus/gtex_cerberus.h5
 
 cage:
   encode_meta: data/{species}/cage/encode_metadata.tsv

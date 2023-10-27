@@ -86,7 +86,7 @@ rule cerb_ab_ids:
 # old refs
 use rule cerb_gtf_to_bed as cerb_get_gtf_ends_ref with:
     input:
-        gtf = config['ref']['gtf']
+        gtf = config['ref']['talon']['gtf']
     output:
         ends = config['ref']['cerberus']['ends']
     params:
@@ -95,7 +95,7 @@ use rule cerb_gtf_to_bed as cerb_get_gtf_ends_ref with:
 
 use rule cerb_gtf_to_ics as cerb_get_gtf_ics_ref with:
     input:
-        gtf = config['ref']['gtf']
+        gtf = config['ref']['talon']['gtf']
     output:
         ics = config['ref']['cerberus']['ics']
 
@@ -443,13 +443,156 @@ rule cerb_agg_ics:
             --input {input.cfg} \
             -o {output.ics}"
 
+################################################################################
+######################### Cerberus annotation ##################################
+################################################################################
+rule cerberus_write_ref:
+    input:
+        tss = expand(config['lr']['cerberus']['agg_ends'],
+                     end_mode='tss',
+                     allow_missing=True)[0],
+        tes = expand(config['lr']['cerberus']['agg_ends'],
+                     end_mode='tes',
+                     allow_missing=True)[0],
+        ics = config['lr']['cerberus']['ics']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    output:
+        ref = config['lr']['cerberus']['ca']
+    shell:
+        "cerberus write_reference \
+            --tss {input.tss} \
+            --tes {input.tes} \
+            --ics {input.ics} \
+            -o {output.ref}"
+
+rule cerberus_annotate:
+    resources:
+        mem_gb = 56,
+        threads = 1
+    shell:
+        """cerberus annotate_transcriptome \
+            --gtf {input.gtf} \
+            --h5 {input.ref} \
+            --source {params.source} \
+            -o {output.annot}
+        """
+
+use rule cerberus_annotate as cerberus_annotate_new_ref with:
+    input:
+        gtf = config['ref']['new_gtf'],
+        ref = config['lr']['cerberus']['ca']
+    params:
+        source = lambda wc:config['ref'][wc.species]['new_gtf_ver']
+    output:
+        annot = config['ref']['cerberus']['new_ca']
+
+use rule cerberus_annotate as cerberus_annotate_ref with:
+    input:
+        gtf = config['ref']['talon']['gtf'],
+        ref = config['ref']['cerberus']['new_ca']
+    params:
+        source = lambda wc:config['ref'][wc.species]['gtf_ver']
+    output:
+        annot = config['ref']['cerberus']['ca']
+
+use rule cerberus_annotate as cerberus_annotate_gtex with:
+    input:
+        gtf = config['gtex']['filt_gtf'],
+        ref = config['ref']['cerberus']['ca']
+    params:
+        source = 'gtex',
+        gene_source = lambda wc:config['ref'][wc.species]['gtf_ver']
+    output:
+        annot = config['gtex']['cerberus']['ca']
+
+use rule cerberus_annotate as cerberus_annotate_lr with:
+    input:
+        gtf = config['lr']['lapa']['filt']['gtf'],
+        ref = config['gtex']['cerberus']['ca']
+    params:
+        source = 'lapa',
+        gene_source = lambda wc:config['ref'][wc.species]['gtf_ver']
+    output:
+        annot = config['lr']['cerberus']['ca_annot']
+
+################################################################################
+###################### Cerberus update abundance ###############################
+################################################################################
+
+rule cerberus_update_abundance:
+    input:
+        annot = config['lr']['cerberus']['ca_annot'],
+        ab = config['lr']['lapa']['filt']['filt_ab']
+    resources:
+        mem_gb = 28,
+        threads = 1
+    params:
+        source = 'lapa'
+    output:
+        update_ab = config['lr']['cerberus']['ab']
+    shell:
+        "cerberus replace_ab_ids \
+            --h5 {input.annot} \
+            --ab {input.ab} \
+            --source {params.source} \
+            --collapse \
+            -o {output.update_ab}"
+
+rule cerberus_update_gtf:
+    resources:
+        mem_gb = 56,
+        threads = 1
+    shell:
+        "cerberus replace_gtf_ids \
+            --h5 {input.annot} \
+            --gtf {input.gtf} \
+            --source {params.source} \
+            --update_ends \
+            --collapse \
+            -o {output.update_gtf}"
+
+use rule cerberus_update_gtf as cerberus_update_lr:
+    input:
+        annot = config['lr']['cerberus']['ca_annot'],
+        gtf = config['lr']['lapa']['filt']['gtf']
+    params:
+        source = 'lapa'
+    output:
+        update_gtf = config['lr']['cerberus']['gtf']
+
+use rule cerberus_update_gtf as cerberus_update_ref:
+    input:
+        annot = config['lr']['cerberus']['ca_annot'],
+        gtf = config['ref']['talon']['gtf']
+    params:
+        source = lambda wc:config['ref'][wc.species]['gtf_ver']
+    output:
+        update_gtf = config['ref']['cerberus']['gtf']
+
+use rule cerberus_update_gtf as cerberus_update_new_ref:
+    input:
+        annot = config['lr']['cerberus']['ca_annot'],
+        gtf = config['ref']['new_gtf']
+    params:
+        source = lambda wc:config['ref'][wc.species]['new_gtf_ver']
+    output:
+        update_gtf = config['ref']['cerberus']['new_gtf']
+
 rule all_cerberus:
     input:
-        expand(config['lr']['cerberus']['agg_ends'],
-               species=species,
-               end_mode=end_modes),
-        expand(config['lr']['cerberus']['agg_ics'],
+        expand(rules.cerberus_update_lr.output,
+               species=species),
+        expand(rules.cerberus_update_new_ref.output,
+               species=species),
+        expand(rules.cerberus_update_ref.output,
               species=species)
+        # expand(config['lr']['cerberus']['agg_ends'],
+        #        species=species,
+        #        end_mode=end_modes),
+        # expand(config['lr']['cerberus']['agg_ics'],
+        #       species=species)
         # expand(config['ref']['cerberus']['ends'],
         #       species=species,
         #       end_mode=end_modes),

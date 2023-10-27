@@ -204,6 +204,7 @@ rule cerb_agg_human_tss_config:
                  input.pls,
                  input.pels,
                  input.dels,
+                 input.h3k4me3,
                  input.lrgasp_cage,
                  input.encode_procap]
         df = pd.DataFrame()
@@ -335,7 +336,8 @@ rule cerb_agg_mouse_tss_config:
                input.fantom_cage,
                input.pls,
                input.pels,
-               input.dels]
+               input.dels,
+               input.h3k4me3]
         df = pd.DataFrame()
         df['fname'] = files
         df['add_ends'] = params.add_ends

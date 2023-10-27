@@ -468,7 +468,7 @@ rule cerberus_write_ref:
     run:
         cerberus.write_reference(input.tss,
                                  input.tes,
-                                 input.ic,
+                                 input.ics,
                                  output.h5)
 
 # rule cerberus_annotate:

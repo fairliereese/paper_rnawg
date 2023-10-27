@@ -521,6 +521,7 @@ use rule cerb_annot as cerberus_annotate_mouse_lr with:
 
 use rule cerb_annot as cerberus_annotate_human_lr with:
     input:
+        gtf = config['lr']['lapa']['filt']['gtf'],
         ref = config['gtex']['cerberus']['ca']
     params:
         source = 'lapa',
@@ -591,9 +592,9 @@ use rule cerb_gtf_ids as cerb_gtf_ids_new_ref with:
 
 rule all_cerberus:
     input:
-        expand(rules.cerb_gtf_ids_new_ref.output, species=species),
-        expand(rules.cerb_gtf_ids_ref.output, species=species),
-        expand(rules.cerb_gtf_ids_lr.output, species=species)
+        expand(rules.cerb_gtf_ids_new_ref.output, species='human'),
+        expand(rules.cerb_gtf_ids_ref.output, species='human'),
+        expand(rules.cerb_gtf_ids_lr.output, species='human')
 
         # expand(rules.cerb_gtf_ids_new_ref.output,
         #        species=species),

@@ -86,7 +86,7 @@ ref:
 
     new_gtf: ref/{species}/cerberus/new_annot.gtf
     new_gtf_info: ref/{species}/cerberus/new_gtf_info.tsv
-    new_ca: ref/{species}
+    new_ca: ref/{species}/cerberus/new_ca.h5
 
 ccre:
   bed_gz: data/{species}/ccre/{ccre_type}.bed.gz

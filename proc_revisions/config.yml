@@ -84,7 +84,7 @@ ref:
     gtf: ref/{species}/cerberus/annot.gtf
     ca: ref/{species}/cerberus/ca.h5
 
-    new_gtf: ref/{species}/cerberus/annot.gtf
+    new_gtf: ref/{species}/cerberus/new_annot.gtf
     new_gtf_info: ref/{species}/cerberus/new_gtf_info.tsv
     new_ca: ref/{species}
 

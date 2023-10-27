@@ -517,7 +517,8 @@ use rule cerb_annot as cerberus_annotate_mouse_lr with:
         source = 'lapa',
         gene_source = lambda wc:config['ref'][wc.species]['gtf_ver']
     output:
-        h5 = config['lr']['cerberus']['ca_annot']
+        h5 = expand(config['lr']['cerberus']['ca_annot'],
+                    species='mouse')[0]
 
 use rule cerb_annot as cerberus_annotate_human_lr with:
     input:
@@ -528,7 +529,8 @@ use rule cerb_annot as cerberus_annotate_human_lr with:
         source = 'lapa',
         gene_source = lambda wc:config['ref'][wc.species]['gtf_ver']
     output:
-        h5 = config['lr']['cerberus']['ca_annot']
+        h5 = expand(config['lr']['cerberus']['ca_annot'],
+                    species='human')[0]
 
 ################################################################################
 ###################### Cerberus update abundance ###############################

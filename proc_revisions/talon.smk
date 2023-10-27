@@ -34,6 +34,20 @@ def get_talon_run_file(talon_run, cfg_entry):
     assert len(files) == 1
     return files[0]
 
+def get_gene_ab(ifile, ofile):
+    """
+    Get gene expression abundance information from the unfiltered
+    talon abundance file
+    """
+    df = pd.read_csv(ifile, sep='\t')
+    # drop columns that do not pertain to gene info
+    drop_cols = ['transcript_ID', 'annot_transcript_id', 'annot_transcript_name',
+                 'n_exons', 'length', 'transcript_novelty', 'ISM_subtype']
+    df.drop(drop_cols, axis=1, inplace=True)
+    gb_cols = ['gene_ID', 'annot_gene_id', 'annot_gene_name', 'gene_novelty']
+    df = df.groupby(gb_cols).sum().reset_index()
+    df.to_csv(ofile, sep='\t', index=False)
+
 def get_talon_run_info(wc, df, cfg_entry, dataframe=False):
     """
     Get all files for a talon run
@@ -323,6 +337,17 @@ use rule talon_filter as talon_filt_full with:
         min_datasets = min_datasets
     output:
         pass_list = config['lr']['talon']['pass_list']
+
+rule talon_gene_ab:
+    input:
+        ab = config['lr']['talon']['ab']
+    resources:
+        threads = 1,
+        mem_gb = 32
+    output:
+        gene_ab = config['lr']['talon']['gene_ab']
+    run:
+        get_gene_ab(input.ab, output.gene_ab)
 
 use rule talon_filtered_abundance as talon_filt_ab_full with:
     input:

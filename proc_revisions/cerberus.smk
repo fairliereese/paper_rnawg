@@ -164,6 +164,9 @@ rule cerb_agg_human_tss_config:
         dels = expand(config['ccre']['bed_format'],
                       species='human',
                       ccre_type='dels')[0],
+        h3k4me3 = expand(config['ccre']['bed_format'],
+                         species='human',
+                         ccre_type='ca_h3k4me3')[0],
         lrgasp_cage = expand(config['lrgasp_cage']['merged'],
                              species='human')[0],
         encode_procap = expand(config['procap']['merged'],
@@ -171,14 +174,16 @@ rule cerb_agg_human_tss_config:
     params:
         add_ends = [True, True, True, True,
                     False, False, False,
-                    False, False, False, False, False],
+                    False, False, False, False,
+                    False, False],
         refs = [True, True, False, False,
                 False, False, False,
-                False, False, False, False, False],
+                False, False, False, False,
+                False, False],
         sources = ['v40', 'v29', 'lapa', 'gtex',
                    'encode_cage', 'fantom_cage',
                    'encode_rampage',
-                   'pls', 'pels', 'dels',
+                   'pls', 'pels', 'dels', 'ca_h3k4me3',
                    'lrgasp_cage', 'encode_procap']
     resources:
         threads = 1,
@@ -302,17 +307,20 @@ rule cerb_agg_mouse_tss_config:
                       ccre_type='pels')[0],
         dels = expand(config['ccre']['bed_format'],
                       species='mouse',
-                      ccre_type='dels')[0]
+                      ccre_type='dels')[0],
+        h3k4me3 = expand(config['ccre']['bed_format'],
+                    species='mouse',
+                    ccre_type='ca_h3k4me3')[0]
     resources:
         mem_gb = 1,
         threads = 1
     params:
         add_ends = [True, True, True,
-                  False, False, False, False],
+                  False, False, False, False, False],
         refs = [True, True, False,
-                  False, False, False, False],
+                  False, False, False, False, False],
         sources = ['vM25', 'vM21', 'lapa',
-                 'fantom_cage', 'pls', 'pels', 'dels']
+                 'fantom_cage', 'pls', 'pels', 'dels', 'h3k4me3']
     output:
         cfg = expand(config['lr']['cerberus']['agg_ends_cfg'],
                    species='mouse',

@@ -582,7 +582,7 @@ rule all_cerberus:
     input:
         expand(rules.cerb_gtf_ids_new_ref.output,
                species=species),
-        expand(rules.cerberus_update_new_ref.output,
+        expand(rules.cerb_gtf_ids_ref.output,
                species=species),
         expand(rules.cerb_gtf_ids_lr.output,
               species=species)

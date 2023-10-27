@@ -190,7 +190,7 @@ rule cerb_agg_human_tss_config:
     run:
         files = [input.v40,
                  input.v29,
-                 input.lapa_gtf,
+                 input.lapa,
                  input.gtex,
                  input.encode_cage,
                  input.fantom_cage,
@@ -242,7 +242,7 @@ rule cerb_agg_human_tes_config:
     run:
          files = [input.v40,
                   input.v29,
-                  input.lapa_gtf,
+                  input.lapa,
                   input.gtex,
                   input.pas,
                   input.atlas]
@@ -320,7 +320,7 @@ rule cerb_agg_mouse_tss_config:
     run:
         files = [input.vM25,
                input.vM21,
-               input.lapa_gtf,
+               input.lapa,
                input.fantom_cage,
                input.pls,
                input.pels,
@@ -365,7 +365,7 @@ rule cerb_agg_mouse_tes_config:
     run:
         files = [input.vM25,
                 input.vM21,
-                input.lapa_gtf,
+                input.lapa,
                 input.pas,
                 input.atlas]
         df = pd.DataFrame()

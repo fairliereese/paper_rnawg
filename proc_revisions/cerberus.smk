@@ -492,7 +492,7 @@ use rule cerb_annot as cerberus_annotate_human_new_ref with:
     input:
         gtf = expand(config['ref']['new_gtf'],
                     species='human')[0],
-        ref = expand(config['lr']['cerberus']['ca'],
+        h5 = expand(config['lr']['cerberus']['ca'],
                      species='human')[0]
     params:
         source = lambda wc:config['ref'][wc.species]['new_gtf_ver'],
@@ -504,7 +504,7 @@ use rule cerb_annot as cerberus_annotate_human_ref with:
     input:
         gtf = expand(config['ref']['talon']['gtf'],
                      species='human')[0],
-        ref = expand(config['ref']['cerberus']['new_ca'],
+        h5 = expand(config['ref']['cerberus']['new_ca'],
                      species='human')[0]
     params:
         source = lambda wc:config['ref'][wc.species]['gtf_ver']
@@ -515,7 +515,7 @@ use rule cerb_annot as cerberus_annotate_gtex with:
     input:
         gtf = expand(config['gtex']['filt_gtf'],
                      species='human')[0],
-        ref = expand(config['ref']['cerberus']['ca'],
+        h5 = expand(config['ref']['cerberus']['ca'],
                      species='human')[0]
     params:
         source = 'gtex',
@@ -527,7 +527,7 @@ use rule cerb_annot as cerberus_annotate_human_lr with:
     input:
         gtf = expand(config['lr']['lapa']['filt']['gtf'],
                      species='human')[0],
-        ref = expand(config['gtex']['cerberus']['ca'],
+        h5 = expand(config['gtex']['cerberus']['ca'],
                      species='human')[0]
     params:
         source = 'lapa',

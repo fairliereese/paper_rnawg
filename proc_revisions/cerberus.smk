@@ -512,7 +512,7 @@ use rule cerb_annot as cerberus_annotate_human_ref with:
 use rule cerb_annot as cerberus_annotate_gtex with:
     input:
         gtf = expand(config['gtex']['filt_gtf'],
-                     species='human')[0]
+                     species='human')[0],
         ref = expand(config['ref']['cerberus']['ca'],
                      species='human')[0]
     params:

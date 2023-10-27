@@ -510,25 +510,26 @@ use rule cerb_annot as cerberus_annotate_gtex with:
 
 use rule cerb_annot as cerberus_annotate_mouse_lr with:
     input:
-        gtf = config['lr']['lapa']['filt']['gtf'],
-        ref = config['ref']['cerberus']['ca']
+        gtf = expand(config['lr']['lapa']['filt']['gtf'],
+                    species='mouse')[0],
+        ref = expand(config['ref']['cerberus']['ca'],
+                    species='mouse')[0]
     params:
         source = 'lapa',
         gene_source = lambda wc:config['ref'][wc.species]['gtf_ver']
     output:
-        h5 = expand(config['lr']['cerberus']['ca_annot'],
-                    species='mouse')[0]
+        h5 = config['lr']['cerberus']['ca_annot']
 
 use rule cerb_annot as cerberus_annotate_human_lr with:
     input:
-        gtf = config['lr']['lapa']['filt']['gtf'],
+        gtf = expand(config['lr']['lapa']['filt']['gtf'],
+                    species='human')[0],
         ref = config['gtex']['cerberus']['ca']
     params:
         source = 'lapa',
         gene_source = lambda wc:config['ref'][wc.species]['gtf_ver']
     output:
-        h5 = expand(config['lr']['cerberus']['ca_annot'],
-                    species='human')[0]
+        h5 = config['lr']['cerberus']['ca_annot']
 
 ################################################################################
 ###################### Cerberus update abundance ###############################

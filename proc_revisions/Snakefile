@@ -49,6 +49,11 @@ rule all:
         rules.all_cerberus.input,
         expand(config['lr']['talon']['gene_ab'],
                species=species)
+
+   # expand(config['lr']['talon']['bam_ind'],
+   #        zip,
+   #        species=lr_df.species.tolist(),
+   #        dataset=lr_df.dataset.tolist()),
         # rules.all_pas.input,
         # rules.all_procap.input,
         # rules.all_lrgasp_cage.input,
@@ -57,10 +62,7 @@ rule all:
         # rules.all_pas.input,
         # rules.all_tss.input,
         # rules.all_ccre.input,
-        expand(config['lr']['talon']['bam_ind'],
-               zip,
-               species=lr_df.species.tolist(),
-               dataset=lr_df.dataset.tolist()),
+
 
         # expand(config['lr']['lapa']['filt']['gtf'],
         #        zip,

@@ -488,46 +488,50 @@ rule cerberus_write_ref:
 
 use rule cerb_annot as cerberus_annotate_human_new_ref with:
     input:
-        gtf = config['ref']['new_gtf'],
-        ref = config['lr']['cerberus']['ca']
+        gtf = expand(config['ref']['new_gtf'],
+                    species='human')[0],
+        ref = expand(config['lr']['cerberus']['ca'],
+                     species='human')[0]
     params:
         source = lambda wc:config['ref'][wc.species]['new_gtf_ver'],
         gene_source = None
     output:
-        h5 = expand(config['ref']['cerberus']['new_ca'],
-                    species='human')[0]
+        h5 = config['ref']['cerberus']['new_ca']
 
 use rule cerb_annot as cerberus_annotate_human_ref with:
     input:
-        gtf = config['ref']['talon']['gtf'],
-        ref = config['ref']['cerberus']['new_ca']
+        gtf = expand(config['ref']['talon']['gtf'],
+                     species='human')[0],
+        ref = expand(config['ref']['cerberus']['new_ca'],
+                     species='human')[0]
     params:
         source = lambda wc:config['ref'][wc.species]['gtf_ver']
     output:
-        h5 = expand(config['ref']['cerberus']['ca'],
-                    species='human')[0]
+        h5 = config['ref']['cerberus']['ca']
 
 use rule cerb_annot as cerberus_annotate_gtex with:
     input:
-        gtf = config['gtex']['filt_gtf'],
-        ref = config['ref']['cerberus']['ca']
+        gtf = expand(config['gtex']['filt_gtf'],
+                     species='human')[0]
+        ref = expand(config['ref']['cerberus']['ca'],
+                     species='human')[0]
     params:
         source = 'gtex',
         gene_source = lambda wc:config['ref'][wc.species]['gtf_ver']
     output:
-        h5 = expand(config['gtex']['cerberus']['ca'],
-                    species='human')[0]
+        h5 = config['gtex']['cerberus']['ca']
 
 use rule cerb_annot as cerberus_annotate_human_lr with:
     input:
-        gtf = config['lr']['lapa']['filt']['gtf'],
-        ref = config['gtex']['cerberus']['ca']
+        gtf = expand(config['lr']['lapa']['filt']['gtf'],
+                     species='human')[0],
+        ref = expand(config['gtex']['cerberus']['ca'],
+                     species='human')[0]
     params:
         source = 'lapa',
         gene_source = lambda wc:config['ref'][wc.species]['gtf_ver']
     output:
-        h5 = expand(config['lr']['cerberus']['ca_annot'],
-                    species='human')[0]
+        h5 = config['lr']['cerberus']['ca_annot']
 
 ################################################################################
 ####################### Cerberus annotation -- mouse ###########################

@@ -508,9 +508,21 @@ use rule cerb_annot as cerberus_annotate_gtex with:
     output:
         h5 = config['gtex']['cerberus']['ca']
 
-use rule cerb_annot as cerberus_annotate_lr with:
+use rule cerb_annot as cerberus_annotate_mouse_lr with:
     input:
-        gtf = config['lr']['lapa']['filt']['gtf'],
+        gtf = expand(config['lr']['lapa']['filt']['gtf'],
+                     species='mouse')[0],
+        ref = config['ref']['cerberus']['ca']
+    params:
+        source = 'lapa',
+        gene_source = lambda wc:config['ref'][wc.species]['gtf_ver']
+    output:
+        h5 = config['lr']['cerberus']['ca_annot']
+
+use rule cerb_annot as cerberus_annotate_human_lr with:
+    input:
+        gtf = expand(config['lr']['lapa']['filt']['gtf'],
+                     species='human')[0],
         ref = config['gtex']['cerberus']['ca']
     params:
         source = 'lapa',

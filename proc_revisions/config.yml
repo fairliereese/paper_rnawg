@@ -50,6 +50,8 @@ ref:
     ercc_fa_gz: ref/spike/ercc.fa.gz
     ercc_fa: ref/spike/ercc.fa
 
+  # additional data
+  tfs: ref/{species}/biomart_tf_gids.tsv
 
   # vM21 or v29
   gtf_gz: ref/{species}/annot.gtf.gz
@@ -83,6 +85,7 @@ ref:
     ca: ref/{species}/cerberus/ca.h5
 
     new_gtf: ref/{species}/cerberus/annot.gtf
+    new_gtf_info: ref/{species}/cerberus/new_gtf_info.tsv
     new_ca: ref/{species}
 
 ccre:

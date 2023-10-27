@@ -507,7 +507,8 @@ use rule cerb_annot as cerberus_annotate_human_ref with:
         h5 = expand(config['ref']['cerberus']['new_ca'],
                      species='human')[0]
     params:
-        source = lambda wc:config['ref'][wc.species]['gtf_ver']
+        source = lambda wc:config['ref'][wc.species]['gtf_ver'],
+        gene_source = None
     output:
         h5 = config['ref']['cerberus']['ca']
 
@@ -555,7 +556,8 @@ use rule cerb_annot as cerberus_annotate_human_lr with:
 #         gtf = config['ref']['talon']['gtf'],
 #         ref = config['ref']['cerberus']['new_ca']
 #     params:
-#         source = lambda wc:config['ref'][wc.species]['gtf_ver']
+#         source = lambda wc:config['ref'][wc.species]['gtf_ver'],
+        # gene_source = None
 #     output:
 #         h5 = expand(config['ref']['cerberus']['ca'],
 #                     species='mouse')[0]

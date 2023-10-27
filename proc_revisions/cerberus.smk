@@ -510,7 +510,7 @@ use rule cerb_annot as cerberus_annotate_gtex with:
 
 use rule cerb_annot as cerberus_annotate_mouse_lr with:
     input:
-        gtf = config['lr']['lapa']['filt']['gtf']
+        gtf = config['lr']['lapa']['filt']['gtf'],
         ref = config['ref']['cerberus']['ca']
     params:
         source = 'lapa',

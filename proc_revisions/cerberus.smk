@@ -580,11 +580,11 @@ use rule cerb_gtf_ids as cerb_gtf_ids_new_ref with:
 
 rule all_cerberus:
     input:
-        expand(rules.cerberus_update_lr.output,
+        expand(rules.cerb_gtf_ids_new_ref.output,
                species=species),
         expand(rules.cerberus_update_new_ref.output,
                species=species),
-        expand(rules.cerberus_update_ref.output,
+        expand(rules.cerb_gtf_ids_lr.output,
               species=species)
         # expand(config['lr']['cerberus']['agg_ends'],
         #        species=species,

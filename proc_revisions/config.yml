@@ -157,14 +157,14 @@ lr:
 
 gtex:
     gtf_link: https://storage.googleapis.com/gtex_analysis_v9/long_read_data/flair_filter_transcripts.gtf.gz
-    gtf_gz: data/human/gtex/flair_filter_transcripts.gtf.gz
-    gtf: data/human/gtex/flair_filter_transcripts.gtf
-    filt_gtf: data/human/gtex/flair_filter_transcripts_no_novel_genes.gtf
+    gtf_gz: data/{species}/gtex/flair_filter_transcripts.gtf.gz
+    gtf: data/{species}/gtex/flair_filter_transcripts.gtf
+    filt_gtf: data/h{species}uman/gtex/flair_filter_transcripts_no_novel_genes.gtf
 
     cerberus:
-      ics: data/human/gtex/cerberus/ics.tsv
-      ends: data/human/gtex/cerberus/{end_mode}.bed
-      ca: data/human/gtex/cerberus/gtex_cerberus.h5
+      ics: data/{species}/gtex/cerberus/ics.tsv
+      ends: data/{species}/gtex/cerberus/{end_mode}.bed
+      ca: data/{species}/gtex/cerberus/gtex_cerberus.h5
 
 cage:
   encode_meta: data/{species}/cage/encode_metadata.tsv

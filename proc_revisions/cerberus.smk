@@ -491,10 +491,10 @@ rule cerberus_write_ref:
 #         """
 
 ################################################################################
-##################### Cerberus annotation -- human #############################
+########################## Cerberus annotation #################################
 ################################################################################
 
-use rule cerb_annot as cerberus_annotate_human_new_ref with:
+use rule cerb_annot as cerberus_annotate_new_ref with:
     input:
         gtf = config['ref']['new_gtf'],
         h5 = config['lr']['cerberus']['ca']
@@ -504,7 +504,7 @@ use rule cerb_annot as cerberus_annotate_human_new_ref with:
     output:
         h5 = config['ref']['cerberus']['new_ca']
 
-use rule cerb_annot as cerberus_annotate_human_ref with:
+use rule cerb_annot as cerberus_annotate_ref with:
     input:
         gtf = config['ref']['talon']['gtf'],
         h5 = config['ref']['cerberus']['new_ca']
@@ -524,7 +524,7 @@ use rule cerb_annot as cerberus_annotate_gtex with:
     output:
         h5 = config['gtex']['cerberus']['ca']
 
-use rule cerb_annot as cerberus_annotate_human_lr with:
+use rule cerb_annot as cerberus_annotate_lr with:
     input:
         gtf = config['lr']['lapa']['filt']['gtf'],
         h5 = config['gtex']['cerberus']['ca']

@@ -2,8 +2,7 @@ import cerberus
 import pandas as pd
 import shutil
 
-# end_modes = ['tss', 'tes']
-# species = ['human', 'mouse']
+end_modes = ['tss', 'tes']
 
 import pdb; pdb.set_trace()
 

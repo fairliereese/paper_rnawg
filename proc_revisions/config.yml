@@ -231,6 +231,6 @@ pas:
 
 pol2:
   encode_meta: data/{species}/pol2/encode_metadata.tsv
-  bed_gz: data/{species}/pol2/{encid}_{output_type}.bed.gz
-  bed: data/{species}/pol2/{encid}_{output_type}.bed
+  bed_gz: data/{species}/pol2/{encid}.bed.gz
+  bed: data/{species}/pol2/{encid}.bed
   merged: data/{species}/pol2/merged.bed

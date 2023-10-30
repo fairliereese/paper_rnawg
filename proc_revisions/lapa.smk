@@ -47,6 +47,15 @@ def filter_lapa_on_nov(df,
                               'annot_transcript_id': 'tid'}, axis=1)
     return filt_df
 
+def filt_lapa_ab(ab, filt_list):
+    """
+    Filter LAPA abundance using a TALON-style pass list
+    """
+    df = pd.read_csv(ab, sep='\t')
+    gids, tids = get_ids_from_pass_list(filt_list)
+    df = df.loc[(df.annot_gene_id.isin(gids))&(df.annot_transcript_id.isin(tids))]
+    return df
+
 def filter_spikes(gtf):
     """
     Filter LAPA output based on SIRV / ERCC status

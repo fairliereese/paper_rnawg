@@ -34,4 +34,4 @@ rule merge_pol2:
   output:
       bed = config['pol2']['merged']
   script:
-      "merge_beds.py"
+      "merge_beds_unstranded.py"

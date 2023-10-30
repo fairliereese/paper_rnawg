@@ -166,6 +166,17 @@ lr:
   swan:
     sg: data/{species}/swan/swan_graph.p
 
+  analysis:
+    major_isos: data/{species}/{obs_col}_major_isos.tsv
+    
+  mane:
+    exp_gene_subset: data/{species}/exp_gids_{obs_col}.tsv
+    pi_tpm:
+      tss: data/{species}/tss_{obs_col}_pi_tpm.tsv
+      ic: data/{species}/ic_{obs_col}_pi_tpm.tsv
+      tes: data/{species}/tes_{obs_col}_pi_tpm.tsv
+      triplet: data/{species}/triplet_{obs_col}_pi_tpm.tsv
+
 gtex:
     gtf_link: https://storage.googleapis.com/gtex_analysis_v9/long_read_data/flair_filter_transcripts.gtf.gz
     gtf_gz: data/{species}/gtex/flair_filter_transcripts.gtf.gz

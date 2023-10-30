@@ -82,10 +82,13 @@ ref:
     new_ends: ref/{species}/cerberus/new_{end_mode}.bed
 
     gtf: ref/{species}/cerberus/annot.gtf
+    gtf_t_info: ref/{species}/cerberus/annot_t_info.tsv
+    gtf_g_info: ref/{species}/cerberus/annot_g_info.tsv
     ca: ref/{species}/cerberus/ca.h5
 
     new_gtf: ref/{species}/cerberus/new_annot.gtf
-    new_gtf_info: ref/{species}/cerberus/new_gtf_info.tsv
+    new_gtf_t_info: ref/{species}/cerberus/new_annot_t_info.tsv
+    new_gtf_g_info: ref/{species}/cerberus/new_annot_g_info.tsv
     new_ca: ref/{species}/cerberus/new_ca.h5
 
 ccre:
@@ -147,6 +150,7 @@ lr:
     ca_annot: data/{species}/lr/cerberus/cerberus_annot.h5
 
     gtf: data/{species}/lr/cerberus/cerberus.gtf
+    gtf_t_info: data/{species}/lr/cerberus/cerberus_t_info.tsv
     ab: data/{species}/lr/cerberus/cerberus_filtered_abundance.tsv
 
     # todo - even more filtered abundance minus

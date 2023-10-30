@@ -230,6 +230,64 @@ def get_transcript_info(gtf, tf_file, o):
     # and save
     df.to_csv(o, sep='\t', index=False)
 
+def get_gene_info(gtf, tf_file, o):
+    df = pr.read_gtf(gtf, as_df=True, duplicate_attr=True)
+
+    # remove sirvs and erccs
+    print(len(df.index))
+    df = df.loc[(~df.Chromosome.str.contains('SIRV'))&~(df.Chromosome.str.contains('ERCC'))]
+    print(len(df.index))
+
+    # mane / mane clinical status
+    df['MANE_Select'] = df.tag.str.contains('MANE_Select')
+    df['MANE_Plus_Clinical'] = df.tag.str.contains('MANE_Plus_Clinical')
+    temp = df[['gene_id', 'MANE_Select', 'MANE_Plus_Clinical']].copy(deep=True)
+    df.drop(['MANE_Select', 'MANE_Plus_Clinical'], axis=1, inplace=True)
+    temp = temp.groupby('gene_id').max().reset_index()
+
+    # only gene, merge in that stuff
+    df = df.loc[df.Feature == 'gene'].copy(deep=True)
+    df = df.merge(temp, how='left', on='gene_id')
+
+    # rename some columns
+    m = {'gene_id': 'gid',
+         'gene_name': 'gname',
+         'transcript_id': 'tid',
+         'gene_type': 'biotype'}
+    df.rename(m, axis=1, inplace=True)
+
+    map = get_biotype_map()
+
+    beeps = []
+    for key, item in map.items():
+        beeps += item
+
+    set(df.biotype.unique().tolist())-set(beeps)
+
+    # pivot map
+    biotype_map = {}
+    for key, biotypes in map.items():
+        for biotype in biotypes:
+            biotype_map[biotype] = key
+
+    # then add map to df
+    df['biotype_category'] = df.biotype.map(biotype_map)
+
+    # gene length
+    df['length'] = (df.Start-df.End).abs()
+
+    # add TF info
+    df['tf'] = False
+    tf_df = pd.read_csv(tf_file, sep='\t')
+    tf_gids = tf_df['Gene stable ID'].unique().tolist()
+    df['gid_stable'] = df['gid'].str.split('.', expand=True)[0]
+    df.loc[df.gid_stable.isin(tf_gids), 'tf'] = True
+    df.drop('gid_stable', axis=1, inplace=True)
+
+    # and save
+    df = df[['gid', 'gname', 'length', 'biotype', 'biotype_category', 'tf', 'MANE_Select', 'MANE_Plus_Clinical']]
+    df.to_csv(o, sep='\t', index=False)
+
 rule get_t_info:
     resources:
         mem_gb = 56,
@@ -239,20 +297,53 @@ rule get_t_info:
                             input.tf_file,
                             output.o)
 
-# use rule get_t_info as ref_cerb_t_info with:
-#     input:
-#         gtf = config['ref']['cerberus']['gtf']
-#     output:
-#         o = config['ref']['cerberus']['t_info']
-#
-# use rule get_t_info as ref_t_info with:
-#     input:
-#         gtf = config['ref']['new_gencode_gtf']
-#     output:
-#         o = config['ref']['t_info']
-#
-# use rule get_t_info as cerb_t_info with:
-#     input:
-#         gtf = config['data']['cerb_gtf']
-#     output:
-#         o = config['data']['t_info']
+rule get_g_info:
+    resources:
+        mem_gb = 56,
+        threads = 1
+    run:
+        get_gene_info(input.gtf,
+                      input.tf_file,
+                      output.o)
+
+use rule get_t_info as t_info_ref with:
+    input:
+        gtf = config['ref']['cerberus']['gtf'],
+        tf_file = config['ref']['tfs']
+    output:
+        o = config['ref']['cerberus']['gtf_t_info']
+
+use rule get_t_info as t_info_new_ref with:
+    input:
+        gtf = config['ref']['cerberus']['new_gtf'],
+        tf_file = config['ref']['tfs']
+    output:
+        o = config['ref']['cerberus']['new_gtf_t_info']
+
+use rule get_t_info as t_info_lr with:
+    input:
+        gtf = config['lr']['cerberus']['gtf'],
+        tf_file = config['ref']['tfs']
+    output:
+        o = config['lr']['cerberus']['gtf_t_info']
+
+use rule get_g_info as g_info_ref with:
+    input:
+        gtf = config['ref']['cerberus']['gtf'],
+        tf_file = config['ref']['tfs']
+    output:
+        o = config['ref']['cerberus']['gtf_g_info']
+
+use rule get_g_info as g_info_new_ref with:
+    input:
+        gtf = config['ref']['cerberus']['new_gtf'],
+        tf_file = config['ref']['tfs']
+    output:
+        o = config['ref']['cerberus']['new_gtf_g_info']
+
+use rule get_g_info as g_info_lr with:
+    input:
+        gtf = config['lr']['cerberus']['gtf'],
+        tf_file = config['ref']['tfs']
+    output:
+        o = config['lr']['cerberus']['gtf_g_info']

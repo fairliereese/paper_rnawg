@@ -1,0 +1,9 @@
+"https://www.encodeproject.org/metadata/?files.file_format=bed&type=Experiment&cart=%2Fcarts%2F969c6e26-c1c4-4ae1-8f0f-0ed22228dcce%2F&files.assembly=mm10&files.analyses.status=released&files.preferred_default=true"
+https://www.encodeproject.org/files/ENCFF228RIO/@@download/ENCFF228RIO.bed.gz
+https://www.encodeproject.org/files/ENCFF004KQA/@@download/ENCFF004KQA.bed.gz
+https://www.encodeproject.org/files/ENCFF269DMJ/@@download/ENCFF269DMJ.bed.gz
+https://www.encodeproject.org/files/ENCFF152DUV/@@download/ENCFF152DUV.bed.gz
+https://www.encodeproject.org/files/ENCFF518KCT/@@download/ENCFF518KCT.bed.gz
+https://www.encodeproject.org/files/ENCFF504RUM/@@download/ENCFF504RUM.bed.gz
+https://www.encodeproject.org/files/ENCFF313QNI/@@download/ENCFF313QNI.bed.gz
+https://www.encodeproject.org/files/ENCFF206QCV/@@download/ENCFF206QCV.bed.gz

@@ -1,4 +1,5 @@
 params:
+  species: ['human', 'mouse']
   talon:
     datasets_per_run: 14
     min_transcript_len: 0

@@ -9,9 +9,6 @@ filt_t_novs = config['params']['lapa']['filt_t_novs']
 filt_g_novs = config['params']['lapa']['filt_g_novs']
 filt_spikes = config['params']['lapa']['filt_spikes']
 
-
-import pdb; pdb.set_trace()
-
 # python functions
 
 def get_ids_from_pass_list(filt_list):

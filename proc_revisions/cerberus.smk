@@ -3,6 +3,7 @@ import pandas as pd
 import shutil
 
 end_modes = ['tss', 'tes']
+species = config['params']['species']
 
 import pdb; pdb.set_trace()
 

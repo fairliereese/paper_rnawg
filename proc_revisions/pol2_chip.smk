@@ -9,7 +9,7 @@ temp['species'] = 'mouse'
 pol2_df = pd.concat([pol2_df, temp], axis=0)
 
 wildcard_constraints:
-  encid='|'.join([re.escape(x) for x in pol2_df.index.tolist()+rampage_df.index.tolist()]),
+  encid='|'.join([re.escape(x) for x in pol2_df.index.tolist()])
 
 use rule dl_encid_gz_2 as dl_pol2 with:
   params:

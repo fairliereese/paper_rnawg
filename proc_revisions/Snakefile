@@ -47,10 +47,6 @@ wildcard_constraints:
     talon_run='|'.join([re.escape(x) for x in lr_df.talon_run.astype(str).unique().tolist()])
 
 
-print(2)
-import pdb; pdb.set_trace()
-print(1)
-
 ############ rules
 rule all:
     input:

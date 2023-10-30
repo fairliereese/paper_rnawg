@@ -1,8 +1,8 @@
-pol2_df = pd.read_csv(expand(config['pol2_chip']['encode_meta'],
+pol2_df = pd.read_csv(expand(config['pol2']['encode_meta'],
                       species='human')[0],
                       sep='\t').set_index('File accession')
 pol2_df['species'] = 'human'
-temp = pd.read_csv(expand(config['pol2_chip']['encode_meta'],
+temp = pd.read_csv(expand(config['pol2']['encode_meta'],
                       species='mouse')[0],
                       sep='\t').set_index('File accession')
 temp['species'] = 'mouse'

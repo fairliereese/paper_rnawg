@@ -229,8 +229,8 @@ pas:
   ends: data/{species}/pas/lapa/{end_mode}/{end_mode}_clusters.bed
   ends_formatted: data/{species}/pas/lapa/{end_mode}/{end_mode}_clusters_formatted.bed
 
-pol2_chip:
-  encode_meta: data/{species}/pol2_chip/encode_metadata.tsv
+pol2:
+  encode_meta: data/{species}/pol2/encode_metadata.tsv
   bed_gz: data/{species}/pol2/{dataset}_{output_type}.bed.gz
   bed: data/{species}/pol2/{dataset}_{output_type}.bed
   merged: data/{species}/pol2/merged.bed

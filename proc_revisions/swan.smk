@@ -1,3 +1,5 @@
+# species = ['human', 'mouse']
+
 def make_sg(input, params, wildcards):
 
     # initialize

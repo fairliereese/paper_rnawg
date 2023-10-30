@@ -37,6 +37,7 @@ rule swan_init:
     run:
         make_sg(input, params, wildcards)
 
+import pdb; pdb.set_trace()
 rule all_swan:
     input:
         expand(rules.swan_init.output, species=species)

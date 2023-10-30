@@ -1,9 +1,16 @@
 # config
 configfile: 'config.yml'
+#
+# filt_t_novs = ['Known', 'NIC', 'NNC', 'ISM_rescue']
+# filt_g_novs = ['Known', 'Intergenic', 'Fusion']
+# filt_spikes = True
 
-filt_t_novs = ['Known', 'NIC', 'NNC', 'ISM_rescue']
-filt_g_novs = ['Known', 'Intergenic', 'Fusion']
-filt_spikes = True
+filt_t_novs = config['params']['lapa']['filt_t_novs']
+filt_g_novs = config['params']['lapa']['filt_g_novs']
+filt_spikes = config['params']['lapa']['filt_spikes']
+
+
+import pdb; pdb.set_trace()
 
 # python functions
 

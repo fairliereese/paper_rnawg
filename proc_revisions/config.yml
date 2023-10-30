@@ -9,6 +9,11 @@ params:
     min_count: 5
     min_datasets: 2
 
+  lapa:
+    filt_t_novs: ['Known', 'NIC', 'NNC', 'ISM_rescue']
+    filt_g_novs: ['Known', 'Intergenic', 'Fusion']
+    filt_spikes: True
+
   cerberus:
     tss:
       dist: 50

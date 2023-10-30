@@ -2,8 +2,11 @@ import cerberus
 import pandas as pd
 import shutil
 
-end_modes = ['tss', 'tes']
-species = ['human', 'mouse']
+# end_modes = ['tss', 'tes']
+# species = ['human', 'mouse']
+
+import pdb; pdb.set_trace()
+
 
 wildcard_constraints:
     end_mode='|'.join([re.escape(x) for x in end_modes]),

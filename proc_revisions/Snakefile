@@ -7,6 +7,8 @@ p = os.getcwd()
 sys.path.append(p)
 
 from sm_utils import *
+from utils import *
+from plotting import *
 
 include: 'download.smk'
 include: 'samtools.smk'
@@ -46,9 +48,11 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
-        rules.all_cerberus.input,
-        expand(config['lr']['talon']['gene_ab'],
-               species=species)
+        rules.all_swan.input
+
+        # rules.all_cerberus.input,
+        # expand(config['lr']['talon']['gene_ab'],
+        #        species=species)
 
    # expand(config['lr']['talon']['bam_ind'],
    #        zip,

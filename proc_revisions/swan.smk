@@ -1,16 +1,42 @@
+def make_sg(input, params, wildcards):
+
+    # initialize
+    sg = swan.SwanGraph()
+    sg.add_annotation(input.annot)
+    sg.add_transcriptome(input.gtf, include_isms=True)
+    sg.add_abundance(input.ab)
+    sg.add_abundance(input.gene_ab, how='gene')
+    sg.save_graph(params.prefix)
+
+    # add metadata and add colors
+    sg.add_metadata(input.meta)
+    c_dict, order = get_biosample_colors(wildcards.species)
+    sg.set_metadata_colors('sample', c_dict)
+
+    # human only settings
+    if wildcards.species == 'human':
+        c_dict, order = get_ad_colors()
+        sg.set_metadata_colors('health_status', c_dict)
+    # save
+    sg.save_graph(params.prefix)
+
 rule swan_init:
     input:
-        annot = config, # todo
-        ab = config['lr']['cerberus']['filt_ab'],
-        gene_ab = config['lr']['talon']['ab'],
-        gtf = config['lr']['cerberus']['gtf'],
+        annot = config['ref']['cerberus']['new_gtf'],
+        ab = rules.cerb_ab_ids_lr.output.ab,
+        gene_ab = rules.talon_gene_ab.output.gene_ab,
+        gtf = rules.cerb_gtf_ids_lr.output.gtf,
         meta = config['lr']['meta']
     params:
-        prefix = config['swan']['sg'].replace('.p', '')
+        prefix = config['lr']['swan']['sg'].replace('.p', '')
     resources:
         mem_gb = 64,
         threads = 1
     output:
-        sg = config['swan']['sg']
+        sg = config['lr']['swan']['sg']
     run:
         make_sg(input, params, wildcards)
+
+rule all_swan:
+    input:
+        rules.swan_init.output

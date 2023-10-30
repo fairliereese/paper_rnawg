@@ -621,11 +621,11 @@ use rule cerb_gtf_ids as cerb_gtf_ids_new_ref with:
     output:
         gtf = config['ref']['cerberus']['new_gtf']
 
-rule all_cerberus:
-    input:
-        expand(rules.cerb_gtf_ids_new_ref.output, species=species),
-        expand(rules.cerb_gtf_ids_ref.output, species=species),
-        expand(rules.cerb_gtf_ids_lr.output, species=species)
+# rule all_cerberus:
+#     input:
+#         expand(rules.cerb_gtf_ids_new_ref.output, species=species),
+#         expand(rules.cerb_gtf_ids_ref.output, species=species),
+#         expand(rules.cerb_gtf_ids_lr.output, species=species)
 
         # expand(rules.cerb_gtf_ids_new_ref.output,
         #        species=species),

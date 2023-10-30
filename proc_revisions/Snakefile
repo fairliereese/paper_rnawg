@@ -49,7 +49,8 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
-        rules.all_swan.input
+        expand(rules.all_swan.input,
+               species=species)
 
         # rules.all_cerberus.input,
         # expand(config['lr']['talon']['gene_ab'],

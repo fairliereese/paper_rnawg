@@ -178,7 +178,7 @@ rule cerb_agg_human_tss_config:
                              species='human')[0],
         encode_procap = expand(config['procap']['merged'],
                                species='human')[0],
-        pol2 = expand(config['pol2_chip']['merged'],
+        pol2 = expand(config['pol2']['merged'],
                       species='human')[0]
     params:
         add_ends = [True, True, True, True,
@@ -323,7 +323,7 @@ rule cerb_agg_mouse_tss_config:
         h3k4me3 = expand(config['ccre']['bed_format'],
                     species='mouse',
                     ccre_type='ca_h3k4me3')[0],
-        pol2 = expand(config['pol2_chip']['merged'],
+        pol2 = expand(config['pol2']['merged'],
                       species='mouse')[0]
     resources:
         mem_gb = 1,

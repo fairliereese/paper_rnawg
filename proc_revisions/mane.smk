@@ -65,5 +65,5 @@ rule get_pi_tpm:
 
 rule all_mane:
     input:
-        config['data']['exp_gene_subset'],
+        config['lr']['mane']['exp_gene_subset'],
         config['lr']['mane']['pi_tpm']['tss']

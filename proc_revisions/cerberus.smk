@@ -474,7 +474,7 @@ rule cerberus_write_ref:
         tes = expand(config['lr']['cerberus']['agg_ends'],
                      end_mode='tes',
                      allow_missing=True)[0],
-        ics = config['lr']['cerberus']['ics']
+        ics = rules.cerb_agg_ics.output.ics
     resources:
         mem_gb = 56,
         threads = 1

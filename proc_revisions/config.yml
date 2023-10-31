@@ -168,7 +168,7 @@ lr:
 
   analysis:
     major_isos: data/{species}/{obs_col}_major_isos.tsv
-    
+
   mane:
     exp_gene_subset: data/{species}/exp_gids_{obs_col}.tsv
     pi_tpm:
@@ -181,7 +181,7 @@ gtex:
     gtf_link: https://storage.googleapis.com/gtex_analysis_v9/long_read_data/flair_filter_transcripts.gtf.gz
     gtf_gz: data/{species}/gtex/flair_filter_transcripts.gtf.gz
     gtf: data/{species}/gtex/flair_filter_transcripts.gtf
-    filt_gtf: data/h{species}uman/gtex/flair_filter_transcripts_no_novel_genes.gtf
+    filt_gtf: data/{species}/gtex/flair_filter_transcripts_no_novel_genes.gtf
 
     cerberus:
       ics: data/{species}/gtex/cerberus/ics.tsv

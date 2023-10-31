@@ -1,5 +1,5 @@
 import pdb
-from xopen import xopen
+# from xopen import xopen
 import scanpy as sc
 import pandas as pd
 import anndata
@@ -14,15 +14,14 @@ import scipy
 import scipy.stats as st
 import swan_vis as swan
 from pandarallel import pandarallel
-from encoded_client.encoded import ENCODED
+# from encoded_client.encoded import ENCODED
 from collections import defaultdict
 import pysam
-from Bio import SeqIO
+# from Bio import SeqIO
 from matplotlib import pyplot
 import numpy
 from pathlib import Path
 from tqdm import tqdm
-from xopen import xopen
 from snakemake.io import expand
 
 

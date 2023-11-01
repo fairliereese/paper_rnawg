@@ -106,6 +106,9 @@ lr:
   meta: data/{species}/lr/lr_{species}_library_data_summary.tsv
   encode_meta: data/{species}/lr/encode_metadata.tsv
   bam: data/{species}/lr/tc/{dataset}.bam
+  label_bam: data/{species}/lr/label_bam/{dataset}.bam
+  fastq_gz: data/{species}/lr/fastq/{dataset}.fastq.gz
+  read_len_meta: data/{species}/lr/lr_bulk_read_length_meta.tsv
 
   talon:
     sam_label: data/{species}/lr/talon/label/{dataset}_labeled.sam
@@ -260,3 +263,7 @@ pol2:
   bed_gz: data/{species}/pol2/{encid}.bed.gz
   bed: data/{species}/pol2/{encid}.bed
   merged: data/{species}/pol2/merged.bed
+
+sr:
+  ab: data/{species}/sr/abundance.tsv
+  meta: data/{species}/sr/metadata.tsv

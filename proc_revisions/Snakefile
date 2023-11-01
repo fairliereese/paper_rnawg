@@ -53,12 +53,15 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
-        expand(config['lr']['analysis']['major_isos'],
-               species=species,
-               obs_col='sample'),
-        expand(rules.all_mane.input,
-               species='human',
-               obs_col=['sample', 'dataset'])
+        expand(config['lr']['swan']['sg'],
+               species='human')
+               
+        # expand(config['lr']['analysis']['major_isos'],
+        #        species=species,
+        #        obs_col='sample'),
+        # expand(rules.all_mane.input,
+        #        species='human',
+        #        obs_col=['sample', 'dataset'])
 
         # expand(config['lr']['cerberus']['ab'],
         #        species='mouse')

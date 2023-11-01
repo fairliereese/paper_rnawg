@@ -164,10 +164,25 @@ lr:
     filt_ab: data/{species}/lr/cerberus/cerberus_filtered_abundance.tsv
 
   swan:
-    sg: data/{species}/swan/swan_graph.p
+    sg: data/{species}/lr/swan/swan_graph.p
 
   analysis:
-    major_isos: data/{species}/{obs_col}_major_isos.tsv
+    major_isos: data/{species}/lr/{obs_col}_major_isos.tsv
+
+  suppa:
+    gtf: data/{species}/lr/suppa/cerberus_filtered.gtf
+    filt_ab: data/{species}/lr/suppa/cerberus_filtered_abundance.tsv
+    events:
+      A3: lr/{species}/lr/suppa/cerberus.events_A3_strict.ioe
+      A5: data/{species}/lr/suppa/cerberus.events_A5_strict.ioe
+      AF: data/{species}/lr/suppa/cerberus.events_AF_strict.ioe
+      AL: data/{species}/lr/suppa/cerberus.events_AL_strict.ioe
+      MX: data/{species}/lr/suppa/cerberus.events_MX_strict.ioe
+      RI: data/{species}/lr/suppa/cerberus.events_RI_strict.ioe
+      SE: data/{species}/lr/suppa/cerberus.events_SE_strict.ioe
+    psi: data/{species}/lr/suppa/psi/cerb_{event}.psi
+    t_psi: data/{species}/lr/cerberus_psi.tsv
+
 
   mane:
     exp_gene_subset: data/{species}/exp_gids_{obs_col}.tsv

@@ -1,7 +1,7 @@
 import pyranges as pr
 
-pc_species = ['human']
-output_types = ['bidirectional_peaks', 'unidirectional_peaks']
+# pc_species = ['human']
+# output_types = ['bidirectional_peaks', 'unidirectional_peaks']
 
 # procap meta
 procap_meta = pd.read_csv(expand(config['procap']['lib_meta'],

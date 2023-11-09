@@ -37,13 +37,12 @@ include: 'fantom_cage.smk'
 include: 'polyasite_atlas.smk'
 include: 'pas.smk'
 include: 'lrgasp_cage.smk'
-# include: 'procap.smk'
+include: 'procap.smk'
 include: 'swan.smk'
 include: 'pol2_chip.smk'
 include: 'analysis.smk'
 include: 'mane.smk'
 include: 'read_lens.smk'
-# include: 'temp_read_lens.smk'
 
 ############# snakemake settings stuff
 wildcard_constraints:

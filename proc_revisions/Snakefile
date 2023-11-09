@@ -62,10 +62,9 @@ rule all:
                obs_col='sample'),
         expand(rules.all_mane.input,
                species='human',
-               obs_col=['sample', 'dataset']),
+               obs_col=['sample', 'dataset'])
                # expand(config['lr']['read_len_meta'],
                #         species='human'),
-
         # expand(config['lr']['cerberus']['ab'],
         #        species='mouse')
 

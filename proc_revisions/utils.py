@@ -3902,7 +3902,7 @@ def get_lib_meta_from_enc_meta(meta_file,
 
 def get_meta_df(config, species):
     meta_df = pd.DataFrame()
-    for f, s in zip(list(expand(config['data']['meta'], species=species)), species):
+    for f, s in zip(list(expand(config['lr']['meta'], species=species)), species):
         temp = pd.read_csv(f, sep='\t')
         temp['species'] = s
         meta_df = pd.concat([meta_df, temp], axis=0)

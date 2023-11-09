@@ -1,7 +1,6 @@
 # lr meta
 
 meta_df = get_meta_df(config, species)
-import pdb; pdb.set_trace()
 datasets = meta_df.loc[meta_df.species=='human'].dataset.tolist()
 rule all_read_lens:
     input:

@@ -7,19 +7,19 @@ def make_sg(input, params, wildcards):
     sg = swan.SwanGraph()
     sg.add_annotation(input.annot)
     sg.add_transcriptome(input.gtf, include_isms=True)
-    sg.add_abundance(input.ab)
-    sg.add_abundance(input.gene_ab, how='gene')
-    sg.save_graph(params.prefix)
-
-    # add metadata and add colors
-    sg.add_metadata(input.meta)
-    c_dict, order = get_biosample_colors(wildcards.species)
-    sg.set_metadata_colors('sample', c_dict)
-
-    # human only settings
-    if wildcards.species == 'human':
-        c_dict, order = get_ad_colors()
-        sg.set_metadata_colors('health_status', c_dict)
+    # sg.add_abundance(input.ab)
+    # sg.add_abundance(input.gene_ab, how='gene')
+    # sg.save_graph(params.prefix)
+    #
+    # # add metadata and add colors
+    # sg.add_metadata(input.meta)
+    # c_dict, order = get_biosample_colors(wildcards.species)
+    # sg.set_metadata_colors('sample', c_dict)
+    #
+    # # human only settings
+    # if wildcards.species == 'human':
+    #     c_dict, order = get_ad_colors()
+    #     sg.set_metadata_colors('health_status', c_dict)
     # save
     sg.save_graph(params.prefix)
 

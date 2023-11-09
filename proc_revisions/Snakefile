@@ -10,6 +10,19 @@ from sm_utils import *
 from utils import *
 from plotting import *
 
+############# config stuff
+configfile: 'config.yml'
+
+datasets_per_talon_run = config['params']['talon']['datasets_per_run']
+species=['human', 'mouse']
+end_modes = ['tss', 'tes']
+
+# lr stuff
+lr_df = process_lr_metadata(config['lr']['meta'],
+                            species,
+                            datasets_per_talon_run)
+
+# external snakefiles
 include: 'download.smk'
 include: 'samtools.smk'
 include: 'spike_refs.smk'
@@ -29,19 +42,7 @@ include: 'swan.smk'
 include: 'pol2_chip.smk'
 include: 'analysis.smk'
 include: 'mane.smk'
-
-
-############# config stuff
-configfile: 'config.yml'
-
-datasets_per_talon_run = config['params']['talon']['datasets_per_run']
-species=['human', 'mouse']
-end_modes = ['tss', 'tes']
-
-# lr stuff
-lr_df = process_lr_metadata(config['lr']['meta'],
-                            species,
-                            datasets_per_talon_run)
+include: 'read_lens.smk'
 
 ############# snakemake settings stuff
 wildcard_constraints:
@@ -54,8 +55,9 @@ wildcard_constraints:
 rule all:
     input:
         expand(config['lr']['swan']['sg'],
-               species='human')
-               
+               species='human'),
+        expand(config['lr']['read_len_meta'])
+
         # expand(config['lr']['analysis']['major_isos'],
         #        species=species,
         #        obs_col='sample'),

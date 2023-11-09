@@ -44,18 +44,24 @@ rule dl_lr_fastq:
     shell:
         "wget https://www.encodeproject.org/files/{params.encid}/@@download/{params.encid}.fastq.gz -O {output.fastq}"
 
+def get_col_from_meta_df(wc, col):
+    temp = meta_df.copy(deep=True)
+    if wc.species:
+        temp = meta_df.loc[meta_df.species == wc.species]
+    return temp[col].tolist()
+
 rule get_lr_read_lens:
     input:
-        bams = expand(config['data']['bam'],
+        bams = expand(config['lr']['bam'],
                       species='human',
                       dataset=lambda w:get_col_from_meta_df(wc, col='dataset')),
-        fastqs = expand(config['data']['fastq_gz'],
+        fastqs = expand(config['lr']['fastq_gz'],
                         species='human',
                         dataset=lambda w:get_col_from_meta_df(wc, col='dataset'))
     resources:
         mem_gb = 32,
         threads = 8
     output:
-        tsv = config['data']['read_len_meta']
+        tsv = config['lr']['read_len_meta']
     run:
         get_lr_read_lens(input.bams, input.fastqs, output.tsv)

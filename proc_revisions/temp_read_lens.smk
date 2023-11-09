@@ -30,7 +30,7 @@ meta_df = get_meta_df(config, species)
 
 datasets = meta_df.loc[meta_df.species=='human'].dataset.tolist()
 
-rule all:
+rule all_read_lens:
     input:
         expand(config['lr']['fastq_gz'],
                species='human',

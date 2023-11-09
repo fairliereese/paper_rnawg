@@ -3,12 +3,6 @@ import os
 import sys
 import numpy as np
 
-wildcard_constraints:
-    dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()]),
-    species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()]),
-    talon_run='|'.join([re.escape(x) for x in lr_df.talon_run.astype(str).unique().tolist()])
-
-
 def get_encid_from_dataset(dataset, meta, file_format):
     m = {'label_bam': 'ENCODE_alignments_id',
      'bam': 'ENCODE_unfiltered_alignments_id',
@@ -32,6 +26,16 @@ def get_meta_df(config, species):
 configfile: 'config.yml'
 species=['mouse', 'human']
 meta_df = get_meta_df(config, species)
+
+# lr stuff
+lr_df = process_lr_metadata(config['lr']['meta'],
+                            species,
+                            datasets_per_talon_run)
+
+wildcard_constraints:
+    dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()]),
+    species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()]),
+    talon_run='|'.join([re.escape(x) for x in lr_df.talon_run.astype(str).unique().tolist()])
 
 datasets = meta_df.loc[meta_df.species=='human'].dataset.tolist()
 

@@ -68,6 +68,6 @@ rule get_lr_read_lens:
 
 rule all_read_lens:
     input:
-        lambda wc:expand(config['lr']['fastq_gz'],
+        expand(config['lr']['fastq_gz'],
                         species='human',
-                        dataset=get_col_from_meta_df(wc, col='dataset')
+                        dataset=get_col_from_meta_df({'species':'human'}, col='dataset')

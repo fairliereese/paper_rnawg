@@ -3345,7 +3345,12 @@ def get_lr_read_lens(bams, fastqs, out):
     fastq_ids = []
     for f in bams+fastqs:
         encid = f.rsplit('/', maxsplit=1)[1].split('.')[0]
-        temp = metadata.loc[metadata.file == encid].iloc[0]
+        try:
+            temp = metadata.loc[metadata.file == encid].iloc[0]
+        except:
+            print(encid)
+            print(metadata.loc[metadata.file == encid])
+            raise ValueError(':(')
         name = temp['name']
         if temp.output_type == 'unfiltered alignments':
             result = score_aligned_reads(f)

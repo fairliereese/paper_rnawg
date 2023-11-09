@@ -57,7 +57,7 @@ rule all:
         expand(config['lr']['swan']['sg'],
                species='human'),
         expand(config['lr']['read_len_meta']
-                species='human')
+                species='human'),
         expand(config['lr']['analysis']['major_isos'],
                species=species,
                obs_col='sample'),

@@ -1,6 +1,34 @@
-# lr meta
+import pandas as pd
+import os
+import sys
+import numpy as np
 
+
+def get_encid_from_dataset(dataset, meta, file_format):
+    m = {'label_bam': 'ENCODE_alignments_id',
+     'bam': 'ENCODE_unfiltered_alignments_id',
+     'fastq': 'ENCODE_reads_id'}
+    if file_format in list(m.keys()):
+        id = meta.loc[meta.dataset == dataset, m[file_format]].values[0]
+    else:
+        id = meta.loc[meta.dataset == dataset, file_format].values[0]
+    return id
+
+def get_meta_df(config, species):
+    meta_df = pd.DataFrame()
+    for f, s in zip(list(expand(config['lr']['meta'], species=species)), species):
+        temp = pd.read_csv(f, sep='\t')
+        temp['species'] = s
+        meta_df = pd.concat([meta_df, temp], axis=0)
+    # if meta_df.dataset.duplicated.any():
+    #     raise ValueError('Mouse and human dataset names not unique')
+    return meta_df
+
+configfile: 'config.yml'
+species=['mouse', 'human']
 meta_df = get_meta_df(config, species)
+
+# TODO
 datasets = meta_df.loc[meta_df.species=='human'].dataset.tolist()
 
 ################################################################################

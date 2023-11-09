@@ -4,7 +4,6 @@ import sys
 import numpy as np
 
 
-
 def get_encid_from_dataset(dataset, meta, file_format):
     m = {'label_bam': 'ENCODE_alignments_id',
      'bam': 'ENCODE_unfiltered_alignments_id',

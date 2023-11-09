@@ -33,7 +33,7 @@ datasets = meta_df.loc[meta_df.species=='human'].dataset.tolist()
 
 rule all:
     input:
-        expand(rules.dl_lr_fastq.output.fastq,
+        expand(config['lr']['fastq_gz'],
                species='human',
                dataset=datasets)
 

@@ -70,4 +70,4 @@ rule all_read_lens:
     input:
         expand(config['lr']['fastq_gz'],
                         species='human',
-                        dataset=get_col_from_meta_df({'species':'human'}, col='dataset')
+                        dataset=get_col_from_meta_df({'species':'human'}, col='dataset'))

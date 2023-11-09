@@ -3,6 +3,13 @@ import os
 import sys
 import numpy as np
 
+p = os.getcwd()
+sys.path.append(p)
+
+from sm_utils import *
+from utils import *
+from plotting import *
+
 def process_lr_metadata(cfg_entry, species, datasets_per_talon_run):
     """
     Concatenate metadata for each dataset from multiple species together.

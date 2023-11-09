@@ -2,7 +2,7 @@
 meta_df = get_meta_df(config, species)
 
 datasets = meta_df.loc[meta_df.species=='human'].dataset.tolist()
-
+import pdb; pdb.set_trace()
 rule all_read_lens:
     input:
         expand(config['lr']['fastq_gz'],

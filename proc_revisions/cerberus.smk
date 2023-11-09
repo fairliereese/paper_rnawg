@@ -519,7 +519,7 @@ use rule cerb_annot as cerberus_annotate_ref with:
         h5 = config['ref']['cerberus']['new_ca']
     params:
         source = lambda wc:config['ref'][wc.species]['gtf_ver'],
-        gene_source = None
+        gene_source = lambda wc:config['ref'][wc.species]['new_gtf_ver']
     output:
         h5 = config['ref']['cerberus']['ca']
 
@@ -529,7 +529,7 @@ use rule cerb_annot as cerberus_annotate_gtex with:
         h5 = config['ref']['cerberus']['ca']
     params:
         source = 'gtex',
-        gene_source = lambda wc:config['ref'][wc.species]['gtf_ver']
+        gene_source = lambda wc:config['ref'][wc.species]['new_gtf_ver']
     output:
         h5 = config['gtex']['cerberus']['ca']
 
@@ -539,7 +539,7 @@ use rule cerb_annot as cerberus_annotate_lr with:
         h5 = config['gtex']['cerberus']['ca']
     params:
         source = 'lapa',
-        gene_source = lambda wc:config['ref'][wc.species]['gtf_ver']
+        gene_source = lambda wc:config['ref'][wc.species]['new_gtf_ver']
     output:
         h5 = config['lr']['cerberus']['ca_annot']
 

@@ -23,14 +23,14 @@ lr_df = process_lr_metadata(config['lr']['meta'],
                             datasets_per_talon_run)
 
 # external snakefiles
-# include: 'download.smk'
-# include: 'samtools.smk'
-# include: 'spike_refs.smk'
-# include: 'refs.smk'
-# include: 'talon.smk'
-# include: 'lapa.smk'
-# include: 'cerberus.smk'
-# include: 'gtex.smk'
+include: 'download.smk'
+include: 'samtools.smk'
+include: 'spike_refs.smk'
+include: 'refs.smk'
+include: 'talon.smk'
+include: 'lapa.smk'
+include: 'cerberus.smk'
+include: 'gtex.smk'
 # include: 'encode_tss.smk'
 # include: 'ccre.smk'
 # include: 'fantom_cage.smk'

@@ -70,6 +70,6 @@ rule get_lr_read_lens:
 
 rule all_read_lens:
     input:
-        expand(rules.dl_lr_fastq.,
+        expand(rules.dl_lr_fastq.output.fastq,
                species='human',
                dataset=datasets)

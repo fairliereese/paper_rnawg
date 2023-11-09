@@ -76,7 +76,10 @@ include: 'polyasite_atlas.smk'
 include: 'pas.smk'
 include: 'lrgasp_cage.smk'
 include: 'procap.smk'
-
+include: 'swan.smk'
+include: 'pol2_chip.smk'
+include: 'analysis.smk'
+include: 'mane.smk'
 
 wildcard_constraints:
     dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()]),

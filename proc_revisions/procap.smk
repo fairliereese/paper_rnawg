@@ -3,16 +3,6 @@ import pyranges as pr
 species = ['human']
 output_types = ['bidirectional_peaks', 'unidirectional_peaks']
 
-def get_encid_from_dataset(dataset, meta, file_format):
-    m = {'label_bam': 'ENCODE_alignments_id',
-     'bam': 'ENCODE_unfiltered_alignments_id',
-     'fastq': 'ENCODE_reads_id'}
-    if file_format in list(m.keys()):
-        id = meta.loc[meta.dataset == dataset, m[file_format]].values[0]
-    else:
-        id = meta.loc[meta.dataset == dataset, file_format].values[0]
-    return id
-
 # procap meta
 procap_meta = pd.read_csv(expand(config['procap']['lib_meta'],
                                  species=species)[0],

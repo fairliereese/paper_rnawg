@@ -52,10 +52,10 @@ def get_col_from_meta_df(wc, col):
 
 rule get_lr_read_lens:
     input:
-        bams = expand(config['lr']['bam'],
+        bams = lambda wc:expand(config['lr']['bam'],
                       species='human',
                       dataset=get_col_from_meta_df(wc, col='dataset')),
-        fastqs = expand(config['lr']['fastq_gz'],
+        fastqs = lambda wc:expand(config['lr']['fastq_gz'],
                         species='human',
                         dataset=get_col_from_meta_df(wc, col='dataset'))
     resources:

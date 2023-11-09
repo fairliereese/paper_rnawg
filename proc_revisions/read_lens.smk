@@ -54,10 +54,10 @@ rule get_lr_read_lens:
     input:
         bams = expand(config['lr']['bam'],
                       species='human',
-                      dataset=lambda wc:get_col_from_meta_df(wc, col='dataset')),
+                      dataset=get_col_from_meta_df(wc, col='dataset')),
         fastqs = expand(config['lr']['fastq_gz'],
                         species='human',
-                        dataset=lambda wc:get_col_from_meta_df(wc, col='dataset'))
+                        dataset=get_col_from_meta_df(wc, col='dataset'))
     resources:
         mem_gb = 32,
         threads = 8

@@ -42,7 +42,7 @@ include: 'swan.smk'
 include: 'pol2_chip.smk'
 include: 'analysis.smk'
 include: 'mane.smk'
-include: 'read_lens.smk'
+# include: 'read_lens.smk'
 
 ############# snakemake settings stuff
 wildcard_constraints:
@@ -56,7 +56,8 @@ rule all:
     input:
         expand(config['lr']['swan']['sg'],
                species='human'),
-        expand(config['lr']['read_len_meta'])
+        # expand(config['lr']['read_len_meta']
+                # species='human')
 
         # expand(config['lr']['analysis']['major_isos'],
         #        species=species,

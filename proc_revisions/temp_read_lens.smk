@@ -3,6 +3,11 @@ import os
 import sys
 import numpy as np
 
+wildcard_constraints:
+    dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()]),
+    species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()]),
+    talon_run='|'.join([re.escape(x) for x in lr_df.talon_run.astype(str).unique().tolist()])
+
 
 def get_encid_from_dataset(dataset, meta, file_format):
     m = {'label_bam': 'ENCODE_alignments_id',

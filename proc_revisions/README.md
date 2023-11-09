@@ -8,7 +8,7 @@ snakemake \
 
 
 snakemake \
-  -s temp_read_lens.smk \
+  -s Snakefile \
   -j 200 \
   --latency-wait 120 \
   --use-conda \

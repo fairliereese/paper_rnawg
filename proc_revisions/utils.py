@@ -3305,7 +3305,7 @@ def get_lr_exp_meta(species='human'):
     metadata['name'] = metadata['experiment']+'_'+metadata['tech_rep']
     return metadata
 
-def get_lr_read_lens(bams, fastqs, out):
+def get_lr_read_lens(bams, fastqs, meta, out):
 
     def score_aligned_reads(filename):
         with pysam.AlignmentFile(filename, "rb") as inbam:
@@ -3339,19 +3339,19 @@ def get_lr_read_lens(bams, fastqs, out):
         }
 
     metadata = get_lr_exp_meta()
-    import pdb; pdb.set_trace()
     counts = {}
     first_thing = True
     bam_ids = []
     fastq_ids = []
     for f in bams+fastqs:
         encid = f.rsplit('/', maxsplit=1)[1].split('.')[0]
-        try:
-            temp = metadata.loc[metadata.file == encid].iloc[0]
-        except:
-            print(encid)
-            print(metadata.loc[metadata.file == encid])
-            raise ValueError(':(')
+        # try:
+        import pdb; pdb.set_trace()
+        temp = metadata.loc[metadata.file == encid].iloc[0]
+        # except:
+        #     print(encid)
+        #     print(metadata.loc[metadata.file == encid])
+        #     raise ValueError(':(')
         name = temp['name']
         if temp.output_type == 'unfiltered alignments':
             result = score_aligned_reads(f)

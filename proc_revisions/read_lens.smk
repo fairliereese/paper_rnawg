@@ -54,6 +54,7 @@ def get_col_from_meta_df(wc, col):
 
 rule get_lr_read_lens:
     input:
+        meta = config['lr']['meta'],
         bams = lambda wc:expand(config['lr']['bam'],
                       species='human',
                       dataset=get_col_from_meta_df(wc, col='dataset')),
@@ -66,7 +67,7 @@ rule get_lr_read_lens:
     output:
         tsv = config['lr']['read_len_meta']
     run:
-        get_lr_read_lens(input.bams, input.fastqs, output.tsv)
+        get_lr_read_lens(input.bams, input.fastqs, input.meta, output.tsv)
 
 rule all_read_lens:
     input:

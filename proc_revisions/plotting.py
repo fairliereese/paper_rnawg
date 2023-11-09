@@ -1,6 +1,13 @@
 import os
 import pandas as pd
 
+def get_ad_colors():
+    c_dict = {'healthy': '#bb8f8f',
+              'AD': '#b5bd61',
+              np.nan: '#000000'}
+    order = ('healthy', 'AD', np.nan)
+    return c_dict, order
+
 def get_biosample_colors(species='human'):
     """
     Get colors for each biosample

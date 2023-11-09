@@ -51,6 +51,8 @@ def get_meta_df(config, species):
     return meta_df
 
 configfile: 'config.yml'
+datasets_per_talon_run = config['params']['talon']['datasets_per_run']
+end_modes = ['tss', 'tes']
 species=['mouse', 'human']
 meta_df = get_meta_df(config, species)
 

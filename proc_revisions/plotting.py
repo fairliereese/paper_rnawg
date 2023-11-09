@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import numpy as np
 
 def get_ad_colors():
     c_dict = {'healthy': '#bb8f8f',

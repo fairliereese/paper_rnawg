@@ -6,18 +6,18 @@ datasets = meta_df.loc[meta_df.species=='human'].dataset.tolist()
 ################################################################################
 ############################## Diane's stuff ###################################
 ################################################################################
-rule dl_lr_bam:
-    resources:
-        mem_gb = 32,
-        threads = 8
-    params:
-        encid = lambda w:get_encid_from_dataset(w.dataset,
-                                                meta_df,
-                                                'bam')
-    output:
-        bam = temporary(config['lr']['bam'])
-    shell:
-        "wget https://www.encodeproject.org/files/{params.encid}/@@download/{params.encid}.bam -O {output.bam}"
+# rule dl_lr_bam:
+#     resources:
+#         mem_gb = 32,
+#         threads = 8
+#     params:
+#         encid = lambda w:get_encid_from_dataset(w.dataset,
+#                                                 meta_df,
+#                                                 'bam')
+#     output:
+#         bam = temporary(config['lr']['bam'])
+#     shell:
+#         "wget https://www.encodeproject.org/files/{params.encid}/@@download/{params.encid}.bam -O {output.bam}"
 
 rule dl_lr_label_bam:
     resources:

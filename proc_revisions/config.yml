@@ -237,9 +237,9 @@ lrgasp_cage:
 procap:
     meta: data/{species}/procap/encode_metadata.tsv
     lib_meta: data/{species}/procap/lib_metadata.tsv
-    bed_gz: data/{species}/procap/{dataset}_{output_type}.bed.gz
-    bed: data/{species}/procap/{dataset}_{output_type}.bed
-    bed_formatted: data/{species}/procap/{dataset}_{output_type}_reformat.bed
+    bed_gz: data/{species}/procap/{procap_dataset}_{output_type}.bed.gz
+    bed: data/{species}/procap/{procap_dataset}_{output_type}.bed
+    bed_formatted: data/{species}/procap/{procap_dataset}_{output_type}_reformat.bed
     merged: data/{species}/procap/merged.bed
 
 polya_atlas:

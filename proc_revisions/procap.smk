@@ -1,7 +1,7 @@
 import pyranges as pr
 
-# pc_species = ['human']
-# output_types = ['bidirectional_peaks', 'unidirectional_peaks']
+pc_species = ['human']
+output_types = ['bidirectional_peaks', 'unidirectional_peaks']
 
 # procap meta
 procap_meta = pd.read_csv(expand(config['procap']['lib_meta'],
@@ -9,7 +9,7 @@ procap_meta = pd.read_csv(expand(config['procap']['lib_meta'],
                                  sep='\t')
 
 wildcard_constraints:
-    dataset='|'.join([re.escape(x) for x in procap_meta.dataset.tolist()]),
+    procap_dataset='|'.join([re.escape(x) for x in procap_meta.dataset.tolist()]),
     output_type='|'.join([re.escape(x) for x in output_types])
 
 rule dl_procap:
@@ -17,7 +17,7 @@ rule dl_procap:
         mem_gb = 32,
         threads = 1
     params:
-        encid = lambda wc:get_encid_from_dataset(wc.dataset,
+        encid = lambda wc:get_encid_from_dataset(wc.procap_dataset,
                                        procap_meta,
                                        wc.output_type)
     output:
@@ -52,7 +52,7 @@ rule merge_procap:
     input:
         beds = expand(config['procap']['bed_formatted'],
              species=pc_species,
-             dataset=procap_meta.dataset.tolist(),
+             procap_dataset=procap_meta.dataset.tolist(),
              output_type=output_types)
     resources:
         mem_gb = 8,
@@ -68,5 +68,5 @@ rule all_procap:
                species=pc_species),
         # expand(rules.merge_procap_cage.output,
         #        species=pc_species,
-        #        dataset=procap_meta.dataset.tolist(),
+        #        procap_dataset=procap_meta.dataset.tolist(),
         #        output_type=output_types)

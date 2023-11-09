@@ -17,6 +17,8 @@ datasets_per_talon_run = config['params']['talon']['datasets_per_run']
 species=['human', 'mouse']
 end_modes = ['tss', 'tes']
 
+import pdb; pdb.set_trace()
+
 # lr stuff
 lr_df = process_lr_metadata(config['lr']['meta'],
                             species,

@@ -1,5 +1,5 @@
 import pdb
-# from xopen import xopen
+from xopen import xopen
 import scanpy as sc
 import pandas as pd
 import anndata

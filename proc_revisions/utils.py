@@ -3358,11 +3358,10 @@ def get_lr_read_lens(bams, fastqs, meta, out):
         encid = f.rsplit('/', maxsplit=1)[1].split('.')[0]
         temp = metadata.loc[metadata.dataset == encid].iloc[0]
         name = temp['name']
-        import pdb; pdb.set_trace()
-        if temp.output_type == 'unfiltered alignments':
+        if f.endswith('bam'):
             result = score_aligned_reads(f)
             # bam_ids.append(name)
-        elif temp.output_type == 'reads':
+        elif f.endswith('fastq.gz'):
             result = score_fastq_reads(f)
             # fastq_ids.append(name)
         # result =  {

@@ -3328,9 +3328,15 @@ def get_lr_read_lens(bams, fastqs, meta, out):
             }
     def score_fastq_reads(filename):
         read_len = []
-        with xopen(filename, "rt") as instream:
-            for record in SeqIO.parse(instream, "fastq"):
-                read_len.append(len(record))
+        try:
+            with xopen(filename, "rt") as instream:
+                for record in SeqIO.parse(instream, "fastq"):
+                    read_len.append(len(record))
+        except:
+            print()
+            print(filename)
+            print()
+            raise ValueError()
 
         return {
             "raw_reads": len(read_len),

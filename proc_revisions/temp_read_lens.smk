@@ -70,6 +70,13 @@ include: 'lapa.smk'
 include: 'cerberus.smk'
 include: 'gtex.smk'
 include: 'encode_tss.smk'
+include: 'ccre.smk'
+include: 'fantom_cage.smk'
+include: 'polyasite_atlas.smk'
+include: 'pas.smk'
+include: 'lrgasp_cage.smk'
+include: 'procap.smk'
+
 
 wildcard_constraints:
     dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()]),

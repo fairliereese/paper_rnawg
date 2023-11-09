@@ -3,6 +3,33 @@ import os
 import sys
 import numpy as np
 
+def process_lr_metadata(cfg_entry, species, datasets_per_talon_run):
+    """
+    Concatenate metadata for each dataset from multiple species together.
+    Assign each dataset to a talon run number
+    """
+    for i,s in enumerate(species):
+        f = expand(cfg_entry, species=s)[0]
+        if i == 0:
+            df = pd.read_csv(f, sep='\t')
+            df['species'] = s
+        else:
+            temp = pd.read_csv(f, sep='\t')
+            temp['species'] = s
+            df = pd.concat([df, temp], axis=0)
+
+    # get number to mod each talon run by
+    df['n_datasets'] = df[['dataset', 'species']].groupby('species')[['dataset']].transform('count')
+    df['mod_num'] = np.ceil(df.n_datasets/datasets_per_talon_run)
+    df['talon_run'] = (df.sort_values(['species', 'dataset'],
+                                    ascending=[True, True])\
+                                    .groupby('species')\
+                                    .cumcount() + 1).to_numpy()\
+                                    % df.mod_num.to_numpy()
+    df['talon_run'] = df.talon_run.astype('int')
+    df['max_talon_run'] = df[['talon_run', 'species']].groupby('species')[['talon_run']].transform('max')
+    return df
+
 def get_encid_from_dataset(dataset, meta, file_format):
     m = {'label_bam': 'ENCODE_alignments_id',
      'bam': 'ENCODE_unfiltered_alignments_id',

@@ -14,7 +14,7 @@ import scipy
 import scipy.stats as st
 import swan_vis as swan
 from pandarallel import pandarallel
-# from encoded_client.encoded import ENCODED
+from encoded_client.encoded import ENCODED
 from collections import defaultdict
 import pysam
 # from Bio import SeqIO

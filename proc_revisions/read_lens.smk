@@ -45,10 +45,10 @@ rule dl_lr_fastq:
         "wget https://www.encodeproject.org/files/{params.encid}/@@download/{params.encid}.fastq.gz -O {output.fastq}"
 
 def get_col_from_meta_df(wc, col):
+    import pdb; pdb.set_trace()
     temp = meta_df.copy(deep=True)
     if wc.species:
         temp = meta_df.loc[meta_df.species == wc.species]
-    import pdb; pdb.set_trace()
     return temp[col].tolist()
 
 rule get_lr_read_lens:

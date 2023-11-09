@@ -17,7 +17,7 @@ from pandarallel import pandarallel
 from encoded_client.encoded import ENCODED
 from collections import defaultdict
 import pysam
-# from Bio import SeqIO
+from Bio import SeqIO
 from matplotlib import pyplot
 import numpy
 from pathlib import Path

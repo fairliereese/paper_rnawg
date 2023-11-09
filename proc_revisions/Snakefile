@@ -17,8 +17,6 @@ datasets_per_talon_run = config['params']['talon']['datasets_per_run']
 species=['human', 'mouse']
 end_modes = ['tss', 'tes']
 
-import pdb; pdb.set_trace()
-
 # lr stuff
 lr_df = process_lr_metadata(config['lr']['meta'],
                             species,
@@ -51,8 +49,6 @@ wildcard_constraints:
     dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()]),
     species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()]),
     talon_run='|'.join([re.escape(x) for x in lr_df.talon_run.astype(str).unique().tolist()])
-
-import pdb; pdb.set_trace()
 
 ############ rules
 rule all:

@@ -67,7 +67,7 @@ rule get_lr_read_lens:
         get_lr_read_lens(input.bams, input.fastqs, output.tsv)
 
 # TODO
-datasets = meta_df.loc[meta_df.species=='human']
+datasets = meta_df.loc[meta_df.species=='human', 'dataset'].tolist()
 
 rule all_read_lens:
     input:

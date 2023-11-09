@@ -3339,19 +3339,19 @@ def get_lr_read_lens(bams, fastqs, meta, out):
         }
 
     metadata = get_lr_exp_meta()
+    meta_df = pd.read_csv(meta, sep='\t')
+    metadata = metadata.merge(meta_df,
+                    left_on='experiment',
+                    right_on='ENCODE_experiment_id',
+                    how='left')
     counts = {}
     first_thing = True
     bam_ids = []
     fastq_ids = []
     for f in bams+fastqs:
         encid = f.rsplit('/', maxsplit=1)[1].split('.')[0]
-        # try:
         import pdb; pdb.set_trace()
         temp = metadata.loc[metadata.file == encid].iloc[0]
-        # except:
-        #     print(encid)
-        #     print(metadata.loc[metadata.file == encid])
-        #     raise ValueError(':(')
         name = temp['name']
         if temp.output_type == 'unfiltered alignments':
             result = score_aligned_reads(f)

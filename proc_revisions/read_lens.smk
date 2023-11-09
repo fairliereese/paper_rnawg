@@ -69,5 +69,6 @@ rule get_lr_read_lens:
 rule all_read_lens:
     input:
         expand(rules.dl_lr_fastq.output.fastq,
+                zip,
                         species='human',
                         dataset=get_col_from_meta_df({'species':'human'}, col='dataset'))

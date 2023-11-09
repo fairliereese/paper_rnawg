@@ -48,6 +48,7 @@ def get_col_from_meta_df(wc, col):
     temp = meta_df.copy(deep=True)
     if wc.species:
         temp = meta_df.loc[meta_df.species == wc.species]
+    import pdb; pdb.set_trace()
     return temp[col].tolist()
 
 rule get_lr_read_lens:

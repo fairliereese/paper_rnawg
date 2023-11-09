@@ -3339,6 +3339,7 @@ def get_lr_read_lens(bams, fastqs, out):
         }
 
     metadata = get_lr_exp_meta()
+    import pdb; pdb.set_trace()
     counts = {}
     first_thing = True
     bam_ids = []

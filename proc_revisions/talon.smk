@@ -1,8 +1,3 @@
-from sm_utils import *
-
-############# config stuff
-configfile: 'config.yml'
-
 datasets_per_talon_run = config['params']['talon']['datasets_per_run']
 min_transcript_len = config['params']['talon']['min_transcript_len']
 int_priming_a_range = config['params']['talon']['int_priming_a_range']
@@ -12,10 +7,6 @@ max_frac_a = config['params']['talon']['max_frac_a']
 min_count = config['params']['talon']['min_count']
 min_datasets = config['params']['talon']['min_datasets']
 
-
-lr_df = process_lr_metadata(config['lr']['meta'],
-                            ['human', 'mouse'],
-                            datasets_per_talon_run)
 
 ############# snakemake settings stuff
 ruleorder:

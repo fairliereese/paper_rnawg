@@ -1,7 +1,5 @@
 import pyranges as pr
 
-species = ['human', 'mouse']
-
 use rule dl as dl_polyasite_atlas with:
     params:
         link = lambda wc:config['polya_atlas'][wc.species]['link']

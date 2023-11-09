@@ -1,5 +1,3 @@
-species = ['human', 'mouse']
-
 use rule dl as dl_fantom_cage with:
     params:
         link = lambda wc:config['fantom'][wc.species]['link']

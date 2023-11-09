@@ -1,5 +1,4 @@
 import swan_vis as swan
-# species = ['human', 'mouse']
 
 def make_sg(input, params, wildcards):
 

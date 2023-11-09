@@ -52,6 +52,7 @@ wildcard_constraints:
     species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()]),
     talon_run='|'.join([re.escape(x) for x in lr_df.talon_run.astype(str).unique().tolist()])
 
+import pdb; pdb.set_trace()
 
 ############ rules
 rule all:

@@ -1,5 +1,3 @@
-from sm_utils import *
-
 use rule dl as dl_gtex with:
     params:
         link = config['gtex']['gtf_link']

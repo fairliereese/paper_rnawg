@@ -1,7 +1,7 @@
-species = ['human']
+lrgasp_species = ['human']
 
 meta = pd.read_csv(expand(config['lrgasp_cage']['metadata'],
-                   species=species)[0],
+                   species=lrgasp_species)[0],
                    sep='\t')
 
 wildcard_constraints:
@@ -29,7 +29,7 @@ rule merge_lrgasp_cage:
     input:
         beds = expand(config['lrgasp_cage']['bed'],
                       lrgasp_cage_dataset=meta.dataset.tolist(),
-                      species=species)
+                      species=lrgasp_species)
     resources:
         mem_gb = 8,
         threads = 1
@@ -41,4 +41,4 @@ rule merge_lrgasp_cage:
 rule all_lrgasp_cage:
     input:
         expand(config['lrgasp_cage']['merged'],
-               species=species)
+               species=lrgasp_species)

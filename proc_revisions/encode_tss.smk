@@ -1,11 +1,11 @@
 # cage stuff
-species = ['human']
+tss_species = ['human']
 cage_df = pd.read_csv(expand(config['cage']['encode_meta'],
-                      species=species)[0],
+                      species=tss_species)[0],
                       sep='\t').set_index('File accession')
 
 rampage_df = pd.read_csv(expand(config['rampage']['encode_meta'],
-                    species=species)[0],
+                    species=tss_species)[0],
                     sep='\t').set_index('File accession')
 
 wildcard_constraints:
@@ -27,7 +27,7 @@ rule merge_cage:
     input:
         beds = expand(config['cage']['bed'],
                       encid=cage_df.index.tolist(),
-                      species=species)
+                      species=tss_species)
     resources:
         mem_gb = 8,
         threads = 1
@@ -52,7 +52,7 @@ rule merge_rampage:
     input:
         beds = expand(config['rampage']['bed'],
                       encid=rampage_df.index.tolist(),
-                      species=species)
+                      species=tss_species)
     resources:
         threads = 1,
         mem_gb = 8
@@ -64,6 +64,6 @@ rule merge_rampage:
 rule all_tss:
     input:
         expand(rules.merge_cage.output,
-               species=species),
+               species=tss_species),
         expand(rules.merge_rampage.output,
-               species=species)
+               species=tss_species)

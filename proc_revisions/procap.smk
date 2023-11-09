@@ -1,11 +1,11 @@
 import pyranges as pr
 
-species = ['human']
+pc_species = ['human']
 output_types = ['bidirectional_peaks', 'unidirectional_peaks']
 
 # procap meta
 procap_meta = pd.read_csv(expand(config['procap']['lib_meta'],
-                                 species=species)[0],
+                                 species=pc_species)[0],
                                  sep='\t')
 
 wildcard_constraints:
@@ -51,7 +51,7 @@ rule reformat_procap_uni:
 rule merge_procap:
     input:
         beds = expand(config['procap']['bed_formatted'],
-             species=species,
+             species=pc_species,
              dataset=procap_meta.dataset.tolist(),
              output_type=output_types)
     resources:
@@ -65,8 +65,8 @@ rule merge_procap:
 rule all_procap:
     input:
         expand(rules.merge_procap.output,
-               species=species),
+               species=pc_species),
         # expand(rules.merge_procap_cage.output,
-        #        species=species,
+        #        species=pc_species,
         #        dataset=procap_meta.dataset.tolist(),
         #        output_type=output_types)

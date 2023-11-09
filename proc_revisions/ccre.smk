@@ -1,7 +1,6 @@
 # ccre stuff
 ccre_df = pd.read_csv('ccre_config.tsv', sep='\t')
 ccre_types = ccre_df.ccre_type.unique().tolist()
-species = ['human', 'mouse']
 
 wildcard_constraints:
     ccre_type='|'.join([re.escape(x) for x in ccre_df.ccre_type.unique().tolist()]),

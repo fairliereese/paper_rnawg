@@ -1,6 +1,4 @@
-# config
-configfile: 'config.yml'
-#
+
 # filt_t_novs = ['Known', 'NIC', 'NNC', 'ISM_rescue']
 # filt_g_novs = ['Known', 'Intergenic', 'Fusion']
 # filt_spikes = True

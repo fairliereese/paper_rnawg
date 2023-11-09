@@ -1,5 +1,4 @@
-species = ['human', 'mouse']
-end_mode = ['tes']
+pas_end_mode = ['tes']
 
 pas_df = pd.read_csv(expand(config['pas']['encode_meta'],
                       species='human')[0],
@@ -95,4 +94,4 @@ rule all_pas:
     input:
         expand(rules.format_lapa_ends.output,
                species=species,
-               end_mode=end_mode)
+               end_mode=pas_end_mode)

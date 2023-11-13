@@ -25,7 +25,7 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-from .utils import *
+from utils import *
 
 def get_tissue_cell_line_colors(cats=None):
     tissue = '#e39f24'

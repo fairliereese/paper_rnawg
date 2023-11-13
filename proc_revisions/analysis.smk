@@ -16,6 +16,7 @@ rule major_isos:
         get_major_isos(input.sg,
                        input.filt_ab,
                        wildcards.obs_col,
+                       wildcards.species,
                        output.ofile,
                        min_tpm=params.min_tpm,
                        gene_subset=params.gene_subset)

@@ -145,6 +145,7 @@ def get_biotype_map():
 
 def get_major_isos(sg_file, filt_ab,
                    obs_col,
+                   species,
                    ofile,
                    min_tpm=1,
                    gene_subset='polya'):
@@ -166,7 +167,8 @@ def get_major_isos(sg_file, filt_ab,
     tpm_df, tids = get_tpm_table(t_df,
                how='iso',
                min_tpm=min_tpm,
-               gene_subset=gene_subset)
+               gene_subset=gene_subset,
+               species=species)
 
     t_df = t_df[['annot_gene_name', 'annot_transcript_id', 'annot_gene_id']]
     t_df.rename({'annot_gene_name': 'gname',
@@ -524,9 +526,9 @@ def get_ad_metadata():
     ad_df = ad_df.merge(hr_df, on='file_id')
     return ad_df
 
-def get_lr_bulk_metadata():
+def get_lr_bulk_metadata(species='human'):
     d = os.path.dirname(__file__)
-    fname = f'{d}/../lr_bulk/lr_human_library_data_summary.tsv'
+    fname = f'{d}/data/{species}/lr/lr_{species}_library_data_summary.tsv'
     meta = pd.read_csv(fname, sep='\t')
     return meta
 
@@ -538,11 +540,12 @@ def get_tissue_metadata():
         tissue (pandas DataFrame): DataFrame containing original
             biosample_term_name as well as higher level version
     """
+    return get_lr_bulk_metadata(species='human')
 
-    d = os.path.dirname(__file__)
-    fname = f'{d}/../figures/ref/human/tissue_metadata.csv'
-    tissue = pd.read_csv(fname)
-    return tissue
+    # d = os.path.dirname(__file__)
+    # fname = f'{d}/../figures/ref/human/tissue_metadata.csv'
+    # tissue = pd.read_csv(fname)
+    # return tissue
 
 def get_n_gencode_isos(subset=None, ver='v29'):
     """
@@ -1379,7 +1382,6 @@ def get_det_table(df,
 
     # calc TPM per library on desired samples
     df, tids = get_tpm_table(df, **kwargs)
-    # import pdb; pdb.set_trace()
 
     df = df.transpose()
     df.index.name = 'dataset'
@@ -1389,21 +1391,19 @@ def get_det_table(df,
     if groupby == 'sample':
 
         # add biosample name (ie without rep information)
-        df['biosample'] = df.dataset.str.rsplit('_', n=2, expand=True)[0]
-        df.drop(['dataset'], axis=1, inplace=True)
+        # df['biosample'] = df.dataset.str.rsplit('_', n=2, expand=True)[0]
+        # df.drop(['dataset'], axis=1, inplace=True)
 
         # record the highest TPM value per biosample
         tissue_df = get_tissue_metadata()
-        tissue_df = tissue_df[['tissue', 'biosample']]
+        tissue_df = tissue_df[['dataset', 'sample']]
 
-        df = df.merge(tissue_df, how='left', on='biosample')
-        df.loc[df.tissue.isnull(), 'tissue'] = df.loc[df.tissue.isnull(), 'biosample']
-        df.drop('biosample', axis=1, inplace=True)
-        df.rename({'tissue': 'biosample'}, axis=1, inplace=True)
+        df = df.merge(tissue_df, how='left', on='dataset')
+        df.drop('dataset', axis=1, inplace=True)
+        df.rename({'sample': 'biosample'}, axis=1, inplace=True)
 
         print('Found {} total samples'.format(len(df.biosample.unique().tolist())))
         df = df.groupby('biosample').max()
-        # import pdb; pdb.set_trace()
 
     elif groupby == 'library':
         df.rename({'dataset': 'library'}, axis=1, inplace=True)
@@ -2060,19 +2060,17 @@ def get_tpm_table(df,
             print('Averaging over biosample')
             df = df.transpose()
             df.reset_index(inplace=True)
+            df.rename({'index':'dataset'}, axis=1, inplace=True)
 
             # add biosample name (ie without rep information)
-            df['biosample'] = df['index'].str.rsplit('_', n=2, expand=True)[0]
-            df.drop(['index'], axis=1, inplace=True)
 
             # record the avg TPM value per biosample
             tissue_df = get_tissue_metadata()
-            tissue_df = tissue_df[['tissue', 'biosample']]
+            tissue_df = tissue_df[['dataset', 'sample']]
 
-            df = df.merge(tissue_df, how='left', on='biosample')
-            df.loc[df.tissue.isnull(), 'tissue'] = df.loc[df.tissue.isnull(), 'biosample']
-            df.drop('biosample', axis=1, inplace=True)
-            df.rename({'tissue': 'biosample'}, axis=1, inplace=True)
+            df = df.merge(tissue_df, how='left', on='dataset')
+            df.drop('dataset', axis=1, inplace=True)
+            df.rename({'sample': 'biosample'}, axis=1, inplace=True)
 
             print('Found {} total samples'.format(len(df.biosample.unique().tolist())))
 

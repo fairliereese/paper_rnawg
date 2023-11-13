@@ -12,6 +12,7 @@ snakemake \
   -j 200 \
   --latency-wait 120 \
   --use-conda \
+  -n
 
 
 snakemake \

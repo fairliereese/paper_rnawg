@@ -1158,14 +1158,14 @@ def get_gtf_info(how='gene',
     if not fname:
         d = os.path.dirname(__file__)
         if how == 'gene' and ver == 'v40_cerberus':
-            fname = '{}/../figures/ref/human/cerberus/cerberus_g_metadata.tsv'.format(d)
+            fname = '{}/../proc_revisions/ref/human/cerberus/new_annot_g_info.tsv'.format(d)
         elif how in iso_hows and ver == 'v40_cerberus':
-            fname = '{}/../figures/ref/human/cerberus/cerberus_t_metadata.tsv'.format(d)
+            fname = '{}/../proc_revisions/ref/human/cerberus/new_annot_t_info.tsv'.format(d)
 
         elif how == 'gene' and ver == 'vM25_cerberus':
-            fname = '{}/../figures/ref/mouse/cerberus/cerberus_g_metadata.tsv'.format(d)
+            fname = '{}/../proc_revisions/ref/mouse/cerberus/annot_g_info.tsv'.format(d)
         elif how in iso_hows and ver == 'vM25_cerberus':
-            fname = '{}/../figures/ref/mouse/cerberus/cerberus_t_metadata.tsv'.format(d)
+            fname = '{}/../proc_revisions/ref/mouse/cerberus/new_annot_t_info.tsv'.format(d)
 
     df = pd.read_csv(fname, sep='\t')
 

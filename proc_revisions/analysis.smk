@@ -3,7 +3,8 @@ from utils import *
 rule major_isos:
     input:
         sg = rules.swan_init.output.sg,
-        filt_ab = rules.swan_init.input.ab
+        filt_ab = rules.swan_init.input.ab,
+        g_info = config['ref']['cerberus']['new_gtf_g_info']
     resources:
         mem_gb = 16,
         threads = 8

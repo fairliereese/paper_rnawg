@@ -566,3 +566,181 @@ def plot_mouse_sample_legend(swan_file, ofile):
     ax.spines['bottom'].set_visible(False)
 
     plt.savefig(ofile, dpi=700, bbox_inches='tight')
+
+def human_undet_gene_go(ab, gene_subset, min_tpm, ofile):
+
+    # get detected genes
+    df = pd.read_csv(ab, sep='\t')
+    df, gids = get_tpm_table(df,
+                       how='gene',
+                       min_tpm=min_tpm,
+                       gene_subset=gene_subset)
+    df['detected'] = True
+
+    gene_df, b_counts, b_cat_counts = get_gtf_info(how='gene')
+    gene_df.reset_index(inplace=True)
+    gene_df['gid'] = cerberus.get_stable_gid(gene_df, 'gid')
+
+    df = df.merge(gene_df, how='outer', left_index=True, right_on='gid')
+    df.detected = df.detected.fillna(False)
+
+    print(len(df.index))
+    df = df.loc[df.biotype_category == 'protein_coding']
+    print(len(df.index))
+
+    dbs = ['GO_Biological_Process_2021',
+           'GO_Cellular_Component_2021',
+           'GO_Molecular_Function_2021',
+           'KEGG_2021_Human',
+           'KEGG_2019_Human']
+    bm = gp.parser.Biomart()
+    datasets = bm.get_datasets(mart='ENSEMBL_MART_ENSEMBL')
+    datasets.loc[datasets.Description.str.contains('Human')]
+
+    gids = df.loc[~df.detected, 'gid'].str.rsplit('.', n=1, expand=True)[0].to_frame()
+    print(len(gids))
+    gids = gids.squeeze().str.strip().tolist()
+    gids = bm.query(dataset='hsapiens_gene_ensembl',
+               attributes=['ensembl_gene_id', 'external_gene_name'],
+               filters={'ensembl_gene_id': gids})
+    gids = gids.loc[~gids.external_gene_name.isna()]
+    gnames = gids.external_gene_name.squeeze().str.strip().tolist()
+    go = gp.enrichr(gene_list=gnames,
+                    gene_sets=dbs,
+                    organism='Human',
+                    description='undet_genes',
+                    outdir='undet_genes_GO',
+                    cutoff=0.5)
+
+    def rm_go_number(df):
+        df['term'] = df['Term'].str.split('\(GO', expand=True)[0]
+        df['term'] = df.term.str.capitalize()
+        return df
+
+    # GO on undetected protein-coding genes
+    df = pd.read_csv('undet_genes_GO/GO_Biological_Process_2021.Human.enrichr.reports.txt', sep='\t')
+    n = 3
+    df = df.head(n)
+    df = rm_go_number(df)
+    color = get_talon_nov_colors()[0]['Known']
+
+
+    sns.set_context('paper', font_scale=2.2)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+    plt.figure(figsize=(3,4))
+    ax = sns.barplot(data=df, x='Combined Score', y='term', color=color, saturation=1)
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.set(title='GO Molecular Component')
+
+    xlabel = 'Enrichr Combined Score'
+    ylabel = 'Undetected genes'
+
+    _ = ax.set(xlabel=xlabel, ylabel=ylabel)
+    plt.savefig(ofile, dpi=500, bbox_inches='tight')
+
+
+def plot_perc_mane_det_by_len(ab,
+                              filt_ab,
+                              t_metadata,
+                              min_gene_tpm,
+                              min_tpm,
+                              obs_col,
+                              max_t_len,
+                              figsize=(6,4),
+                              fname='figures/mane_det_by_len.pdf'):
+    # get detected genes
+    g_df = pd.read_csv(ab, sep='\t')
+    g_df = get_det_table(g_df,
+                     how='gene',
+                     min_tpm=min_gene_tpm,
+                     gene_subset='polya',
+                     groupby='library')
+    gids = g_df.columns.tolist()
+
+    # get all the mane transcripts
+    # that are from genes we detect > 10 TPM
+    t_df = pd.read_csv(t_metadata, sep='\t')
+    t_df = t_df.loc[t_df.MANE_Select==True]
+    t_df['gid_stable'] = cerberus.get_stable_gid(t_df, 'gid')
+    t_df = t_df.loc[t_df.gid_stable.isin(gids)]
+
+    # get all detected transcripts
+    df = pd.read_csv(filt_ab, sep='\t')
+    df = get_det_table(df,
+                   how='iso',
+                   min_tpm=min_tpm,
+                   gene_subset='polya',
+                   groupby=obs_col)
+    tids = df.columns
+    det_df = pd.DataFrame(data=tids, columns=['tid'])
+    det_df['detected'] = True
+
+    # merge detected transcripts in w/ mane transcripts
+    t_df = t_df.merge(det_df, on='tid', how='left')
+    t_df = t_df[['tid', 'gname', 't_len', 'detected']]
+    t_df.detected.fillna(False, inplace=True)
+
+    # only get shorter bois and bin by kb
+    t_df = t_df.loc[t_df.t_len<=max_t_len]
+    bins = [i for i in range(0, t_df.t_len.max()+1000, 1000)]
+    t_df['len_bin'] = pd.cut(t_df.t_len, bins)
+
+    # total transcripts / bin
+    total_df = t_df[['tid', 'len_bin']].groupby('len_bin').count().reset_index()
+    total_df.rename({'tid': 'n_total'}, axis=1, inplace=True)
+
+    # total transcripts / bin by det status
+    det_df = t_df[['tid', 'detected', 'len_bin']].groupby(['detected', 'len_bin']).count().reset_index()
+    det_df = det_df.merge(total_df, on='len_bin', how='left')
+
+    # calculate % detected and limit to only the detected transcripts
+    det_df['perc'] = (det_df.tid/det_df.n_total)*100
+    det_df.perc.fillna(0, inplace=True)
+    det_df = det_df.loc[det_df.detected]
+
+    # make nicer bin names
+    hr_bin_dict = {}
+    for b in det_df.len_bin.unique():
+        bmin = str(int(int(str(b)[1:].split(',')[0])/1000))
+        bmax = str(int(int(str(b).split(', ')[1][0:-1])/1000))
+        hr_bin_dict[b] = f'{bmin}-{bmax}'
+    det_df['hr_len_bin'] = det_df['len_bin'].map(hr_bin_dict)
+
+    # make the beautiful plot
+    sns.set_context('paper', font_scale=2)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+
+    height = figsize[1]
+    width = figsize[0]
+    aspect = width/height
+
+    color = get_talon_nov_colors()[0]['Known']
+
+    ax = sns.catplot(det_df, x='hr_len_bin', y='perc', kind='bar',
+                     color=color, saturation=1,
+                     height=height, aspect=aspect)
+    xlabel = 'Transcript length (kb)'
+    ylabel = '% of detected GENCODE \n v40 MANE transcripts'
+    ylim = (0,100)
+    ax.set(xlabel=xlabel, ylabel=ylabel, ylim=ylim)
+    ax.tick_params(axis="x", rotation=45)
+
+    def add_perc_2(ax):
+        ylim = ax.get_ylim()[1]
+        n_cats = len(ax.patches)
+        for p in ax.patches:
+            perc = p.get_height()
+            tot = det_df.loc[det_df.perc==perc, 'tid'].values[0]
+            x = p.get_x() + p.get_width() / 2 - (0.02)*n_cats
+            y = p.get_y() + p.get_height() + ylim*0.04
+            ax.annotate(tot, (x, y), size = 18, rotation=90)
+
+    a = ax.axes[0,0]
+    add_perc_2(a)
+
+    plt.savefig(fname, dpi=500, bbox_inches='tight')
+
+    return det_df

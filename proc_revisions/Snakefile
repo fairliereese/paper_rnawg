@@ -61,9 +61,8 @@ rule all:
         expand(rules.all_mane.input,
                species='human',
                obs_col=['sample', 'dataset']),
-        expand(config['lr']['swan']['sg'],
-              species='human'),
-
+        expand(config['lr']['cerberus']['gtf_t_info'],
+               species=species)
                # expand(config['lr']['read_len_meta'],
                #         species='human'),
         # expand(config['lr']['cerberus']['ab'],

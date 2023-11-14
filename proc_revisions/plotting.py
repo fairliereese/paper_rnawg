@@ -25,8 +25,8 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-# from .utils import *
-from utils import *
+from .utils import *
+# from utils import *
 
 def get_lr_bulk_sample_colors():
     c_dict, order = get_tissue_age_colors()
@@ -536,7 +536,6 @@ def plot_mouse_sample_legend(swan_file, ofile):
     # order = adata.obs['sample'].cat.categories
     display_order = [df.loc[df['sample']==s, 'sample_display'].values[0] for s in order]
     df['sample_display'] = df['sample_display'].astype('category')
-    import pdb; pdb.set_trace()
     df['sample_display'].cat.categories = display_order
     import matplotlib.patches as patches
     samples = []
@@ -594,9 +593,12 @@ def human_undet_gene_go(ab, gene_subset, min_tpm, ofile):
            'GO_Molecular_Function_2021',
            'KEGG_2021_Human',
            'KEGG_2019_Human']
-    bm = gp.parser.Biomart()
+    # bm = gp.parser.Biomart()
+    bm = gp.Biomart()
     datasets = bm.get_datasets(mart='ENSEMBL_MART_ENSEMBL')
     datasets.loc[datasets.Description.str.contains('Human')]
+
+    import pdb; pdb.set_trace()
 
     gids = df.loc[~df.detected, 'gid'].str.rsplit('.', n=1, expand=True)[0].to_frame()
     print(len(gids))

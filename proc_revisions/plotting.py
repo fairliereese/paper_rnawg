@@ -25,7 +25,82 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-from utils import *
+from .utils import *
+
+def get_lr_bulk_sample_colors():
+    c_dict, order = get_tissue_age_colors()
+
+    # c2c12
+    c_dict['c2c12_myoblast'] = '#ca79a7'
+    c_dict['c2c12_myotube'] = '#009c73'
+    order += ['c2c12_myoblast', 'c2c12_myotube']
+
+    # forelimb
+    c_dict['forelimb_e11'] = '#99ebec'
+    c_dict['forelimb_e13'] = '#01ced0'
+    order += ['forelimb_e11', 'forelimb_e13']
+
+
+    # adrenal, hc, ctx
+    # for t in ['adrenal', 'hippocampus', 'cortex']:
+    #     c_dict[t] = get_tissue_colors()[0][t]
+    # manually grabbed shades from shade picker to be one darker than
+    # the last timecourse pt
+    c_dict['adrenal_gland'] = '#8e361b'
+    c_dict['hippocampus'] = '#9a3c4f'
+    c_dict['cortex'] = '#634273'
+
+    order += ['adrenal_gland', 'hippocampus', 'cortex']
+
+
+    # f1219
+    c_dict['f1219'] = '#4340bc'
+    order += ['f1219']
+
+    return c_dict, order
+
+def get_tissue_age_colors():
+    c_dict, order = get_tissue_colors()
+
+    # get different color for each age / tissue
+    new_c_dict = {}
+    min_color = '#FFFFFF'
+    ages = ['4d', '10d', '14d', '25d', '36d', '2mo', '18-20mo']
+    order = []
+    for tissue, max_color in c_dict.items():
+        cmap = mpl.colors.LinearSegmentedColormap.from_list(tissue, [min_color, max_color], N=8)
+        for i, age in enumerate(ages):
+            key = '{}_{}'.format(tissue, age)
+            new_c_dict[key] = mpl.colors.to_hex(cmap(i+1))
+            order.append(key)
+
+    return new_c_dict, order
+
+def get_tissue_colors(cats=None, rgb=False):
+    d = os.path.dirname(__file__)
+    fname = f'{d}/../figures/ref/mouse/tissue_colors.tsv'
+    df = pd.read_csv(fname, sep='\t')
+    c_dict = {}
+    for ind, entry in df.iterrows():
+        c_dict[entry.tissue] = entry.color
+    order = ['adrenal', 'hippocampus', 'cortex', 'gastroc', 'heart']
+
+    if cats:
+        pop_list = []
+        for key in keys:
+            if key not in cats:
+                pop_list.append(key)
+        for p in pop_list:
+            del c_dict[p]
+        order = [o for o in order if o in cats]
+
+    if rgb:
+        for key, item in c_dict.items():
+            item = item[1:]
+            r,g,b = tuple(int(item[i:i+2], 16) for i in (0, 2, 4))
+            c_dict[key] = (r,g,b)
+
+    return c_dict, order
 
 def get_tissue_cell_line_colors(cats=None):
     tissue = '#e39f24'
@@ -384,3 +459,110 @@ def plot_biosamp_det(df,
     plt.savefig(fname, dpi=500, bbox_inches='tight')
 
     return df
+
+def plot_human_sample_legend(swan_file, ofile):
+    sns.set_context('paper', font_scale=2)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+
+    c_dict, order = get_biosample_colors(species='human')
+
+    df = swan.read(swan_file).adata.obs.copy(deep=True)
+    df = df[['sample', 'sample_display', 'tissue_or_cell_line']]
+    df = df.drop_duplicates()
+    df = df.sort_values(by=['tissue_or_cell_line', 'sample_display'], ascending=True)
+    order = df.sample_display.tolist()
+    df['number'] = [i for i in range(len(df.index))]
+    c_dict_2 = {}
+    for key, item in c_dict.items():
+        key2 = df.loc[df['sample'] == key, 'sample_display'].values[0]
+        c_dict_2[key2] = item
+    df['sample_display'] = df['sample_display'].astype('category')
+    df['sample_display'].cat.categories = order
+    import matplotlib.patches as patches
+    samples = []
+    for s in df.sample_display.cat.categories:
+        c = c_dict_2[s]
+        samples.append(patches.Rectangle((0,0),1,1,facecolor=c))
+    ax = sns.scatterplot()
+    plt.legend(samples, df.sample_display.cat.categories)
+
+    ax.set_xticklabels('')
+    ax.set_yticklabels('')
+
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+
+    plt.tick_params(
+        axis='x',          # changes apply to the x-axis
+        which='both',      # both major and minor ticks are affected
+        bottom=False,      # ticks along the bottom edge are off
+        top=False,         # ticks along the top edge are off
+        labelbottom=False)
+    plt.tick_params(
+        axis='y',          # changes apply to the x-axis
+        which='both',      # both major and minor ticks are affected
+        left=False,      # ticks along the bottom edge are off
+        top=False,         # ticks along the top edge are off
+        labelbottom=False)
+
+    plt.savefig(ofile, dpi=700, bbox_inches='tight')
+
+def plot_mouse_sample_legend(swan_file, ofile):
+    sns.set_context('paper', font_scale=2)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+
+    df = swan.read(swan_file).adata.obs.copy(deep=True)
+
+    _, order = get_lr_bulk_sample_colors()
+    c_dict, _ = get_biosample_colors('mouse')
+    df['sample'] = df['sample'].astype('category')
+    sample_order = df['sample'].cat.categories.tolist()
+    sample_colors = [c_dict[s] for s in sample_order]
+    order = [o for o in order if o in sample_order]
+
+    df = df[['sample', 'sample_display']].drop_duplicates()
+    c_dict_2 = {}
+    for key, item in c_dict.items():
+        try:
+            key2 = df.loc[df['sample'] == key, 'sample_display'].values[0]
+            c_dict_2[key2] = item
+        except:
+            pass
+    # order = adata.obs['sample'].cat.categories
+    display_order = [df.loc[df['sample']==s, 'sample_display'].values[0] for s in order]
+    df['sample_display'] = df['sample_display'].astype('category')
+    import pdb; pdb.set_trace()
+    df['sample_display'].cat.categories = display_order
+    import matplotlib.patches as patches
+    samples = []
+    for s in display_order:
+        c = c_dict_2[s]
+        samples.append(patches.Rectangle((0,0),1,1,facecolor=c))
+    ax = sns.scatterplot()
+    plt.legend(samples, df.sample_display.cat.categories)
+
+    ax.set_xticklabels('')
+    ax.set_yticklabels('')
+    plt.tick_params(
+        axis='x',          # changes apply to the x-axis
+        which='both',      # both major and minor ticks are affected
+        bottom=False,      # ticks along the bottom edge are off
+        top=False,         # ticks along the top edge are off
+        labelbottom=False)
+    plt.tick_params(
+        axis='y',          # changes apply to the x-axis
+        which='both',      # both major and minor ticks are affected
+        left=False,      # ticks along the bottom edge are off
+        top=False,         # ticks along the top edge are off
+        labelbottom=False)
+
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+
+    plt.savefig(ofile, dpi=700, bbox_inches='tight')

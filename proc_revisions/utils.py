@@ -1163,7 +1163,7 @@ def get_gtf_info(how='gene',
             fname = '{}/../proc_revisions/ref/human/cerberus/new_annot_t_info.tsv'.format(d)
 
         elif how == 'gene' and ver == 'vM25_cerberus':
-            fname = '{}/../proc_revisions/ref/mouse/cerberus/annot_g_info.tsv'.format(d)
+            fname = '{}/../proc_revisions/ref/mouse/cerberus/new_annot_g_info.tsv'.format(d)
         elif how in iso_hows and ver == 'vM25_cerberus':
             fname = '{}/../proc_revisions/ref/mouse/cerberus/new_annot_t_info.tsv'.format(d)
 

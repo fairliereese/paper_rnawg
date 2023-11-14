@@ -25,7 +25,8 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-from .utils import *
+# from .utils import *
+from utils import *
 
 def get_lr_bulk_sample_colors():
     c_dict, order = get_tissue_age_colors()

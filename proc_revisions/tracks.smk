@@ -53,7 +53,7 @@ rule tracks_add_bgp_data:
         filt_ab = config['lr']['cerberus']['filt_ab'],
         swan_file = config['lr']['swan']['sg'],
         meta_file = config['lr']['meta'],
-        ppred_file = None,
+        ppred_file = [],
         pi_table = config['lr']['mane']['pi_tpm']['triplet'],
         major_isos = config['lr']['analysis']['major_isos']
     resources:

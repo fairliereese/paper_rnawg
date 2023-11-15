@@ -4427,11 +4427,11 @@ def add_bgp_info(ifile,
                      how='iso',
                      min_tpm=min_tpm,
                      species=species)
-                     tpm_df = tpm_df[[sample]]
-     tpm_df.reset_index(inplace=True)
-     tpm_df.rename({'index':'transcript_id',
-                    sample: 'avg_tpm'}, axis=1, inplace=True)
-     df = df.merge(tpm_df, how='left', on='transcript_id')
+    tpm_df = tpm_df[[sample]]
+    tpm_df.reset_index(inplace=True)
+    tpm_df.rename({'index':'transcript_id',
+                sample: 'avg_tpm'}, axis=1, inplace=True)
+    df = df.merge(tpm_df, how='left', on='transcript_id')
 
     # pi value w/i genesg = swan.read(swan_file)
     pi_df, _ = swan.calc_pi(sg.adata, sg.t_df, obs_col=obs_col)

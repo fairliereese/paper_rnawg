@@ -11,7 +11,7 @@ rule tracks_sample_gtf:
         mem_gb = 16,
         threads = 2
     output:
-        gtf = config['lr']['tracks']['sample']['gtf']
+        gtf = config['lr']['sample']['tracks']['sample']['gtf']
     run:
         get_sample_gtf(input.ab,
                        input.gtf,
@@ -21,12 +21,12 @@ rule tracks_sample_gtf:
 
 rule tracks_gene_pred:
     input:
-        ifile = config['lr']['tracks']['sample']['gtf']
+        ifile = config['lr']['sample']['tracks']['sample']['gtf']
     resources:
         mem_gb = 16,
         threads = 1
     output:
-        ofile = temporary(config['lr']['tracks']['sample']['gp'])
+        ofile = temporary(config['lr']['sample']['tracks']['sample']['gp'])
     shell:
         """
         gtfToGenePred -genePredExt {input.ifile} {output.ofile}
@@ -34,12 +34,12 @@ rule tracks_gene_pred:
 
 rule tracks_big_gene_pred:
     input:
-        ifile = config['lr']['tracks']['sample']['gp']
+        ifile = config['lr']['sample']['tracks']['sample']['gp']
     resources:
         mem_gb = 16,
         threads = 1
     output:
-        ofile = temporary(config['lr']['tracks']['sample']['bgp'])
+        ofile = temporary(config['lr']['sample']['tracks']['sample']['bgp'])
     shell:
         """
         genePredToBigGenePred {input.ifile} {output.ofile}
@@ -56,18 +56,18 @@ rule bed_sort:
 
 use rule bed_sort as tracks_bed_sort with:
     input:
-        ifile = config['lr']['tracks']['sample']['bgp']
+        ifile = config['lr']['sample']['tracks']['sample']['bgp']
     output:
-        ofile = temporary(config['lr']['tracks']['sample']['bgp_sort'])
+        ofile = temporary(config['lr']['sample']['tracks']['sample']['bgp_sort'])
 
 rule tracks_filt:
     input:
-        ifile = config['lr']['tracks']['sample']['bgp_sort']
+        ifile = config['lr']['sample']['tracks']['sample']['bgp_sort']
     resources:
         mem_gb = 64,
         threads = 1
     output:
-        ofile = config['lr']['tracks']['sample']['bgp_sort_filt']
+        ofile = config['lr']['sample']['tracks']['sample']['bgp_sort_filt']
     shell:
         """
         grep -v chrM {input.ifile} > {output.ofile}
@@ -81,21 +81,21 @@ use rule dl as dl_ucsc_as with:
 
 rule tracks_bigbed:
     input:
-        ifile = config['lr']['tracks']['sample']['bgp_sort_filt'],
+        ifile = config['lr']['sample']['tracks']['sample']['bgp_sort_filt'],
         as_file = config['ref']['ucsc']['as'],
         chrom_sizes = config['ref']['talon']['chrom_sizes']
     resources:
         mem_gb = 16,
         threads = 1
     output:
-        ofile = config['lr']['tracks']['sample']['bb']
+        ofile = config['lr']['sample']['tracks']['sample']['bb']
     shell:
         """
         bedToBigBed -type=bed12+8 -tab -as={input.as_file} {input.ifile} {input.chrom_sizes} {output.ofile}
         """
 rule all_tracks:
     input:
-        expand(config['lr']['tracks']['bb'],
+        expand(config['lr']['sample']['tracks']['bb'],
                zip,
                species=lr_df['species'].tolist(),
                sample=lr_df['sample'].tolist())

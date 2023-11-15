@@ -32,7 +32,7 @@ def get_datasets(species='human',
     Get list of dataset IDs matching filters
     """
     d = os.path.dirname(__file__)
-    fname = f'{d}/../figures/ref/{species}/lr_{species}_library_data_summary.tsv'
+    fname = f'{d}/../proc_revisions/data/{species}/lr/lr_{species}_library_data_summary.tsv'
     df = pd.read_csv(fname, sep='\t')
 
     if classification:
@@ -532,7 +532,7 @@ def get_lr_bulk_metadata(species='human'):
     meta = pd.read_csv(fname, sep='\t')
     return meta
 
-def get_tissue_metadata():
+def get_tissue_metadata(species):
     """
     Get the biosample <--> higher level biosample mapping
 
@@ -540,7 +540,7 @@ def get_tissue_metadata():
         tissue (pandas DataFrame): DataFrame containing original
             biosample_term_name as well as higher level version
     """
-    return get_lr_bulk_metadata(species='human')
+    return get_lr_bulk_metadata(species=species)
 
     # d = os.path.dirname(__file__)
     # fname = f'{d}/../figures/ref/human/tissue_metadata.csv'
@@ -1379,7 +1379,6 @@ def get_det_table(df,
     # functions
     kwargs['min_tpm'] = min_tpm
     # kwargs['groupby'] = groupby
-
     # calc TPM per library on desired samples
     df, tids = get_tpm_table(df, **kwargs)
 
@@ -1395,9 +1394,8 @@ def get_det_table(df,
         # df.drop(['dataset'], axis=1, inplace=True)
 
         # record the highest TPM value per biosample
-        tissue_df = get_tissue_metadata()
+        tissue_df = get_tissue_metadata(species=kwargs['species'])
         tissue_df = tissue_df[['dataset', 'sample']]
-
         df = df.merge(tissue_df, how='left', on='dataset')
         df.drop('dataset', axis=1, inplace=True)
         df.rename({'sample': 'biosample'}, axis=1, inplace=True)
@@ -1848,6 +1846,20 @@ def get_sr_tpm_table(df,
 
     return df, ids
 
+def get_tissue_meta_tissue_map():
+    """
+    Get the biosample <--> higher level biosample mapping
+
+    Returns:
+        tissue (pandas DataFrame): DataFrame containing original
+            biosample_term_name as well as higher level version
+    """
+
+    d = os.path.dirname(__file__)
+    fname = f'{d}/../proc_revisions/ref/human/tissue_metadata.csv'
+    tissue = pd.read_csv(fname)
+    return tissue
+
 def add_sample(df):
     """
     Add biosample id to each dataset name.
@@ -1857,7 +1869,7 @@ def add_sample(df):
     """
     temp = df.copy(deep=True)
     temp['biosample'] = temp.dataset.str.rsplit('_', n=2, expand=True)[0]
-    tissue_df = get_tissue_metadata()
+    tissue_df = get_tissue_meta_tissue_map()
     tissue_df = tissue_df[['tissue', 'biosample']]
     temp = temp.merge(tissue_df, how='left', on='biosample')
     temp.loc[temp.tissue.isnull(), 'tissue'] = temp.loc[temp.tissue.isnull(), 'biosample']
@@ -1901,7 +1913,8 @@ def get_tpm_table(df,
         ids (list of str): List of str indexing the table
 
     """
-
+    kwargs['species'] = species
+    
     if how == 'sr':
         df, ids = get_sr_tpm_table(df, groupby, min_tpm, gene_subset, save, **kwargs)
         # limit only to samples that are in lr
@@ -2065,7 +2078,7 @@ def get_tpm_table(df,
             # add biosample name (ie without rep information)
 
             # record the avg TPM value per biosample
-            tissue_df = get_tissue_metadata()
+            tissue_df = get_tissue_metadata(kwargs['species'])
             tissue_df = tissue_df[['dataset', 'sample']]
 
             df = df.merge(tissue_df, how='left', on='dataset')

@@ -1,0 +1,76 @@
+biosample_name,tissue,biosample
+subcutaneous adipose tissue,adipose,subcutaneous_adipose_tissue
+testis,testis,testis
+ascending aorta,vessels,ascending_aorta
+body of pancreas,pancreas,body_of_pancreas
+suprapubic skin,skin,suprapubic_skin
+heart left ventricle,heart,heart_left_ventricle
+right atrium auricular region,heart,right_atrium_auricular_region
+omental fat pad,adipose,omental_fat_pad
+transverse colon,colon,transverse_colon
+spleen,spleen,spleen
+upper lobe of left lung,lung,upper_lobe_of_left_lung
+gastrocnemius medialis,muscle,gastrocnemius_medialis
+breast epithelium,breast,breast_epithelium
+Peyer's patch,intestine,peyers_patch
+gastroesophageal sphincter,esophagus,gastroesophageal_sphincter
+adrenal gland,adrenal gland,adrenal_gland
+stomach,stomach,stomach
+prostate gland,prostate_gland,prostate_gland
+psoas muscle,muscle,psoas_muscle
+aorta,vessels,aorta
+lower lobe of left lung,lung,lower_lobe_of_left_lung
+mesenteric fat pad,adipose,mesenteric_fat_pad
+left ventricle myocardium superior,heart,left_ventricle_myocardium_superior
+esophagus muscularis mucosa,esophagus,esophagus_muscularis_mucosa
+placenta,placenta,placenta
+pancreas,pancreas,pancreas
+lung,lung,lung
+sigmoid colon,colon,sigmoid_colon
+esophagus squamous epithelium,esophagus,esophagus_squamous_epithelium
+tibial nerve,nerve,tibial_nerve
+ovary,ovary,ovary
+right lobe of liver,liver,right_lobe_of_liver
+left lobe of liver,liver,left_lobe_of_liver
+left cardiac atrium,heart,left_cardiac_atrium
+kidney,kidney,kidney
+Right ventricle myocardium superior,heart,right_ventricle_myocardium_superior
+heart right ventricle,heart,heart_right_ventricle
+left lung,lung,left_lung
+left ventricle myocardium inferior,heart,left_ventricle_myocardium_inferior
+lower lobe of right lung,lung,lower_lobe_of_right_lung
+posterior vena cava,vessels,posterior_vena_cava
+Right ventricle myocardium inferior,heart,right_ventricle_myocardium_inferior
+right cardiac atrium,heart,right_cardiac_atrium
+mucosa of gallbladder,bladder,mucosa_of_gallbladder
+colonic mucosa,colon,colonic_mucosa
+cardiac septum,heart,cardiac_septum
+mucosa of descending colon,colon,mucosa_of_descending_colon
+liver,liver,liver
+lower leg skin,skin,lower_leg_skin
+sciatic nerve,nerve,sciatic_nerve
+thoracic aorta,vessels,thoracic_aorta
+left colon,colon,left_colon
+uterus,uterus,uterus
+thyroid gland,thyroid_gland,thyroid_gland
+upper lobe of right lung,lung,upper_lobe_of_right_lung
+adipose tissue,adipose,adipose_tissue
+camera-type eye,eye,camera-type_eye
+small intestine,intestine,small_intestine
+heart,heart,heart
+skin of body,skin,skin_of_body
+tongue,muscle,tongue
+skeletal muscle tissue,muscle,skeletal_muscle_tissue
+spinal cord,brain,spinal_cord
+occipital lobe,brain,occipital_lobe
+temporal lobe,brain,temporal_lobe
+umbilical cord,umbilical_cord,umbilical_cord
+cerebellum,brain,cerebellum
+metanephros,kidney,metanephros
+vagina,vagina,vagina
+brain,brain,brain
+urinary bladder,bladder,urinary_bladder
+frontal cortex,brain,frontal_cortex
+diencephalon,brain,diencephalon
+parietal lobe,brain,parietal_lobe
+brain,brain,brodmann_area_46

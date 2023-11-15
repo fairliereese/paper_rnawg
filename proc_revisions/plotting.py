@@ -28,6 +28,21 @@ sys.path.append(p)
 # from .utils import *
 from utils import *
 
+
+def get_talon_nov_colors(cats=None):
+    c_dict = {'Known': '#009E73',
+              'ISM': '#0072B2',
+              'ISM_rescue': '#0072B2',
+              'NIC': '#D55E00',
+              'NNC': '#E69F00',
+              'Antisense': '#000000',
+              'Intergenic': '#CC79A7',
+              'Genomic': '#F0E442'}
+    order = ['Known', 'ISM', 'ISM_rescue', 'NIC', 'NNC', 'Antisense', 'Intergenic', 'Genomic']
+
+    c_dict, order = rm_color_cats(c_dict, order, cats)
+    return c_dict, order
+
 def get_lr_bulk_sample_colors():
     c_dict, order = get_tissue_age_colors()
 
@@ -593,25 +608,18 @@ def human_undet_gene_go(ab, gene_subset, min_tpm, ofile):
            'GO_Molecular_Function_2021',
            'KEGG_2021_Human',
            'KEGG_2019_Human']
-    # bm = gp.parser.Biomart()
-    bm = gp.Biomart()
-    datasets = bm.get_datasets(mart='ENSEMBL_MART_ENSEMBL')
-    datasets.loc[datasets.Description.str.contains('Human')]
 
-    import pdb; pdb.set_trace()
 
     gids = df.loc[~df.detected, 'gid'].str.rsplit('.', n=1, expand=True)[0].to_frame()
-    print(len(gids))
-    gids = gids.squeeze().str.strip().tolist()
-    gids = bm.query(dataset='hsapiens_gene_ensembl',
-               attributes=['ensembl_gene_id', 'external_gene_name'],
-               filters={'ensembl_gene_id': gids})
-    gids = gids.loc[~gids.external_gene_name.isna()]
-    gnames = gids.external_gene_name.squeeze().str.strip().tolist()
+    df = pd.DataFrame()
+    df['gid'] = gids
+    gene_df, _, _ = get_gtf_info(how='gene', ver='v40_cerberus', add_stable_gid=True)
+    df = df.merge(gene_df[['gid_stable', 'gname']], how='left', left_on='gid', right_on='gid_stable')
+    gnames = df.gname.tolist()
+
     go = gp.enrichr(gene_list=gnames,
                     gene_sets=dbs,
                     organism='Human',
-                    description='undet_genes',
                     outdir='undet_genes_GO',
                     cutoff=0.5)
 
@@ -627,7 +635,6 @@ def human_undet_gene_go(ab, gene_subset, min_tpm, ofile):
     df = rm_go_number(df)
     color = get_talon_nov_colors()[0]['Known']
 
-
     sns.set_context('paper', font_scale=2.2)
     mpl.rcParams['font.family'] = 'Arial'
     mpl.rcParams['pdf.fonttype'] = 42
@@ -635,7 +642,7 @@ def human_undet_gene_go(ab, gene_subset, min_tpm, ofile):
     ax = sns.barplot(data=df, x='Combined Score', y='term', color=color, saturation=1)
     ax.spines['right'].set_visible(False)
     ax.spines['top'].set_visible(False)
-    ax.set(title='GO Molecular Component')
+    # ax.set(title='GO Molecular Component')
 
     xlabel = 'Enrichr Combined Score'
     ylabel = 'Undetected genes'
@@ -747,3 +754,109 @@ def plot_perc_mane_det_by_len(ab,
     plt.savefig(fname, dpi=500, bbox_inches='tight')
 
     return det_df
+
+def plot_mouse_cell_line_tissue_read_len_v_ref(read_annot,
+                                         meta_file,
+                                         gene_subset,
+                                         ref_fname,
+                                         xlim,
+                                         ofile):
+
+    df = pd.read_csv(read_annot, usecols=[1,8], sep='\t')
+    meta = pd.read_csv(meta_file, sep='\t')
+    cell_lines = meta.loc[meta.tissue_or_cell_line == 'cell_line', 'dataset'].tolist()
+    tissues = meta.loc[meta.tissue_or_cell_line == 'tissue', 'dataset'].tolist()
+    df['source'] = False
+    df.loc[df.dataset.isin(cell_lines), 'source'] = 'Reads from cell lines'
+    df.loc[df.dataset.isin(tissues), 'source'] = 'Reads from tissues'
+
+    t_df, _, _ = get_gtf_info('iso',
+                              fname=ref_fname,
+                              subset=gene_subset)
+
+    df = df[['read_length', 'source']]
+    df.rename({'read_length': 'length'}, axis=1, inplace=True)
+    # df['source'] = 'Reads'
+    t_df = t_df[['t_len']]
+    t_df.rename({'t_len':'length'}, axis=1, inplace=True)
+    t_df['source'] = 'GENCODE vM25 transcripts'
+    df = pd.concat([df, t_df])
+
+    sns.set_context('paper', font_scale=2)
+    plt.figure(figsize=(3,3))
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+
+    temp_c_dict, order = get_ic_nov_colors()
+    c_dict = dict()
+    c_dict['GENCODE vM25 transcripts'] = temp_c_dict['Known']
+    temp_c_dict, order = get_tissue_cell_line_colors()
+    c_dict['Reads from tissues'] = temp_c_dict['tissue']
+    c_dict['Reads from cell lines'] = temp_c_dict['cell_line']
+    order = ['Reads from cell lines',
+             'Reads from tissues',
+             'GENCODE vM25 transcripts']
+
+    ax = sns.displot(data=df, x='length', kind='kde',
+                         linewidth=3, common_norm=False, hue='source',
+                         palette=c_dict, hue_order=order)
+    xlabel = 'Read / transcript length'
+    ylabel = 'Density'
+
+    if xlim:
+        _ = ax.set(xlabel=xlabel, ylabel=ylabel, xlim=(0,xlim))
+    else:
+        _ = ax.set(xlabel=xlabel, ylabel=ylabel)
+
+    plt.savefig(ofile, dpi=500, bbox_inches='tight')
+
+def plot_cell_line_tissue_read_len_v_ref(df,
+                                         gene_subset,
+                                         ref_fname,
+                                         xlim,
+                                         ofile):
+
+    cell_lines = get_sample_datasets('human', 'cell_line')
+    tissues = get_sample_datasets('human', 'tissue')
+    df['source'] = False
+    df.loc[df.dataset.isin(cell_lines), 'source'] = 'Reads from cell lines'
+    df.loc[df.dataset.isin(tissues), 'source'] = 'Reads from tissues'
+
+    t_df, _, _ = get_gtf_info('iso',
+                          fname=ref_fname,
+                          subset=gene_subset)
+
+    df = df[['read_length', 'source']]
+    df.rename({'read_length': 'length'}, axis=1, inplace=True)
+    t_df = t_df[['t_len']]
+    t_df.rename({'t_len':'length'}, axis=1, inplace=True)
+    t_df['source'] = 'GENCODE v40 transcripts'
+    df = pd.concat([df, t_df])
+
+    sns.set_context('paper', font_scale=2)
+    plt.figure(figsize=(1.5, 2))
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+
+    temp_c_dict, order = get_ic_nov_colors()
+    c_dict = dict()
+    c_dict['GENCODE v40 transcripts'] = temp_c_dict['Known']
+    temp_c_dict, order = get_tissue_cell_line_colors()
+    c_dict['Reads from tissues'] = '#e39f24'
+    c_dict['Reads from cell lines'] = '#7680e8'
+    order = ['Reads from cell lines',
+             'Reads from tissues',
+             'GENCODE v40 transcripts']
+
+    ax = sns.displot(data=df, x='length', kind='kde',
+                         linewidth=3, common_norm=False, hue='source',
+                         palette=c_dict, hue_order=order)
+    xlabel = 'Read / transcript length'
+    ylabel = 'Density'
+
+    if xlim:
+        _ = ax.set(xlabel=xlabel, ylabel=ylabel, xlim=(0,xlim))
+    else:
+        _ = ax.set(xlabel=xlabel, ylabel=ylabel)
+
+    plt.savefig(ofile, dpi=500, bbox_inches='tight')

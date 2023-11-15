@@ -157,6 +157,7 @@ lr:
 
     ca: data/{species}/lr/cerberus/cerberus_ref.h5
     ca_annot: data/{species}/lr/cerberus/cerberus_annot.h5
+    ca_triplets: data/{species}/lr/cerberus/cerberus_triplets.h5
 
     gtf: data/{species}/lr/cerberus/cerberus.gtf
     gtf_t_info: data/{species}/lr/cerberus/cerberus_t_info.tsv
@@ -171,6 +172,7 @@ lr:
 
   analysis:
     major_isos: data/{species}/lr/{obs_col}_major_isos.tsv
+    triplets: data/{species}/lr/{obs_col}_triplets.tsv
 
   suppa:
     gtf: data/{species}/lr/suppa/cerberus_filtered.gtf

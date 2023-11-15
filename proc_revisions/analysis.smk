@@ -22,8 +22,38 @@ rule major_isos:
                        min_tpm=params.min_tpm,
                        gene_subset=params.gene_subset)
 
+
+rule calc_triplets:
+   input:
+       swan_file = config['lr']['swan']['sg'],
+       h5 = config['lr']['cerberus']['ca_annot'],
+       filt_ab = config['lr']['cerberus']['filt_ab'],
+       major_isos = config['lr']['analysis']['major_isos'],
+   params:
+       min_tpm = 1,
+       gene_subset = 'polya',
+       obs_col = 'sample'
+   resources:
+       threads = 1,
+       mem_gb = 64
+   output:
+       trips = config['lr']['cerberus']['ca_triplets'],
+       tsv = config['lr']['analysis']['triplets']
+   run:
+       calculate_human_triplets(input.swan_file,
+                                input.h5,
+                                input.filt_ab,
+                                input.major_isos,
+                                output.trips,
+                                output.tsv,
+                                obs_col=params.obs_col,
+                                min_tpm=params.min_tpm,
+                                gene_subset=params.gene_subset)
+
 rule all_analysis:
     input:
         expand(config['lr']['analysis']['major_isos'],
                species=species,
-               obs_col='sample')
+               obs_col='sample'),
+        expand(config['lr']['cerberus']['ca_triplets'],
+               species=species)

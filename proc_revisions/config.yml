@@ -101,6 +101,9 @@ ref:
     new_gtf_g_info: ref/{species}/cerberus/new_annot_g_info.tsv
     new_ca: ref/{species}/cerberus/new_ca.h5
 
+  tracks:
+    as: ref/{species}/tracks/track_meta.as
+
 ccre:
   bed_gz: data/{species}/ccre/{ccre_type}.bed.gz
   bed: data/{species}/ccre/{ccre_type}.bed
@@ -187,6 +190,7 @@ lr:
 
         gp: data/{species}/lr/tracks/{sample}.gp
         bgp: data/{species}/lr/tracks/{sample}.bgp
+        bgp_plus: data/{species}/lr/tracks/{sample}_plus.bgp
         bgp_sort: data/{species}/lr/tracks/{sample}_sorted.bgp
         bgp_sort_filt: data/{species}/lr/tracks/{sample}_sorted_filtered.bgp
         bb: data/{species}/lr/tracks/{sample}.bb

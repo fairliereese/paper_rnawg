@@ -4344,3 +4344,237 @@ def get_sample_gtf(ab, gtf, min_tpm, sample, species, ofile):
     gtf_df = pr.PyRanges(gtf_df)
 
     gtf_df.to_gtf(ofile)
+
+def add_bgp_info(ifile,
+                 species,
+                 obs_col,
+                 min_tpm,
+                 sample,
+                 h5,
+                 filt_ab,
+                 swan_file,
+                 meta_file,
+                 ppred_file,
+                 pi_table,
+                 major_isos,
+                 ofile):
+
+    # choose transcriptome ver
+    if species=='human':
+        ver = 'v40_cerberus'
+    elif species=='mouse':
+        ver = 'vM25_cerberus'
+
+    df = pd.read_csv(ifile, sep='\t', header=None)
+    df.rename({3:'transcript_id'}, axis=1, inplace=True)
+
+    # get transcript name of each thing / novelty / novelty of each of three pieces?
+    ca = cerberus.read(h5)
+    t_map = ca.t_map.copy(deep=True)
+
+    tss = ca.tss.copy(deep=True)
+    tss.rename({'Name': 'tss_id',
+                'novelty': 'tss_novelty'},
+                 axis=1, inplace=True)
+    tss = tss[['tss_id', 'tss_novelty']]
+
+    tes = ca.tes.copy(deep=True)
+    tes.rename({'Name': 'tes_id',
+                'novelty': 'tes_novelty'},
+               axis=1, inplace=True)
+    tes = tes[['tes_id', 'tes_novelty']]
+
+    ic = ca.ic.copy(deep=True)
+    ic.rename({'Name': 'ic_id',
+               'novelty': 'ic_novelty'},
+              axis=1, inplace=True)
+    ic = ic[['ic_id', 'ic_novelty']]
+
+    t_map = t_map.merge(tss, how='left', on='tss_id')
+    t_map = t_map.merge(tes, how='left', on='tes_id')
+    t_map = t_map.merge(ic, how='left', on='ic_id')
+
+    t_map = t_map[['transcript_id', 'gene_name', 'transcript_name',
+                   'tss_id', 'ic_id', 'tes_id',
+                   'tss_novelty', 'ic_novelty', 'tes_novelty']]
+    t_map = t_map.drop_duplicates()
+
+    df = df.merge(t_map,
+              how='left',
+              on='transcript_id')
+
+    # add mane info if human
+    if species=='human':
+        t_df, _, _ = get_gtf_info(how='iso', ver=ver, add_stable_gid=True)
+        df['gid_stable'] = cerberus.get_stable_gid(df, 18)
+        t_df.rename({'tid':'transcript_id'}, axis=1, inplace=True)
+        df = df.merge(t_df[['MANE_Select', 'MANE_Plus_Clinical', 'transcript_id']],
+                how='left',
+                on='transcript_id')
+        df[['MANE_Select', 'MANE_Plus_Clinical']] = df[['MANE_Select', 'MANE_Plus_Clinical']].fillna(False)
+
+    # add gene biotype from gencode
+    gene_df, _, _ = get_gtf_info(how='gene', ver=ver, add_stable_gid=True)
+    df = df.merge(gene_df[['biotype_category', 'biotype', 'gid_stable']],
+              how='left',
+              on='gid_stable')
+
+    # add tpm
+    tpm_df = pd.read_csv(filt_ab, sep='\t')
+    # df = pd.read_csv(ab, sep='\t')
+    tpm_df, tids = get_tpm_table(tpm_df,
+                     groupby=obs_col,
+                     how='iso',
+                     min_tpm=min_tpm,
+                     species=species)
+                     tpm_df = tpm_df[[sample]]
+     tpm_df.reset_index(inplace=True)
+     tpm_df.rename({'index':'transcript_id',
+                    sample: 'avg_tpm'}, axis=1, inplace=True)
+     df = df.merge(tpm_df, how='left', on='transcript_id')
+
+    # pi value w/i genesg = swan.read(swan_file)
+    pi_df, _ = swan.calc_pi(sg.adata, sg.t_df, obs_col=obs_col)
+    pi_df = pi_df.sparse.to_dense()
+    pi_df = pi_df.transpose()
+    pi_df = pi_df[[sample]]
+    pi_df.reset_index(inplace=True)
+    pi_df.rename({'tid':'transcript_id',
+          sample: 'percent_isoform'}, axis=1, inplace=True)
+    pi_df['percent_isoform'] = pi_df['percent_isoform'].fillna(0)
+    df = df.merge(pi_df, how='left', on='transcript_id')
+
+    # calculate transcript length based on what's already in there
+    lens = df[['transcript_id', 10]]
+    lens['exon_size'] = df[10].str.split(',')
+    lens = lens[['transcript_id', 'exon_size']].explode('exon_size')
+    lens = lens.loc[lens.exon_size!='']
+    lens['exon_size'] = lens['exon_size'].astype(int)
+    lens = lens.groupby('transcript_id').sum().reset_index().rename({'exon_size':'transcript_length'}, axis=1)
+    df = df.merge(lens, how='left', on='transcript_id')
+
+    # add ENCODE experiment ids that belong to each sample, and I guess the sample name?
+    meta_df = pd.read_csv(meta_file, sep='\t')
+    meta_df = meta_df.loc[meta_df[obs_col] == sample]
+    meta_df = meta_df[['ENCODE_experiment_id', obs_col]].drop_duplicates()
+    meta_df = meta_df.groupby(obs_col).agg(','.join).reset_index().rename({'ENCODE_experiment_id':'ENCODE_experiment_ids'}, axis=1)
+    assert len(meta_df.index) == 1
+    ids = meta_df['ENCODE_experiment_ids'].tolist()[0]
+    samples = meta_df[obs_col].tolist()[0]
+    df['ENCODE_experiment_ids'] = ids
+    df[obs_col] = samples
+
+    # also add predicted CDS start / ends
+    # p_df = pd.read_csv(ppred_file, sep='\t')
+    # keep_cols = ['tid', 'CDS_Start', 'CDS_Stop', 'pid', 'nmd', 'len']
+    # rename_d = {'tid': 'transcript_id', 'pid': 'blastp_protein_id',
+    #             'nmd': 'predicted_nmd', 'len': 'predicted_protein_len'}
+    # p_df = p_df[keep_cols].rename(rename_d, axis=1)
+    # df = df.merge(p_df, how='left', on='transcript_id')
+
+    # rank of each transcript in this sample w/i gene
+    t_df = pd.read_csv(pi_table, sep='\t')
+    t_df = t_df.loc[t_df[obs_col] == sample]
+    t_df.rename({'tid': 'transcript_id',
+                 'triplet_rank': 'transcript_rank'}, axis=1, inplace=True)
+    t_df = t_df[['transcript_id', 'transcript_rank']]
+    df = df.merge(t_df, how='left', on='transcript_id')
+
+    # whether transcript is part of the major set
+    t_df = pd.read_csv(major_isos, sep='\t')
+    t_df = t_df.loc[t_df[obs_col] == sample]
+    t_df.rename({'tid': 'transcript_id'}, axis=1, inplace=True)
+    t_df['major_transcript'] = True
+    t_df = t_df[['transcript_id', 'major_transcript']]
+    df = df.merge(t_df, how='left', on='transcript_id')
+
+    # make columns 6 and 7 the CDS starts and remove those columns
+    assert len(df.loc[df[7]<df[6]]) == 0
+    df[6] = df[['CDS_Start', 'CDS_Stop']].min(axis=1)
+    df[7] = df[['CDS_Start', 'CDS_Stop']].max(axis=1)
+    assert len(df.loc[df[7]<df[6]]) == 0
+    df.drop(['CDS_Start', 'CDS_Stop'], axis=1, inplace=True)
+
+    # make the transcript name the actual name of the thing
+    df['temp'] = df.transcript_id.tolist()
+    df.transcript_id = df.transcript_name.tolist()
+    df.drop('transcript_name', axis=1, inplace=True)
+    df.rename({'transcript_id':'transcript_name'}, axis=1, inplace=True)
+    df['transcript_id'] = df.temp.tolist()
+    df.drop('temp', axis=1, inplace=True)
+
+    # column order for end df
+    col_order = ['chrom', 'chromStart', 'chromEnd',
+                 'transcript_name', 'score', 'strand',
+                 'thickStart', 'thickEnd',
+                 'reserved', 'blockCount', 'blockSizes',
+                 'chromStarts']
+
+    # rename the starting columns that are important
+    rename_d = {0: 'chrom', 1: 'chromStart', 2: 'chromEnd',
+                3: 'name', 4: 'score', 5: 'strand',
+                6: 'thickStart', 7: 'thickEnd',
+                8: 'reserved',
+                9: 'blockCount', 10: 'blockSizes',
+                11: 'chromStarts'}
+    df = df.rename(rename_d, axis=1)
+
+    # drop some columns that are not important
+    drop_cols = [12,13,14,15,16,17,18,19]
+    df.drop(drop_cols, axis=1, inplace=True)
+
+    # gene information
+    # gene name
+    # gene id
+    # gene biotype
+    rename_d = {'gid_stable': 'gene_id',
+                  'biotype': 'gene_biotype',
+                  'biotype_category': 'gene_biotype_category'}
+    df.rename(rename_d, axis=1, inplace=True)
+    col_order += ['gene_name', 'gene_id', 'gene_biotype', 'gene_biotype_category']
+
+    # transcript information
+    # transcript id
+    # transcript length
+    # transcript mane
+    # transcript mane plus
+    # transcript avg. tpm
+    # transcript pi
+    rename_d = {'avg_tpm': 'transcript_avg_tpm',
+                'percent_isoform': 'transcript_percent_isoform'}
+    df.rename(rename_d, axis=1, inplace=True)
+    if species=='human':
+        col_order += ['transcript_id', 'transcript_length', 'MANE_Select',
+                      'MANE_Plus_Clinical', 'transcript_avg_tpm',
+                      'transcript_percent_isoform',
+                      'transcript_rank', 'major_transcript']
+    elif species=='mouse':
+        col_order += ['transcript_id', 'transcript_length', 'transcript_avg_tpm',
+                      'transcript_percent_isoform',
+                      'transcript_rank', 'major_transcript']
+
+    # triplet features
+    col_order += ['tss_id', 'tss_novelty', 'ic_id', 'ic_novelty', 'tes_id', 'tes_novelty']
+
+    # sample metadata
+    df.columns
+    df.rename({'samples': obs_col}, axis=1, inplace=True)
+    col_order += [obs_col, 'ENCODE_experiment_ids']
+
+    # protein data
+    # protein match id
+    # nmd prediction
+    # predicted protein length
+    df.columns
+    rename_d = {'blastp_protein_id': 'predicted_protein_blastp_id',
+                'predicted_nmd': 'predicted_protein_nmd'}
+
+    # TODO - remove this
+    df[['predicted_protein_blastp_id', 'predicted_protein_nmd', 'predicted_protein_len']] = np.nan
+
+    df.rename(rename_d, axis=1, inplace=True)
+    col_order += ['predicted_protein_blastp_id', 'predicted_protein_nmd', 'predicted_protein_len']
+
+
+    df = df[col_order]
+    df.to_csv(ofile, sep='\t', header=False, index=False)

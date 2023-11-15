@@ -46,6 +46,37 @@ rule tracks_big_gene_pred:
         genePredToBigGenePred {input.ifile} {output.ofile}
         """
 
+rule tracks_add_bgp_data:
+    input:
+        ifile = rules.tracks_big_gene_pred.output.ofile,
+        h5 = config['lr']['cerberus']['ca_triplets'],
+        filt_ab = config['lr']['cerberus']['filt_ab'],
+        swan_file = config['lr']['swan']['sg'],
+        meta_file = config['lr']['meta'],
+        ppred_file = None,
+        pi_table = config['lr']['mane']['pi_tpm']['triplet'],
+        major_isos = config['lr']['analysis']['major_isos']
+    resources:
+        mem_gb = 16,
+        threads = 4
+    params:
+        min_tpm = 1
+    output:
+        ofile = config['lr']['tracks']['sample']['bgp_plus']
+    run:
+        add_bgp_info(input.ifile,
+                     wildcards.species,
+                     wildcards.obs_col,
+                     params.min_tpm,
+                     wildcards.sample,
+                     input.h5,
+                     input.filt_ab,
+                     input.swan_file,
+                     input.meta_file,
+                     input.ppred_file,
+                     input.pi_table,
+                     input.major_isos)
+
 rule bed_sort:
     resources:
         mem_gb = 64,
@@ -57,7 +88,7 @@ rule bed_sort:
 
 use rule bed_sort as tracks_bed_sort with:
     input:
-        ifile = config['lr']['tracks']['sample']['bgp']
+        ifile = rules.tracks_add_bgp_data.output.ofile
     output:
         ofile = temporary(config['lr']['tracks']['sample']['bgp_sort'])
 
@@ -83,7 +114,8 @@ use rule dl as dl_ucsc_as with:
 rule tracks_bigbed:
     input:
         ifile = config['lr']['tracks']['sample']['bgp_sort_filt'],
-        as_file = config['ref']['ucsc']['as'],
+        as_file = config['ref']['tracks']['as'],
+        # as_file = config['ref']['ucsc']['as'],
         chrom_sizes = config['ref']['talon']['chrom_sizes']
     resources:
         mem_gb = 16,

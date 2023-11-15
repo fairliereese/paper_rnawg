@@ -48,7 +48,7 @@ rule tracks_big_gene_pred:
 
 rule tracks_add_bgp_data:
     input:
-        ifile = rules.tracks_big_gene_pred.output.ofile,
+        ifile = config['lr']['tracks']['sample']['bgp'],
         h5 = config['lr']['cerberus']['ca_triplets'],
         filt_ab = config['lr']['cerberus']['filt_ab'],
         swan_file = config['lr']['swan']['sg'],
@@ -75,7 +75,8 @@ rule tracks_add_bgp_data:
                      input.meta_file,
                      input.ppred_file,
                      input.pi_table,
-                     input.major_isos)
+                     input.major_isos,
+                     output.ofile)
 
 rule bed_sort:
     resources:

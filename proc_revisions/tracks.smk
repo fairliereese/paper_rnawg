@@ -129,9 +129,9 @@ rule tracks_bigbed:
         """
 rule all_tracks:
     input:
-        expand(expand(config['lr']['tracks']['sample']['bb'],
+        list(set(expand(expand(config['lr']['tracks']['sample']['bb'],
                zip,
                species=lr_df['species'].tolist(),
                sample=lr_df['sample'].tolist(),
                allow_missing=True),
-               obs_col='sample')
+               obs_col='sample')))

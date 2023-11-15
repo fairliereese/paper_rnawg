@@ -157,7 +157,7 @@ lr:
 
     ca: data/{species}/lr/cerberus/cerberus_ref.h5
     ca_annot: data/{species}/lr/cerberus/cerberus_annot.h5
-    ca_triplets: data/{species}/lr/cerberus/cerberus_triplets.h5
+    ca_triplets: data/{species}/lr/cerberus/{obs_col}_cerberus_triplets.h5
 
     gtf: data/{species}/lr/cerberus/cerberus.gtf
     gtf_t_info: data/{species}/lr/cerberus/cerberus_t_info.tsv

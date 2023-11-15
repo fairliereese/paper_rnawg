@@ -48,7 +48,7 @@ rule tracks_big_gene_pred:
 
 rule tracks_add_bgp_data:
     input:
-        ifile = config['lr']['tracks']['sample']['bgp'],
+        ifile = rules.tracks_big_gene_pred.output.ofile,
         h5 = config['lr']['cerberus']['ca_triplets'],
         filt_ab = config['lr']['cerberus']['filt_ab'],
         swan_file = config['lr']['swan']['sg'],
@@ -129,7 +129,9 @@ rule tracks_bigbed:
         """
 rule all_tracks:
     input:
-        expand(config['lr']['tracks']['sample']['bb'],
+        expand(expand(config['lr']['tracks']['sample']['bb'],
                zip,
                species=lr_df['species'].tolist(),
-               sample=lr_df['sample'].tolist())
+               sample=lr_df['sample'].tolist(),
+               allow_missing=True),
+               obs_col='sample')

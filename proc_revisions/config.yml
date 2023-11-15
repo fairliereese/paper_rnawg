@@ -102,7 +102,7 @@ ref:
     new_ca: ref/{species}/cerberus/new_ca.h5
 
   tracks:
-    as: ref/{species}/tracks/track_meta.as
+    as: ref/{species}/tracks/{obs_col}/track_meta.as
 
 ccre:
   bed_gz: data/{species}/ccre/{ccre_type}.bed.gz
@@ -184,16 +184,16 @@ lr:
   tracks:
     as: ref/genepred_format.as
     sample:
-        gtf: data/{species}/lr/tracks/{sample}.gtf
-        gtf_sort: data/{species}/lr/tracks/{sample}_sorted.gtf
-        gtf_ind: data/{species}/lr/tracks/{sample}.gtf.ind
+        gtf: data/{species}/lr/tracks/{obs_col}/{sample}.gtf
+        gtf_sort: data/{species}/lr/tracks/{obs_col}/{sample}_sorted.gtf
+        gtf_ind: data/{species}/lr/tracks/{obs_col}/{sample}.gtf.ind
 
-        gp: data/{species}/lr/tracks/{sample}.gp
-        bgp: data/{species}/lr/tracks/{sample}.bgp
-        bgp_plus: data/{species}/lr/tracks/{sample}_plus.bgp
-        bgp_sort: data/{species}/lr/tracks/{sample}_sorted.bgp
-        bgp_sort_filt: data/{species}/lr/tracks/{sample}_sorted_filtered.bgp
-        bb: data/{species}/lr/tracks/{sample}.bb
+        gp: data/{species}/lr/tracks/{obs_col}/{sample}.gp
+        bgp: data/{species}/lr/tracks/{obs_col}/{sample}.bgp
+        bgp_plus: data/{species}/lr/tracks/{obs_col}/{sample}_plus.bgp
+        bgp_sort: data/{species}/lr/tracks/{obs_col}/{sample}_sorted.bgp
+        bgp_sort_filt: data/{species}/lr/tracks/{obs_col}/{sample}_sorted_filtered.bgp
+        bb: data/{species}/lr/tracks/{obs_col}/{sample}.bb
 
   suppa:
     gtf: data/{species}/lr/suppa/cerberus_filtered.gtf

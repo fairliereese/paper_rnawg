@@ -94,7 +94,8 @@ rule tracks_bigbed:
         bedToBigBed -type=bed12+8 -tab -as={input.as_file} {input.ifile} {input.chrom_sizes} {output.ofile}
         """
 rule all_tracks:
-    expand(config['lr']['tracks']['bb'],
-           zip,
-           species=lr_df['species'].tolist(),
-           sample=lr_df['sample'].tolist())
+    input:
+        expand(config['lr']['tracks']['bb'],
+               zip,
+               species=lr_df['species'].tolist(),
+               sample=lr_df['sample'].tolist())

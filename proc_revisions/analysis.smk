@@ -56,4 +56,5 @@ rule all_analysis:
                species=species,
                obs_col='sample'),
         expand(config['lr']['cerberus']['ca_triplets'],
-               species=species)
+               species=species,
+               obs_col='sample')

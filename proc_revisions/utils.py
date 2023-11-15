@@ -2953,6 +2953,109 @@ def calculate_human_triplets(swan_file,
     # also write out triplets separately to tsv
     ca.triplets.to_csv(ofile_tsv, sep='\t', index=False)
 
+def calculate_mouse_triplets(swan_file,
+                             h5,
+                             filt_ab,
+                             major_isos_sample,
+                             # major_isos_tissue,
+                             # major_isos_tissue_adult,
+                             ofile,
+                             ofile_tsv,
+                             obs_col='sample',
+                             min_tpm=1,
+                             gene_subset='polya'):
+    # h5 = '../cerberus/cerberus_annot.h5'
+    # h5_trip = 'cerberus_annot_triplets.h5'
+    # filt_ab = '../cerberus/cerberus_filtered_abundance.tsv'
+    # obs_col = 'sample'
+    # min_tpm = 1
+    # major_set = '../swan/isos_sample_gene_90.tsv'
+    # major_tissue_set = '../swan/isos_tissue_gene_90.tsv'
+    # major_tissue_adult_set = '../swan/isos_tissue_adult_gene_90.tsv'
+    # gene_subset = 'polya'
+    # swan_file = '../swan/swan.p'
+    # ver = 'vM25_cerberus'
+    #
+    ca = cerberus.read(h5)
+    sg = swan.read(swan_file)
+
+    # triplets for each source in the cerberus annotation
+    df = ca.get_source_triplets(sg=sg)
+    ca.add_triplets(df)
+
+    # expressed triplets
+    df = pd.read_csv(filt_ab, sep='\t')
+    df, tids = get_tpm_table(df,
+                   how='iso',
+                   min_tpm=min_tpm,
+                   species='mouse')
+    df = ca.get_subset_triplets(tids, 'obs_det', sg=sg)
+    ca.add_triplets(df)
+
+    # sample-level expressed triplets
+    df = ca.get_expressed_triplets(sg, obs_col=obs_col,
+                                   min_tpm=min_tpm,
+                                   source='sample_det')
+    ca.add_triplets(df)
+
+    # union of major (90% set) expressed triplets
+    subset = pd.read_csv(major_set, sep='\t')
+    tids = subset.tid.unique().tolist()
+    df = ca.get_subset_triplets(tids, source='obs_major', sg=sg)
+    ca.add_triplets(df)
+
+    # sample-level major (90% set) expressed triplets
+    subset = pd.read_csv(major_set, sep='\t')
+    df = ca.get_expressed_triplets(sg, obs_col=obs_col,
+                                   min_tpm=min_tpm,
+                                   source='sample_major',
+                                   subset=subset)
+    ca.add_triplets(df)
+
+    # # tissue-level expressed triplets
+    # df = ca.get_expressed_triplets(sg, obs_col='tissue',
+    #                                min_tpm=min_tpm,
+    #                                source='tissue_det')
+    # ca.add_triplets(df)
+    #
+    # # tissue-level major (90% set) expressed triplets
+    # subset = pd.read_csv(major_tissue_set, sep='\t')
+    # df = ca.get_expressed_triplets(sg, obs_col='tissue',
+    #                                       min_tpm=min_tpm,
+    #                                       source='tissue_major',
+    #                                       subset=subset)
+    # ca.add_triplets(df)
+    #
+    # # adult tissue-level expressed triplets
+    # ca = cerberus.read(h5_trip)
+    # df = ca.get_expressed_triplets(sg, obs_col='tissue_adult',
+    #                                min_tpm=min_tpm,
+    #                                source='tissue_adult_det')
+    # ca.add_triplets(df)
+    #
+    # # adult tissue-level major (90% set) expressed triplets
+    # ca = cerberus.read(h5_trip)
+    # subset = pd.read_csv(major_tissue_adult_set, sep='\t')
+    # df = ca.get_expressed_triplets(sg, obs_col='tissue_adult',
+    #                                       min_tpm=min_tpm,
+    #                                       source='tissue_adult_major',
+    #                                       subset=subset)
+    # ca.add_triplets(df)
+    #
+    # remove non-polya genes
+    df, _, _ = get_gtf_info(how='gene', ver=ver, subset=gene_subset)
+    df['gid_stable'] = cerberus.get_stable_gid(df, 'gid')
+    polya_gids = df.gid_stable.tolist()
+    print(len(ca.triplets.index))
+    ca.triplets = ca.triplets.loc[ca.triplets.gid.isin(polya_gids)]
+    print(len(ca.triplets.index))
+
+    ca.write(ofile)
+
+    # also write out triplets separately to tsv
+    ca.triplets.to_csv(ofile_tsv, sep='\t', index=False)
+
+
 def get_cerberus_psi(filt_ab,
                      min_tpm,
                      gene_subset,

@@ -23,7 +23,7 @@ rule major_isos:
                        gene_subset=params.gene_subset)
 
 
-rule calc_triplets:
+rule calc_human_triplets:
    input:
        swan_file = config['lr']['swan']['sg'],
        h5 = config['lr']['cerberus']['ca_annot'],
@@ -37,18 +37,29 @@ rule calc_triplets:
        threads = 1,
        mem_gb = 64
    output:
-       trips = config['lr']['cerberus']['ca_triplets'],
+       trips = config['lr']['cerberus']['ca_triplets']
        tsv = config['lr']['analysis']['triplets']
    run:
-       calculate_human_triplets(input.swan_file,
-                                input.h5,
-                                input.filt_ab,
-                                input.major_isos,
-                                output.trips,
-                                output.tsv,
-                                obs_col=params.obs_col,
-                                min_tpm=params.min_tpm,
-                                gene_subset=params.gene_subset)
+       if wildcards.species == 'human':
+           calculate_human_triplets(input.swan_file,
+                                    input.h5,
+                                    input.filt_ab,
+                                    input.major_isos,
+                                    output.trips,
+                                    output.tsv,
+                                    obs_col=params.obs_col,
+                                    min_tpm=params.min_tpm,
+                                    gene_subset=params.gene_subset)
+     elif wildcards.species == 'mouse':
+         calculate_mouse_triplets(input.swan_file,
+                                  input.h5,
+                                  input.filt_ab,
+                                  input.major_isos,
+                                  output.trips,
+                                  output.tsv,
+                                  obs_col=params.obs_col,
+                                  min_tpm=params.min_tpm,
+                                  gene_subset=params.gene_subset)
 
 rule all_analysis:
     input:

@@ -812,16 +812,20 @@ def plot_mouse_cell_line_tissue_read_len_v_ref(read_annot,
     plt.savefig(ofile, dpi=500, bbox_inches='tight')
 
 def plot_cell_line_tissue_read_len_v_ref(df,
+                                         lib_meta,
                                          gene_subset,
                                          ref_fname,
                                          xlim,
                                          ofile):
 
-    cell_lines = get_sample_datasets('human', 'cell_line')
-    tissues = get_sample_datasets('human', 'tissue')
+    import pdb; pdb.set_trace()
+    # cell_lines = get_sample_datasets('human', 'cell_line')
+    # tissues = get_sample_datasets('human', 'tissue')
     df['source'] = False
-    df.loc[df.dataset.isin(cell_lines), 'source'] = 'Reads from cell lines'
-    df.loc[df.dataset.isin(tissues), 'source'] = 'Reads from tissues'
+    # df.loc[df.dataset.isin(cell_lines), 'source'] = 'Reads from cell lines'
+    # df.loc[df.dataset.isin(tissues), 'source'] = 'Reads from tissues'
+    df.loc[df.tissue_or_cell_line=='tissue', 'source'] = 'Reads from tissues'
+    df.loc[df.tissue_or_cell_line=='cell_line', 'source'] = 'Reads from cell lines'
 
     t_df, _, _ = get_gtf_info('iso',
                           fname=ref_fname,

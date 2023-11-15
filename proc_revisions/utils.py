@@ -3043,7 +3043,7 @@ def calculate_mouse_triplets(swan_file,
     # ca.add_triplets(df)
     #
     # remove non-polya genes
-    df, _, _ = get_gtf_info(how='gene', ver=ver, subset=gene_subset)
+    df, _, _ = get_gtf_info(how='gene', ver='vM25_cerberus', subset=gene_subset)
     df['gid_stable'] = cerberus.get_stable_gid(df, 'gid')
     polya_gids = df.gid_stable.tolist()
     print(len(ca.triplets.index))

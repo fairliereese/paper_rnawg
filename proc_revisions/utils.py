@@ -4325,7 +4325,7 @@ def get_ss_files(h5, ref_sources, ss_ofile, ss_ic_ofile):
     ss_df.to_csv(ss_ofile, sep='\t', index=False)
     ss_ic_df.to_csv(ss_ic_ofile, sep='\t', index=False)
 
-def get_sample_gtf(ab, gtf, min_tpm, sample, ofile):
+def get_sample_gtf(ab, gtf, min_tpm, sample, species, ofile):
     """
     Get a GTF file for one sample
     """
@@ -4334,7 +4334,8 @@ def get_sample_gtf(ab, gtf, min_tpm, sample, ofile):
     df = get_det_table(df,
                        groupby='sample',
                        how='iso',
-                       min_tpm=min_tpm)
+                       min_tpm=min_tpm,
+                       species=species)
     df = df.transpose()
     tids = df.loc[df[sample]==True].index.tolist()
 

@@ -17,6 +17,7 @@ rule tracks_sample_gtf:
                        input.gtf,
                        params.min_tpm,
                        wildcards.sample,
+                       wildcards.species,
                        output.gtf)
 
 rule tracks_gene_pred:

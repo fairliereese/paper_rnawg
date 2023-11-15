@@ -1353,6 +1353,7 @@ def get_feat_psi(df, feat, **kwargs):
 def get_det_table(df,
                   groupby='library',
                   min_tpm=0,
+                  species='human',
                   **kwargs):
     """
     Get a dataframe of True / False whether or not a gene / isoform
@@ -1375,9 +1376,11 @@ def get_det_table(df,
             nov = ['Known']
 
 
+
     # add min_tpm to kwargs as it's needed for both
     # functions
     kwargs['min_tpm'] = min_tpm
+    kwargs['species'] = species
     # kwargs['groupby'] = groupby
     # calc TPM per library on desired samples
     df, tids = get_tpm_table(df, **kwargs)
@@ -1914,7 +1917,7 @@ def get_tpm_table(df,
 
     """
     kwargs['species'] = species
-    
+
     if how == 'sr':
         df, ids = get_sr_tpm_table(df, groupby, min_tpm, gene_subset, save, **kwargs)
         # limit only to samples that are in lr

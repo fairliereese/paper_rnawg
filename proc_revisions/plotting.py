@@ -25,8 +25,8 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-# from .utils import *
-from utils import *
+from .utils import *
+# from utils import *
 
 
 def get_talon_nov_colors(cats=None):
@@ -666,7 +666,8 @@ def plot_perc_mane_det_by_len(ab,
                      how='gene',
                      min_tpm=min_gene_tpm,
                      gene_subset='polya',
-                     groupby='library')
+                     groupby='library',
+                     species='human')
     gids = g_df.columns.tolist()
 
     # get all the mane transcripts

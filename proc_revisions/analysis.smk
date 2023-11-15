@@ -37,7 +37,7 @@ rule calc_triplets:
         threads = 1,
         mem_gb = 64
     output:
-        trips = config['lr']['cerberus']['ca_triplets']
+        trips = config['lr']['cerberus']['ca_triplets'],
         tsv = config['lr']['analysis']['triplets']
     run:
         if wildcards.species == 'human':

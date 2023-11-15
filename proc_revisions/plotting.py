@@ -818,12 +818,15 @@ def plot_cell_line_tissue_read_len_v_ref(df,
                                          xlim,
                                          ofile):
 
-    import pdb; pdb.set_trace()
     # cell_lines = get_sample_datasets('human', 'cell_line')
     # tissues = get_sample_datasets('human', 'tissue')
+    import pdb; pdb.set_trace()
     df['source'] = False
     # df.loc[df.dataset.isin(cell_lines), 'source'] = 'Reads from cell lines'
     # df.loc[df.dataset.isin(tissues), 'source'] = 'Reads from tissues'
+    meta = pd.read_csv(lib_meta, sep='\t')
+    meta = meta[['dataset', 'tissue_or_cell_line']]
+    df = df.merge(meta, how='left', on='dataset')
     df.loc[df.tissue_or_cell_line=='tissue', 'source'] = 'Reads from tissues'
     df.loc[df.tissue_or_cell_line=='cell_line', 'source'] = 'Reads from cell lines'
 

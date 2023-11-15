@@ -43,7 +43,7 @@ include: 'pol2_chip.smk'
 include: 'analysis.smk'
 include: 'mane.smk'
 include: 'read_lens.smk'
-# include: 'temp_read_lens.smk'
+include: 'tracks.smk'
 
 ############# snakemake settings stuff
 wildcard_constraints:
@@ -56,6 +56,7 @@ rule all:
     input:
         rules.all_read_lens.input,
         rules.all_analysis.input,
+        rules.all_tracks.input,
         expand(rules.all_mane.input,
                species='human',
                obs_col=['sample', 'dataset']),

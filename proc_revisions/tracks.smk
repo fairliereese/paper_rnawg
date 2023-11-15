@@ -83,7 +83,7 @@ rule tracks_bigbed:
     input:
         ifile = config['lr']['tracks']['sample']['bgp_sort_filt'],
         as_file = config['ref']['ucsc']['as'],
-        chrom_sizes = config['ref']['chrom_sizes']
+        chrom_sizes = config['ref']['talon']['chrom_sizes']
     resources:
         mem_gb = 16,
         threads = 1

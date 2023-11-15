@@ -48,6 +48,7 @@ include: 'tracks.smk'
 ############# snakemake settings stuff
 wildcard_constraints:
     dataset='|'.join([re.escape(x) for x in lr_df.dataset.tolist()]),
+    sample='|'.join([re.escape(x) for x in lr_df['sample'].unique().tolist()]),
     species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()]),
     talon_run='|'.join([re.escape(x) for x in lr_df.talon_run.astype(str).unique().tolist()])
 

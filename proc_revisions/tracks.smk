@@ -75,14 +75,14 @@ rule tracks_filt:
 
 use rule dl as dl_ucsc_as with:
   params:
-    link = config['ucsc']['as_link']
+    link = config['ref']['ucsc']['as_link']
   output:
-    out = config['ucsc']['as']
+    out = config['ref']['ucsc']['as']
 
 rule tracks_bigbed:
     input:
         ifile = config['lr']['tracks']['sample']['bgp_sort_filt'],
-        as_file = config['ucsc']['as'],
+        as_file = config['ref']['ucsc']['as'],
         chrom_sizes = config['ref']['chrom_sizes']
     resources:
         mem_gb = 16,

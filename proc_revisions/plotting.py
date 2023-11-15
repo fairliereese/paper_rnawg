@@ -820,7 +820,6 @@ def plot_cell_line_tissue_read_len_v_ref(df,
 
     # cell_lines = get_sample_datasets('human', 'cell_line')
     # tissues = get_sample_datasets('human', 'tissue')
-    import pdb; pdb.set_trace()
     df['source'] = False
     # df.loc[df.dataset.isin(cell_lines), 'source'] = 'Reads from cell lines'
     # df.loc[df.dataset.isin(tissues), 'source'] = 'Reads from tissues'

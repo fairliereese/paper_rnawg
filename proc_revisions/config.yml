@@ -26,6 +26,10 @@ params:
       agg_slack: 20
 
 ref:
+  ucsc:
+    as_link: https://genome.ucsc.edu/goldenPath/help/examples/bigGenePred.as
+    as: ref/bigGenePred.as
+
   # links to download
   human:
     gtf_ver: 'v29'

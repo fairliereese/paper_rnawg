@@ -272,7 +272,7 @@ def get_dataset_cols():
     return datasets
 
 def get_mouse_match_samples():
-    mm_samples = ['adrenal gland', 'heart',
+    mm_samples = ['adrenal_gland', 'heart',
               'muscle', 'brain', 'pgp1_excite_neuron',
               'pgp1_astro', 'h9_osteocyte',
               'h1', 'wtc11']

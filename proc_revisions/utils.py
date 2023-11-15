@@ -2956,7 +2956,7 @@ def calculate_human_triplets(swan_file,
 def calculate_mouse_triplets(swan_file,
                              h5,
                              filt_ab,
-                             major_isos_sample,
+                             major_isos,
                              # major_isos_tissue,
                              # major_isos_tissue_adult,
                              ofile,
@@ -2999,13 +2999,13 @@ def calculate_mouse_triplets(swan_file,
     ca.add_triplets(df)
 
     # union of major (90% set) expressed triplets
-    subset = pd.read_csv(major_set, sep='\t')
+    subset = pd.read_csv(major_isos, sep='\t')
     tids = subset.tid.unique().tolist()
     df = ca.get_subset_triplets(tids, source='obs_major', sg=sg)
     ca.add_triplets(df)
 
     # sample-level major (90% set) expressed triplets
-    subset = pd.read_csv(major_set, sep='\t')
+    subset = pd.read_csv(major_isos, sep='\t')
     df = ca.get_expressed_triplets(sg, obs_col=obs_col,
                                    min_tpm=min_tpm,
                                    source='sample_major',

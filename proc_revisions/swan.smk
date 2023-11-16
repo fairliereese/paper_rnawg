@@ -28,7 +28,7 @@ rule swan_init:
     input:
         annot = config['ref']['cerberus']['new_gtf'],
         ab = rules.cerb_ab_ids_lr.output.ab,
-        gene_ab = rules.talon_gene_ab.output.gene_ab,
+        gene_ab = rules.talon_ab_full.output.ab,
         gtf = rules.cerb_gtf_ids_lr.output.gtf,
         meta = config['lr']['meta']
     params:

@@ -25,8 +25,8 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-# from .utils import *
-from utils import *
+from .utils import *
+# from utils import *
 
 def get_sector_colors(cats=None):
     tss = '#56B4E9'
@@ -1477,7 +1477,6 @@ def add_bool_heatmap(tpm_df, ax, species):
     # if species == 'mouse':
     #     temp.drop('MANE ORF', axis=1, inplace=True)
     #     temp2.drop('MANE ORF', axis=1, inplace=True)
-    import pdb; pdb.set_trace()
     ax = sns.heatmap(temp, cbar=False, cmap='Purples',
                      linewidths=0.5, linecolor='k',
                      annot=temp2, square=True,
@@ -1850,3 +1849,600 @@ def plot_browser_isos_2(h5,
     plt.savefig(ofile, dpi=500, bbox_inches='tight')
 
     return ax, tpm_df
+
+def plot_gene_tpm_v_predom_t_pi(h5,
+                                major_isos,
+                                source,
+                                obs_col,
+                                obs_condition,
+                                gene_subset,
+                                ofile,
+                                label_genes=None):
+    ca = cerberus.read(h5)
+    df = ca.triplets.copy(deep=True)
+    df = df.loc[df.source == source]
+    df = df.loc[df[obs_col] == obs_condition]
+    sns.set_context('paper', font_scale=2)
+
+
+    # get predominant transcripts in this sample
+    prin_isos = pd.read_csv(major_isos, sep='\t')
+    prin_isos = prin_isos.loc[prin_isos[obs_col] == obs_condition]
+    prin_isos = prin_isos.loc[prin_isos.pi_rank == 1]
+    prin_isos['gid_stable'] = cerberus.get_stable_gid(prin_isos, 'gid')
+    prin_isos.drop(['gid', 'gname'], axis=1, inplace=True)
+    prin_isos.rename({'gid_stable':'gid'}, axis=1, inplace=True)
+
+    import pdb; pdb.set_trace()
+    
+    df = df.merge(prin_isos, how='left', on=['gid', 'sample'])
+    df['log2tpm'] = np.log2(df.gene_tpm+1)
+
+    # genes with one isoform
+    df['one_iso'] = df.n_iso==1
+
+    # sample and one iso color
+    c_dict, order = get_biosample_colors()
+    color = c_dict[obs_condition]
+    c_dict = {True: '#b7b7b7', False: color}
+
+    x_col = 'pi'
+    y_col = 'log2tpm'
+
+    pi_dict = {'low': 50, 'high': 90}
+    tpm_dict = {'low': 20, 'high': 100}
+
+    sns.set_context('paper', font_scale=2)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+    ax = sns.jointplot(data=df, x=x_col, y=y_col,
+                       hue='one_iso',
+                       palette=c_dict, size=1, alpha=0.5,
+                       marginal_kws={'linewidth':0})
+    ax = ax.ax_joint
+    xlabel = f'Pi of predominant transcript in {obs_condition}'
+    ylabel = f'log2(TPM+1) of gene in {obs_condition}'
+    ax.set(xlabel=xlabel, ylabel=ylabel)
+    ax.get_legend().remove()
+
+    if label_genes:
+        for g in label_genes:
+            x = df.loc[df.gname == g, x_col].values[0]
+            y = df.loc[df.gname == g, y_col].values[0]
+            ax.annotate(g, (x,y), fontsize='small', fontstyle='italic',
+                        xytext=(4,-4.5), textcoords='offset pixels',
+                        arrowprops={'width':10, 'headwidth':0})
+
+        # add sector lines
+        xlims = ax.get_xlim()
+        ylims = ax.get_ylim()
+
+        # tpm
+        low_y = math.log2(tpm_dict['low']+1)
+        high_y = math.log2(tpm_dict['high']+1)
+
+        # pi
+        low_x = pi_dict['low']
+        high_x = pi_dict['high']
+        color = '#5c5c5c'
+        ax.hlines(low_y, xlims[0], xlims[1],
+                      colors=color, linestyles='dashed',
+                      linewidth=2)
+        ax.hlines(high_y, xlims[0], xlims[1],
+                      colors=color, linestyles='dashed',
+                      linewidth=2)
+
+        ax.vlines(low_x, ylims[0], ylims[1],
+                      colors=color, linestyles='dashed',
+                      linewidth=2)
+        ax.vlines(high_x, ylims[0], ylims[1],
+                      colors=color, linestyles='dashed',
+                      linewidth=2)
+
+        plt.savefig(ofile, dpi=500)
+
+        # quantify how many genes fall within certain thresholds
+        pi_col = 'pi'
+        tpm_col = 'gene_tpm'
+        n = len(df.index)
+        for pi_key, pi in pi_dict.items():
+            for tpm_key, tpm in tpm_dict.items():
+                print('{} pi and {} tpm'.format(pi_key, tpm_key))
+                if pi_key == 'low':
+                    temp = df.loc[df[pi_col]<pi].copy(deep=True)
+                    pi_label = '<'
+                elif pi_key == 'high':
+                    temp = df.loc[df[pi_col]>pi].copy(deep=True)
+                    pi_label = '>'
+                if tpm_key == 'low':
+                    temp = temp.loc[temp[tpm_col]<tpm]
+                    tpm_label = '<'
+                elif tpm_key == 'high':
+                    temp = temp.loc[temp[tpm_col]>tpm]
+                    tpm_label = '>'
+                n_num = len(temp.index)
+                print('{:.2f}% ({}/{}) of protein coding genes in ovary have pi {} {} and tpm {} {}'.format((n_num/n)*100, n_num, n, pi_label, pi, tpm_label, tpm))
+                print()
+
+        # what about how many are w/i pi thresholds but over tpm threshold?
+    #     pi_dict = {'low': 50, 'high': 90}
+    # tpm_dict = {'low': 20, 'high': 100}
+        tpm_min = tpm_dict['high']
+        temp = df.loc[df[tpm_col]>tpm_min]
+        n = len(temp.index)
+        for pi_key, pi in pi_dict.items():
+            if pi_key == 'low':
+                    temp2 = temp.loc[temp[pi_col]<pi].copy(deep=True)
+                    pi_label = '<'
+            elif pi_key == 'high':
+                temp2 = temp.loc[temp[pi_col]>pi].copy(deep=True)
+                pi_label = '>'
+            n_num = len(temp2.index)
+            print('{:.2f}% ({}/{}) of protein coding genes >{} tpm in ovary have pi {} {}'.format((n_num/n)*100, n_num, n, tpm_min, pi_label, pi))
+            print()
+
+def plot_n_predom_transcripts(pi_tpm_file,
+                              filt_ab,
+                              ver,
+                              gene_subset,
+                              min_tpm,
+                              fname,
+                              obs_col='sample',
+                              species='human',
+                              max_isos=None,
+                              figsize=(6,6)):
+    df = pd.read_csv(pi_tpm_file, sep='\t')
+
+    ab_df = pd.read_csv(filt_ab, sep='\t')
+    det_df = get_det_table(ab_df,
+               how='iso',
+               min_tpm=min_tpm,
+               gene_subset=gene_subset,
+               groupby=obs_col,
+               species=species)
+
+    # only predominant transcripts
+    df = df.loc[df.triplet_rank==1]
+
+    # only expressed transcripts in each sample
+    det_df = det_df.melt(ignore_index=False,
+                var_name='tid',
+                value_name='det').reset_index()
+    if obs_col=='sample':
+        det_df.rename({'biosample': 'sample'}, axis=1)
+
+    det_df = det_df.loc[det_df.det==True]
+    print(len(df.index))
+    df = df.merge(det_df, how='inner', on=[obs_col, 'tid'])
+    print(len(df.index))
+
+
+    # count number of unique predominant transcripts
+    df_back = df.copy(deep=True)
+    df = df[['tid', 'gid']].groupby(['gid']).nunique().reset_index()
+    df.rename({'tid': 'n_predom_ts'}, axis=1, inplace=True)
+
+    # limit to gene subset
+    if gene_subset:
+        gene_df, _, _ = get_gtf_info(how='gene',
+                                     ver=ver,
+                                     add_stable_gid=True)
+        gene_df = gene_df[['gid_stable', 'biotype', 'gname']]
+        df = df.merge(gene_df, how='left',
+                      left_on='gid', right_on='gid_stable')
+        df = df.loc[df.biotype==gene_subset]
+        df.drop(['biotype', 'gid_stable'], axis=1, inplace=True)
+
+    sns.set_context('paper', font_scale=2)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+    color = get_talon_nov_colors(['Known'])[0]['Known']
+
+    # a wee bit of math
+    print(f'Median predominant transcripts / gene: {df.n_predom_ts.median()}')
+    df['one_iso'] = df.n_predom_ts == 1
+    temp = df[['n_predom_ts', 'one_iso']].groupby('one_iso').count().reset_index()
+    n = temp.n_predom_ts.sum(axis=0)
+    n_num = temp.loc[temp.one_iso == False, 'n_predom_ts'].values[0]
+    print(n)
+    print(n_num)
+    print(f'{n_num}/{n} {(n_num/n)*100:.2f}% protein-coding genes have >1 predominant isoforms across samples')
+
+
+    if max_isos:
+        df.loc[df.n_predom_ts>=max_isos, 'n_predom_ts'] = max_isos
+        xticks = [i for i in range(0, max_isos+1, 5)]
+        xtick_labels = [str(xtick) for xtick in xticks]
+        xtick_labels[-1] = f'{max_isos}+'
+
+
+    # and make a beautiful plot
+    plt.figure(figsize=figsize)
+    height = figsize[1]
+    width = figsize[0]
+    aspect = width/height
+
+    ax = sns.displot(df, x='n_predom_ts', kind='hist',
+             discrete=True,
+             color=color,
+             linewidth=0,
+             alpha=1,
+             height=height,
+                     aspect=aspect)
+    xlabel = '# predominant transcripts'
+    ylabel = '# genes'
+    _ = ax.set(xlabel=xlabel, ylabel=ylabel)
+
+    if max_isos:
+        sub_ax = plt.gca()
+        sub_ax.set_xticks(xticks)
+        sub_ax.set_xticklabels(xtick_labels)
+
+    plt.savefig(fname, dpi=500, bbox_inches='tight')
+
+    # ax.tick_params(axis="x", rotation=90)
+
+    return df_back, df
+
+def make_triplet_feat_upset(h5,
+                            filt_ab,
+                            feat,
+                            gene_subset,
+                            min_tpm,
+                            ofile):
+
+    ca = cerberus.read(h5)
+    ids = get_det_feats(h5,
+                    filt_ab,
+                    feat,
+                    how=feat,
+                    gene_subset=gene_subset,
+                    min_tpm=min_tpm)
+
+    if feat == 'tss':
+        df = ca.tss.copy(deep=True)
+        m = {'GENCODE': ['v29', 'v40'],
+             'CAGE, RAMPAGE': ['encode_cage', 'encode_rampage', 'fantom_cage'],
+             'GTEx': ['gtex'],
+             'PLS cCREs': ['pls'],
+             'pELS/dELS cCREs': ['pels', 'dels']}
+             # 'cCREs': ['pls', 'dels', 'pels']}
+    elif feat == 'ic':
+        df = ca.ic.copy(deep=True)
+        m = {'GENCODE': ['v29', 'v40'],
+             'GTEx': ['gtex']}
+    elif feat == 'tes':
+        df = ca.tes.copy(deep=True)
+        m = {'GENCODE': ['v29', 'v40'],
+             'PAS-seq, PolyA Atlas': ['pas', 'polya_atlas'],
+             'GTEx': ['gtex']}
+
+    print(feat)
+    print(m)
+
+    # subset on detected feats
+    df = df.loc[df.Name.isin(ids)]
+
+    # get melted version
+    end_upset = upsetplot.from_memberships(df.source.str.split(','), data=df)
+    all_sources = end_upset.index.names
+    end_upset.reset_index(inplace=True)
+    sources = []
+    for key, item in m.items():
+             end_upset[key] = end_upset[item].any(axis=1)
+             sources.append(key)
+    end_upset.drop(all_sources, axis=1, inplace=True)
+    end_upset.set_index(sources, inplace=True)
+
+    # # filter for given sources
+    #
+    # sources = list(set(all_sources) - set(['lapa']))
+    # end_upset.reset_index(inplace=True)
+    # end_upset.drop('lapa', axis=1, inplace=True)
+    # end_upset.set_index(sources, inplace=True)
+
+    # # limit to number of subsets
+    # if n_subset:
+    #     uniques, counts = np.unique(end_upset.index, return_counts=True)
+    #     sorted_uniques = [x for _, x in sorted(zip(counts, uniques), reverse=True)]
+    #     end_upset = end_upset.loc[sorted_uniques[:n_subset]].copy(deep=True)
+
+    # make the plot
+    c_dict, _ = get_feat_colors()
+    c = c_dict[feat]
+    # tss should be longer
+    if feat == 'tss':
+        fig = plt.figure(figsize=(22,5))
+    else:
+        fig = plt.figure(figsize=(11,5))
+    sns.set_context('paper', font_scale=1.8)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+    upsetplot.plot(end_upset, subset_size='auto',
+                    show_counts='%d', sort_by='cardinality',
+                    facecolor=c, fig=fig, shading_color='white', element_size=None)
+    plt.savefig(ofile, dpi=500, bbox_inches='tight')
+
+
+def plot_feat_len_hist(cerberus_h5,
+                       filt_ab,
+                       feat,
+                       gene_subset,
+                       min_tpm,
+                       ofile):
+    ca = cerberus.read(cerberus_h5)
+
+    ids = get_det_feats(cerberus_h5,
+                        filt_ab,
+                        feat,
+                        how=feat,
+                        gene_subset=gene_subset,
+                        min_tpm=min_tpm)
+    if feat == 'tss':
+        df = ca.tss.loc[ca.tss.Name.isin(ids)]
+    elif feat == 'tes':
+        df = ca.tes.loc[ca.tes.Name.isin(ids)]
+    df['region_len'] = abs(df.Start-df.End)
+    print(df.region_len.min())
+
+    sns.set_context('paper', font_scale=2)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+
+    c_dict, order = get_feat_colors(feat)
+    color = c_dict[feat]
+
+    ax = sns.displot(df, x='region_len', kind='hist',
+             linewidth=0,
+             color=color,
+             alpha=1,
+             binwidth=25,
+             edgecolor=None,
+             log_scale=(False, True))
+
+
+    ax = plt.gca()
+    ylim = ax.get_ylim()
+    ax.set_ylim(10**-.3, ylim[1])
+
+    df.region_len.max()
+    ylabel = f'# detected {feat.upper()}s'
+    xlabel = f'{feat.upper()} length (bp)'
+
+    ax.set(xlabel=xlabel, ylabel=ylabel)
+    plt.savefig(ofile, dpi=700, bbox_inches='tight')
+
+    # some math
+    bounds_list = [(0,500), (250,df.region_len.max())]
+    for bounds in bounds_list:
+        n_num = len(df.loc[(df.region_len>=bounds[0])&(df.region_len<=bounds[1])].index)
+        n = len(df.index)
+        print(f'{(n_num/n)*100:.2f}% of regions ({n_num}/{n}) are b/w {bounds[0]} and {bounds[1]} bp long')
+
+    return df
+
+
+def plot_ic_novelty(fname,
+                    source,
+                    oprefix,
+                    ylim=None,
+                    pass_list=None,
+                    novs=None,
+                    save_type='pdf'):
+    """
+    Plot number of intron chains per novelty category.
+
+    Parameters:
+        fname (str): Cerberus annotation file name
+        source (str): Source in cerberus annotation
+        oprefix (str): Place to save
+        ylim (int): y limit of resultant plot
+        pass_list (list of str): List of ic IDs to retain
+        novs (list of str): Novelty types to include
+        save_type (str): Choose from 'pdf' or 'png'
+    """
+
+    # sns.set_context('paper', font_scale=1.6)
+
+    ca = cerberus.read(fname)
+
+
+    temp = ca.t_map.loc[ca.t_map.source==source].copy(deep=True)
+    temp = temp[['ic_id']]
+    nov = ca.ic[['Name', 'novelty']]
+    temp = temp.merge(nov, how='left', left_on='ic_id', right_on='Name')
+    temp.drop_duplicates(inplace=True)
+
+    if pass_list:
+        temp = temp.loc[temp.ic_id.isin(pass_list)]
+
+    temp = temp[['ic_id', 'novelty']]
+    temp = temp.groupby('novelty').count()
+
+    temp.reset_index(inplace=True)
+    temp.rename({'ic_id': 'counts'}, axis=1, inplace=True)
+    print(temp)
+    if not novs:
+        novs = temp.novelty.unique().tolist()
+    c_dict, order = get_ic_nov_colors(cats=novs)
+
+    temp = temp.loc[temp.novelty.isin(novs)].copy(deep=True)
+    complete = temp[['counts']].sum(axis=0)
+    print('Number of complete intron chains: {}'.format(complete))
+
+    # actual plotting
+    sns.set_context('paper', font_scale=2)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+    # plt.figure(figsize=(4,6))
+    plt.figure(figsize=(3,4))
+
+    g = sns.catplot(data=temp, x='novelty',
+                y='counts', kind='bar',
+                saturation=1,
+                palette=c_dict, order=order)
+    [plt.setp(ax.get_xticklabels(), rotation=45) for ax in g.axes.flat]
+    g.set_ylabels('# intron chains')
+    g.set_xlabels('')
+
+    # add percentage labels
+    ax = g.axes[0,0]
+    add_perc(ax, temp, 'counts')
+
+    if ylim:
+        g.set(ylim=(0,ylim))
+
+    # save figure
+    fname = '{}_ic_novelty'.format(oprefix)
+    g.savefig(fname+'.png', dpi=500, bbox_inches='tight')
+    g.savefig(fname+'.pdf', dpi=500, bbox_inches='tight')
+
+    plt.show()
+    plt.clf()
+
+    def plot_exp_v_iso_biotype_boxplot(h5,
+                                       ver,
+                                       ofile):
+        ca = cerberus.read(h5)
+
+        # limit to the sample dets
+        df = ca.triplets.loc[ca.triplets.source=='sample_det'].copy(deep=True)
+
+        # tpm bins
+        tpm_bins = [1, 10, 100, df.gene_tpm.max()]
+        labels = ['Low (1-10)', 'Medium (10-100)', 'High (100-max)']
+
+        # get the most highly-expressed sample per gene
+        df = df.sort_values(by=['gid', 'gene_tpm'], ascending=[False,False])
+        df = df.drop_duplicates(subset='gid', keep='first')
+
+        # group into bins
+        df['tpm_bin'] = pd.cut(df.gene_tpm, tpm_bins, labels=labels)
+        df['other_tpm_bin'] = pd.cut(df.gene_tpm, tpm_bins)
+        print(df.other_tpm_bin.unique())
+
+        # add gene biotypes
+        gene_df, _, _ = get_gtf_info(how='gene', ver=ver)
+        gene_df['gid'] = cerberus.get_stable_gid(gene_df, col='gid')
+        df = df.merge(gene_df[['gid', 'biotype_category']], how='left', on='gid')
+
+        order = get_polya_cats()
+        disp_dict = {'protein_coding': 'Protein coding',
+                     'lncRNA': 'lncRNA',
+                     'pseudogene': 'Pseudogene'}
+        order = [disp_dict[b] for b in order]
+        df['biotype_category_disp'] = df.biotype_category.map(disp_dict)
+
+        c = get_talon_nov_colors()[0]['Known']
+        c_dict, order = get_shade_colors(c, order)
+
+        sns.set_context('paper', font_scale=1.8)
+        mpl.rcParams['font.family'] = 'Arial'
+        mpl.rcParams['pdf.fonttype'] = 42
+
+        ax = sns.catplot(data=df,
+                         x='tpm_bin',
+                         y='n_iso',
+                         hue='biotype_category_disp',
+                         kind='box',
+                         hue_order=order,
+                         palette = c_dict,
+                         fliersize=1,
+                         linewidth=1,
+                         height=4, aspect=(5/4),
+                         saturation=1)
+
+        ax.set(ylim=(0,50), xlabel='Max. gene expression (TPM)', ylabel='# transcripts / gene')
+        ax.tick_params(axis="x", rotation=45)
+
+        fname = ofile
+        plt.savefig(fname, dpi=500, bbox_inches='tight')
+
+        return df
+
+def plot_ends_per_ic(df, ca,
+                     feat,
+                     fname,
+                     rm_monoexonic=True):
+    """
+    Plot a histogram of the # ends (tss or tes) per ic
+
+    Parameters:
+        df (pandas DataFrame): DF where index is transcript
+            id w/ triplet form
+        feat (str): {'tss', 'tes'}
+        fname (str): Output file name to save to
+
+    Returns:
+        temp (pandas DataFrame): DF w/ # ends / ic
+    """
+
+    # plot settings
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+    sns.set_context('paper', font_scale=1.8)
+
+
+    temp = df.copy(deep=True)
+    feats = ['ic', feat]
+    for feat in feats:
+        temp = add_feat(temp, col='index', kind=feat)
+
+    # keep only the relevant features and drop duplicated
+    # combinations
+    temp.reset_index(drop=True, inplace=True)
+    temp = temp[[feat, 'ic']].copy(deep=True)
+    temp.drop_duplicates(inplace=True)
+
+    # groupby and count number of feature per ic
+    temp = temp.groupby('ic').nunique().reset_index()
+
+    # merge with novelty info from h5
+    temp = temp.merge(ca.ic[['Name', 'Coordinates']],
+                      how='left', left_on='ic', right_on='Name')
+
+    if rm_monoexonic:
+        temp = temp.loc[temp.Coordinates != '-']
+    temp.drop(['Name', 'Coordinates'], axis=1, inplace=True)
+
+    # plotting
+    sns.set_context('paper', font_scale=1.8)
+    c_dict, order = get_end_colors()
+    c = c_dict[feat]
+    # ax = sns.displot(temp, x=feat, kind='hist',
+    #                  linewidth=0,
+    #                  color=c,
+    #                  discrete=True,
+    #                  alpha=1)
+    ax = sns.displot(temp, x=feat, kind='hist',
+                 linewidth=0,
+                 color=c,
+                 discrete=True,
+                 alpha=1,
+                 binwidth=1,
+                 log_scale=(False, True))
+
+
+    ylabel = '# ICs'
+    xlabel = '# {}s / IC'.format(feat.upper())
+    # ax.fig.get_axes()[0].set_yscale('log')
+    # ax.fig.get_axes()[0].xaxis.set_major_formatter(FormatStrFormatter('%d'))
+    _ = ax.set(xlabel=xlabel, ylabel=ylabel)
+
+    ax = plt.gca()
+    ylim = ax.get_ylim()
+    ax.set_ylim(10**-.3, ylim[1])
+
+    # _ = ax.set_yscale("log")
+
+    # plt.savefig(fname, dpi=300, bbox_inches='tight')
+    plt.savefig(fname, dpi=700)
+
+    # do a lil math
+    temp['one_end'] = temp[feat]==1
+    temp2 = temp[['ic', 'one_end']].groupby('one_end').count().reset_index()
+    n = temp2.ic.sum(axis=0)
+    n_num = temp2.loc[temp2.one_end == True, 'ic'].values[0]
+    print(f'{(n_num/n)*100:.2f}% ({n_num}/{n} of unique ics have 1 {feat}')
+
+    return temp

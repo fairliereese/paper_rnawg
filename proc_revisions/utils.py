@@ -4436,6 +4436,7 @@ def add_bgp_info(ifile,
     df = df.merge(tpm_df, how='left', on='transcript_id')
 
     # pi value w/i genesg = swan.read(swan_file)
+    sg = swan.read(swan_file)
     pi_df, _ = swan.calc_pi(sg.adata, sg.t_df, obs_col=obs_col)
     pi_df = pi_df.sparse.to_dense()
     pi_df = pi_df.transpose()

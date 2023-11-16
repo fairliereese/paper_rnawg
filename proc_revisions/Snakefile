@@ -44,6 +44,7 @@ include: 'analysis.smk'
 include: 'mane.smk'
 include: 'read_lens.smk'
 include: 'tracks.smk'
+include: 'bigwig.smk'
 
 ############# snakemake settings stuff
 wildcard_constraints:

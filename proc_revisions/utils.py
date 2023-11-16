@@ -4491,12 +4491,12 @@ def add_bgp_info(ifile,
     t_df = t_df[['transcript_id', 'major_transcript']]
     df = df.merge(t_df, how='left', on='transcript_id')
 
-    # make columns 6 and 7 the CDS starts and remove those columns
-    assert len(df.loc[df[7]<df[6]]) == 0
-    df[6] = df[['CDS_Start', 'CDS_Stop']].min(axis=1)
-    df[7] = df[['CDS_Start', 'CDS_Stop']].max(axis=1)
-    assert len(df.loc[df[7]<df[6]]) == 0
-    df.drop(['CDS_Start', 'CDS_Stop'], axis=1, inplace=True)
+    # # make columns 6 and 7 the CDS starts and remove those columns
+    # assert len(df.loc[df[7]<df[6]]) == 0
+    # df[6] = df[['CDS_Start', 'CDS_Stop']].min(axis=1)
+    # df[7] = df[['CDS_Start', 'CDS_Stop']].max(axis=1)
+    # assert len(df.loc[df[7]<df[6]]) == 0
+    # df.drop(['CDS_Start', 'CDS_Stop'], axis=1, inplace=True)
 
     # make the transcript name the actual name of the thing
     df['temp'] = df.transcript_id.tolist()

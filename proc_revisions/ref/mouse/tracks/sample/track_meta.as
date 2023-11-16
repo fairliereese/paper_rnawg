@@ -31,8 +31,5 @@ table bigGenePred
    string tes_novelty; "Novelty status of TES relative to GENCODE"
    string sample; "Sample that this track is for"
    string ENCODE_experiment_ids; "Comma-separated list of ENCODE experiment IDs used for this sample"
-   string predicted_protein_blastp_id; "ENSEMBLE ID of protein with the best blastp match to predicted protein"
-   string predicted_protein_nmd; "Whether this predicted protein sequence is predicted to be subject to NMD"
-   float predicted_protein_len; "Length of predicted protein in amino acids"
    )
 

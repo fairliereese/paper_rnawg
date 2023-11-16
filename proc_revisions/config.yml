@@ -211,12 +211,12 @@ lr:
 
 
   mane:
-    exp_gene_subset: data/{species}/exp_gids_{obs_col}.tsv
+    exp_gene_subset: data/{species}/lr/exp_gids_{obs_col}.tsv
     pi_tpm:
-      tss: data/{species}/tss_{obs_col}_pi_tpm.tsv
-      ic: data/{species}/ic_{obs_col}_pi_tpm.tsv
-      tes: data/{species}/tes_{obs_col}_pi_tpm.tsv
-      triplet: data/{species}/triplet_{obs_col}_pi_tpm.tsv
+      tss: data/{species}/lr/tss_{obs_col}_pi_tpm.tsv
+      ic: data/{species}/lr/ic_{obs_col}_pi_tpm.tsv
+      tes: data/{species}/lr/tes_{obs_col}_pi_tpm.tsv
+      triplet: data/{species}/lr/triplet_{obs_col}_pi_tpm.tsv
 
 gtex:
     gtf_link: https://storage.googleapis.com/gtex_analysis_v9/long_read_data/flair_filter_transcripts.gtf.gz

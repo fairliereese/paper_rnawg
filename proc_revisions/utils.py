@@ -4573,7 +4573,8 @@ def add_bgp_info(ifile,
                 'predicted_nmd': 'predicted_protein_nmd'}
 
     # TODO - remove this
-    df[['predicted_protein_blastp_id', 'predicted_protein_nmd', 'predicted_protein_len']] = np.nan
+    df[['predicted_protein_blastp_id', 'predicted_protein_nmd']] = 'N/A'
+    df['predicted_protein_len'] = -1
 
     df.rename(rename_d, axis=1, inplace=True)
     col_order += ['predicted_protein_blastp_id', 'predicted_protein_nmd', 'predicted_protein_len']

@@ -25,8 +25,8 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-from .utils import *
-# from utils import *
+# from .utils import *
+from utils import *
 
 def get_sector_colors(cats=None):
     tss = '#56B4E9'
@@ -1874,7 +1874,7 @@ def plot_gene_tpm_v_predom_t_pi(h5,
     prin_isos.rename({'gid_stable':'gid'}, axis=1, inplace=True)
 
     import pdb; pdb.set_trace()
-    
+
     df = df.merge(prin_isos, how='left', on=['gid', 'sample'])
     df['log2tpm'] = np.log2(df.gene_tpm+1)
 

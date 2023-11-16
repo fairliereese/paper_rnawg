@@ -35,4 +35,4 @@ rule all_bigwig:
                       species=lr_df.species.tolist(),
                       dataset=lr_df.dataset.tolist(),
                       allow_missing=True),
-                      strand=['+', '-'])
+                      strand=['fwd', 'rev'])

@@ -4403,11 +4403,13 @@ def add_bgp_info(ifile,
               how='left',
               on='transcript_id')
 
+    # gene id
+    t_df, _, _ = get_gtf_info(how='iso', ver=ver, add_stable_gid=True)
+    df['gid_stable'] = cerberus.get_stable_gid(df, 18)
+    t_df.rename({'tid':'transcript_id'}, axis=1, inplace=True)
+
     # add mane info if human
     if species=='human':
-        t_df, _, _ = get_gtf_info(how='iso', ver=ver, add_stable_gid=True)
-        df['gid_stable'] = cerberus.get_stable_gid(df, 18)
-        t_df.rename({'tid':'transcript_id'}, axis=1, inplace=True)
         df = df.merge(t_df[['MANE_Select', 'MANE_Plus_Clinical', 'transcript_id']],
                 how='left',
                 on='transcript_id')

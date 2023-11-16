@@ -55,6 +55,7 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
+        rules.all_bigwig.input,
         rules.all_read_lens.input,
         rules.all_analysis.input,
         rules.all_tracks.input,

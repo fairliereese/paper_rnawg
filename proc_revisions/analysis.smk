@@ -61,31 +61,31 @@ rule calc_triplets:
                               min_tpm=params.min_tpm,
                               gene_subset=params.gene_subset)
 
-      def get_fusion_sample_t_coords(ab, gtf, min_tpm, sample, species, ofile):
-          """
-          Get genomic start / stop coords for transcripts expressed in
-          a given sample
-          """
+  def get_fusion_sample_t_coords(ab, gtf, min_tpm, sample, species, ofile):
+      """
+      Get genomic start / stop coords for transcripts expressed in
+      a given sample
+      """
 
-          df = pd.read_csv(ab, sep='\t')
-          tids = df.loc[df.gene_novelty=='Fusion', 'annot_transcript_id'].tolist()
-          print(len(tids))
-          df = get_det_table(df,
-                             groupby='sample',
-                             how='iso',
-                             min_tpm=min_tpm,
-                             species=species)
-          df = df.transpose()
-          tids2 = df.loc[df[sample]==True].index.tolist()
-          tids = list(set(tids)&set(tids2))
+      df = pd.read_csv(ab, sep='\t')
+      tids = df.loc[df.gene_novelty=='Fusion', 'annot_transcript_id'].tolist()
+      print(len(tids))
+      df = get_det_table(df,
+                         groupby='sample',
+                         how='iso',
+                         min_tpm=min_tpm,
+                         species=species)
+      df = df.transpose()
+      tids2 = df.loc[df[sample]==True].index.tolist()
+      tids = list(set(tids)&set(tids2))
 
-          gtf_df = pr.read_gtf(gtf).df
-          gtf_df = gtf_df.loc[gtf_df.transcript_id.isin(tids)]
+      gtf_df = pr.read_gtf(gtf).df
+      gtf_df = gtf_df.loc[gtf_df.transcript_id.isin(tids)]
 
-          gtf_df = gtf_df.loc[gtf_df.Feature=='transcript']
-          gtf_df = gtf_df[['Chromosome', 'Start', 'End', 'Strand', 'gene_id', 'transcript_id',]]
+      gtf_df = gtf_df.loc[gtf_df.Feature=='transcript']
+      gtf_df = gtf_df[['Chromosome', 'Start', 'End', 'Strand', 'gene_id', 'transcript_id',]]
 
-          gtf.to_csv(ofile, sep='\t', index=False)
+      gtf.to_csv(ofile, sep='\t', index=False)
 
 rule get_fusion_sample_t_coords:
     input:

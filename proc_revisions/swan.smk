@@ -9,7 +9,7 @@ def make_sg(input, params, wildcards):
     sg.save_graph(params.prefix)
 
     sg.add_abundance(input.ab)
-    sg.add_abundance(input.gene_ab, how='gene')
+    # sg.add_abundance(input.gene_ab, how='gene')
     sg.save_graph(params.prefix)
 
     # add metadata and add colors

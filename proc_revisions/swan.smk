@@ -43,4 +43,4 @@ rule swan_init:
 
 rule all_swan:
     input:
-        rules.swan_init.output
+        expand(rules.swan_init.output, species=species)

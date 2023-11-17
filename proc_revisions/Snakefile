@@ -60,6 +60,7 @@ rule all:
         rules.all_read_lens.input,
         rules.all_analysis.input,
         rules.all_tracks.input,
+        rules.all_swan.input,
         expand(rules.all_mane.input,
                species='human',
                obs_col=['sample', 'dataset']),

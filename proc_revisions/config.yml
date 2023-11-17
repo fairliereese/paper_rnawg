@@ -181,6 +181,7 @@ lr:
   analysis:
     major_isos: data/{species}/lr/{obs_col}_major_isos.tsv
     triplets: data/{species}/lr/{obs_col}_triplets.tsv
+    fusion_t_coords: data/{species}/lr/{obs_col}/{sample}_fusion_t_coords.tsv
 
   tracks:
     as: ref/genepred_format.as

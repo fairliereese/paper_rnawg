@@ -85,7 +85,7 @@ def get_fusion_sample_t_coords(ab, gtf, min_tpm, sample, species, ofile):
     gtf_df = gtf_df.loc[gtf_df.Feature=='transcript']
     gtf_df = gtf_df[['Chromosome', 'Start', 'End', 'Strand', 'gene_id', 'transcript_id',]]
 
-    gtf.to_csv(ofile, sep='\t', index=False)
+    gtf_df.to_csv(ofile, sep='\t', index=False)
 
 rule get_fusion_sample_t_coords:
     input:

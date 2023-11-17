@@ -98,6 +98,13 @@ rule get_fusion_sample_t_coords:
         min_tpm = 1
     output:
         tsv = config['lr']['analysis']['fusion_t_coords']
+    run:
+        get_fusion_sample_t_coords(input.filt_ab,
+            input.gtf,
+            params.min_tpm,
+            wildcards.sample,
+            wildcards.species,
+            output.tsv)
 
 rule all_analysis:
     input:

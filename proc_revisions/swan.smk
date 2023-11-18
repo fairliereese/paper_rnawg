@@ -12,17 +12,17 @@ def make_sg(input, params, wildcards):
     sg.add_abundance(input.gene_ab, how='gene')
     sg.save_graph(params.prefix)
 
-    # add metadata and add colors
-    sg.add_metadata(input.meta)
-    c_dict, order = get_biosample_colors(wildcards.species)
-    sg.set_metadata_colors('sample', c_dict)
-
-    # human only settings
-    if wildcards.species == 'human':
-        c_dict, order = get_ad_colors()
-        sg.set_metadata_colors('health_status', c_dict)
-    # save
-    sg.save_graph(params.prefix)
+    # # add metadata and add colors
+    # sg.add_metadata(input.meta)
+    # c_dict, order = get_biosample_colors(wildcards.species)
+    # sg.set_metadata_colors('sample', c_dict)
+    #
+    # # human only settings
+    # if wildcards.species == 'human':
+    #     c_dict, order = get_ad_colors()
+    #     sg.set_metadata_colors('health_status', c_dict)
+    # # save
+    # sg.save_graph(params.prefix)
 
 rule swan_gene_ab_add_stable_gid:
     input:

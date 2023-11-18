@@ -33,7 +33,7 @@ rule swan_gene_ab_add_stable_gid:
     output:
         ab = config['lr']['talon']['ab_stable_gid']
     run:
-        df = pd.read_csv(input.ab)
+        df = pd.read_csv(input.ab, sep='\t')
         df['gid_stable'] = cerberus.get_stable_gid(df, 'annot_gene_id')
         df['annot_gene_id'] = df['gid_stable']
         df.drop('gid_stable', axis=1, inplace=True)

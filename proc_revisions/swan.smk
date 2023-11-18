@@ -9,7 +9,7 @@ def make_sg(input, params, wildcards):
     sg.save_graph(params.prefix)
 
     sg.add_abundance(input.ab)
-    sg.add_abundance(input.gene_ab, how='gene')
+    # sg.add_abundance(input.gene_ab, how='gene')
     sg.save_graph(params.prefix)
 
     # # add metadata and add colors
@@ -44,7 +44,7 @@ rule swan_init:
         annot = config['ref']['cerberus']['new_gtf'],
         ab = rules.cerb_ab_ids_lr.output.ab,
         gene_ab = rules.swan_gene_ab_add_stable_gid.output.ab,
-        gtf = rules.cerb_gtf_ids_lr.output.gtf,
+        sgtf = rules.cerb_gtf_ids_lr.output.gtf,
         meta = config['lr']['meta']
     params:
         prefix = config['lr']['swan']['sg'].replace('.p', '')

@@ -4,7 +4,8 @@
 rule tracks_sample_gtf:
     input:
         ab = config['lr']['cerberus']['filt_ab'],
-        gtf = config['lr']['cerberus']['gtf']
+        gtf = config['lr']['cerberus']['gtf'],
+        ref = config['ref']['cerberus']['new_gtf_g_info']
     params:
         min_tpm = 1
     resources:

@@ -8,7 +8,7 @@ def make_sg(input, params, wildcards):
     sg.add_transcriptome(input.gtf, include_isms=True)
     sg.save_graph(params.prefix)
 
-    sg.add_abundance(input.ab)
+    # sg.add_abundance(input.ab)
     # sg.add_abundance(input.gene_ab, how='gene')
     sg.save_graph(params.prefix)
 

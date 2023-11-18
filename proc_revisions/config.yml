@@ -135,6 +135,7 @@ lr:
     full_annot: data/{species}/lr/talon/full_talon_read_annot.tsv
     pass_list: data/{species}/lr/talon/talon_pass_list.csv
     ab: data/{species}/lr/talon/unfilt_talon_abundance.tsv
+    ab_stable_gid: data/{species}/lr/talon/unfilt_talon_abundance_stable_gid.tsv
     gene_ab: data/{species}/lr/talon/gene_abundance.tsv
     filt_ab: data/{species}/lr/talon/filt_talon_abundance_filtered.tsv
     gtf: data/{species}/lr/talon/annot_talon.gtf

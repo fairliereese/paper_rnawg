@@ -57,21 +57,21 @@ wildcard_constraints:
 rule all:
     input:
         rules.all_swan.input,
-        # rules.all_bigwig.input,
-        # rules.all_read_lens.input,
-        # rules.all_analysis.input,
-        # rules.all_tracks.input,
-        # expand(rules.all_mane.input,
-        #        species='human',
-        #        obs_col=['sample', 'dataset']),
-        # expand(config['ref']['cerberus']['new_gtf_t_info'],
-        #        species=species),
-        # expand(config['lr']['cerberus']['gtf_t_info'],
-        #       species=species)
-               # expand(config['lr']['read_len_meta'],
-               #         species='human'),
-        # expand(config['lr']['cerberus']['ab'],
-        #        species='mouse')
+        rules.all_bigwig.input,
+        rules.all_read_lens.input,
+        rules.all_analysis.input,
+        rules.all_tracks.input,
+        expand(rules.all_mane.input,
+               species='human',
+               obs_col=['sample', 'dataset']),
+        expand(config['ref']['cerberus']['new_gtf_t_info'],
+               species=species),
+        expand(config['lr']['cerberus']['gtf_t_info'],
+              species=species)
+               expand(config['lr']['read_len_meta'],
+                       species='human'),
+        expand(config['lr']['cerberus']['ab'],
+               species='mouse')
 
 
 

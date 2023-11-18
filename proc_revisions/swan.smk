@@ -28,7 +28,7 @@ rule swan_gene_ab_add_stable_gid:
     input:
         ab = rules.talon_ab_full.output.ab
     resources:
-        mem_gb = 16,
+        mem_gb = 24,
         threads = 1
     output:
         ab = config['lr']['talon']['ab_stable_gid']

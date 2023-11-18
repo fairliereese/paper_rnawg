@@ -67,9 +67,9 @@ rule all:
         expand(config['ref']['cerberus']['new_gtf_t_info'],
                species=species),
         expand(config['lr']['cerberus']['gtf_t_info'],
-              species=species)
-               expand(config['lr']['read_len_meta'],
-                       species='human'),
+              species=species),
+        expand(config['lr']['read_len_meta'],
+                species='human'),
         expand(config['lr']['cerberus']['ab'],
                species='mouse')
 

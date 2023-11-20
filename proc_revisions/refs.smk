@@ -308,7 +308,7 @@ rule get_g_info:
 
 use rule get_t_info as gc_t_info_ref with:
     input:
-        config['ref']['new_gtf'],
+        gtf = config['ref']['new_gtf'],
         tf_file = config['ref']['tfs']
     output:
         o = config['ref']['new_gtf_t_info']

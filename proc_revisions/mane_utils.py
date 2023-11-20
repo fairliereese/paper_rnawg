@@ -13,8 +13,8 @@ import swan_vis as swan
 # p = os.path.dirname(os.path.dirname(os.getcwd()))
 # sys.path.append(p)
 
-from utils import *
-from plotting import *
+from .utils import *
+from .plotting import *
 
 def get_exp_gene_subset(ab, min_tpm,
                         obs_col,
@@ -149,6 +149,8 @@ def get_mane_feats(ca, df, feat, obs_col, id_col, id_col_2, t_orig_metadata):
     """
     Get the mane feature expressed per gene / sample
     """
+    import pdb; pdb.set_trace()
+
     # get mane feature ids by looking at v40 metadata
     # then and cross referencing with how they were mapped w/ cerberus
     meta_df = pd.read_csv(t_orig_metadata, sep='\t')
@@ -484,13 +486,13 @@ def plot_major_principal_feat_counts(df, feat, obs_col, opref='figures/', **kwar
 
     fname = '{}/mane_vs_principal_{}_{}_hist.pdf'.format(opref, feat, obs_col)
     plt.savefig(fname, dpi=800, bbox_inches='tight')
-    
+
 def get_mp_df_table(sg, ca,
                     t_orig_metadata,
                     mane_file, obs_col,
                     min_feat_tpm,
                     feat):
-    
+
     mp_dfs = {}
     loop_feats, adatas, t_dfs, id_cols, id_cols_2 = get_loopers(sg)
     for feat_2, adata, t_df in zip(loop_feats, adatas, t_dfs):
@@ -553,6 +555,8 @@ def mane_analysis(sg, ca,
                   t_orig_metadata,
                   mane_file, obs_col,
                   min_feat_tpm,
+                  exp_gene_fname,
+                  pi_tpm_entry,
                   feats=['triplet', 'tss', 'tes', 'ic']):
 
     mp_dfs = {}
@@ -567,17 +571,18 @@ def mane_analysis(sg, ca,
         id_col_2 = id_cols_2[feat]
         t_df = t_df.copy(deep=True)
 
-        # get exp gene file
+        # # get exp gene file
         d = os.path.dirname(__file__)
-        config_file = f'{d}/../figures/snakemake/config.yml'
-        with open(config_file) as f:
-            config = yaml.safe_load(f)
-
-        exp_gene_fname = f'{d}/../figures/'+expand(config['data']['exp_gene_subset'], species='human', obs_col=obs_col)[0]
+        # config_file = f'{d}/../figures/snakemake/config.yml'
+        # with open(config_file) as f:
+        #     config = yaml.safe_load(f)
+        #
+        # exp_gene_fname = f'{d}/../figures/'+expand(config['data']['exp_gene_subset'], species='human', obs_col=obs_col)[0]
 
         # get pi / tpm table
 
-        fname = f'{d}/../figures/'+expand(config['data']['pi_tpm'][feat], species='human', obs_col=obs_col)[0]
+        fname = f'{d}/../proc_revisions/'+expand(pi_tpm_entry[feat], species='human', obs_col=obs_col)[0]
+        # fname = f'{d}/../figures/'+expand(config['data']['pi_tpm'][feat], species='human', obs_col=obs_col)[0]
         df = pd.read_csv(fname, sep='\t')
 
         # merge mane and principal; make sure that exp. of null genes == 0

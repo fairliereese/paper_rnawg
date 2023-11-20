@@ -25,8 +25,50 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-# from .utils import *
-from utils import *
+from .utils import *
+# from utils import *
+
+def get_ccre_colors():
+    pls = '#FF0000'
+    pels = '#FFA700'
+    dels = '#FFCD00'
+    order = ['pls', 'pels', 'dels']
+    c_dict = {'pls': pls,
+              'pels': pels,
+              'dels': dels}
+    return c_dict, order
+
+def get_feat_triplet_colors_2(cats=None):
+    tss = '#56B4E9'
+    tes = '#E69F00'
+    splicing = '#CC79A7'
+    triplet = '#009E73'
+    c_dict = {'tss': tss,
+              'ic': splicing,
+              'tes': tes,
+              'iso': triplet}
+    order = ['iso', 'tss', 'ic', 'tes']
+
+    c_dict, order = rm_color_cats(c_dict, order, cats)
+    return c_dict, order
+
+def get_end_colors():
+    c_dict, order = get_sector_colors(['tes', 'tss'])
+    return c_dict, order
+
+
+def get_feat_colors(cats=None):
+    tss = '#56B4E9'
+    tes = '#E69F00'
+    splicing = '#CC79A7'
+    c_dict = {'tss': tss,
+              'ic': splicing,
+              'tes': tes}
+    order = ['tss', 'ic', 'tes']
+
+    c_dict, order = rm_color_cats(c_dict, order, cats)
+    return c_dict, order
+
 
 def get_sector_colors(cats=None):
     tss = '#56B4E9'
@@ -1873,7 +1915,7 @@ def plot_gene_tpm_v_predom_t_pi(h5,
     prin_isos.drop(['gid', 'gname'], axis=1, inplace=True)
     prin_isos.rename({'gid_stable':'gid'}, axis=1, inplace=True)
 
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
 
     df = df.merge(prin_isos, how='left', on=['gid', 'sample'])
     df['log2tpm'] = np.log2(df.gene_tpm+1)
@@ -2009,7 +2051,7 @@ def plot_n_predom_transcripts(pi_tpm_file,
                 var_name='tid',
                 value_name='det').reset_index()
     if obs_col=='sample':
-        det_df.rename({'biosample': 'sample'}, axis=1)
+        det_df.rename({'biosample': 'sample'}, axis=1, inplace=True)
 
     det_df = det_df.loc[det_df.det==True]
     print(len(df.index))
@@ -2446,3 +2488,662 @@ def plot_ends_per_ic(df, ca,
     print(f'{(n_num/n)*100:.2f}% ({n_num}/{n} of unique ics have 1 {feat}')
 
     return temp
+
+def add_perc(ax, data, feature):
+    total = data[feature].sum()
+    ylim = ax.get_ylim()[1]
+    n_cats = len(ax.patches)
+    for p in ax.patches:
+        percentage = '{:.1f}%'.format(100 * p.get_height()/total)
+#         x = p.get_x() + p.get_width() / 2 - 0.45
+        x = p.get_x() + p.get_width() / 2 - (0.065)*n_cats
+        y = p.get_y() + p.get_height() + ylim*0.00625
+        ax.annotate(percentage, (x, y), size = 12)
+
+def plot_density_simplices(h5,
+                           ab,
+                           min_tpm,
+                           sources,
+                           titles,
+                           gene_subset,
+                           ver,
+                           species='human'):
+
+    def make_sector_source_bar_plots(counts, fname, species='human'):
+        counts[['source', 'gid']].groupby('source').count()
+        temp = pd.DataFrame()
+        for source in counts.source.unique():
+            df = assign_gisx_sector(counts)
+            df = df.loc[df.source == source]
+            df = df[['gid', 'source', 'sector']].groupby(['source', 'sector']).count().reset_index()
+            df.rename({'gid': 'n_genes'}, axis=1, inplace=True)
+            df['total_genes'] = df.n_genes.sum()
+            temp = pd.concat([temp, df])
+        temp['perc'] = (temp.n_genes/temp.total_genes)*100
+
+        cat1 = 'sector'
+        cat2 = 'source'
+        if species == 'human':
+            cat2_order = ['v40', 'obs_det', 'obs_major']
+        elif species == 'mouse':
+            cat2_order = ['vM25', 'obs_det', 'obs_major']
+        cat1_order = ['tss', 'splicing', 'tes', 'mixed', 'simple']
+        parent_c_dict, parent_order = get_sector_colors()
+
+        sns.set_context('paper', font_scale=2)
+        plt.figure(figsize=(2,20))
+        print('figsize changed')
+        fig, axes = plt.subplots(1, len(cat1_order), figsize=(20,3))
+
+        # loop through first category
+        for i, c1 in enumerate(cat1_order):
+            beep = temp.loc[temp[cat1] == c1]
+
+            c = parent_c_dict[c1]
+            c_dict, order = get_shade_colors(c, cat2_order)
+
+            # plotting
+            mpl.rcParams['font.family'] = 'Arial'
+            mpl.rcParams['pdf.fonttype'] = 42
+            # plt.figure(figsize=(3,4))
+
+            ax = sns.barplot(data=beep, y='perc', x=cat2,
+                             palette=c_dict, order=order,
+                             saturation=1, ax=axes[i])
+            ax.spines['right'].set_visible(False)
+            ax.spines['top'].set_visible(False)
+
+            xlabel = ''
+            if c1 in ['tss', 'tes']:
+                c1 = c1.upper()
+            ylabel = '% genes in {} sector'.format(c1)
+
+            _ = ax.set(xlabel=xlabel, ylabel=ylabel)
+            ax.tick_params(axis="x", rotation=45)
+            if species == 'human':
+                ax.set_xticklabels(['v40', 'Obs.', 'Obs. major'])
+            elif species == 'mouse':
+                ax.set_xticklabels(['vM25', 'Obs.', 'Obs. major'])
+
+            def add_perc_2(ax):
+                ylim = ax.get_ylim()[1]
+                n_cats = len(ax.patches)
+                for p in ax.patches:
+                    percentage = '{:.1f}%'.format(p.get_height())
+                    x = p.get_x() + p.get_width() / 2
+                    y = p.get_y() + p.get_height() + ylim*0.01
+                    ax.annotate(percentage, (x, y), size=16, horizontalalignment='center')
+
+            add_perc_2(ax)
+        plt.savefig(fname, dpi=500, layout='tight', bbox_inches="tight")
+
+
+    # add biotype to subset on
+    ca = cerberus.read(h5)
+    gene_df, _, _ = get_gtf_info(how='gene', ver=ver, add_stable_gid=True)
+    gene_df = gene_df[['gid_stable', 'biotype_category']]
+    gene_df.rename({'gid_stable': 'gid'}, axis=1, inplace=True)
+    ca.triplets = ca.triplets.merge(gene_df, how='left', on='gid')
+
+    gs_label = gene_subset
+    if gene_subset == 'polya':
+        gs = get_polya_cats()
+    else:
+        gs = [gene_subset]
+
+    plot_df = pd.DataFrame()
+    for source, title in zip(sources, titles):
+
+        # subset dict
+        subset = {'source': source, 'biotype_category': gs}
+        print(subset)
+
+        # if we're looking at gencode, only take detected genes
+        if source in ['v40', 'vM25']:
+            df = pd.read_csv(ab, sep='\t')
+            df, inds = get_tpm_table(df,
+                                     how='gene',
+                                     gene_subset=gs_label,
+                                     min_tpm=min_tpm,
+                                     species=species)
+            subset['gid'] = inds
+
+        fname = 'figures/simplex_{}_{}.pdf'.format(source, gs_label)
+        temp = ca.plot_simplex(top='splicing_ratio',
+            subset=subset,
+            density=True,
+            density_scale=100,
+            density_cmap='Purples',
+            log_density=True,
+            sectors=True,
+            scatter=False,
+            legend=False,
+            title=title,
+            size_scale=0.2,
+            density_cbar=False,
+            fname=fname)
+
+        # add sectors from this subset to plot_df
+        temp = assign_gisx_sector(temp)
+        plot_df = pd.concat([temp, plot_df])
+
+    # create the bar plots
+    fname = 'figures/{}_genes_per_sector.pdf'.format(gs_label)
+    make_sector_source_bar_plots(plot_df, fname, species)
+
+
+def plot_obs_human_simplex_with_centroid(h5, gene, fig_dir, **kwargs):
+    ca = cerberus.read(h5)
+
+    # add centroid as coord
+    ca = get_centroids(ca,
+                       **kwargs)
+
+    # human
+    c_dict, order = get_biosample_colors()
+    c_dict[np.nan] = 'k'
+    mmap = {'v40': '*', 'v29': 'x', 'obs_det': '^', 'cerberus': '2', 'sample_det_centroid': 'x'}
+    fname='{}/simplex_{}_centroid_vs_sample.pdf'.format(fig_dir, gene.lower())
+    df = ca.plot_simplex(top='splicing_ratio',
+                gene=gene,
+                hue='sample',
+                cmap=c_dict,
+                size='gene_tpm',
+                log_size=True,
+                sectors=True,
+                marker_style='source',
+                mmap=mmap,
+                legend=False,
+                jitter=True,
+                subset={'source': ['v40', 'obs_det', 'sample_det', 'sample_det_centroid']},
+                size_scale=0.5,
+                fname=fname)
+
+def plot_perc_one_feat(df, feat, opref='figures/'):
+    sns.set_context('paper', font_scale=2)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+    plt.figure(figsize=(2,4))
+
+    c_dict, order = get_feat_triplet_colors_2(feat)
+    color = c_dict[feat]
+
+    if feat in ['tss', 'ic', 'tes']:
+        ylabel = f'% genes with 1 {feat.upper()}'
+    elif feat == 'iso':
+        ylabel = '% genes with 1 isoform'
+    order = ['Gene', 'Gene / sample']
+    ax = sns.barplot(df, y='perc', x='combo', color=color, order=order, saturation=1)
+    ax.set(ylim=(0, 100), ylabel=ylabel, xlabel='')
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+    _ = plt.setp(ax.get_xticklabels(), rotation=90)
+
+    fname = f'{opref}/perc_genes_one_{feat}.pdf'
+    plt.savefig(fname, dpi=500, bbox_inches='tight')
+
+def plot_feats_per_sample_gene(temp, feat, obs_col, fig_dir):
+    sns.set_context('paper', font_scale=2)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+
+    if feat in ['tss', 'tes', 'ic']:
+        x_hr = feat.upper()
+    elif feat == 'iso':
+        x_hr = 'isoform'
+    c_dict, order = get_feat_triplet_colors_2(feat)
+    color = c_dict[feat]
+
+    # get each df
+    temp1 = temp.loc[temp.source == 'Sample']
+    temp1, order, col = renum_max_feats(temp1, 'counts', 10)
+    temp1 = temp1[[col, 'biosample', 'gid']].groupby([col, 'biosample']).count().reset_index()
+    temp1.rename({'gid': 'n_feats'}, axis=1, inplace=True)
+    temp1_max = temp1['n_feats'].max()
+
+    temp2 = temp.loc[temp.source == 'Observed']
+    temp2, order, col = renum_max_feats(temp2, 'counts', 10)
+    temp2 = temp2[[col, 'gid']].groupby([col]).count().reset_index()
+    temp2.rename({'gid': 'n_feats'}, axis=1, inplace=True)
+    temp2_max = temp2['n_feats'].max()
+
+    ymax = max(temp1_max, temp2_max)
+    ylim = (0, ymax)
+
+    # feats / sample / gene
+    ax = sns.catplot(data=temp1, y='n_feats', x=col, kind='bar',
+                     edgecolor=None, saturation=1,
+                     alpha=1, color=color, order=order)
+    xlabel = f'# {x_hr}s / gene / {obs_col}'
+    ylabel = '# genes'
+    ax.set(xlabel=xlabel, ylabel=ylabel, ylim=ylim)
+    fname = f'{fig_dir}/{feat}_gene_sample_hist.pdf'
+    plt.savefig(fname, dpi=500)
+
+    # observed overall feats / gene
+    plt.figure(figsize=(3,4))
+    ax = sns.catplot(data=temp2, y='n_feats', x=col, kind='bar',
+                     edgecolor=None, saturation=1,
+                     alpha=1, color=color, order=order)
+    xlabel = f'# {x_hr}s / gene'
+    ylabel = '# genes'
+    ax.set(xlabel=xlabel, ylabel=ylabel, ylim=ylim)
+    fname = f'{fig_dir}/{feat}_gene_hist.pdf'
+    plt.savefig(fname, dpi=500)
+
+def plot_feats_per_sample_gene_ecdf(temp, feat, obs_col, fig_dir):
+    from matplotlib.lines import Line2D
+
+    c_dict, order = get_feat_triplet_colors_2(feat)
+    color = c_dict[feat]
+
+    plt.figure(figsize=(4,4))
+    temp1 = temp.loc[temp.source=='Observed']
+    ax = sns.ecdfplot(data=temp1, x='counts', color=color, linewidth=3, linestyle='--')
+    temp1 = temp.loc[temp.source=='Sample']
+    ax = sns.ecdfplot(data=temp1, x='counts', color=color, linewidth=3)
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+
+    legend_elements = [Line2D([0], [0], color=color, lw=3, label='Sample'),
+                       Line2D([0], [0], color=color, lw=3, linestyle='--', label='Observed')]
+    ax.legend(handles=legend_elements)
+
+    x_hr = feat.upper()
+    if feat in ['tss', 'ic', 'tes']:
+        xlabel_thing = f'# {x_hr}s'
+    elif feat == 'iso':
+        xlabel_thing = '# transcripts'
+    xlabel = f'{xlabel_thing} / gene'
+    _ = ax.set(xlabel=xlabel)
+
+    fname = f'{fig_dir}/{feat}_gene_sample_ecdf.pdf'
+    plt.savefig(fname, dpi=500)
+
+
+def get_n_samples_vs_n_feats(df):
+    """
+    Compute how many samples each feature is expressed in
+    """
+    temp = df.copy(deep=True)
+
+    # compute how many samples each gene is expressed in
+    temp1 = temp.loc[temp.source=='Sample']
+    temp1 = temp1[['gid', 'biosample']].groupby('gid').count().reset_index()
+    temp1.rename({'biosample':'n_samples'}, axis=1, inplace=True)
+    temp1.head()
+
+    temp2 = temp.loc[temp.source=='Observed'].drop('biosample', axis=1)
+    temp2 = temp2.merge(temp1, on='gid', how='left')
+    temp2.head()
+
+    return temp2
+
+def plot_n_samples_vs_n_feats(temp, feat, opref):
+    c_dict, order = get_feat_triplet_colors_2(feat)
+    color = c_dict[feat]
+
+    df = get_n_samples_vs_n_feats(temp)
+    # ax = sns.jointplot(df, x='n_samples', y='counts', color=color, marginal_kws={'discrete':True, 'edgecolor':None}, joint_kws={'alpha':0.25, 's':10})
+    ax = sns.jointplot(df, x='n_samples', y='counts', kind='hex', color=color, marginal_kws={'discrete':True, 'edgecolor':None},
+                       joint_kws={'edgecolors':'none', 'bins':'log', 'mincnt':0})
+
+    ylabel = '# observed '
+    if feat in ['tss', 'ic', 'tes']:
+        ylabel += f'{feat.upper()}s'
+    elif feat == 'iso':
+        ylabel += 'transcripts'
+    xlabel = '# samples'
+
+    ax.ax_joint.set(xlabel=xlabel, ylabel=ylabel)
+
+    fname = f'{opref}/n_{feat}s_per_n_samples_expressed.pdf'
+    plt.savefig(fname, dpi=500, bbox_inches='tight')
+
+def plot_n_transcripts_per_sample(ca,
+                                  gene,
+                                  source,
+                                  fname):
+
+    temp = ca.triplets.loc[(ca.triplets.source==source)&\
+                           (ca.triplets.gname==gene)].sort_values(by='n_iso', ascending=False)
+
+    c_dict, order = get_biosample_colors()
+    sns.set_context('paper', font_scale=2)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
+    plt.figure(figsize=(4,4))
+
+    order = temp['sample'].tolist()
+    ax = sns.barplot(temp, y='n_iso', x='sample', palette=c_dict, order=order, saturation=1)
+    _ = plt.xticks([], [])
+    _ = ax.set(xlabel='Sample', ylabel=f'# {gene} transcripts')
+
+    # add hline at 1
+    xlims = ax.get_xlim()
+    color = '#5c5c5c'
+    ax.hlines(1, xlims[0], xlims[1],
+                  colors=color, linestyles='dashed',
+                  linewidth=2)
+
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
+
+    plt.savefig(fname, dpi=500, bbox_inches='tight')
+
+
+def get_counts_per_gene(filt_ab, obs_col, feat, min_tpm, gene_subset):
+    # counts per gene
+    df = pd.read_csv(filt_ab, sep='\t')
+    df = get_det_table(df,
+                        groupby=obs_col,
+                        how=feat,
+                        gene_subset=gene_subset,
+                        min_tpm=min_tpm)
+
+    df = df.transpose()
+    df.reset_index(inplace=True)
+    df.rename({'index':'feat_id'}, axis=1, inplace=True)
+    if feat in ['tss', 'ic', 'tes']:
+        df['gid'] = df.feat_id.str.split('_', expand=True)[0]
+    else:
+        df['gid'] = df.feat_id.str.split('[', expand=True)[0]
+    df = df[['gid', 'feat_id']].groupby('gid').count().reset_index()
+    df.rename({'feat_id': 'counts'}, axis=1, inplace=True)
+
+    return df
+
+def get_counts_per_sample_per_gene(filt_ab, obs_col, feat, min_tpm, gene_subset):
+
+    # counts per sample per gene
+    df = pd.read_csv(filt_ab, sep='\t')
+    df = get_det_table(df,
+                        groupby=obs_col,
+                        how=feat,
+                        gene_subset=gene_subset,
+                        min_tpm=min_tpm)
+
+    df = df.melt(var_name='feat_id', value_name='det', ignore_index=False)
+    df.reset_index(inplace=True)
+    df.rename({'index': obs_col}, axis=1, inplace=True)
+    df = df.loc[df.det == True]
+    df.drop('det', axis=1, inplace=True)
+
+    if feat in ['tss', 'ic', 'tes']:
+        df['gid'] = df.feat_id.str.split('_', expand=True)[0]
+    else:
+        df['gid'] = df.feat_id.str.split('[', expand=True)[0]
+    df = df.groupby(['biosample', 'gid']).count().reset_index()
+    df.rename({'feat_id': 'counts'}, axis=1, inplace=True)
+
+    return df
+
+def renum_max_feats(temp, col, max_val):
+    """
+    Parameters:
+        temp (df): DataFrame
+        col (str): Col to transform
+        max_val (int): Max value
+    """
+    max_str = '{}+'.format(max_val)
+    temp['rank'] = temp[col].astype(int).astype(str)
+    temp.loc[temp[col]>=max_val, 'rank'] = max_str
+    order = [str(int(i)) for i in range(1,max_val)]
+    order += [max_str]
+    return temp, order, 'rank'
+
+def plot_major_iso_simplex(h5, gene):
+    ca = cerberus.read(h5)
+
+    # plotting settings
+    c_dict, order = get_biosample_colors()
+    c_dict[np.nan] = 'k'
+    mm_tissues = ['adrenal gland', 'heart',
+                  'muscle', 'brain', 'pgp1_excite_neuron',
+                  'pgp1_astro', 'h9_osteocyte']
+    mmap = {'v40': '*', 'v29': 'x', 'obs_det': '^', 'cerberus': '2', 'obs_major': '^'}
+    subset = {'source': ['v40', 'obs_det', 'sample_major']}
+
+    fname = f'figures/simplex_{gene.lower()}_major.pdf'
+
+    df = ca.plot_simplex(gene=gene,
+            hue='sample',
+            cmap=c_dict,
+            size='gene_tpm',
+            log_size=True,
+            sectors=True,
+            marker_style='source',
+            mmap=mmap,
+            legend=False,
+            jitter=True,
+            subset={'source': ['v40', 'obs_det', 'sample_major']},
+            size_scale=0.2,
+            fname=fname)
+
+def plot_obs_obs_major_density_simplex(h5, gene):
+
+    ca = cerberus.read(h5)
+
+    # sample_det
+    c_dict, order = get_biosample_colors()
+    c_dict[np.nan] = 'k'
+    mmap = {'v40': '*', 'v29': 'x', 'obs_det': '^', 'cerberus': '2', 'sample_det_centroid': 's'}
+    subset = {'source': ['v40', 'obs_det', 'sample_det']}
+    fname=f'figures/simplex_{gene.lower()}_det.pdf'
+    df = ca.plot_simplex(top='splicing_ratio',
+                gene=gene,
+                hue='sample',
+                cmap=c_dict,
+                density=True,
+                density_scale=50,
+                density_cmap='Purples',
+                size='gene_tpm',
+                log_size=True,
+                sectors=True,
+                marker_style='source',
+                mmap=mmap,
+                legend=False,
+                jitter=True,
+                subset=subset,
+                size_scale=0.2,
+                fname=fname)
+
+
+    # sample_major
+    mmap = {'v40': '*', 'v29': 'x', 'obs_major': '^', 'cerberus': '2', 'sample_det_centroid': 's'}
+    subset = {'source': ['v40', 'obs_major', 'sample_major']}
+    fname=f'figures/simplex_{gene.lower()}_major.pdf'
+    df = ca.plot_simplex(top='splicing_ratio',
+                gene=gene,
+                hue='sample',
+                cmap=c_dict,
+                density=True,
+                density_scale=50,
+                density_cmap='Purples',
+                size='gene_tpm',
+                log_size=True,
+                sectors=True,
+                marker_style='source',
+                mmap=mmap,
+                legend=False,
+                jitter=True,
+                subset=subset,
+                size_scale=0.2,
+                fname=fname)
+
+def plot_obs_obs_major_density_simplex(h5, gene):
+
+    ca = cerberus.read(h5)
+
+    # sample_det
+    c_dict, order = get_biosample_colors()
+    c_dict[np.nan] = 'k'
+    mmap = {'v40': '*', 'v29': 'x', 'obs_det': '^', 'cerberus': '2', 'sample_det_centroid': 's'}
+    subset = {'source': ['v40', 'obs_det', 'sample_det']}
+    fname=f'figures/simplex_{gene.lower()}_det.pdf'
+    df = ca.plot_simplex(top='splicing_ratio',
+                gene=gene,
+                hue='sample',
+                cmap=c_dict,
+                density=True,
+                density_scale=50,
+                density_cmap='Purples',
+                size='gene_tpm',
+                log_size=True,
+                sectors=True,
+                marker_style='source',
+                mmap=mmap,
+                legend=False,
+                jitter=True,
+                subset=subset,
+                size_scale=0.2,
+                fname=fname)
+
+
+    # sample_major
+    mmap = {'v40': '*', 'v29': 'x', 'obs_major': '^', 'cerberus': '2', 'sample_det_centroid': 's'}
+    subset = {'source': ['v40', 'obs_major', 'sample_major']}
+    fname=f'figures/simplex_{gene.lower()}_major.pdf'
+    df = ca.plot_simplex(top='splicing_ratio',
+                gene=gene,
+                hue='sample',
+                cmap=c_dict,
+                density=True,
+                density_scale=50,
+                density_cmap='Purples',
+                size='gene_tpm',
+                log_size=True,
+                sectors=True,
+                marker_style='source',
+                mmap=mmap,
+                legend=False,
+                jitter=True,
+                subset=subset,
+                size_scale=0.2,
+                fname=fname)
+
+def sector_sankey(h5,
+                  source1, source2,
+                  ofile,
+                  ver=None,
+                  gene_subset=None):
+
+    ca = cerberus.read(h5)
+
+    # limit to sources
+    df1 = ca.triplets.loc[ca.triplets.source==source1].copy(deep=True)
+    df2 = ca.triplets.loc[ca.triplets.source==source2].copy(deep=True)
+
+    # merge on gitd
+    df = df1.merge(df2, how='outer', on='gid', suffixes=(f'_{source1}', f'_{source2}'))
+
+    # limit to gene subset
+    if gene_subset:
+        gene_df, _, _ = get_gtf_info(how='gene', ver=ver)
+        gene_df['gid_stable'] = cerberus.get_stable_gid(gene_df, 'gid')
+        df = df.merge(gene_df[['gid_stable', 'biotype_category']],
+                          how='left', left_on='gid', right_on='gid_stable')
+        df = df.loc[df.biotype_category == gene_subset]
+        df.drop(['biotype_category', 'gid_stable'], axis=1, inplace=True)
+
+    # count numer of things
+    gb_cols = [f'sector_{source1}', f'sector_{source2}']
+    keep_cols = gb_cols + ['gid']
+    df = df[keep_cols].groupby(gb_cols).count().reset_index()
+
+    fig = plot_sankey(df,
+                      source='sector_obs_det',
+                      sink='sector_obs_major',
+                      counts='gid',
+                      color='sector',
+                      title='')
+    h = 700
+    w = 1.8792590838529746*h
+    pio.write_image(fig, ofile, width=w, height=h)
+
+    return df
+
+def plot_sankey(df,
+                source,
+                sink,
+                counts,
+                color,
+                title):
+    """
+    Plot sankey diagram.
+
+    Parameters:
+        df (pandas DataFrame): DF w/ source, sink, and counts columns
+        source (str): Column name for source from df
+        sink (str): Column name for sink from df
+        color (str): {'sector', 'nov'}
+        title (str): Title for plot
+    """
+
+    if color == 'sector':
+        c_dict, order = get_sector_colors()
+    elif color == 'nov':
+        c_dict, order = get_ic_nov_colors()
+    print(c_dict)
+
+    # df[source] = pd.Categorical(df[source], order)
+    # df[sink] = pd.Categorical(df[sink], order)
+    # df.sort_values([source, sink], inplace=True)
+
+    # order.reverse()
+    order_2 = order+order
+
+    order_l = [o.capitalize() for o in order_2]
+    order_l = [o if o != 'Tss' else 'TSS' for o in order_l]
+    order_l = [o if o != 'Tes' else 'TES' for o in order_l]
+
+    source_map = dict([(sect, i) for i, sect in enumerate(order)])
+    sink_map = dict([(sect, i+len(order)) for i, sect in enumerate(order)])
+    df['source'] = df[source].map(source_map)
+    df['sink'] = df[sink].map(sink_map)
+
+    def nodify(order):
+
+        y_values = [i for i, beep in enumerate(order)]
+        y_values += y_values
+        x_values = [0 for i in range(len(order))]
+        x_values += [1 for i in range(len(order))]
+
+        y_values = [y/max(y_values) for y in y_values]
+        x_values = [x/max(x_values) for x in x_values]
+        x_values = [x if x > 0 else 0.01 for x in x_values]
+        y_values = [y if y > 0 else 0.01 for y in y_values]
+
+        return x_values, y_values
+
+    ghost_cookie = nodify(order)
+
+    nodes = dict(
+        label=order_l,
+        color=[c_dict[n] for n in order_2],
+        x=ghost_cookie[0],
+        y=ghost_cookie[1])
+
+    # add coords to node labels
+    # nodes['label'] = ['{}: ({},{})'.format(l, x, y) for l,x,y in zip(nodes['label'], nodes['x'], nodes['y'])]
+
+    print(nodes)
+
+    links = dict(
+        source=df.source.tolist(),
+        target=df.sink.tolist(),
+        value=df[counts].tolist(),
+        color=[c_dict[n] for n in df[source].tolist()]) # color links by source
+
+    # print(links)
+
+    data = go.Sankey(node=nodes, link=links, arrangement='snap')
+    fig = go.Figure(data)
+    fig.update_layout(title_text=title,
+                      font_family='Times New Roman')
+    fig.update_traces(textfont_family='Arial',
+                      textfont_size=20,
+                      selector=dict(type='sankey'))
+
+    fig.show()
+    return fig

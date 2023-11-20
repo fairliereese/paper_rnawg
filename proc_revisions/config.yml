@@ -70,6 +70,9 @@ ref:
   # vM25 or v40
   new_gtf_gz: ref/{species}/new_annot.gtf.gz
   new_gtf: ref/{species}/new_annot.gtf
+  new_gtf_g_info: ref/{species}/new_gencode_g_info.tsv
+  new_gtf_t_info: ref/{species}/new_gencode_t_info.tsv
+
 
   fa_gz: ref/{species}/ref.fa.gz
   fa: ref/{species}/ref.fa

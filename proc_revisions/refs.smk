@@ -306,6 +306,20 @@ rule get_g_info:
                       input.tf_file,
                       output.o)
 
+use rule get_t_info as gc_t_info_ref with:
+    input:
+        config['ref']['new_gtf'],
+        tf_file = config['ref']['tfs']
+    output:
+        o = config['ref']['new_gtf_t_info']
+
+use rule get_g_info as g_info_ref with:
+    input:
+        gtf = config['ref']['new_gtf'],
+        tf_file = config['ref']['tfs']
+    output:
+        o = config['ref']['new_gtf_g_info']
+
 use rule get_t_info as t_info_ref with:
     input:
         gtf = config['ref']['cerberus']['gtf'],

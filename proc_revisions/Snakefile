@@ -56,6 +56,7 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
+        rules.all_cerberus.input,
         rules.all_swan.input,
         rules.all_bigwig.input,
         rules.all_read_lens.input,

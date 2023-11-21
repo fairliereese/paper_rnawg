@@ -13,10 +13,10 @@ import swan_vis as swan
 # p = os.path.dirname(os.path.dirname(os.getcwd()))
 # sys.path.append(p)
 
-# from .utils import *
-# from .plotting import *
-from utils import *
-from plotting import *
+from .utils import *
+from .plotting import *
+# from utils import *
+# from plotting import *
 
 def get_exp_gene_subset(ab, min_tpm,
                         obs_col,
@@ -151,7 +151,7 @@ def get_mane_feats(ca, df, feat, obs_col, id_col, id_col_2, t_orig_metadata):
     """
     Get the mane feature expressed per gene / sample
     """
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
 
     # get mane feature ids by looking at v40 metadata
     # then and cross referencing with how they were mapped w/ cerberus

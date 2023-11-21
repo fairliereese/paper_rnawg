@@ -142,6 +142,7 @@ lr:
     gene_ab: data/{species}/lr/talon/gene_abundance.tsv
     filt_ab: data/{species}/lr/talon/filt_talon_abundance_filtered.tsv
     gtf: data/{species}/lr/talon/annot_talon.gtf
+    ics: data/{species}/lr/talon/ics.tsv
 
   bw: data/{species}/lr/bw/{dataset}_{strand}.bw
 
@@ -189,6 +190,15 @@ lr:
 
   tracks:
     as: ref/genepred_format.as
+
+    gp: data/{species}/lr/tracks/global/global.gp
+    bgp: data/{species}/lr/tracks/global/global.bgp
+    bgp_plus: data/{species}/lr/tracks/global/global_plus.bgp
+    bgp_sort: data/{species}/lr/tracks/global/global_sorted.bgp
+    bgp_sort_filt: data/{species}/lr/tracks/global/global_sorted_filtered.bgp
+    bb: data/{species}/lr/tracks/global/global.bb
+
+
     sample:
         gtf: data/{species}/lr/tracks/{obs_col}/{sample}.gtf
         gtf_sort: data/{species}/lr/tracks/{obs_col}/{sample}_sorted.gtf

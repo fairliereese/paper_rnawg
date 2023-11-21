@@ -3269,6 +3269,7 @@ def compute_dists(cas,
         Preprocess cerberus annot according to input settings
         """
 
+        import pdb; pdb.set_trace()
         # get triplets for source
         df = ca.triplets.loc[ca.triplets.source == source].copy(deep=True)
 

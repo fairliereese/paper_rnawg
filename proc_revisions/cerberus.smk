@@ -9,6 +9,17 @@ wildcard_constraints:
     end_mode='|'.join([re.escape(x) for x in end_modes]),
 
 
+
+################################################################################
+######################### Get ICs from TALON GTF ###############################
+################################################################################
+
+use rule cerb_gtf_to_ics as cerb_get_gtf_ics_talon with:
+    input:
+        gtf = config['lr']['talon']['gtf']
+    output:
+        ics = config['lr']['talon']['ics']
+
 ################################################################################
 #################### Get triplet features from GTF #############################
 ################################################################################
@@ -630,8 +641,9 @@ use rule cerb_gtf_ids as cerb_gtf_ids_new_ref with:
     output:
         gtf = config['ref']['cerberus']['new_gtf']
 
-# rule all_cerberus:
-#     input:
+rule all_cerberus:
+    input:
+        expand(config['lr']['talon']['ics'], species=species)
 #         expand(rules.cerb_gtf_ids_new_ref.output, species=species),
 #         expand(rules.cerb_gtf_ids_ref.output, species=species),
 #         expand(rules.cerb_gtf_ids_lr.output, species=species)

@@ -25,8 +25,8 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-# from .utils import *
-from utils import *
+from .utils import *
+# from utils import *
 
 def get_ccre_colors():
     pls = '#FF0000'
@@ -3147,3 +3147,158 @@ def plot_sankey(df,
 
     fig.show()
     return fig
+
+def human_v_mouse_sectors(h_h5, m_h5, h_source, m_source,
+                          h_subset=None,
+                          m_subset=None,
+                          gene_subset=None,
+                          h_ver='v40_cerberus',
+                          m_ver='vM25_cerberus',
+                          ofile='figures/human_mouse_triplets_sankey.pdf'):
+    """
+    Compare and plot sets of triplets between human and mouse
+
+    Parameters:
+        h_h5 (str): Path to human h5 file
+        m_h5 (str): Path to mouse h5 file
+        h_source (str): Name of source to use for human
+        m_source (str): Name of source to use for mouse
+        h_subset (dict): Names of samples to use in human ie {'sample': 'c2c12'}
+        m_subset (dict): Names of samples to use in mouse ie {'tissue': 'cortex'}
+        gene_subset (list of str): Gene biotypes to include
+        h_ver (str): Name of annotation from human to pull biotypes from
+        m_ver (str): Name of annotation from mouse to pull biotypes from
+
+    """
+    # read in triplets and limit to source
+    ca = cerberus.read(h_h5)
+    h_df = ca.triplets.loc[ca.triplets.source == h_source]
+
+    ca = cerberus.read(m_h5)
+    import pdb; pdb.set_trace()
+
+    m_df = ca.triplets.loc[ca.triplets.source == m_source]
+
+    def subset_on_dict(df, subset):
+        for col, val in subset.items():
+                if type(val) != list:
+                    val = [val]
+                df = df.loc[df[col].isin(val)]
+        return df
+
+    # limit to samples if given
+    if h_subset:
+        h_df = subset_on_dict(h_df, h_subset)
+    if m_subset:
+        m_df = subset_on_dict(m_df, m_subset)
+
+    # get sectors for each gene
+    h_df = assign_gisx_sector(h_df)
+    m_df = assign_gisx_sector(m_df)
+
+    # merge in gene info and subset
+    if gene_subset:
+        gene_df, _, _ = get_gtf_info(how='gene', ver=h_ver)
+        gene_df['gid'] = cerberus.get_stable_gid(gene_df, 'gid')
+        h_df = h_df.merge(gene_df[['gid', 'biotype_category']],
+                          how='left', on='gid')
+
+        gene_df, _, _ = get_gtf_info(how='gene', ver=m_ver)
+        gene_df['gid'] = cerberus.get_stable_gid(gene_df, 'gid')
+        m_df = m_df.merge(gene_df[['gid', 'biotype_category']],
+                          how='left', on='gid')
+
+        h_df = h_df.loc[h_df.biotype_category.isin(gene_subset)]
+        m_df = m_df.loc[m_df.biotype_category.isin(gene_subset)]
+
+    # get matching gids from human and mouse
+    d = os.path.dirname(__file__)
+    fname = f'{d}/../proc_revisions/ref/biomart_human_to_mouse.tsv'
+    df = get_human_mouse_gid_table(fname)
+
+    df = df.merge(h_df, how='right', left_on='Gene stable ID',
+                  right_on='gid')
+
+    df = df.merge(m_df, how='right', left_on='Mouse gene stable ID',
+                  right_on='gid', suffixes=('_human', '_mouse'))
+
+    # get only genes that are both expressed
+    df = df.loc[~(df.sector_human.isnull())&~(df.sector_mouse.isnull())]
+
+    # count up instances of each sector pair
+    df_back = df.copy(deep=True)
+    df = df[['Gene stable ID', 'sector_human', 'sector_mouse']].groupby(['sector_human', 'sector_mouse']).count().reset_index()
+    df.rename({'Gene stable ID': 'n_genes'}, axis=1, inplace=True)
+
+    # display some stuff
+    print('Total number of human genes / sector')
+    print(df.groupby(['sector_human']).sum().reset_index()[['sector_human', 'n_genes']])
+
+    print('Total number of mouse genes / sector')
+    print(df.groupby(['sector_mouse']).sum().reset_index()[['sector_mouse', 'n_genes']])
+
+    print('Total number of conserved genes / sector')
+    temp = df.loc[df.sector_human==df.sector_mouse].groupby('sector_human').sum().reset_index()[['sector_human', 'n_genes']]
+    temp2 = df.groupby(['sector_human']).sum().reset_index()[['sector_human', 'n_genes']]
+    temp2.rename({'n_genes': 'n_total_genes'}, axis=1, inplace=True)
+    temp = temp.merge(temp2, on='sector_human')
+    temp['perc'] = (temp.n_genes/temp.n_total_genes)*100
+    print(temp)
+
+    fig = plot_sankey(df,
+                  source='sector_human',
+                  sink='sector_mouse',
+                  counts='n_genes',
+                  color='sector',
+                  title='')
+    pio.write_image(fig, ofile, width=700, height=700)
+
+    n_genes = df.n_genes.sum(axis=0)
+    n_cons_genes = df.loc[df.sector_human == df.sector_mouse].n_genes.sum(axis=0)
+    print('{}/{} ({:.2f}%) of genes have conserved sectors between human and mouse.'.format(n_cons_genes, n_genes, (n_cons_genes/n_genes)*100))
+
+    return df_back, df
+
+def plot_human_mouse_simplex(ca, m_ca, h_gene, m_gene, odir):
+
+
+    # human
+    c_dict, order = get_biosample_colors()
+    c_dict[np.nan] = 'k'
+    mmap = {'v40': '*', 'v29': 'x', 'obs_mm_det': '^', 'cerberus': '2', 'sample_mm_det_centroid': 'x'}
+    subset = {'source': ['v40', 'obs_mm_det', 'sample_mm_det', 'sample_mm_det_centroid']}
+
+    df = ca.plot_simplex(top='splicing_ratio',
+                gene=h_gene,
+                hue='sample',
+                cmap=c_dict,
+                size='gene_tpm',
+                log_size=True,
+                sectors=True,
+                marker_style='source',
+                mmap=mmap,
+                legend=False,
+                jitter=True,
+                subset=subset,
+                size_scale=0.5,
+                fname='{}/simplex_{}.pdf'.format(odir, h_gene.lower()))
+
+    # mouse
+    c_dict, order = get_lr_bulk_sample_colors()
+    c_dict[np.nan] = 'k'
+    mmap = {'vM25': '*', 'v29': 'x', 'obs_det': '^', 'cerberus': '2', 'sample_det_mouse_centroid': 'x'}
+    subset = {'source': ['vM25', 'obs_det', 'sample_det_mouse', 'sample_det_mouse_centroid']}
+    df = m_ca.plot_simplex(top='splicing_ratio',
+                gene=m_gene,
+                hue='sample',
+                cmap=c_dict,
+                size='gene_tpm',
+                log_size=True,
+                sectors=True,
+                marker_style='source',
+                mmap=mmap,
+                legend=False,
+                jitter=True,
+                subset=subset,
+                size_scale=0.5,
+                fname='{}/simplex_mouse_{}.pdf'.format(odir, m_gene.lower()))

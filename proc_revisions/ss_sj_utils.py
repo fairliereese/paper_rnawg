@@ -11,6 +11,12 @@ import yaml
 from snakemake.io import expand
 import pyranges as pr
 
+p = os.getcwd()
+sys.path.append(p)
+
+# from .utils import *
+from utils import *
+
 def add_ss_type_to_intron(df):
     """
     Given a bed-style df, add "ss_3" and "ss_5" columns to

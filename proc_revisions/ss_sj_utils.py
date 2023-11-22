@@ -449,10 +449,8 @@ def fix_talon_fusion_transcripts(talon_filt_ab,
 
     # get rid of monoexonic intergenic transcripts
     talon_df = pd.read_csv(talon_filt_ab, sep='\t')
-    talon_df.head()
-    talon_df.loc[talon_df.annot_gene_id == 'TALONG000189805']
     monoex_int_tids = talon_df.loc[(talon_df.n_exons==1)&(talon_df.gene_novelty=='Intergenic'), 'annot_transcript_id']
-    gtf_df = gtf_df.loc[~gtf_df.transcript.id.isin(monoex_int_tids)]
+    gtf_df = gtf_df.loc[~gtf_df.transcript_id.isin(monoex_int_tids)]
 
     # drop stable gid, sort, update ends, and dump
     gtf_df.drop('gid_stable', axis=1, inplace=True)

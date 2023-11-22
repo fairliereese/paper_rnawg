@@ -366,7 +366,7 @@ rule talon_fix_fusion:
     input:
         filt_ab = rules.talon_filt_ab_full.output.ab,
         gtf = rules.talon_gtf_full.output.gtf,
-        ref_ics = rules.cerb_get_gtf_ics_ref.output.ics,
+        ref_ics = config['ref']['cerberus']['ics'],
         ref_gtf = config['ref']['gtf']
     resources:
         mem_gb = 32,

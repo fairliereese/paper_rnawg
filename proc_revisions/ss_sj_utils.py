@@ -427,6 +427,19 @@ def fix_talon_fusion_transcripts(talon_filt_ab,
     gtf_df = gtf_df.loc[~gtf_df.gid_stable.isin(novel_gids)]
     # jk delete these cause they're all genomic
 
-    # drop stable gid and dump
+    # drop stable gid, sort, update ends, and dump
     gtf_df.drop('gid_stable', axis=1, inplace=True)
-    pr.PyRanges(gtf_df).to_gtf(ofile)
+    gtf_df = cerberus.sort_gtf(gtf_df)
+    # mainly ripped out of cerberus code
+    gtf_temp = gtf_df.copy(deep=True)
+    for mode in ['tss', 'tes']:
+        fwd, rev = cerberus.get_stranded_gtf_dfs(gtf_temp)
+        df = pd.DataFrame()
+        for strand, temp in zip(['+', '-'], [fwd, rev]):
+
+            # fix gene boundaries
+            temp = cerberus.update_gene_ends(temp, mode, strand)
+            df = pd.concat([df, temp], ignore_index=True)
+
+        gtf_temp = df.copy(deep=True)
+    pr.PyRanges(gtf_temp).to_gtf(ofile)

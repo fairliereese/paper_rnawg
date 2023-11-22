@@ -361,3 +361,22 @@ use rule talon_gtf as talon_gtf_full with:
         annot_ver = lambda wc:config['ref'][wc.species]['gtf_ver']
     output:
         gtf = config['lr']['talon']['gtf']
+
+rule talon_fix_fusion:
+    input:
+        filt_ab = rules.talon_filt_ab_full.output.ab,
+        gtf = rules.talon_gtf_full.output.gtf,
+        ref_ics = rules.cerb_get_gtf_ics_ref.output.ics,
+        ref_gtf = config['ref']['gtf']
+    resources:
+        mem_gb = 32,
+        threads = 1
+    output:
+        gtf = config['lr']['talon']['gtf_fusion_fix']
+    run:
+        fix_talon_fusion_transcripts(input.filt_ab,
+                                     input.gtf,
+                                     input.ref_ics,
+                                     input.ref_gtf,
+                                     wildcards,
+                                     output.gtf)

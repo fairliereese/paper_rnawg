@@ -143,6 +143,7 @@ lr:
     filt_ab: data/{species}/lr/talon/filt_talon_abundance_filtered.tsv
     gtf: data/{species}/lr/talon/annot_talon.gtf
     ics: data/{species}/lr/talon/ics.tsv
+    gtf_fusion_fix: data/{species}/lr/talon/annot_talon_fusion_fix.gtf
 
   bw: data/{species}/lr/bw/{dataset}_{strand}.bw
 

@@ -636,7 +636,7 @@ use rule cerb_gtf_ids as cerb_gtf_ids_new_ref with:
 
 use rule cerb_gtf_to_ics as cerb_get_gtf_ics_talon with:
     input:
-        gtf = config['lr']['talon']['gtf']
+        gtf = config['lr']['talon']['gtf_fusion_fix']
     output:
         ics = config['lr']['talon']['ics']
 

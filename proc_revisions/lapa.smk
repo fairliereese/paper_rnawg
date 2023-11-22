@@ -310,7 +310,7 @@ use rule lapa_link as lapa_link_full with:
 
 use rule lapa_correct_talon as lapa_correct_talon_full with:
     input:
-        gtf = config['lr']['talon']['gtf'],
+        gtf = config['lr']['talon']['gtf_fusion_fix'],
         filt_ab = config['lr']['talon']['filt_ab'],
         annot = config['lr']['talon']['full_annot'],
         links = config['lr']['lapa']['links']

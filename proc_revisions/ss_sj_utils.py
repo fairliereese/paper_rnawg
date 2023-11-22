@@ -447,9 +447,10 @@ def fix_talon_fusion_transcripts(talon_filt_ab,
     gtf_df = gtf_df.loc[~gtf_df.gid_stable.isin(novel_gids)]
     # jk delete these cause they're all genomic
 
-    # get rid of monoexonic intergenic transcripts
+    # get rid of monoexonic novel transcripts
     talon_df = pd.read_csv(talon_filt_ab, sep='\t')
-    monoex_int_tids = talon_df.loc[(talon_df.n_exons==1)&(talon_df.gene_novelty=='Intergenic'), 'annot_transcript_id']
+    gene_novs = ['Antisense', 'Intergenic', 'Fusion']
+    monoex_int_tids = talon_df.loc[(talon_df.n_exons==1)&(talon_df.gene_novelty.isin(gene_novs)), 'annot_transcript_id']
     gtf_df = gtf_df.loc[~gtf_df.transcript_id.isin(monoex_int_tids)]
 
     # drop stable gid, sort, update ends, and dump

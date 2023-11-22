@@ -383,6 +383,20 @@ def fix_talon_fusion_transcripts(talon_filt_ab,
                                  ref_gtf,
                                  wc,
                                  ofile):
+    """
+    Fix fusion gene assignments based on the ss concordance between
+    annotated (v29 or vM21) transcripts.
+    * If a "fusion" transcript matches 2+ genes, keep it as fusion and
+      label which genes it's a fusion of
+    * If a "fusion" transcripts matches 1 gene, assign it to that
+      gene instead of its novel gene
+    * If a "fusion" transcript is entirely novel, remove it. These
+      are 100% of the time monoexonic and this function will throw
+      an error if that's not the case
+
+    Additionally remove transcripts that are labelled as intergenic
+    and are monoexonic.
+    """
     if wc['species'] == 'human':
         ver = 'v40_cerberus'
     elif wc['species'] == 'mouse':
@@ -432,6 +446,13 @@ def fix_talon_fusion_transcripts(talon_filt_ab,
     novel_gids = fusion_df.loc[(fusion_df.Name.isin(novel_tids)), 'gene_id']
     gtf_df = gtf_df.loc[~gtf_df.gid_stable.isin(novel_gids)]
     # jk delete these cause they're all genomic
+
+    # get rid of monoexonic intergenic transcripts
+    talon_df = pd.read_csv(talon_filt_ab, sep='\t')
+    talon_df.head()
+    talon_df.loc[talon_df.annot_gene_id == 'TALONG000189805']
+    monoex_int_tids = talon_df.loc[(talon_df.n_exons==1)&(talon_df.gene_novelty=='Intergenic'), 'annot_transcript_id']
+    gtf_df = gtf_df.loc[~gtf_df.transcript.id.isin(monoex_int_tids)]
 
     # drop stable gid, sort, update ends, and dump
     gtf_df.drop('gid_stable', axis=1, inplace=True)

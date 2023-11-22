@@ -312,7 +312,7 @@ def get_fusion_ss_table(ab, gtf, ref_ics, ver, include_novel=True):
     gtf_df = gtf_df[['gid_stable', 'gname']]
     gtf_df.head()
 
-    talon_df = pd.read_csv(talon_filt_ab, sep='\t')
+    talon_df = pd.read_csv(ab, sep='\t')
     talon_df['gid'] = cerberus.get_stable_gid(talon_df, 'annot_gene_id')
 
     fusion_gids = talon_df.loc[talon_df.gene_novelty=='Fusion', 'gid'].tolist()

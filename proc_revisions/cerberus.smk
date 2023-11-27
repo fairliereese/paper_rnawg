@@ -645,11 +645,16 @@ use rule cerb_gtf_to_ics as cerb_get_gtf_ics_talon with:
 ############################# More filtering ###################################
 ################################################################################
 def filt_unsup_ism(filt_ab, cerberus_h5, wildcards, ofile):
-    species=wildcards.species
+    species=wildcards['species']
     feat = 'tss'
-    ref_sources = ['v29', 'v40']
-    support_sources = ['encode_cage', 'fantom_cage', 'encode_rampage', 'gtex', 'pls',
-                                        'encode_procap', 'lrgasp_cage', 'pol2', 'ca_h3k4me3']
+    if species == 'human':
+        ref_sources = ['v29', 'v40']
+        support_sources = ['encode_cage', 'fantom_cage', 'encode_rampage', 'gtex', 'pls',
+                                            'encode_procap', 'lrgasp_cage', 'pol2', 'ca_h3k4me3']
+    elif species == 'mouse':
+        ref_sources = ['vM21', 'vM25']
+        support_sources = ['h3k4me3', 'fantom_cage', 'pls', 'pol2']
+
     tss_df = get_feat_support(filt_ab,
                               cerberus_h5,
                               feat,
@@ -659,8 +664,11 @@ def filt_unsup_ism(filt_ab, cerberus_h5, wildcards, ofile):
                               how=feat,
                               species=species)
     feat = 'tes'
-    ref_sources = ['v29', 'v40']
-    support_sources = ['gtex', 'pas', 'polya_atlas']
+    if species == 'human':
+        support_sources = ['gtex', 'pas', 'polya_atlas']
+    elif species == 'mouse':
+        support_sources = ['pas', 'polya_atlas']
+
     tes_df = get_feat_support(filt_ab,
                             cerberus_h5,
                             feat,

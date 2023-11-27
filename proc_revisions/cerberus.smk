@@ -656,8 +656,7 @@ def filt_unsup_ism(filt_ab, cerberus_h5, ofile):
                               support_sources,
                               min_tpm=0,
                               how=feat)
-                              feat = 'tes'
-
+    feat = 'tes'
     ref_sources = ['v29', 'v40']
     support_sources = ['gtex', 'pas', 'polya_atlas']
     tes_df = get_feat_support(filt_ab,

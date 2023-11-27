@@ -677,7 +677,7 @@ def filt_unsup_ism(filt_ab, cerberus_h5, ofile):
     rm_tids = []
     rm_tids += df.loc[df.novelty=='Unspliced'].annot_transcript_id.tolist()
     tss_df = tss_df.rename({'Name': 'tss', 'support':'tss_support'}, axis=1)
-    tes_df = tes_df.rename({'Name': 'tes', 'support':'tes_support'}, axis=1)df = df.merge(tss_df, how='left', on='tss')
+    tes_df = tes_df.rename({'Name': 'tes', 'support':'tes_support'}, axis=1)
     df = df.merge(tss_df, how='left', on='tss')
     df = df.merge(tes_df, how='left', on='tes')
 

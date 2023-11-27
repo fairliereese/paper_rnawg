@@ -644,7 +644,8 @@ use rule cerb_gtf_to_ics as cerb_get_gtf_ics_talon with:
 ################################################################################
 ############################# More filtering ###################################
 ################################################################################
-def filt_unsup_ism(filt_ab, cerberus_h5, ofile):
+def filt_unsup_ism(filt_ab, cerberus_h5, wildcards, ofile):
+    species=wildcards.species
     feat = 'tss'
     ref_sources = ['v29', 'v40']
     support_sources = ['encode_cage', 'fantom_cage', 'encode_rampage', 'gtex', 'pls',
@@ -655,7 +656,8 @@ def filt_unsup_ism(filt_ab, cerberus_h5, ofile):
                               ref_sources,
                               support_sources,
                               min_tpm=0,
-                              how=feat)
+                              how=feat,
+                              species=species)
     feat = 'tes'
     ref_sources = ['v29', 'v40']
     support_sources = ['gtex', 'pas', 'polya_atlas']
@@ -665,7 +667,8 @@ def filt_unsup_ism(filt_ab, cerberus_h5, ofile):
                             ref_sources,
                             support_sources,
                             min_tpm=0,
-                            how=feat)
+                            how=feat,
+                            species=species)
 
     df = pd.read_csv(filt_ab, sep='\t')
     df = add_feat(df, 'annot_transcript_id', 'tss')
@@ -708,7 +711,7 @@ rule cerb_filt_unsup_ism:
     output:
         filt_ab = config['lr']['cerberus']['filt_ab']
     run:
-        filt_unsup_ism(input.ab, input.ca, output.filt_ab)
+        filt_unsup_ism(input.ab, input.ca, wildcards, output.filt_ab)
 
 rule all_cerberus:
     input:

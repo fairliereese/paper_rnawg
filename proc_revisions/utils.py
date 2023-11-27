@@ -1918,6 +1918,7 @@ def get_tpm_table(df,
 
     """
     kwargs['species'] = species
+    import pdb; pdb.set_trace()
 
     if how == 'sr':
         df, ids = get_sr_tpm_table(df, groupby, min_tpm, gene_subset, save, **kwargs)
@@ -4586,12 +4587,12 @@ def add_bgp_info(ifile,
     df.to_csv(ofile, sep='\t', header=False, index=False)
 
 def get_feat_support(filt_ab,
-                     h5, 
-                     feat, 
+                     h5,
+                     feat,
                      ref_sources,
                      support_sources,
                      **kwargs):
-    
+
     # get detected features
     df = pd.read_csv(filt_ab, sep='\t')
     df, ids = get_tpm_table(df, **kwargs)
@@ -4621,5 +4622,5 @@ def get_feat_support(filt_ab,
         df.loc[df[support_sources].any(axis=1), 'support'] = 'Supported'
     df.loc[df[ref_sources].any(axis=1), 'support'] = 'Known'
     df = df[['Name', 'support']]
-    
+
     return df

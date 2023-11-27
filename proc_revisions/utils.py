@@ -1918,7 +1918,7 @@ def get_tpm_table(df,
 
     """
     kwargs['species'] = species
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
 
     if how == 'sr':
         df, ids = get_sr_tpm_table(df, groupby, min_tpm, gene_subset, save, **kwargs)

@@ -25,8 +25,8 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-# from .utils import *
-from utils import *
+from .utils import *
+# from utils import *
 
 def get_ccre_colors():
     pls = '#FF0000'
@@ -3302,3 +3302,57 @@ def plot_human_mouse_simplex(ca, m_ca, h_gene, m_gene, odir):
                 subset=subset,
                 size_scale=0.5,
                 fname='{}/simplex_mouse_{}.pdf'.format(odir, m_gene.lower()))
+
+def plot_end_support_by_ic_novelty(filt_ab, 
+                               h5,
+                               feat,
+                               ref_sources,
+                               support_sources,
+                               min_tpm,
+                               gene_subset,
+                               ofile,
+                               **kwargs):
+    end_df = get_feat_support(filt_ab,
+                              h5, 
+                              feat, 
+                              ref_sources,
+                              support_sources,
+                              min_tpm=min_tpm,
+                              gene_subset=gene_subset,
+                              how=feat)
+    
+    # get df of transcripts that pass filtering too
+    ab_df = pd.read_csv(filt_ab, sep='\t')
+    ca = cerberus.read(h5)
+    t_df, ids = get_tpm_table(ab_df,
+                            gene_subset=gene_subset,
+                            min_tpm=1,
+                            how='iso',
+                            **kwargs)
+    t_df = add_feat(t_df, kind=feat, col='index')
+    t_df = add_feat(t_df, kind='ic', col='index')
+    t_df = t_df.merge(ca.ic[['Name', 'novelty']], how='left', left_on='ic', right_on='Name')
+    
+    # merge on support info
+    t_df = t_df.merge(end_df, how='left', left_on=feat, right_on='Name')    
+    
+    
+    temp = t_df[['novelty', 'support']]
+    temp.reset_index(inplace=True)
+    temp = temp.groupby(['novelty', 'support']).count().reset_index().rename({'index':'n_transcripts'}, axis=1)
+    
+    # remove known things
+    temp = temp.loc[temp.support.isin(['Novel', 'Supported'])]
+    
+    temp2 = temp[['novelty', 'n_transcripts']].groupby('novelty').sum().reset_index()
+    
+    temp2.rename({'n_transcripts':'n_total_transcripts'}, axis=1, inplace=True)
+    temp = temp.merge(temp2, how='left', on='novelty')
+    temp['perc'] = (temp['n_transcripts']/temp['n_total_transcripts'])*100
+
+
+    # sns.barplot(data=temp, x='novelty', y='n_transcripts', hue='support')
+    sns.barplot(data=temp, x='novelty', y='perc', hue='support')
+    
+    plt.savefig(ofile, dpi=500)
+    

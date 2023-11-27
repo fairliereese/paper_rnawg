@@ -1,7 +1,7 @@
 rule get_transcript_novelties:
     input:
         annot = rules.cerberus_annotate_lr.output.h5,
-        filt_ab = rules.cerb_ab_ids_lr.output.ab,
+        filt_ab = config['lr']['cerberus']['filt_ab'],
         t_meta = rules.t_info_lr.output.o
     params:
         min_tpm = 1,
@@ -25,7 +25,7 @@ rule preproc_suppa:
     input:
         gtf = rules.cerb_gtf_ids_lr.output.gtf,
         nov = config['lr']['suppa']['novelties'],
-        filt_ab = rules.cerb_ab_ids_lr.output.ab
+        filt_ab = config['lr']['cerberus']['filt_ab']
     params:
         temp_filt_ab_nov = lambda wc:expand('temp_{species}_filt_ab_nov.tsv',
                                         species=wc.species)[0],

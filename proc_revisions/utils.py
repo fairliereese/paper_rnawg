@@ -22,6 +22,7 @@ from matplotlib import pyplot
 import numpy
 from pathlib import Path
 from tqdm import tqdm
+import upsetplot
 from snakemake.io import expand
 
 
@@ -4583,3 +4584,42 @@ def add_bgp_info(ifile,
 
     df = df[col_order]
     df.to_csv(ofile, sep='\t', header=False, index=False)
+
+def get_feat_support(filt_ab,
+                     h5, 
+                     feat, 
+                     ref_sources,
+                     support_sources,
+                     **kwargs):
+    
+    # get detected features
+    df = pd.read_csv(filt_ab, sep='\t')
+    df, ids = get_tpm_table(df, **kwargs)
+
+    # get these features from cerberus
+    ca = cerberus.read(h5)
+    if feat == 'tss':
+        ca_df = ca.tss
+    elif feat == 'tes':
+        ca_df = ca.tes
+    elif feat == 'ic':
+        ca_df = ca.ic
+    print(len(ca_df.index))
+    df = ca_df.loc[ca_df.Name.isin(ids)]
+    print(len(df.index))
+
+
+    # get T/F detection of each feat by each source
+    df = upsetplot.from_memberships(df.source.str.split(','), data=df)
+    df.reset_index(inplace=True)
+
+    # which sources are observed, which are supported, and which are known
+    sources = ca.get_sources(df)
+
+    df['support'] = 'Novel'
+    if support_sources:
+        df.loc[df[support_sources].any(axis=1), 'support'] = 'Supported'
+    df.loc[df[ref_sources].any(axis=1), 'support'] = 'Known'
+    df = df[['Name', 'support']]
+    
+    return df

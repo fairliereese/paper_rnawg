@@ -640,6 +640,77 @@ use rule cerb_gtf_to_ics as cerb_get_gtf_ics_talon with:
     output:
         ics = config['lr']['talon']['ics']
 
+
+################################################################################
+############################# More filtering ###################################
+################################################################################
+def filt_unsup_ism(filt_ab, cerberus_h5, ofile):
+    feat = 'tss'
+    ref_sources = ['v29', 'v40']
+    support_sources = ['encode_cage', 'fantom_cage', 'encode_rampage', 'gtex', 'pls',
+                                        'encode_procap', 'lrgasp_cage', 'pol2', 'ca_h3k4me3']
+    tss_df = get_feat_support(filt_ab,
+                              cerberus_h5,
+                              feat,
+                              ref_sources,
+                              support_sources,
+                              min_tpm=0,
+                              how=feat)
+                              feat = 'tes'
+
+    ref_sources = ['v29', 'v40']
+    support_sources = ['gtex', 'pas', 'polya_atlas']
+    tes_df = get_feat_support(filt_ab,
+                            cerberus_h5,
+                            feat,
+                            ref_sources,
+                            support_sources,
+                            min_tpm=0,
+                            how=feat)
+
+    df = pd.read_csv(filt_ab, sep='\t')
+    df = add_feat(df, 'annot_transcript_id', 'tss')
+    df = add_feat(df, 'annot_transcript_id', 'tes')
+    df = add_feat(df, 'annot_transcript_id', 'ic')
+    ca = cerberus.read(cerberus_h5)
+    temp_ic = ca.ic.drop('ic', axis=1).rename({'Name': 'ic'}, axis=1)
+    df = df.merge(temp_ic, on='ic', how='left')
+    rm_tids = []
+    rm_tids += df.loc[df.novelty=='Unspliced'].annot_transcript_id.tolist()
+    tss_df = tss_df.rename({'Name': 'tss', 'support':'tss_support'}, axis=1)
+    tes_df = tes_df.rename({'Name': 'tes', 'support':'tes_support'}, axis=1)df = df.merge(tss_df, how='left', on='tss')
+    df = df.merge(tss_df, how='left', on='tss')
+    df = df.merge(tes_df, how='left', on='tes')
+
+    # unsupported at both
+    rm_tids += df.loc[(df.novelty=='ISM')&\
+                      (df.tss_support=='Novel')&\
+                      (df.tes_support=='Novel')].annot_transcript_id.tolist()
+    # unsupported at tss
+    rm_tids += df.loc[(df.novelty=='ISM')&\
+                    (df.tss_support=='Novel')].annot_transcript_id.tolist()
+    # unsupported at tes
+    rm_tids += df.loc[(df.novelty=='ISM')&\
+                      (df.tes_support=='Novel')].annot_transcript_id.tolist()
+    keep_tids = df.loc[~df.annot_transcript_id.isin(rm_tids)].annot_transcript_id.tolist()
+
+    # filter the abundance file
+    df = pd.read_csv(filt_ab, sep='\t')
+    df = df.loc[df.annot_transcript_id.isin(keep_tids)]
+    df.to_csv(ofile, sep='\t', index=False)
+
+rule cerb_filt_unsup_ism
+    input:
+        ab = config['lr']['cerberus']['ab'],
+        ca = config['lr']['cerberus']['annot']
+    resources:
+        threads = 1,
+        mem_gb = 32
+    output:
+        filt_ab = config['lr']['cerberus']['filt_ab']
+    run:
+        filt_unsup_ism(input.ab, input.ca, output.filt_ab)
+
 rule all_cerberus:
     input:
         expand(config['lr']['talon']['ics'], species=species)

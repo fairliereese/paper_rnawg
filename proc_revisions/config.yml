@@ -176,10 +176,11 @@ lr:
     gtf: data/{species}/lr/cerberus/cerberus.gtf
     gtf_t_info: data/{species}/lr/cerberus/cerberus_t_info.tsv
     gtf_g_info: data/{species}/lr/cerberus/cerberus_g_info.tsv
-    ab: data/{species}/lr/cerberus/cerberus_filtered_abundance.tsv
+    ab: data/{species}/lr/cerberus/cerberus_abundance.tsv
 
     # todo - even more filtered abundance minus
     filt_ab: data/{species}/lr/cerberus/cerberus_filtered_abundance.tsv
+
 
   swan:
     sg: data/{species}/lr/swan/swan_graph.p

@@ -700,7 +700,8 @@ def filt_unsup_ism(filt_ab, cerberus_h5, ofile):
 
 rule cerb_filt_unsup_ism:
     input:
-        ab = config['lr']['cerberus']['ab']
+        ab = config['lr']['cerberus']['ab'],
+        ca = config['lr']['cerberus']['annot']
     resources:
         threads = 1,
         mem_gb = 32

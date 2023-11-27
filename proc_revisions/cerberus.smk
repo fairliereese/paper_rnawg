@@ -699,7 +699,7 @@ def filt_unsup_ism(filt_ab, cerberus_h5, ofile):
     df = df.loc[df.annot_transcript_id.isin(keep_tids)]
     df.to_csv(ofile, sep='\t', index=False)
 
-rule cerb_filt_unsup_ism
+rule cerb_filt_unsup_ism:
     input:
         ab = config['lr']['cerberus']['ab'],
         ca = config['lr']['cerberus']['annot']

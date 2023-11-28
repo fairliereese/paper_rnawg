@@ -22,8 +22,8 @@ from matplotlib import pyplot
 import numpy
 from pathlib import Path
 from tqdm import tqdm
-import upsetplot
 from snakemake.io import expand
+import upsetplot
 
 
 def get_datasets(species='human',
@@ -49,7 +49,7 @@ def get_lr_samples():
     Get colors for each biosample
     """
     d = os.path.dirname(__file__)
-    fname = f'{d}/../figures/ref/human/lr_human_library_data_summary.tsv'
+    fname = f'{d}/../proc_revisions/ref/human/lr_human_library_data_summary.tsv'
     df = pd.read_csv(fname, sep='\t')
     samples = df['sample'].unique().tolist()
     return samples
@@ -1440,7 +1440,7 @@ def get_det_table(df,
 
             # encode biosample info
             d = os.path.dirname(__file__)
-            fname = f'{d}/../figures/ref/human/metadata.tsv'
+            fname = f'{d}/../proc_revisions/ref/human/metadata.tsv'
             meta_df = pd.read_csv(fname, sep='\t')
             meta_df = format_metadata_col(meta_df, 'Biosample term name', 'biosample')
             meta_df = meta_df[['Experiment accession', 'biosample']]
@@ -1449,7 +1449,7 @@ def get_det_table(df,
                            axis=1, inplace=True)
 
             # dataset names
-            fname = f'{d}/../figures/ref/human/lr_human_library_data_summary.tsv'
+            fname = f'{d}/../proc_revisions/ref/human/lr_human_library_data_summary.tsv'
             lib_df = pd.read_csv(fname, sep='\t')
             lib_df = lib_df.merge(meta_df,
                   how='left',
@@ -1864,7 +1864,7 @@ def get_tissue_meta_tissue_map():
     tissue = pd.read_csv(fname)
     return tissue
 
-def add_sample(df):
+def add_sample(df, species='human'):
     """
     Add biosample id to each dataset name.
 
@@ -1872,14 +1872,11 @@ def add_sample(df):
         temp (pandas DataFrame): DF w/ 'dataset' col
     """
     temp = df.copy(deep=True)
-    temp['biosample'] = temp.dataset.str.rsplit('_', n=2, expand=True)[0]
-    tissue_df = get_tissue_meta_tissue_map()
-    tissue_df = tissue_df[['tissue', 'biosample']]
-    temp = temp.merge(tissue_df, how='left', on='biosample')
-    temp.loc[temp.tissue.isnull(), 'tissue'] = temp.loc[temp.tissue.isnull(), 'biosample']
-    temp.drop('biosample', axis=1, inplace=True)
-    temp.rename({'tissue': 'sample'}, axis=1, inplace=True)
-    temp['sample'].unique()
+    d = os.path.dirname(__file__)
+    fname = f'{d}/../proc_revisions/data/{species}/lr/lr_{species}_library_data_summary.tsv'
+    meta = pd.read_csv(fname, sep='\t')
+    meta = meta[['dataset', 'sample']]
+    temp = temp.merge(meta, how='left', on='dataset')
 
     return temp
 
@@ -1918,14 +1915,13 @@ def get_tpm_table(df,
 
     """
     kwargs['species'] = species
-    # import pdb; pdb.set_trace()
-
+    
     if how == 'sr':
         df, ids = get_sr_tpm_table(df, groupby, min_tpm, gene_subset, save, **kwargs)
         # limit only to samples that are in lr
         if sample == 'lr_match':
             temp = pd.DataFrame(data=df.columns.tolist(), columns=['dataset'])
-            temp = add_sample(temp)
+            temp = add_sample(temp, species=species)
             samples = get_lr_samples()
             temp = temp.loc[temp['sample'].isin(samples)]
             datasets = temp['dataset'].tolist()
@@ -1949,7 +1945,7 @@ def get_tpm_table(df,
         if type(sample) == list:
             print(f'Subsetting for {sample} samples')
             temp = pd.DataFrame(data=get_datasets(species=species), columns=['dataset'])
-            temp = add_sample(temp)
+            temp = add_sample(temp, species=species)
             temp = temp.loc[temp['sample'].isin(sample)]
             dataset_cols = temp['dataset'].tolist()
         elif sample == 'cell_line' or sample == 'tissue':
@@ -4585,6 +4581,7 @@ def add_bgp_info(ifile,
 
     df = df[col_order]
     df.to_csv(ofile, sep='\t', header=False, index=False)
+
 
 def get_feat_support(filt_ab,
                      h5,

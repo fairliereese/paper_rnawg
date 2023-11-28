@@ -181,6 +181,9 @@ def get_transcript_info(gtf, tf_file, o):
     # only exons
     df = df.loc[df.Feature == 'exon'].copy(deep=True)
 
+    # readthrough transcripts
+    df['readthrough_transcript'] = df.tag.str.contains('readthrough_transcript')
+
     # rename some columns
     m = {'gene_id': 'gid',
          'gene_name': 'gname',
@@ -207,9 +210,9 @@ def get_transcript_info(gtf, tf_file, o):
 
     df['exon_len'] = (df.Start-df.End).abs()+1
 
-    cols = ['gid', 'gname', 'tid', 'exon_len', 'biotype', 'biotype_category']
+    cols = ['gid', 'gname', 'tid', 'exon_len', 'biotype', 'biotype_category', 'readthrough_transcript']
     df = df[cols]
-    df_copy = df[['gid', 'gname', 'tid', 'biotype', 'biotype_category']].copy(deep=True)
+    df_copy = df[['gid', 'gname', 'tid', 'biotype', 'biotype_category', 'readthrough_transcript']].copy(deep=True)
     df_copy = df_copy.drop_duplicates(keep='first')
 
     df = df.groupby('tid').sum().reset_index()

@@ -25,8 +25,8 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-from .utils import *
-# from utils import *
+# from .utils import *
+from utils import *
 
 def get_ccre_colors():
     pls = '#FF0000'
@@ -973,15 +973,15 @@ def plot_supported_feats_2(filt_ab,
         df.loc[df[support_sources].any(axis=1), 'support_2'] = 'Supported'
     df.loc[df[ref_sources].any(axis=1), 'support'] = 'Known'
     df2 = df[['Name', 'support_2']]
-    
+
     df = df[['Name', 'support']]
     df = df.groupby('support').count().reset_index()
     df.rename({'Name': 'counts'}, axis=1, inplace=True)
-    
-    
+
+
     df2 = df2.groupby('support_2').count().reset_index()
     df2.rename({'Name': 'counts'}, axis=1, inplace=True)
-    
+
     print(df)
     print(df2)
 
@@ -1014,11 +1014,11 @@ def plot_supported_feats_2(filt_ab,
     n = df.loc[df.support!='Known'].counts.sum()
     n_num = df.loc[df.support == 'Supported'].counts.sum()
     print('{:.2f}% ({}/{}) of novel {}s are supported'.format((n_num/n)*100, n_num, n, feat))
-    
+
     n = df.counts.sum()
     n_num = df.loc[df.support=='Novel'].counts.sum()
     print('{:.2f}% ({}/{}) of {}s are novel and not supported by orthogonal data'.format((n_num/n)*100, n_num, n, feat))
-    
+
     n = df2.counts.sum()
     n_num = df2.loc[df2.support_2=='Supported'].counts.sum()
     print('{:.2f}% ({}/{}) of {}s are supported by orthogonal data, regardless of novelty'.format((n_num/n)*100, n_num, n, feat))

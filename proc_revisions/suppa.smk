@@ -120,7 +120,7 @@ use rule suppa_psi as psi_cerb with:
 
 rule get_gtex_cerb_ids:
     input:
-        cerb_annot = config['lr']['cerberus']['ca_triplets']
+        cerb_annot = config['lr']['cerberus']['ca_annot']
     resources:
         mem_gb = 2,
         threads = 1

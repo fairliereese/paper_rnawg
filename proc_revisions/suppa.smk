@@ -125,7 +125,7 @@ rule get_gtex_cerb_ids:
         mem_gb = 2,
         threads = 1
     output:
-        cerb_ids = config['gtex']['suppa']['cerb_ids']
+        cerb_ids = config['gtex']['cerberus']['cerb_ids']
     run:
         get_gtex_cerberus_ids(input.cerb_annot, output.cerb_ids)
 

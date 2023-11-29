@@ -145,7 +145,7 @@ e_map = {'tss': 'AF',
       'tes': 'AL',
       'AL': 'tes',
       'AF': 'tss'}
-events_2 = [item for key, item in e_map.dict()]
+events_2 = [item for key, item in e_map.items()]
 
 rule get_matching_events:
     input:

@@ -220,7 +220,7 @@ lr:
     gtf: data/{species}/lr/suppa/cerberus_filtered.gtf
     filt_ab: data/{species}/lr/suppa/cerberus_filtered_abundance.tsv
     events:
-      A3: lr/{species}/lr/suppa/cerberus.events_A3_strict.ioe
+      A3: data/{species}/lr/suppa/cerberus.events_A3_strict.ioe
       A5: data/{species}/lr/suppa/cerberus.events_A5_strict.ioe
       AF: data/{species}/lr/suppa/cerberus.events_AF_strict.ioe
       AL: data/{species}/lr/suppa/cerberus.events_AL_strict.ioe

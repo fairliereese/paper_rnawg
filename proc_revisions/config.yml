@@ -181,6 +181,9 @@ lr:
     # todo - even more filtered abundance minus
     filt_ab: data/{species}/lr/cerberus/cerberus_filtered_abundance.tsv
 
+    psi: data/{species}/cerberus/cerberus_psi.tsv
+    novelties: data/{species}/cerberus/transcript_novelties.tsv
+
 
   swan:
     sg: data/{species}/lr/swan/swan_graph.p
@@ -226,6 +229,7 @@ lr:
       SE: data/{species}/lr/suppa/cerberus.events_SE_strict.ioe
     psi: data/{species}/lr/suppa/psi/cerb_{event}.psi
     t_psi: data/{species}/lr/cerberus_psi.tsv
+    matching_events: data/{species}/lr/suppa/{event}_combined.tsv
 
 
   mane:
@@ -246,6 +250,20 @@ gtex:
       ics: data/{species}/gtex/cerberus/ics.tsv
       ends: data/{species}/gtex/cerberus/{end_mode}.bed
       ca: data/{species}/gtex/cerberus/gtex_cerberus.h5
+
+    suppa:
+      gtf: data/{species}/gtex/suppa/cerberus_filtered.gtf
+      filt_ab: data/{species}/gtex/suppa/cerberus_filtered_abundance.tsv
+      events:
+        A3: lr/{species}/gtex/suppa/cerberus.events_A3_strict.ioe
+        A5: data/{species}/gtex/suppa/cerberus.events_A5_strict.ioe
+        AF: data/{species}/gtex/suppa/cerberus.events_AF_strict.ioe
+        AL: data/{species}/gtex/suppa/cerberus.events_AL_strict.ioe
+        MX: data/{species}/gtex/suppa/cerberus.events_MX_strict.ioe
+        RI: data/{species}/gtex/suppa/cerberus.events_RI_strict.ioe
+        SE: data/{species}/gtex/suppa/cerberus.events_SE_strict.ioe
+      psi: data/{species}/gtex/suppa/psi/gtex_{event}.psi
+      cerb_ids: data/{species}/gtex/suppa/cerb_ids.tsv
 
 cage:
   encode_meta: data/{species}/cage/encode_metadata.tsv

@@ -1,6 +1,6 @@
 import swan_vis as swan
-from utils import *
-from mane_utils import *
+from .utils import *
+from .mane_utils import *
 
 ################################################################################
 ################################## MANE ########################################

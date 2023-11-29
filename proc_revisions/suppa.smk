@@ -154,6 +154,9 @@ rule get_matching_events:
         lib_meta = config['lr']['meta']
     params:
         kind = lambda w:e_map[w.event]
+    resources:
+        mem_gb = 32,
+        threads = 2
     output:
         ofile = config['lr']['suppa']['matching_events']
     run:

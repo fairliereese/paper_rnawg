@@ -55,9 +55,11 @@ rule suppa_generate_events:
     resources:
         mem_gb = 16,
         threads = 1
+    conda:
+        'suppa'
     shell:
         """
-        /data/homezvol1/freese/miniconda3/envs/snakemake/lib/python3.7/site-packages/suppa.py generateEvents \
+        suppa.py generateEvents \
             -i {input.gtf} \
             -o {params.opref} \
             -f ioe \
@@ -97,9 +99,11 @@ rule suppa_psi:
     resources:
         mem_gb = 16,
         threads = 1
+    conda:
+        'suppa'
     shell:
         """
-        /data/homezvol1/freese/miniconda3/envs/snakemake/lib/python3.7/site-packages/suppa.py psiPerEvent \
+        suppa.py psiPerEvent \
             --ioe-file {input.ioe} \
             --expression-file {input.filt_ab} \
             --o {params.opref}

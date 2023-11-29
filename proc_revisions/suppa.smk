@@ -122,7 +122,7 @@ rule get_gtex_cerb_ids:
     input:
         cerb_annot = config['lr']['cerberus']['ca_annot']
     resources:
-        mem_gb = 2,
+        mem_gb = 32,
         threads = 1
     output:
         cerb_ids = config['gtex']['cerberus']['cerb_ids']

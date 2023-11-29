@@ -145,6 +145,7 @@ e_map = {'tss': 'AF',
       'tes': 'AL',
       'AL': 'tes',
       'AF': 'tss'}
+events_2 = [item for key, item in e_map.dict()]
 
 rule get_matching_events:
     input:
@@ -165,4 +166,5 @@ rule get_matching_events:
 rule all_suppa:
     input:
         expand(config['lr']['suppa']['matching_events'],
-               species='human')
+               species='human',
+               events=events_2)

@@ -145,7 +145,8 @@ e_map = {'tss': 'AF',
       'tes': 'AL',
       'AL': 'tes',
       'AF': 'tss'}
-events_2 = [item for key, item in e_map.items()]
+events_2 = ['AL', 'AF']
+
 rule get_matching_events:
     input:
         cerb_file = config['lr']['cerberus']['psi'],

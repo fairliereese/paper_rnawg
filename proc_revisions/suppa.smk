@@ -146,7 +146,6 @@ e_map = {'tss': 'AF',
       'AL': 'tes',
       'AF': 'tss'}
 events_2 = [item for key, item in e_map.items()]
-import pdb; pdb.set_trace()
 rule get_matching_events:
     input:
         cerb_file = config['lr']['cerberus']['psi'],
@@ -167,4 +166,4 @@ rule all_suppa:
     input:
         expand(config['lr']['suppa']['matching_events'],
                species='human',
-               events=events_2)
+               event=events_2)

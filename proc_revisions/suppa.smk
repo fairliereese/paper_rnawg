@@ -31,7 +31,9 @@ rule preproc_suppa:
                                         species=wc.species)[0],
         temp_filt_ab_nov_2 = lambda wc:expand('temp_{species}_filt_ab_nov_2.tsv',
                                         species=wc.species)[0]
-
+    resources:
+        threads = 2,
+        mem_gb = 32
     output:
         filt_ab = config['lr']['suppa']['filt_ab'],
         gtf = config['lr']['suppa']['gtf']

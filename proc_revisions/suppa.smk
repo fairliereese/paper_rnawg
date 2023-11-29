@@ -57,7 +57,7 @@ rule suppa_generate_events:
         threads = 1
     shell:
         """
-        suppa.py generateEvents \
+        /data/homezvol1/freese/miniconda3/envs/snakemake/lib/python3.7/site-packages/suppa.py generateEvents \
             -i {input.gtf} \
             -o {params.opref} \
             -f ioe \
@@ -99,7 +99,7 @@ rule suppa_psi:
         threads = 1
     shell:
         """
-        suppa.py psiPerEvent \
+        /data/homezvol1/freese/miniconda3/envs/snakemake/lib/python3.7/site-packages/suppa.py psiPerEvent \
             --ioe-file {input.ioe} \
             --expression-file {input.filt_ab} \
             --o {params.opref}

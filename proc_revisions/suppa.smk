@@ -24,7 +24,7 @@ rule get_transcript_novelties:
 rule preproc_suppa:
     input:
         gtf = rules.cerb_gtf_ids_lr.output.gtf,
-        nov = config['lr']['suppa']['novelties'],
+        nov = config['lr']['cerberus']['novelties'],
         filt_ab = config['lr']['cerberus']['filt_ab']
     params:
         temp_filt_ab_nov = lambda wc:expand('temp_{species}_filt_ab_nov.tsv',

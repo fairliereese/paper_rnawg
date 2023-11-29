@@ -176,4 +176,6 @@ rule all_suppa:
     input:
         expand(config['lr']['suppa']['matching_events'],
                species='human',
-               event=events_2)
+               event=events_2),
+        expand(config['gtex']['cerberus']['cerb_ids'],
+               species='human')

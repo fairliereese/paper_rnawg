@@ -181,8 +181,8 @@ lr:
     # todo - even more filtered abundance minus
     filt_ab: data/{species}/lr/cerberus/cerberus_filtered_abundance.tsv
 
-    psi: data/{species}/cerberus/cerberus_psi.tsv
-    novelties: data/{species}/cerberus/transcript_novelties.tsv
+    psi: data/{species}/lr/cerberus/cerberus_psi.tsv
+    novelties: data/{species}/lr/cerberus/transcript_novelties.tsv
 
 
   swan:
@@ -250,6 +250,8 @@ gtex:
       ics: data/{species}/gtex/cerberus/ics.tsv
       ends: data/{species}/gtex/cerberus/{end_mode}.bed
       ca: data/{species}/gtex/cerberus/gtex_cerberus.h5
+      cerb_ids: data/{species}/gtex/cerberus/cerb_ids.tsv
+
 
     suppa:
       gtf: data/{species}/gtex/suppa/cerberus_filtered.gtf
@@ -263,7 +265,6 @@ gtex:
         RI: data/{species}/gtex/suppa/cerberus.events_RI_strict.ioe
         SE: data/{species}/gtex/suppa/cerberus.events_SE_strict.ioe
       psi: data/{species}/gtex/suppa/psi/gtex_{event}.psi
-      cerb_ids: data/{species}/gtex/suppa/cerb_ids.tsv
 
 cage:
   encode_meta: data/{species}/cage/encode_metadata.tsv

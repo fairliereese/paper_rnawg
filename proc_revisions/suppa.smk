@@ -81,7 +81,7 @@ use rule suppa_generate_events as ge_gtex with:
     input:
         gtf = config['gtex']['gtf']
     params:
-        opref = config['lr']['suppa']['gtex']['events']['A3'].rsplit('_', maxsplit=2)[0]
+        opref = config['gtex']['suppa']['events']['A3'].rsplit('_', maxsplit=2)[0]
     output:
         config['gtex']['suppa']['events']['A3'],
         config['gtex']['suppa']['events']['A5'],

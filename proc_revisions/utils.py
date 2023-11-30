@@ -4173,9 +4173,12 @@ def explode_ic(ic):
 
     return df
 
-def get_ss_sj_from_ic(ic, ref_sources, how):
+def get_ss_sj_from_ic(ic, ref_sources, how, rm_spikes):
     ic = ic.copy(deep=True)
-
+    
+    if rm_spikes:
+        ic = ic.loc[~(ic.Chromosome.str.contains('SIRV'))&~(ic.Chromosome.str.contains('ERCC'))]
+    
     # get coords of each splice site in each splice junction
     df = explode_ic(ic)
     df['Start'] = df['sj_coords'].str[0].astype(int)
@@ -4237,7 +4240,7 @@ def get_ss_sj_from_ic(ic, ref_sources, how):
 
     return df, ic_df
 
-def get_sj_from_ic(ic, ref_sources):
+def get_sj_from_ic(ic, ref_sources, rm_spikes=True):
     """
     Get a splice junction table from an intron chain table.
     Retain source and novelty information.
@@ -4245,6 +4248,7 @@ def get_sj_from_ic(ic, ref_sources):
     Parameters:
         ic (pandas DataFrame): DataFrame formatted as cerberus ic table
         ref_sources (list of str): List of sources to use as references
+        rm_spikes (bool): Remove spike ins
 
     Returns:
         df (pandas DataFrame): DataFrame with entries for each splice junction
@@ -4252,16 +4256,17 @@ def get_sj_from_ic(ic, ref_sources):
             intron chain combination
 
     """
-    return get_ss_sj_from_ic(ic, ref_sources, 'sj')
+    return get_ss_sj_from_ic(ic, ref_sources, 'sj', rm_spikes)
 
-def get_ss_from_ic(ic, ref_sources):
+def get_ss_from_ic(ic, rm_spikes=True):
     """
-    Get a splice site table from an intron chain table.
+    Get a splice junction table from an intron chain table.
     Retain source and novelty information.
 
     Parameters:
         ic (pandas DataFrame): DataFrame formatted as cerberus ic table
         ref_sources (list of str): List of sources to use as references
+        rm_spikes (bool): Remove spike ins
 
     Returns:
         df (pandas DataFrame): DataFrame with entries for each splice site

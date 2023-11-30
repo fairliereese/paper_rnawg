@@ -5,13 +5,13 @@ use rule dl as dl_intropolis with:
     params:
         link = config['intropolis']['link']
     output:
-        out = config['intropolis']['tab_gz']
+        out = temporary(config['intropolis']['tab_gz'])
 
 use rule gunzip as gz_intrpolis with:
     input:
         gz = config['intropolis']['tab_gz']
     output:
-        out = config['intropolis']['tab']
+        out = temporary(config['intropolis']['tab'])
 
 rule format_intropolis:
     input:

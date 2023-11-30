@@ -47,6 +47,7 @@ include: 'read_lens.smk'
 include: 'tracks.smk'
 include: 'bigwig.smk'
 include: 'suppa.smk'
+include: 'intropolis.smk'
 
 ############# snakemake settings stuff
 wildcard_constraints:
@@ -58,7 +59,8 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
-        rules.all_suppa.input
+        rules.all_intropolis.input
+        # rules.all_suppa.input,
         # rules.all_cerberus.input,
         # rules.all_swan.input,
         # rules.all_bigwig.input,

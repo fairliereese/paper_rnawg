@@ -231,6 +231,13 @@ lr:
     t_psi: data/{species}/lr/cerberus_psi.tsv
     matching_events: data/{species}/lr/suppa/{event}_combined.tsv
 
+  isoquant:
+    gene_ab: data/{species}/lr/isoquant/reference_based/gene_grouped_tpm.tsv
+    known_ab: data/{species}/lr/isoquant/reference_based/transcript_grouped_tpm.tsv
+    novel_ab: data/{species}/lr/isoquant/transcript-discovery/transcript_model_grouped_tpm.tsv
+    filt_ab:
+
+
 
   mane:
     exp_gene_subset: data/{species}/lr/exp_gids_{obs_col}.tsv
@@ -327,3 +334,9 @@ pol2:
 sr:
   ab: data/{species}/sr/abundance.tsv
   meta: data/{species}/sr/metadata.tsv
+
+intropolis:
+  link: http://bit.ly/2cEUnHJ
+  tab_gz: data/{species}/intropolis/intropolis.tab.gz
+  tab: data/{species}/intropolis/intropolis.tab
+  bed: data/{species}/intropolis/intropolis.bed

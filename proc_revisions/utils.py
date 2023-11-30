@@ -49,7 +49,7 @@ def get_lr_samples():
     Get colors for each biosample
     """
     d = os.path.dirname(__file__)
-    fname = f'{d}/../proc_revisions/ref/human/lr_human_library_data_summary.tsv'
+    fname = f'{d}/../proc_revisions/data/human/lr/lr_human_library_data_summary.tsv'
     df = pd.read_csv(fname, sep='\t')
     samples = df['sample'].unique().tolist()
     return samples

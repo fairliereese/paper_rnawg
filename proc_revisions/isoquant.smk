@@ -58,7 +58,7 @@ rule cerb_add_isoquant_ends:
                               species=wc.species,
                               end_mode='tes')[0],
         ic = lambda wc:expand(config['lr']['isoquant']['cerberus']['ics'],
-                              species=wc.species)[0]
+                              species=wc.species)[0],
         h5 = config['lr']['cerberus']['ca_annot']
     params:
         source = 'isoquant_wtc11',

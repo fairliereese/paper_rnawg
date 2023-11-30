@@ -7,7 +7,7 @@ use rule cerb_gtf_to_bed as cerb_get_gtf_ends_iq with:
         slack = lambda wc:config['params']['cerberus'][wc.end_mode]['slack'],
         dist = lambda wc:config['params']['cerberus'][wc.end_mode]['dist']
 
-use rule cerb_gtf_to_ics as cerb_get_gtf_ics_isoquant with:
+use rule cerb_gtf_to_ics as cerb_get_gtf_ics_iq with:
     input:
         gtf = config['lr']['isoquant']['gtf']
     output:

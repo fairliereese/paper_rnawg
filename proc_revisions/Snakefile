@@ -48,6 +48,7 @@ include: 'tracks.smk'
 include: 'bigwig.smk'
 include: 'suppa.smk'
 include: 'intropolis.smk'
+include: 'isoquant.smk'
 
 ############# snakemake settings stuff
 wildcard_constraints:
@@ -59,7 +60,8 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
-        rules.all_intropolis.input
+        rules.all_isoquant.input
+        # rules.all_intropolis.input
         # rules.all_suppa.input,
         # rules.all_cerberus.input,
         # rules.all_swan.input,

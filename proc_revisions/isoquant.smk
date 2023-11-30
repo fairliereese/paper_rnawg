@@ -85,3 +85,11 @@ rule cerb_add_isoquant_ends:
 
 
         ca.write(output.h5)
+
+rule all_isoquant:
+    input:
+        expand(config['lr']['isoquant']['cerberus']['ics'],
+               species='human'),
+        expand(config['lr']['isoquant']['cerberus']['ends'],
+              species='human',
+              end_mode=['tes', 'tss']),

@@ -177,8 +177,6 @@ lr:
     gtf_t_info: data/{species}/lr/cerberus/cerberus_t_info.tsv
     gtf_g_info: data/{species}/lr/cerberus/cerberus_g_info.tsv
     ab: data/{species}/lr/cerberus/cerberus_abundance.tsv
-
-    # todo - even more filtered abundance minus
     filt_ab: data/{species}/lr/cerberus/cerberus_filtered_abundance.tsv
 
     psi: data/{species}/lr/cerberus/cerberus_psi.tsv

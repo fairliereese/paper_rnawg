@@ -276,8 +276,15 @@ rule lapa_config:
         df = get_lapa_run_info(wildcards, params.df,
                     config['lr']['talon']['bam_sort'],
                     dataframe=True)
-        df = df[['sample', 'dataset', 'lapa_file']].copy(deep=True)
-        df.columns = ['sample', 'dataset', 'path']
+        # df = df[['sample', 'dataset', 'lapa_file']].copy(deep=True)
+        # df.columns = ['sample', 'dataset', 'path']
+
+        temp = temp[['dataset', 'sample', 'lapa_file']].copy(deep=True)
+
+        # argggggh rename these files in the opposite manner because
+        # hasan and I have opposite definitions of "sample" and "dataset"
+        temp.columns = ['sample', 'dataset', 'path']
+
         df.to_csv(output.config, sep=',', index=False)
 
 use rule lapa_call_ends as lapa_call_ends_full with:

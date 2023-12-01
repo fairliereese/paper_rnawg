@@ -74,10 +74,54 @@ use rule cerb_gtf_ids as cerb_gtf_ids_iq with:
     output:
         gtf = config['lr']['isoquant']['cerberus']['gtf']
 
+
+def format_isoquant_ab(ab, lib_meta, ofile):
+    """
+    Format abundance file from isoquant GFF into a format
+    that Cerberus can deal with
+    """
+    meta = pd.read_csv(lib_meta, sep='\t')
+    df = pd.read_csv(ab, sep='\t')
+    df.head()
+    df['annot_transcript_id'] = df['#feature_id']
+    df['annot_transcript_name'] = df['annot_transcript_id']
+    df['transcript_ID'] = df['annot_transcript_id']
+    df.columns = [c.split('.')[0] for c in df.columns]
+    df.drop('#feature_id', axis=1, inplace=True)
+    m = dict([(entry['ENCODE_alignments_id'], entry['dataset']) for ind, entry in meta[['dataset', 'ENCODE_alignments_id']].iterrows()])
+    df.columns = [m[c] if 'ENCFF' in c else c for c in df.columns]
+
+    df.to_csv(ofile, sep='\t', index=False)
+
+rule fmt_ab_iq:
+    input:
+        ab = config['lr']['isoquant']['novel_ab'],
+        lib_meta = config['lr']['meta']
+    resources:
+        threads = 1,
+        mem_gb = 8
+    output:
+        ab_fmt = config['lr']['isoquant']['ab_fmt'],
+    run:
+        format_isoquant_ab(input.ab, input.lib_meta, output.ab_fmt)
+
+use rule cerb_ab_ids as cerb_ab_ids_iq with:
+    input:
+        h5 = config['lr']['isoquant']['cerberus']['ca_annot'],
+        ab = config['lr']['isoquant']['ab_fmt']
+    params:
+        source = 'isoquant_wtc11',
+        agg = True
+    output:
+        ab = config['lr']['isoquant']['cerberus']['ab']
+
+
 rule all_isoquant:
     input:
         expand(config['lr']['isoquant']['cerberus']['gtf'],
-               species='human')
+               species='human'),
+        expand(config['lr']['isoquant']['cerberus']['ab'],
+              species='human')
         # expand(config['lr']['isoquant']['cerberus']['ics'],
         #        species='human'),
         # expand(config['lr']['isoquant']['cerberus']['ends'],

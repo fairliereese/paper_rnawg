@@ -65,7 +65,7 @@ use rule cerb_annot as cerberus_annotate_iq with:
 
 use rule cerb_gtf_ids as cerb_gtf_ids_iq with:
     input:
-        h5 = config['lr']['cerberus']['ca_annot'],
+        h5 = config['lr']['isoquant']['cerberus']['ca_annot'],
         gtf = config['lr']['isoquant']['gtf']
     params:
         source = 'lapa',

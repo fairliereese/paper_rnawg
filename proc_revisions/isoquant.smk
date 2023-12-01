@@ -13,7 +13,7 @@ use rule cerb_gtf_to_ics as cerb_get_gtf_ics_iq with:
     output:
         ics = config['lr']['isoquant']['cerberus']['ics']
 
-rule cerb_add_isoquant_ends:
+rule cerb_make_ref_iq:
     input:
         tss = lambda wc:expand(config['lr']['isoquant']['cerberus']['ends'],
                                species=wc.species,
@@ -24,6 +24,9 @@ rule cerb_add_isoquant_ends:
         ic = lambda wc:expand(config['lr']['isoquant']['cerberus']['ics'],
                               species=wc.species)[0],
         h5 = config['lr']['cerberus']['ca_annot']
+    resources:
+        threads = 1,
+        mem_gb = 64
     params:
         source = 'isoquant_wtc11',
         tss_agg_slack = lambda wc:config['params']['cerberus']['tss']['agg_slack'],

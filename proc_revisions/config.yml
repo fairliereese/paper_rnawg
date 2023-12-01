@@ -242,6 +242,7 @@ lr:
       ends: data/{species}/lr/isoquant/cerberus/{end_mode}.bed
       ca: data/{species}/lr/isoquant/cerberus/cerberus_ref.h5
       ca_annot: data/{species}/lr/isoquant/cerberus/cerberus_annot.h5
+      gtf: data/{species}/lr/isoquant/cerberus/cerberus.gtf
 
 
 

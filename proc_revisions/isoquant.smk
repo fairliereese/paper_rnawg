@@ -53,9 +53,30 @@ rule cerb_make_ref_iq:
                   ref, source)
         ca.write(output.h5)
 
+use rule cerb_annot as cerberus_annotate_iq with:
+    input:
+        gtf = config['lr']['isoquant']['gtf'],
+        h5 = config['lr']['isoquant']['cerberus']['ca']
+    params:
+        source = 'isoquant_wtc11',
+        gene_source = lambda wc:config['ref'][wc.species]['new_gtf_ver']
+    output:
+        h5 = config['lr']['isoquant']['cerberus']['ca_annot']
+
+use rule cerb_gtf_ids as cerb_gtf_ids_iq with:
+    input:
+        h5 = config['lr']['cerberus']['ca_annot'],
+        gtf = config['lr']['isoquant']['gtf']
+    params:
+        source = 'lapa',
+        update_ends = True,
+        agg = True
+    output:
+        gtf = config['lr']['isoquant']['cerberus']['gtf']
+
 rule all_isoquant:
     input:
-        expand(config['lr']['isoquant']['cerberus']['ca'],
+        expand(config['lr']['isoquant']['cerberus']['gtf'],
                species='human')
         # expand(config['lr']['isoquant']['cerberus']['ics'],
         #        species='human'),

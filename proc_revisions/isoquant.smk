@@ -13,42 +13,6 @@ use rule cerb_gtf_to_ics as cerb_get_gtf_ics_iq with:
     output:
         ics = config['lr']['isoquant']['cerberus']['ics']
 
-# def get_tss_ca_add_settings(wc, how):
-#     """
-#     Get files or sources for additional tss support
-#
-#     Parameters:
-#         how (str): {'file', 'source'}
-#     """
-#
-#     files = []
-#     sources = []
-#
-#     # procap bidirectional
-#     files += expand(config['procap']['bed'],
-#                     procap_dataset=procap_meta.dataset.unique().tolist(),
-#                     species=wc.species,
-#                     output_type='bidirectional_peaks')
-#     sources += [d+'_bi_procap' for d in procap_meta.dataset.unique().tolist()]
-#
-#     # procap unidirectional
-#     files += expand(config['procap']['format_uni_bed'],
-#                     procap_dataset=procap_meta.dataset.unique().tolist(),
-#                     species=wc.species,
-#                     output_type='unidirectional_peaks')
-#     sources += [d+'_uni_procap' for d in procap_meta.dataset.unique().tolist()]
-#
-#     # lrgasp cage
-#     files += expand(config['lrgasp_cage']['bed'],
-#                     lrgasp_cage_dataset=lrgasp_cage_meta.dataset.unique().tolist(),
-#                     species=wc.species)
-#     sources += [d+'_lrgasp_cage' for d in lrgasp_cage_meta.dataset.unique().tolist()]
-#
-#     if how == 'file':
-#         return files
-#     elif how == 'source':
-#         return sources
-
 rule cerb_add_isoquant_ends:
     input:
         tss = lambda wc:expand(config['lr']['isoquant']['cerberus']['ends'],
@@ -76,20 +40,22 @@ rule cerb_add_isoquant_ends:
         tss_slack = params.tss_agg_slack
         tes_slack = params.tes_agg_slack
 
-        ca.add_bed(bed, add_ends,
+        ca.add_bed(input.tss, add_ends,
                    ref, source,
                    'tss', slack=tss_slack)
-        ca.add_bed(bed, add_ends,
+        ca.add_bed(input.tes, add_ends,
                    ref, source,
                   'tes', slack=tes_slack)
-
-
+        ca.add_ics(input.ic,
+                  ref, source)
         ca.write(output.h5)
 
 rule all_isoquant:
     input:
-        expand(config['lr']['isoquant']['cerberus']['ics'],
-               species='human'),
-        expand(config['lr']['isoquant']['cerberus']['ends'],
-              species='human',
-              end_mode=['tes', 'tss']),
+        expand(config['lr']['isoquant']['cerberus']['ca'],
+               species='human')
+        # expand(config['lr']['isoquant']['cerberus']['ics'],
+        #        species='human'),
+        # expand(config['lr']['isoquant']['cerberus']['ends'],
+        #       species='human',
+        #       end_mode=['tes', 'tss']),

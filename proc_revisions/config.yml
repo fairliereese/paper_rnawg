@@ -240,7 +240,9 @@ lr:
     cerberus:
       ics: data/{species}/lr/isoquant/cerberus/ics.tsv
       ends: data/{species}/lr/isoquant/cerberus/{end_mode}.bed
-      ca: data/{species}/lr/isoquant/cerberus/cerberus_annot.h5
+      ca: data/{species}/lr/isoquant/cerberus/cerberus_ref.h5
+      ca_annot: data/{species}/lr/isoquant/cerberus/cerberus_annot.h5
+
 
 
 

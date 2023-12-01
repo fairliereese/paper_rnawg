@@ -279,11 +279,11 @@ rule lapa_config:
         # df = df[['sample', 'dataset', 'lapa_file']].copy(deep=True)
         # df.columns = ['sample', 'dataset', 'path']
 
-        temp = temp[['dataset', 'sample', 'lapa_file']].copy(deep=True)
+        df = df[['dataset', 'sample', 'lapa_file']].copy(deep=True)
 
         # argggggh rename these files in the opposite manner because
         # hasan and I have opposite definitions of "sample" and "dataset"
-        temp.columns = ['sample', 'dataset', 'path']
+        df.columns = ['sample', 'dataset', 'path']
 
         df.to_csv(output.config, sep=',', index=False)
 

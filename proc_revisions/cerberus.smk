@@ -760,12 +760,12 @@ def get_output_cerb_get_human_tss_ends(species, df):
                  zip,
                  species=temp['species'].tolist(),
                  dataset=temp['dataset'].tolist())
-    import pdb; pdb.set_trace()
     return files
 
 rule cerb_get_human_tss_ends:
     input:
-        filt_ab = config['lr']['cerberus']['filt_ab']
+        filt_ab = expand(config['lr']['cerberus']['filt_ab'],
+                         species='human')[0]
     resources:
         threads = 1,
         mem_gb = 32

@@ -760,6 +760,7 @@ def get_output_cerb_get_human_tss_ends(species, df):
                  zip,
                  species=temp['species'].tolist(),
                  dataset=temp['dataset'].tolist())
+    import pdb; pdb.set_trace()
     return files
 
 rule cerb_get_human_tss_ends:

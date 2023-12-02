@@ -756,7 +756,7 @@ def get_cerb_tss(filt_ab, wildcards, params, opref):
 
 def get_output_cerb_get_human_tss_ends(species, df):
     temp = df.loc[df.species==species]
-    files = expand(config['lr']['cerberus']['sample']['tss'],
+    files = expand(config['lr']['cerberus']['dataset']['tss'],
                  zip,
                  species=temp['species'].tolist(),
                  sample=temp['dataset'].tolist())
@@ -770,7 +770,7 @@ rule cerb_get_human_tss_ends:
         mem_gb = 32
     params:
         min_tpm = 1,
-        opref = config['lr']['cerberus']['sample']['tss'].str.rsplit('/')[0]
+        opref = config['lr']['cerberus']['dataset']['tss'].str.rsplit('/')[0]
     output:
         bed = lambda wc:get_output_cerb_get_human_tss_ends(wc.species, lr_df)
     run:

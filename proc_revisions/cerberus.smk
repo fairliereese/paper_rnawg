@@ -724,7 +724,7 @@ rule cerb_filt_unsup_ism:
 ################################################################################
 # get ends for milad's tss prediction
 
-def get_cerb_tss(filt_ab, wildcards, params, opref):
+def get_cerb_tss(filt_ab, wildcards, params):
     datasets = get_datasets(species=wildcards.species)
     ab_df = pd.read_csv(filt_ab, sep='\t')
     df = get_det_table(ab_df,

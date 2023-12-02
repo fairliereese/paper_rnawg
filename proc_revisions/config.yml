@@ -182,6 +182,8 @@ lr:
     psi: data/{species}/lr/cerberus/cerberus_psi.tsv
     novelties: data/{species}/lr/cerberus/transcript_novelties.tsv
 
+    dataset:
+      tss: data/{species}/lr/cerberus/dataset/{dataset}_cerberus_tss.bed
 
   swan:
     sg: data/{species}/lr/swan/swan_graph.p

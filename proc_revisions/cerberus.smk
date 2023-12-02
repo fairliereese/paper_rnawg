@@ -721,9 +721,67 @@ rule cerb_filt_unsup_ism:
     run:
         filt_unsup_ism(input.ab, input.ca, wildcards, output.filt_ab)
 
+################################################################################
+# get ends for milad's tss prediction
+
+def get_cerb_tss(filt_ab, wildcards, params, opref):
+    datasets = get_datasets(species=wildcards.species)
+    ab_df = pd.read_csv(filt_ab, sep='\t')
+    df = get_det_table(ab_df,
+                       how='tss',
+                       min_tpm=params.min_tpm,
+                       groupby='library',
+                       gene_subset=None)
+    df = df.transpose()
+    tpm_df, _ = get_tpm_table(ab_df,
+                   how='tss',
+                   min_tpm=params.min_tpm,
+                   groupby='library',
+                   gene_subset=None)
+    for d in datasets:
+        temp = df.loc[df[d]==True].copy(deep=True)[[d]]
+        beep = tpm_df[[d]]
+        beep.rename({d: 'tpm'}, axis=1, inplace=True)
+        temp = temp.merge(beep, left_index=True, right_index=True, how='left')
+        temp = temp.merge(tss_df, how='left', left_index=True, right_on='Name')
+        temp['dataset'] = d
+        cols = ['Chromosome', 'Start', 'End', 'Name',
+               'Strand', 'gene_id', 'tpm',
+               'source', 'novelty', 'dataset']
+        temp = temp[cols]
+        # fname = f'{d}_cerberus.bed'
+        fname = f'{params.opref}/{wildcards.dataset}_cerberus_tss.bed'
+        temp.to_csv(fname, sep='\t', index=False)
+    return
+
+def get_output_cerb_get_human_tss_ends(species, df):
+    temp = df.loc[df.species==species]
+    files = expand(config['lr']['cerberus']['sample']['tss'],
+                 zip,
+                 species=temp['species'].tolist(),
+                 sample=temp['dataset'].tolist())
+    return files
+
+rule cerb_get_human_tss_ends:
+    input:
+        filt_ab = config['lr']['cerberus']['filt_ab']
+    resources:
+        threads = 1,
+        mem_gb = 32
+    params:
+        min_tpm = 1,
+        opref = config['lr']['cerberus']['sample']['tss'].str.rsplit('/')[0]
+    output:
+        bed = lambda wc:get_output_cerb_get_human_tss_ends(wc.species, lr_df)
+    run:
+        get_cerb_tss(input.filt_ab,
+                     wildcards,
+                     params)
+
 rule all_cerberus:
     input:
-        expand(config['lr']['talon']['ics'], species=species)
+        expand(config['lr']['talon']['ics'], species=species),
+        get_output_cerb_get_human_tss_ends('human', lr_df)
 #         expand(rules.cerb_gtf_ids_new_ref.output, species=species),
 #         expand(rules.cerb_gtf_ids_ref.output, species=species),
 #         expand(rules.cerb_gtf_ids_lr.output, species=species)

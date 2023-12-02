@@ -772,7 +772,7 @@ rule cerb_get_human_tss_ends:
         min_tpm = 1,
         opref = config['lr']['cerberus']['dataset']['tss'].rsplit('/')[0]
     output:
-        bed = lambda wc:get_output_cerb_get_human_tss_ends(wc.species, lr_df)
+        bed = get_output_cerb_get_human_tss_ends('human', lr_df)
     run:
         get_cerb_tss(input.filt_ab,
                      wildcards,

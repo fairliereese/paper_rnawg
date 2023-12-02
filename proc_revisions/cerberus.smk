@@ -759,7 +759,7 @@ def get_output_cerb_get_human_tss_ends(species, df):
     files = expand(config['lr']['cerberus']['dataset']['tss'],
                  zip,
                  species=temp['species'].tolist(),
-                 sample=temp['dataset'].tolist())
+                 dataset=temp['dataset'].tolist())
     return files
 
 rule cerb_get_human_tss_ends:

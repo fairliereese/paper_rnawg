@@ -90,7 +90,8 @@ def get_fusion_sample_t_coords(ab, gtf, min_tpm, sample, species, ofile):
 rule get_fusion_sample_t_coords:
     input:
         filt_ab = config['lr']['cerberus']['filt_ab'],
-        gtf = config['lr']['cerberus']['gtf']
+        gtf = config['lr']['cerberus']['gtf'],
+        g_info = config['ref']['cerberus']['new_gtf_g_info']
     resources:
         mem_gb = 16,
         threads = 1

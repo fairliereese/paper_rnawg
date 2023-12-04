@@ -724,7 +724,7 @@ rule cerb_filt_unsup_ism:
 ################################################################################
 # get ends for milad's tss prediction
 
-def get_cerb_tss(filt_ab, species, wildcards, params):
+def get_cerb_tss(cerberus_h5, filt_ab, species, wildcards, params):
     datasets = get_datasets(species=species)
     ab_df = pd.read_csv(filt_ab, sep='\t')
     df = get_det_table(ab_df,
@@ -738,6 +738,8 @@ def get_cerb_tss(filt_ab, species, wildcards, params):
                    min_tpm=params.min_tpm,
                    groupby='library',
                    gene_subset=None)
+    ca = cerberus.read(cerberus_h5)
+    tss_df = ca.tss.copy(deep=True)
     for d in datasets:
         temp = df.loc[df[d]==True].copy(deep=True)[[d]]
         beep = tpm_df[[d]]
@@ -764,6 +766,8 @@ def get_output_cerb_get_human_tss_ends(species, df):
 
 rule cerb_get_human_tss_ends:
     input:
+        h5 = expand(config['lr']['cerberus']['ca_annot'],
+                    species='human')[0],
         filt_ab = expand(config['lr']['cerberus']['filt_ab'],
                          species='human')[0]
     resources:
@@ -775,7 +779,8 @@ rule cerb_get_human_tss_ends:
     output:
         bed = get_output_cerb_get_human_tss_ends('human', lr_df)
     run:
-        get_cerb_tss(input.filt_ab,
+        get_cerb_tss(input.h5,
+                     input.filt_ab,
                      'human',
                      wildcards,
                      params)

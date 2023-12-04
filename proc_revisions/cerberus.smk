@@ -775,7 +775,8 @@ rule cerb_get_human_tss_ends:
         mem_gb = 32
     params:
         min_tpm = 1,
-        opref = config['lr']['cerberus']['dataset']['tss'].rsplit('/')[0]
+        opref = expand(config['lr']['cerberus']['dataset']['tss'],
+                       species='human')[0].rsplit('/', maxsplit=1)[0]
     output:
         bed = get_output_cerb_get_human_tss_ends('human', lr_df)
     run:

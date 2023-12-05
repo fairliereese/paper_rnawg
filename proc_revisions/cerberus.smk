@@ -649,8 +649,9 @@ def filt_unsup_ism(filt_ab, cerberus_h5, wildcards, ofile):
     feat = 'tss'
     if species == 'human':
         ref_sources = ['v29', 'v40']
-        support_sources = ['encode_cage', 'fantom_cage', 'encode_rampage', 'gtex', 'pls',
-                                            'encode_procap', 'lrgasp_cage', 'pol2', 'ca_h3k4me3']
+        support_sources = ['encode_cage', 'fantom_cage',
+                           'encode_rampage', 'gtex', 'pls',
+                           'encode_procap', 'lrgasp_cage', 'pol2', 'ca_h3k4me3']
     elif species == 'mouse':
         ref_sources = ['vM21', 'vM25']
         support_sources = ['h3k4me3', 'fantom_cage', 'pls', 'pol2']

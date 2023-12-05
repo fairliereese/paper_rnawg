@@ -25,8 +25,8 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-# from .utils import *
-from utils import *
+from .utils import *
+# from utils import *
 
 def get_ccre_colors():
     pls = '#FF0000'
@@ -1198,7 +1198,9 @@ def plot_novel_supported_triplet_feats(filt_ab,
     ref_sources = [['v29', 'v40'],
                    ['v29', 'v40'],
                    ['v29', 'v40']]
-    support_sources = [['encode_cage', 'fantom_cage', 'encode_rampage', 'gtex'],
+    support_sources = [['encode_cage', 'fantom_cage',
+                           'encode_rampage', 'gtex', 'pls',
+                           'encode_procap', 'lrgasp_cage', 'pol2', 'ca_h3k4me3'],
                        ['gtex'],
                        ['pas', 'polya_atlas', 'gtex']]
 
@@ -1538,16 +1540,18 @@ def add_bool_heatmap(tpm_df, ax, species):
     # if species == 'mouse':
     #     temp.drop('MANE ORF', axis=1, inplace=True)
     #     temp2.drop('MANE ORF', axis=1, inplace=True)
+    # https://stackoverflow.com/questions/50754471/seaborn-heatmap-not-displaying-all-xticks-and-yticks
     ax = sns.heatmap(temp, cbar=False, cmap='Purples',
                      linewidths=0.5, linecolor='k',
                      annot=temp2, square=True,
-                     fmt='', ax=ax)
+                     fmt='', ax=ax, yticklabels=True)
     ax.tick_params(left=False,
                    right=False, labelright=False,
                    bottom=False, labelbottom=False,
                    labeltop=True)
     ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
     ax.set_yticklabels(ax.get_yticklabels(), rotation=0)
+
 
     return ax
 
@@ -2163,10 +2167,10 @@ def make_triplet_feat_upset(h5,
     if feat == 'tss':
         df = ca.tss.copy(deep=True)
         m = {'GENCODE': ['v29', 'v40'],
-             'CAGE, RAMPAGE': ['encode_cage', 'encode_rampage', 'fantom_cage'],
-             'GTEx': ['gtex'],
+             'CAGE, RAMPAGE, ProCap, GTEx': ['encode_cage', 'encode_rampage', 'fantom_cage', 'lrgasp_cage', 'encode_procap', 'gtex'],
              'PLS cCREs': ['pls'],
-             'pELS/dELS cCREs': ['pels', 'dels']}
+             'pELS, dELS, CA-H3K4me3 cCREs': ['pels', 'dels', 'ca_h3k4me3'],
+             'PolII ChIP-seq': ['pol2']}
              # 'cCREs': ['pls', 'dels', 'pels']}
     elif feat == 'ic':
         df = ca.ic.copy(deep=True)
@@ -2361,65 +2365,65 @@ def plot_ic_novelty(fname,
     plt.show()
     plt.clf()
 
-    def plot_exp_v_iso_biotype_boxplot(h5,
-                                       ver,
-                                       ofile):
-        ca = cerberus.read(h5)
+def plot_exp_v_iso_biotype_boxplot(h5,
+                                   ver,
+                                   ofile):
+    ca = cerberus.read(h5)
 
-        # limit to the sample dets
-        df = ca.triplets.loc[ca.triplets.source=='sample_det'].copy(deep=True)
+    # limit to the sample dets
+    df = ca.triplets.loc[ca.triplets.source=='sample_det'].copy(deep=True)
 
-        # tpm bins
-        tpm_bins = [1, 10, 100, df.gene_tpm.max()]
-        labels = ['Low (1-10)', 'Medium (10-100)', 'High (100-max)']
+    # tpm bins
+    tpm_bins = [1, 10, 100, df.gene_tpm.max()]
+    labels = ['Low (1-10)', 'Medium (10-100)', 'High (100-max)']
 
-        # get the most highly-expressed sample per gene
-        df = df.sort_values(by=['gid', 'gene_tpm'], ascending=[False,False])
-        df = df.drop_duplicates(subset='gid', keep='first')
+    # get the most highly-expressed sample per gene
+    df = df.sort_values(by=['gid', 'gene_tpm'], ascending=[False,False])
+    df = df.drop_duplicates(subset='gid', keep='first')
 
-        # group into bins
-        df['tpm_bin'] = pd.cut(df.gene_tpm, tpm_bins, labels=labels)
-        df['other_tpm_bin'] = pd.cut(df.gene_tpm, tpm_bins)
-        print(df.other_tpm_bin.unique())
+    # group into bins
+    df['tpm_bin'] = pd.cut(df.gene_tpm, tpm_bins, labels=labels)
+    df['other_tpm_bin'] = pd.cut(df.gene_tpm, tpm_bins)
+    print(df.other_tpm_bin.unique())
 
-        # add gene biotypes
-        gene_df, _, _ = get_gtf_info(how='gene', ver=ver)
-        gene_df['gid'] = cerberus.get_stable_gid(gene_df, col='gid')
-        df = df.merge(gene_df[['gid', 'biotype_category']], how='left', on='gid')
+    # add gene biotypes
+    gene_df, _, _ = get_gtf_info(how='gene', ver=ver)
+    gene_df['gid'] = cerberus.get_stable_gid(gene_df, col='gid')
+    df = df.merge(gene_df[['gid', 'biotype_category']], how='left', on='gid')
 
-        order = get_polya_cats()
-        disp_dict = {'protein_coding': 'Protein coding',
-                     'lncRNA': 'lncRNA',
-                     'pseudogene': 'Pseudogene'}
-        order = [disp_dict[b] for b in order]
-        df['biotype_category_disp'] = df.biotype_category.map(disp_dict)
+    order = get_polya_cats()
+    disp_dict = {'protein_coding': 'Protein coding',
+                 'lncRNA': 'lncRNA',
+                 'pseudogene': 'Pseudogene'}
+    order = [disp_dict[b] for b in order]
+    df['biotype_category_disp'] = df.biotype_category.map(disp_dict)
 
-        c = get_talon_nov_colors()[0]['Known']
-        c_dict, order = get_shade_colors(c, order)
+    c = get_talon_nov_colors()[0]['Known']
+    c_dict, order = get_shade_colors(c, order)
 
-        sns.set_context('paper', font_scale=1.8)
-        mpl.rcParams['font.family'] = 'Arial'
-        mpl.rcParams['pdf.fonttype'] = 42
+    sns.set_context('paper', font_scale=1.8)
+    mpl.rcParams['font.family'] = 'Arial'
+    mpl.rcParams['pdf.fonttype'] = 42
 
-        ax = sns.catplot(data=df,
-                         x='tpm_bin',
-                         y='n_iso',
-                         hue='biotype_category_disp',
-                         kind='box',
-                         hue_order=order,
-                         palette = c_dict,
-                         fliersize=1,
-                         linewidth=1,
-                         height=4, aspect=(5/4),
-                         saturation=1)
+    ax = sns.catplot(data=df,
+                     x='tpm_bin',
+                     y='n_iso',
+                     hue='biotype_category_disp',
+                     kind='box',
+                     hue_order=order,
+                     palette = c_dict,
+                     fliersize=1,
+                     linewidth=1,
+                     height=4, aspect=(5/4),
+                     saturation=1)
 
-        ax.set(ylim=(0,50), xlabel='Max. gene expression (TPM)', ylabel='# transcripts / gene')
-        ax.tick_params(axis="x", rotation=45)
+    ax.set(ylim=(0,50), xlabel='Max. gene expression (TPM)', ylabel='# transcripts / gene')
+    ax.tick_params(axis="x", rotation=45)
 
-        fname = ofile
-        plt.savefig(fname, dpi=500, bbox_inches='tight')
+    fname = ofile
+    plt.savefig(fname, dpi=500, bbox_inches='tight')
 
-        return df
+    return df
 
 def plot_ends_per_ic(df, ca,
                      feat,
@@ -3194,7 +3198,6 @@ def human_v_mouse_sectors(h_h5, m_h5, h_source, m_source,
     h_df = ca.triplets.loc[ca.triplets.source == h_source]
 
     ca = cerberus.read(m_h5)
-    import pdb; pdb.set_trace()
 
     m_df = ca.triplets.loc[ca.triplets.source == m_source]
 
@@ -3368,6 +3371,7 @@ def plot_end_support_by_ic_novelty(filt_ab,
     temp2.rename({'n_transcripts':'n_total_transcripts'}, axis=1, inplace=True)
     temp = temp.merge(temp2, how='left', on='novelty')
     temp['perc'] = (temp['n_transcripts']/temp['n_total_transcripts'])*100
+    print(temp)
 
 
     # sns.barplot(data=temp, x='novelty', y='n_transcripts', hue='support')

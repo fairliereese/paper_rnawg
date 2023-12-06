@@ -115,9 +115,72 @@ use rule cerb_ab_ids as cerb_ab_ids_iq with:
     output:
         ab = config['lr']['isoquant']['cerberus']['ab']
 
+###### Tracks
+rule tracks_gene_pred_iq:
+    input:
+        ifile = config['lr']['isoquant']['cerberus']['gtf']
+    resources:
+        mem_gb = 16,
+        threads = 1
+    output:
+        ofile = temporary(config['lr']['isoquant']['tracks']['gp'])
+    shell:
+        """
+        gtfToGenePred -genePredExt {input.ifile} {output.ofile}
+        """
+
+rule tracks_big_gene_pred_iq:
+    input:
+        ifile = config['lr']['isoquant']['tracks']['gp']
+    resources:
+        mem_gb = 16,
+        threads = 1
+    output:
+        ofile = temporary(config['lr']['isoquant']['tracks']['bgp'])
+    shell:
+        """
+        genePredToBigGenePred {input.ifile} {output.ofile}
+        """
+
+use rule bed_sort as tracks_bed_sort_iq with:
+    input:
+        ifile = config['lr']['isoquant']['tracks']['bgp']
+    output:
+        ofile = temporary(config['lr']['isoquant']['tracks']['bgp_sort'])
+
+rule tracks_filt_iq:
+    input:
+        ifile = config['lr']['isoquant']['tracks']['bgp']
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        ofile = config['lr']['isoquant']['tracks']['bgp_sort_filt']
+    shell:
+        """
+        grep -v chrM {input.ifile} > {output.ofile}
+        """
+
+rule tracks_bigbed_iq:
+    input:
+        ifile = config['lr']['isoquant']['tracks']['bgp_sort_filt'],
+        # as_file = config['ref']['tracks']['as'],
+        as_file = config['ref']['ucsc']['as'],
+        chrom_sizes = config['ref']['talon']['chrom_sizes']
+    resources:
+        mem_gb = 16,
+        threads = 1
+    output:
+        ofile = config['lr']['isoquant']['tracks']['bb']
+    shell:
+        """
+        bedToBigBed -type=bed12+8 -tab -as={input.as_file} {input.ifile} {input.chrom_sizes} {output.ofile}
+        """
 
 rule all_isoquant:
     input:
+        expand(config['lr']['isoquan']['tracks']['bb'],
+               species='human'),
         expand(config['lr']['isoquant']['cerberus']['gtf'],
                species='human'),
         expand(config['lr']['isoquant']['cerberus']['ab'],

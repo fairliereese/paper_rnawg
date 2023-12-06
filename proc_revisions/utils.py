@@ -1103,7 +1103,7 @@ def add_feat(df, col, kind, as_index=False, as_number=False,
     Returns:
         df (pandas DataFrame): DF w/ additional "kind" col
     """
-
+    
     if col == 'index':
         df['temp_tid'] = df.index.tolist()
     else:

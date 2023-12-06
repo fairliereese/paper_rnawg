@@ -1,5 +1,5 @@
-wildcard_constraints:
-    species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()]),
+# wildcard_constraints:
+#     species='|'.join([re.escape(x) for x in lr_df.species.unique().tolist()]),
 
 
 use rule cerb_gtf_to_bed as cerb_get_gtf_ends_iq with:

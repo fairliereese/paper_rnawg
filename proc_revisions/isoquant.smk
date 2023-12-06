@@ -179,7 +179,7 @@ rule tracks_bigbed_iq:
 
 rule all_isoquant:
     input:
-        expand(config['lr']['isoquan']['tracks']['bb'],
+        expand(config['lr']['isoquant']['tracks']['bb'],
                species='human'),
         expand(config['lr']['isoquant']['cerberus']['gtf'],
                species='human'),

@@ -249,7 +249,7 @@ lr:
       gp: data/{species}/lr/isoquant/tracks/isoquant_wtc11.gp
       bgp: data/{species}/lr/isoquant/tracks/isoquant_wtc11.bgp
       bgp_sort: data/{species}/lr/isoquant/tracks/isoquant_wtc11_sorted.bgp
-      # bgp_sort_filt: data/{species}/lr/isoquant/tracks/{obs_col}/{sample}_sorted_filtered.bgp
+      bgp_sort_filt: data/{species}/lr/isoquant/tracks/isoquant_wtc11_sorted_filtered.bgp
       bb: data/{species}/lr/isoquant/tracks/isoquant_wtc11.bgp
 
 

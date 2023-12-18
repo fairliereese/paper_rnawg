@@ -385,7 +385,7 @@ rule talon_fix_novel_fusion:
                                      output.gtf,
                                      output.ab)
 
-rule talon_fix_novel_fusion:
+rule talon_fix_known_fusion:
     input:
         ab = config['lr']['talon']['fusion_fix']['novel_ab'],
         filt_ab = rules.talon_filt_ab_full.output.ab,

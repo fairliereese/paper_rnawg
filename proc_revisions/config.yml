@@ -145,10 +145,10 @@ lr:
     ics: data/{species}/lr/talon/ics.tsv
 
     fusion_fix:
-      novel_gtf: data/{species}/lr/talon/annot_talon_fusion_fix_novel.gtf
-      gtf: data/{species}/lr/talon/annot_talon_fusion_fix.gtf
-      novel_ab: data/{species}/lr/talon/talon_unfilt_abundance_novel.tsv
-      ab: data/{species}/lr/talon/unfilt_talon_abundance.tsv
+      novel_gtf: data/{species}/lr/talon/fusion_fix/annot_talon_fusion_fix_novel.gtf
+      gtf: data/{species}/lr/talon/fusion_fix/annot_talon_fusion_fix.gtf
+      novel_ab: data/{species}/lr/talon/fusion_fix/talon_unfilt_abundance_novel.tsv
+      ab: data/{species}/lr/talon/fusion_fix/unfilt_talon_abundance.tsv
 
   bw: data/{species}/lr/bw/{dataset}_{strand}.bw
 
@@ -240,8 +240,8 @@ lr:
     gene_ab: data/{species}/lr/isoquant/reference_based/gene_grouped_tpm.tsv
     known_ab: data/{species}/lr/isoquant/reference_based/transcript_grouped_tpm.tsv
     novel_ab: data/{species}/lr/isoquant/transcript-discovery/transcript_model_grouped_tpm.tsv
-    ab_fmt: data/{species}/lr/isoquant/abundance_formatted.tsv
     gtf: data/{species}/lr/isoquant/transcript-discovery/transcript_models.gtf
+    ab_fmt: data/{species}/lr/isoquant/abundance_formatted.tsv
 
     cerberus:
       ics: data/{species}/lr/isoquant/cerberus/ics.tsv

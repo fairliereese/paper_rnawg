@@ -364,7 +364,7 @@ use rule talon_gtf as talon_gtf_full with:
 
 rule talon_fix_novel_fusion:
     input:
-        ab = config['lr']['talon']['ab']
+        ab = config['lr']['talon']['ab'],
         filt_ab = rules.talon_filt_ab_full.output.ab,
         gtf = rules.talon_gtf_full.output.gtf,
         ref_ics = config['ref']['cerberus']['ics'],

@@ -26,7 +26,7 @@ def make_sg(input, params, wildcards):
 
 rule swan_gene_ab_add_stable_gid:
     input:
-        ab = rules.talon_ab_full.output.ab
+        ab = config['lr']['talon']['fusion_fix']['ab']
     resources:
         mem_gb = 24,
         threads = 1

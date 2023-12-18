@@ -331,7 +331,7 @@ use rule talon_filter as talon_filt_full with:
 
 rule talon_gene_ab:
     input:
-        ab = config['lr']['talon']['ab']
+        ab = config['lr']['talon']['fusion_fix']['ab']
     resources:
         threads = 1,
         mem_gb = 32
@@ -362,8 +362,9 @@ use rule talon_gtf as talon_gtf_full with:
     output:
         gtf = config['lr']['talon']['gtf']
 
-rule talon_fix_fusion:
+rule talon_fix_novel_fusion:
     input:
+        ab = config['lr']['talon']['ab']
         filt_ab = rules.talon_filt_ab_full.output.ab,
         gtf = rules.talon_gtf_full.output.gtf,
         ref_ics = config['ref']['cerberus']['ics'],
@@ -372,11 +373,37 @@ rule talon_fix_fusion:
         mem_gb = 32,
         threads = 1
     output:
-        gtf = config['lr']['talon']['gtf_fusion_fix']
+        gtf = config['lr']['talon']['fusion_fix']['novel_gtf'],
+        ab = config['lr']['talon']['fusion_fix']['novel_ab']
     run:
-        fix_talon_fusion_transcripts(input.filt_ab,
+        fix_talon_fusion_transcripts(input.ab,
+                                     input.filt_ab,
                                      input.gtf,
                                      input.ref_ics,
                                      input.ref_gtf,
                                      wildcards,
-                                     output.gtf)
+                                     output.gtf,
+                                     output.ab)
+
+rule talon_fix_novel_fusion:
+    input:
+        ab = config['lr']['talon']['fusion_fix']['novel_ab'],
+        filt_ab = rules.talon_filt_ab_full.output.ab,
+        gtf = config['lr']['talon']['fusion_fix']['novel_gtf'],
+        ref_ics = config['ref']['cerberus']['ics'],
+        ref_gtf = config['ref']['gtf']
+    resources:
+        mem_gb = 32,
+        threads = 1
+    output:
+        gtf = config['lr']['talon']['fusion_fix']['gtf'],
+        ab = config['lr']['talon']['fusion_fix']['ab']
+    run:
+        fix_talon_known_fusion_transcripts(input.ab,
+                                           input.filt_ab,
+                                           input.gtf,
+                                           input.ref_ics,
+                                           input.ref_gtf,
+                                           wildcards,
+                                           output.gtf,
+                                           output.ab)

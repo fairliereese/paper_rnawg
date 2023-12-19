@@ -190,6 +190,13 @@ lr:
     dataset:
       tss: data/{species}/lr/cerberus/dataset/{dataset}_cerberus_tss.bed
 
+  subsample:
+      ab: data/{species}/lr/subsample/unfilt_talon_abundance_{subsample_depth}.tsv
+      filt_ab: data/{species}/lr/subsample/cerberus_filtered_abundance_{subsample_depth}.tsv
+
+      gene_summary: data/{species}/lr/subsample/gene_summary.tsv
+      transcript_summary: data/{species}/lr/subsample/transcript_summary.tsv
+
   swan:
     sg: data/{species}/lr/swan/swan_graph.p
 

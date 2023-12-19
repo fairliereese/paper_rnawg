@@ -28,7 +28,8 @@ import upsetplot
 
 def get_datasets(species='human',
                  classification=None,
-                 mouse_match=None):
+                 mouse_match=None,
+                 ab_df=None):
     """
     Get list of dataset IDs matching filters
     """
@@ -42,6 +43,10 @@ def get_datasets(species='human',
         df = df.loc[~df.matching_mouse_samples.isnull()]
 
     datasets = df.dataset.tolist()
+    
+    if isinstance(ab_df, pd.DataFrame):
+        datasets_temp = [c for c in ab_df.columns if c in datasets]
+        datasets = datasets_temp
     return datasets
 
 def get_lr_samples():
@@ -1930,7 +1935,7 @@ def get_tpm_table(df,
         print('Calculating {} TPM values'.format(how))
 
         if species != 'spikes':
-            dataset_cols = get_datasets(species=species)
+            dataset_cols = get_datasets(species=species, ab_df=df)
             df = rm_sirv_ercc(df)
             df['gid_stable'] = cerberus.get_stable_gid(df, 'annot_gene_id')
         else:

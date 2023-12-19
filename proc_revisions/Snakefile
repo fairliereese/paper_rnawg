@@ -49,6 +49,7 @@ include: 'bigwig.smk'
 include: 'suppa.smk'
 include: 'intropolis.smk'
 include: 'isoquant.smk'
+include: 'subsample.smk'
 
 ############# snakemake settings stuff
 wildcard_constraints:
@@ -60,6 +61,7 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
+        rules.all_subsample.input,
         rules.all_isoquant.input,
         rules.all_intropolis.input,
         rules.all_suppa.input,

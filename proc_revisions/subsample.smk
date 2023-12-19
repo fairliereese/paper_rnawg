@@ -1,3 +1,5 @@
+sample_depths = [.1, .15, .2, .4, .6, .8, .9, 1]
+
 def read_annot_to_counts(df):
     """
     Convert a long-form (one row = one read)
@@ -106,8 +108,6 @@ def subsample_ab(talon_ab,
 
     temp.to_csv(ofile, sep='\t', index=False)
 
-sample_depths = [.1, .15, .2, .4, .6, .8, .9, 1]
-
 rule subsample_wtc11_transcript:
     input:
         ab = config['lr']['cerberus']['filt_ab']
@@ -125,7 +125,7 @@ rule subsample_wtc11_transcript_summary:
     input:
         files = expand(config['lr']['subsample']['filt_ab'],
                species='human',
-               subsample_depth=subsample_depths)
+               subsample_depth=sample_depths)
     resources:
         mem_gb = 32,
         threads = 2
@@ -170,7 +170,7 @@ rule subsample_wtc11_gene_summary:
     input:
         files = expand(config['lr']['subsample']['ab'],
                species='human',
-               subsample_depth=subsample_depths)
+               subsample_depth=sample_depths)
     resources:
         mem_gb = 32,
         threads = 2

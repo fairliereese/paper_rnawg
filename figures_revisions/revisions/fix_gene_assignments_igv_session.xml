@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Session genome="hg38" locus="chr16:30730696-30778902" nextAutoscaleGroup="2" version="8">
+    <Resources>
+        <Resource path="../../proc_revisions/ref/human/annot.sorted.gtf" type="gtf"/>
+        <Resource path="../../proc_revisions/ref/human/new_annot.sorted.gtf" type="gtf"/>
+        <Resource path="annot_readthrough_corrected.sorted.gtf" type="gtf"/>
+        <Resource path="../../proc_revisions/data/human/lr/talon/annot_talon.sorted.gtf" type="gtf"/>
+        <Resource path="../../proc_revisions/data/human/lr/isoquant/cerberus/cerberus.sorted.gtf" type="gtf"/>
+    </Resources>
+    <Panel height="2895" name="FeaturePanel" width="1703">
+        <Track attributeKey="Reference sequence" clazz="org.broad.igv.track.SequenceTrack" fontSize="10" id="Reference sequence" name="Reference sequence" sequenceTranslationStrandValue="POSITIVE" shouldShowTranslation="true" visible="true"/>
+        <Track attributeKey="cerberus.sorted.gtf" clazz="org.broad.igv.track.FeatureTrack" color="51,204,0" featureVisibilityWindow="1467298" fontSize="10" groupByStrand="false" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/isoquant/cerberus/cerberus.sorted.gtf" name="cerberus" visible="true"/>
+        <Track attributeKey="new_annot.sorted.gtf" clazz="org.broad.igv.track.FeatureTrack" color="255,51,51" featureNameProperty="gene_name" featureVisibilityWindow="1000000" fontSize="10" groupByStrand="true" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/ref/human/new_annot.sorted.gtf" name="v40" visible="true"/>
+        <Track attributeKey="annot.sorted.gtf" clazz="org.broad.igv.track.FeatureTrack" displayMode="EXPANDED" featureVisibilityWindow="1000000" fontSize="10" groupByStrand="true" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/ref/human/annot.sorted.gtf" name="v29" visible="true"/>
+        <Track attributeKey="annot_talon.sorted.gtf" clazz="org.broad.igv.track.FeatureTrack" color="204,0,204" displayMode="EXPANDED" featureNameProperty="gene_name" featureVisibilityWindow="1000000" fontSize="10" groupByStrand="true" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/annot_talon.sorted.gtf" name="talon" visible="true"/>
+        <Track attributeKey="annot_readthrough_corrected.sorted.gtf" clazz="org.broad.igv.track.FeatureTrack" color="0,204,0" displayMode="EXPANDED" featureVisibilityWindow="1000000" fontSize="10" groupByStrand="false" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/figures_revisions/revisions/annot_readthrough_corrected.sorted.gtf" name="annot_readthrough_corrected.sorted.gtf" visible="true"/>
+    </Panel>
+    <PanelLayout dividerFractions="0.004909983633387889"/>
+    <HiddenAttributes>
+        <Attribute name="DATA FILE"/>
+        <Attribute name="DATA TYPE"/>
+        <Attribute name="NAME"/>
+    </HiddenAttributes>
+</Session>

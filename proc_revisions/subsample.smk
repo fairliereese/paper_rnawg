@@ -118,7 +118,7 @@ rule subsample_wtc11_transcript:
         ab = config['lr']['subsample']['filt_ab']
     run:
         subsample_ab(input.ab,
-                     wildcards.depth,
+                     wildcards.subsample_depth,
                      output.ab)
 
 rule subsample_wtc11_transcript_summary:
@@ -163,7 +163,7 @@ rule subsample_wtc11_gene:
     run:
         subsample_read_annot(input.read_annot,
                              input.ab,
-                             wildcards.depth,
+                             wildcards.subsample_depth,
                              output.ab)
 
 rule subsample_wtc11_gene_summary:

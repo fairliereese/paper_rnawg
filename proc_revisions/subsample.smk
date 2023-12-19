@@ -55,7 +55,7 @@ def subsample_read_annot(read_annot,
     # sample to target depth
     sample_df = df.sample(frac=depth,
                           replace=False)
-    temp = read_annot_to_counts(df)
+    temp = read_annot_to_counts(sample_df)
     temp = add_ab_metdata(temp, talon_ab)
 
     temp.to_csv(ofile, sep='\t', index=False)

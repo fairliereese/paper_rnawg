@@ -42,6 +42,8 @@ def subsample_read_annot(read_annot,
     and output a TALON abundance file.
     """
 
+    depth = float(depth)
+
     # read in the transcript id, dataset, and the read name from the read annot
     df = pd.read_csv(read_annot, sep='\t',
                      usecols=[0,1,12])
@@ -65,6 +67,8 @@ def subsample_ab(talon_ab,
     Subsample WTC11 data to a specified depth from the abundance matrix
     and output a TALON abundance file.
     """
+
+    depth = float(depth)
 
     df = pd.read_csv(talon_ab, sep='\t')
 

@@ -115,7 +115,7 @@ rule subsample_wtc11_transcript:
         mem_gb = 32,
         threads = 2
     output:
-        ab = config['lr']['subsample']['filtab']
+        ab = config['lr']['subsample']['filt_ab']
     run:
         subsample_ab(input.ab,
                      wildcards.depth,

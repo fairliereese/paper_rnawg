@@ -151,7 +151,7 @@ rule subsample_wtc11_transcript_summary:
                     how='iso',
                     gene_subset=params.gene_subset,
                     min_tpm=params.min_tpm)
-            n_genes.appesnd(len(inds))
+            n_genes.append(len(inds))
         df['n_transcripts'] = n_genes
         df.to_csv(output.ofile, sep='\t', index=False)
 

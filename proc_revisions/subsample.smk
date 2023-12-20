@@ -141,7 +141,7 @@ rule subsample_wtc11_transcript_summary:
     run:
         df = pd.DataFrame()
         df['file'] = list(input.files)
-        df['depth'] = df.file.str.rsplit('_', n=1, expand=True)[0]
+        df['depth'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
 
         n_genes = []
         for ind, entry in df.iterrows():
@@ -186,7 +186,7 @@ rule subsample_wtc11_gene_summary:
     run:
         df = pd.DataFrame()
         df['file'] = list(input.files)
-        df['depth'] = df.file.str.rsplit('_', n=1, expand=True)[0]
+        df['depth'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
 
         n_genes = []
         for ind, entry in df.iterrows():

@@ -167,7 +167,7 @@ rule subsample_wtc11_transcript_summary:
                 files.append(file)
                 depths.append(depth)
                 reps.append(rep)
-                subsets.append(subset)
+                subsets.append(gene_subset)
 
         df = pd.DataFrame()
         df['n_transcripts'] = n_genes
@@ -232,7 +232,7 @@ rule subsample_wtc11_gene_summary:
                 files.append(file)
                 depths.append(depth)
                 reps.append(rep)
-                subsets.append(subset)
+                subsets.append(gene_subset)
 
         df = pd.DataFrame()
         df['n_genes'] = n_genes

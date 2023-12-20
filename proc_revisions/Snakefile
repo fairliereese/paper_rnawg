@@ -65,6 +65,7 @@ rule all:
         rules.all_isoquant.input,
         rules.all_intropolis.input,
         rules.all_suppa.input,
+        rules.all_gtex.input,
         rules.all_cerberus.input,
         rules.all_swan.input,
         rules.all_bigwig.input,

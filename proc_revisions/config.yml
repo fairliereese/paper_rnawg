@@ -291,6 +291,7 @@ gtex:
       ends: data/{species}/gtex/cerberus/{end_mode}.bed
       ca: data/{species}/gtex/cerberus/gtex_cerberus.h5
       cerb_ids: data/{species}/gtex/cerberus/cerb_ids.tsv
+      gtf: data/{species}/gtex/cerberus/cerberus.gtf
 
     suppa:
       gtf: data/{species}/gtex/suppa/cerberus_filtered.gtf

@@ -154,6 +154,7 @@ rule subsample_wtc11_transcript_summary:
         files = []
         depths = []
         reps = []
+        subsets = []
 
         for file, depth, rep in zip(files_loop, depths_loop, reps_loop):
             temp = pd.read_csv(file, sep='\t')
@@ -166,11 +167,13 @@ rule subsample_wtc11_transcript_summary:
                 files.append(file)
                 depths.append(depth)
                 reps.append(rep)
+                subsets.append(subset)
 
         df = pd.DataFrame()
         df['n_transcripts'] = n_genes
         df['depth'] = depths
         df['rep'] = reps
+        df['gene_subset'] = subsets
 
         df.to_csv(output.ofile, sep='\t', index=False)
 
@@ -216,6 +219,7 @@ rule subsample_wtc11_gene_summary:
         files = []
         depths = []
         reps = []
+        subsets = []
 
         for file, depth, rep in zip(files_loop, depths_loop, reps_loop):
             temp = pd.read_csv(file, sep='\t')
@@ -228,11 +232,13 @@ rule subsample_wtc11_gene_summary:
                 files.append(file)
                 depths.append(depth)
                 reps.append(rep)
+                subsets.append(subset)
 
         df = pd.DataFrame()
         df['n_genes'] = n_genes
         df['depth'] = depths
         df['rep'] = reps
+        df['gene_subset'] = subsets
 
         df.to_csv(output.ofile, sep='\t', index=False)
 

@@ -37,7 +37,7 @@ use rule cerb_gtf_to_ics as cerb_get_gtf_ics with:
     output:
         ics = config['gtex']['cerberus']['ics']
 
-use rule cerb_gtf_ids as cerb_gtf_ids_new_ref with:
+use rule cerb_gtf_ids as cerb_gtf_ids_new_gtex with:
     input:
         h5 = config['lr']['cerberus']['ca_annot'],
         gtf = config['gtex']['filt_gtf']

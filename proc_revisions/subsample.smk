@@ -141,14 +141,21 @@ rule subsample_wtc11_transcript_summary:
     output:
         ofile = config['lr']['subsample']['transcript_summary']
     run:
-        df = pd.DataFrame()
+        df = pd.DataFrame()]
+        df['file'] = list(input.files)
+        df['depth'] = df.file.str.rsplit('_', n=2, expand=True)[1]
+        df['rep'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
+
+        files_loop = df.file.tolist()
+        depths_loop = df.depth.tolist()
+        reps_loop = df.rep.tolist()
 
         n_genes = []
         files = []
         depths = []
         reps = []
 
-        for file in list(input.files):
+        for file, depth, rep in zip(files_loop, depths_loop, reps_loop):
             temp = pd.read_csv(file, sep='\t')
             for gene_subset in sample_gene_subsets:
                 _, inds = get_tpm_table(temp,
@@ -160,6 +167,7 @@ rule subsample_wtc11_transcript_summary:
                 depths.append(depth)
                 reps.append(rep)
 
+        df = pd.DataFrame()
         df['n_transcripts'] = n_genes
         df['depth'] = depths
         df['rep'] = reps
@@ -195,17 +203,21 @@ rule subsample_wtc11_gene_summary:
     output:
         ofile = config['lr']['subsample']['gene_summary']
     run:
-        df = pd.DataFrame()
-        # df['file'] = list(input.files)
-        # df['depth'] = df.file.str.rsplit('_', n=2, expand=True)[1]
-        # df['rep'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
+        df = pd.DataFrame()]
+        df['file'] = list(input.files)
+        df['depth'] = df.file.str.rsplit('_', n=2, expand=True)[1]
+        df['rep'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
+
+        files_loop = df.file.tolist()
+        depths_loop = df.depth.tolist()
+        reps_loop = df.rep.tolist()
 
         n_genes = []
         files = []
         depths = []
         reps = []
 
-        for file in list(input.files):
+        for file, depth, rep in zip(files_loop, depths_loop, reps_loop):
             temp = pd.read_csv(file, sep='\t')
             for gene_subset in sample_gene_subsets:
                 _, inds = get_tpm_table(temp,
@@ -217,6 +229,7 @@ rule subsample_wtc11_gene_summary:
                 depths.append(depth)
                 reps.append(rep)
 
+        df = pd.DataFrame()
         df['n_genes'] = n_genes
         df['depth'] = depths
         df['rep'] = reps

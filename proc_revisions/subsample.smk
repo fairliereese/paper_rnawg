@@ -134,7 +134,7 @@ rule subsample_wtc11_transcript_summary:
         mem_gb = 32,
         threads = 2
     params:
-        min_tpm = 1,
+        min_tpm = 0,
         gene_subset = 'polya'
     output:
         ofile = config['lr']['subsample']['transcript_summary']
@@ -179,7 +179,7 @@ rule subsample_wtc11_gene_summary:
         mem_gb = 32,
         threads = 2
     params:
-        min_tpm = 1,
+        min_tpm = 0,
         gene_subset = 'polya'
     output:
         ofile = config['lr']['subsample']['gene_summary']
@@ -205,7 +205,7 @@ rule subsample_calc_triplets:
         h5 = config['lr']['cerberus']['ca_annot'],
         filt_ab = config['lr']['subsample']['filt_ab']
     params:
-        min_tpm = 1,
+        min_tpm = 0,
         gene_subset = 'polya'
     resources:
         mem_gb = 16,

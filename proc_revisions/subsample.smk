@@ -153,7 +153,7 @@ rule subsample_wtc11_transcript_summary:
                     min_tpm=params.min_tpm)
             n_genes.appesnd(len(inds))
         df['n_transcripts'] = n_genes
-        df.to_csv(ofile, sep='\t', index=False)
+        df.to_csv(output.ofile, sep='\t', index=False)
 
 rule subsample_wtc11_gene:
     input:
@@ -198,7 +198,7 @@ rule subsample_wtc11_gene_summary:
                     min_tpm=params.min_tpm)
             n_genes.append(len(inds))
         df['n_genes'] = n_genes
-        df.to_csv(ofile, sep='\t', index=False)
+        df.to_csv(output.ofile, sep='\t', index=False)
 
 rule subsample_calc_triplets:
     input:

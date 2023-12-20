@@ -1,5 +1,6 @@
 sample_depths = [.1, .15, .2, .4, .6, .8, .9, 1]
 sample_reps = [i for i in range(10)]
+sample_gene_subsets = ['polya', 'protein_coding', 'pseudogene', 'lncRNA']
 
 def read_annot_to_counts(df):
     """
@@ -131,19 +132,20 @@ rule subsample_wtc11_transcript_summary:
         files = expand(config['lr']['subsample']['filt_ab'],
                species='human',
                subsample_depth=sample_depths,
-               subsample_rep=sample_reps)
+               subsample_rep=sample_reps,
+               subsample_gene_subset=sample_gene_subsets)
     resources:
         mem_gb = 32,
         threads = 2
     params:
         min_tpm = 0,
-        gene_subset = 'polya'
     output:
         ofile = config['lr']['subsample']['transcript_summary']
     run:
         df = pd.DataFrame()
         df['file'] = list(input.files)
         # df['depth'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
+        df['gene_subset'] = df.file.str.rsplit('_', n=3, expand=True)[1]
         df['depth'] = df.file.str.rsplit('_', n=2, expand=True)[1]
         df['rep'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
 
@@ -179,7 +181,8 @@ rule subsample_wtc11_gene_summary:
         files = expand(config['lr']['subsample']['ab'],
                species='human',
                subsample_depth=sample_depths,
-               subsample_rep=sample_reps)
+               subsample_rep=sample_reps,
+               subsample_gene_subset=sample_gene_subsets)
     resources:
         mem_gb = 32,
         threads = 2
@@ -191,6 +194,7 @@ rule subsample_wtc11_gene_summary:
     run:
         df = pd.DataFrame()
         df['file'] = list(input.files)
+        df['gene_subset'] = df.file.str.rsplit('_', n=3, expand=True)[1]
         df['depth'] = df.file.str.rsplit('_', n=2, expand=True)[1]
         df['rep'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
 
@@ -206,31 +210,31 @@ rule subsample_wtc11_gene_summary:
         df['n_genes'] = n_genes
         df.to_csv(output.ofile, sep='\t', index=False)
 
-rule subsample_calc_triplets:
-    input:
-        h5 = config['lr']['cerberus']['ca_annot'],
-        filt_ab = config['lr']['subsample']['filt_ab']
-    params:
-        min_tpm = 0,
-        gene_subset = 'polya'
-    resources:
-        mem_gb = 16,
-        threads = 1
-    output:
-        h5 = config['lr']['subsample']['ca_triplets']
-    run:
-        ca = cerberus.read(input.h5)
-        filt_ab_df = pd.read_csv(input.filt_ab, sep='\t')
-
-        # observed triplets
-        source = f'{wildcards.subsample_depth}_obs_det'
-        df, tids = get_tpm_table(filt_ab_df,
-                   how='iso',
-                   min_tpm=params.min_tpm,
-                   subset=params.gene_subset)
-        df = ca.get_subset_triplets(tids, source)
-        ca.add_triplets(df)
-        ca.write(output.h5)
+# rule subsample_calc_triplets:
+#     input:
+#         h5 = config['lr']['cerberus']['ca_annot'],
+#         filt_ab = config['lr']['subsample']['filt_ab']
+#     params:
+#         min_tpm = 0,
+#         gene_subset = 'polya'
+#     resources:
+#         mem_gb = 16,
+#         threads = 1
+#     output:
+#         h5 = config['lr']['subsample']['ca_triplets']
+#     run:
+#         ca = cerberus.read(input.h5)
+#         filt_ab_df = pd.read_csv(input.filt_ab, sep='\t')
+#
+#         # observed triplets
+#         source = f'{wildcards.subsample_depth}_obs_det'
+#         df, tids = get_tpm_table(filt_ab_df,
+#                    how='iso',
+#                    min_tpm=params.min_tpm,
+#                    subset=params.gene_subset)
+#         df = ca.get_subset_triplets(tids, source)
+#         ca.add_triplets(df)
+#         ca.write(output.h5)
 
 rule all_subsample:
     input:
@@ -238,7 +242,7 @@ rule all_subsample:
                species='human'),
         expand(config['lr']['subsample']['transcript_summary'],
                species='human'),
-        expand(config['lr']['subsample']['ca_triplets'],
-               species='human',
-               subsample_depth=sample_depths,
-               subsample_rep=sample_reps)
+        # expand(config['lr']['subsample']['ca_triplets'],
+        #        species='human',
+        #        subsample_depth=sample_depths,
+        #        subsample_rep=sample_reps)

@@ -1,4 +1,5 @@
 sample_depths = [.1, .15, .2, .4, .6, .8, .9, 1]
+sample_reps = [i for i in range(10)]
 
 def read_annot_to_counts(df):
     """
@@ -129,7 +130,8 @@ rule subsample_wtc11_transcript_summary:
     input:
         files = expand(config['lr']['subsample']['filt_ab'],
                species='human',
-               subsample_depth=sample_depths)
+               subsample_depth=sample_depths,
+               subsample_rep=sample_reps)
     resources:
         mem_gb = 32,
         threads = 2
@@ -141,7 +143,9 @@ rule subsample_wtc11_transcript_summary:
     run:
         df = pd.DataFrame()
         df['file'] = list(input.files)
-        df['depth'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
+        # df['depth'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
+        df['depth'] = df.file.str.rsplit('_', n=2, expand=True)[1]
+        df['rep'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
 
         n_genes = []
         for ind, entry in df.iterrows():
@@ -174,7 +178,8 @@ rule subsample_wtc11_gene_summary:
     input:
         files = expand(config['lr']['subsample']['ab'],
                species='human',
-               subsample_depth=sample_depths)
+               subsample_depth=sample_depths,
+               subsample_rep=sample_reps)
     resources:
         mem_gb = 32,
         threads = 2
@@ -186,7 +191,8 @@ rule subsample_wtc11_gene_summary:
     run:
         df = pd.DataFrame()
         df['file'] = list(input.files)
-        df['depth'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
+        df['depth'] = df.file.str.rsplit('_', n=2, expand=True)[1]
+        df['rep'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
 
         n_genes = []
         for ind, entry in df.iterrows():

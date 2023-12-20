@@ -132,33 +132,38 @@ rule subsample_wtc11_transcript_summary:
         files = expand(config['lr']['subsample']['filt_ab'],
                species='human',
                subsample_depth=sample_depths,
-               subsample_rep=sample_reps,
-               subsample_gene_subset=sample_gene_subsets)
+               subsample_rep=sample_reps)
     resources:
         mem_gb = 32,
         threads = 2
     params:
-        min_tpm = 0,
+        min_tpm = 0
     output:
         ofile = config['lr']['subsample']['transcript_summary']
     run:
         df = pd.DataFrame()
-        df['file'] = list(input.files)
-        # df['depth'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
-        df['gene_subset'] = df.file.str.rsplit('_', n=3, expand=True)[1]
-        df['depth'] = df.file.str.rsplit('_', n=2, expand=True)[1]
-        df['rep'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
 
         n_genes = []
-        for ind, entry in df.iterrows():
-            file = entry.file
+        files = []
+        depths = []
+        reps = []
+
+        for file in list(input.files):
             temp = pd.read_csv(file, sep='\t')
-            _, inds = get_tpm_table(temp,
-                    how='iso',
-                    gene_subset=params.gene_subset,
-                    min_tpm=params.min_tpm)
-            n_genes.append(len(inds))
+            for gene_subset in sample_gene_subsets:
+                _, inds = get_tpm_table(temp,
+                        how='iso',
+                        gene_subset=gene_subset,
+                        min_tpm=params.min_tpm)
+                n_genes.append(len(inds))
+                files.append(file)
+                depths.append(depth)
+                reps.append(rep)
+
         df['n_transcripts'] = n_genes
+        df['depth'] = depths
+        df['rep'] = reps
+
         df.to_csv(output.ofile, sep='\t', index=False)
 
 rule subsample_wtc11_gene:
@@ -181,33 +186,41 @@ rule subsample_wtc11_gene_summary:
         files = expand(config['lr']['subsample']['ab'],
                species='human',
                subsample_depth=sample_depths,
-               subsample_rep=sample_reps,
-               subsample_gene_subset=sample_gene_subsets)
+               subsample_rep=sample_reps)
     resources:
         mem_gb = 32,
         threads = 2
     params:
-        min_tpm = 0,
-        gene_subset = 'polya'
+        min_tpm = 0
     output:
         ofile = config['lr']['subsample']['gene_summary']
     run:
         df = pd.DataFrame()
-        df['file'] = list(input.files)
-        df['gene_subset'] = df.file.str.rsplit('_', n=3, expand=True)[1]
-        df['depth'] = df.file.str.rsplit('_', n=2, expand=True)[1]
-        df['rep'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
+        # df['file'] = list(input.files)
+        # df['depth'] = df.file.str.rsplit('_', n=2, expand=True)[1]
+        # df['rep'] = df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
 
         n_genes = []
-        for ind, entry in df.iterrows():
-            file = entry.file
+        files = []
+        depths = []
+        reps = []
+
+        for file in list(input.files):
             temp = pd.read_csv(file, sep='\t')
-            _, inds = get_tpm_table(temp,
-                    how='gene',
-                    gene_subset=params.gene_subset,
-                    min_tpm=params.min_tpm)
-            n_genes.append(len(inds))
+            for gene_subset in sample_gene_subsets:
+                _, inds = get_tpm_table(temp,
+                            how='gene',
+                            gene_subset=gene_subset,
+                            min_tpm=params.min_tpm)
+                n_genes.append(len(inds))
+                files.append(file)
+                depths.append(depth)
+                reps.append(rep)
+
         df['n_genes'] = n_genes
+        df['depth'] = depths
+        df['rep'] = reps
+
         df.to_csv(output.ofile, sep='\t', index=False)
 
 # rule subsample_calc_triplets:

@@ -240,4 +240,5 @@ rule all_subsample:
                species='human'),
         expand(config['lr']['subsample']['ca_triplets'],
                species='human',
-               subsample_depth=sample_depths)
+               subsample_depth=sample_depths,
+               subsample_rep=sample_reps)

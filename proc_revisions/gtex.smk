@@ -36,3 +36,19 @@ use rule cerb_gtf_to_ics as cerb_get_gtf_ics with:
         gtf = config['gtex']['filt_gtf']
     output:
         ics = config['gtex']['cerberus']['ics']
+
+use rule cerb_gtf_ids as cerb_gtf_ids_new_ref with:
+    input:
+        h5 = config['lr']['cerberus']['ca_annot'],
+        gtf = config['gtex']['filt_gtf']
+    params:
+        source = lambda wc:config['ref'][wc.species]['new_gtf_ver'],
+        update_ends = True,
+        agg = True
+    output:
+        gtf = config['gtex']['cerberus']['gtf']
+
+rule all_gtex:
+    input:
+        expand(config['gtex']['cerberus']['gtf'],
+               species='human')

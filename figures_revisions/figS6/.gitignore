@@ -1,0 +1,11 @@
+*.swp
+data_dir/bigWigs/
+data_dir/labeled_beds/
+data_dir/processed_beds/
+data_dir/raw_beds/Cerberus/
+training/models/
+training/predicts/
+training/plots/*
+plots/*
+training/Rplots.pdf
+Rplots.pdf

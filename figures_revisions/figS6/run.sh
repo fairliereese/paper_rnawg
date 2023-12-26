@@ -6,7 +6,7 @@
 # SFig 6c: plots/test_train_set_peaks.pdf
 # SFig 6d: training/plots/Cerberus_AIC.png  training/plots/LAPA_AIC.png
 # SFig 6e: training/plots/individual_exper_same_cell_line/Cerberus/K562_ENCSR589FUJ_AUROC.pdf training/plots/individual_exper_same_cell_line/LAPA/K562_ENCSR589FUJ_AUROC.pdf
-# SFig 6f: plots/AUROC_diff_cell_line_boxplot.pdf
+# SFig 6f: training/plots/AUROC_diff_cell_line_boxplot.pdf
 
 ########################################################################
 

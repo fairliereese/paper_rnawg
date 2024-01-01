@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Session genome="hg38" locus="chr17:7561285-7580715" version="8">
+    <Resources>
+        <Resource path="../../../../../../ref/human/annot.sorted.gtf" type="gtf"/>
+        <Resource index="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/label/wtc11_1_1_sorted.bam.bai" path="../../../talon/label/wtc11_1_1_sorted.bam" type="bam"/>
+        <Resource index="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/label/wtc11_1_2_sorted.bam.bai" path="../../../talon/label/wtc11_1_2_sorted.bam" type="bam"/>
+        <Resource path="../../../cerberus/cerberus.sorted.gtf" type="gtf"/>
+        <Resource path="transcript_models.sorted.gtf" type="gtf"/>
+        <Resource index="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/label/wtc11_1_3_sorted.bam.bai" path="../../../talon/label/wtc11_1_3_sorted.bam" type="bam"/>
+        <Resource path="../../cerberus/cerberus.sorted.gtf" type="gtf"/>
+    </Resources>
+    <Panel height="4832" name="Panel1703010909120" width="1171">
+        <Track attributeKey="wtc11_1_1_sorted.bam Coverage" autoScale="true" clazz="org.broad.igv.sam.CoverageTrack" fontSize="10" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/label/wtc11_1_1_sorted.bam_coverage" name="wtc11_1_1_sorted.bam Coverage" snpThreshold="0.2" visible="true">
+            <DataRange baseline="0.0" drawBaseline="true" flipAxis="false" maximum="3736.0" minimum="0.0" type="LINEAR"/>
+        </Track>
+        <Track attributeKey="wtc11_1_1_sorted.bam Junctions" autoScale="false" clazz="org.broad.igv.sam.SpliceJunctionTrack" fontSize="10" groupByStrand="false" height="60" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/label/wtc11_1_1_sorted.bam_junctions" maxdepth="50" name="wtc11_1_1_sorted.bam Junctions" visible="false"/>
+        <Track attributeKey="wtc11_1_1_sorted.bam" clazz="org.broad.igv.sam.AlignmentTrack" color="185,185,185" displayMode="EXPANDED" experimentType="THIRD_GEN" fontSize="10" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/label/wtc11_1_1_sorted.bam" name="wtc11_1_1_sorted.bam" visible="true">
+            <RenderOptions/>
+        </Track>
+    </Panel>
+    <Panel height="4664" name="Panel1703010909149" width="1171">
+        <Track attributeKey="wtc11_1_2_sorted.bam Coverage" autoScale="true" clazz="org.broad.igv.sam.CoverageTrack" fontSize="10" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/label/wtc11_1_2_sorted.bam_coverage" name="wtc11_1_2_sorted.bam Coverage" snpThreshold="0.2" visible="true">
+            <DataRange baseline="0.0" drawBaseline="true" flipAxis="false" maximum="2937.0" minimum="0.0" type="LINEAR"/>
+        </Track>
+        <Track attributeKey="wtc11_1_2_sorted.bam Junctions" autoScale="false" clazz="org.broad.igv.sam.SpliceJunctionTrack" fontSize="10" groupByStrand="false" height="60" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/label/wtc11_1_2_sorted.bam_junctions" maxdepth="50" name="wtc11_1_2_sorted.bam Junctions" visible="false"/>
+        <Track attributeKey="wtc11_1_2_sorted.bam" clazz="org.broad.igv.sam.AlignmentTrack" color="185,185,185" displayMode="EXPANDED" experimentType="THIRD_GEN" fontSize="10" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/label/wtc11_1_2_sorted.bam" name="wtc11_1_2_sorted.bam" visible="true">
+            <RenderOptions/>
+        </Track>
+    </Panel>
+    <Panel height="6428" name="Panel1703010909167" width="1171">
+        <Track attributeKey="wtc11_1_3_sorted.bam Coverage" autoScale="true" clazz="org.broad.igv.sam.CoverageTrack" fontSize="10" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/label/wtc11_1_3_sorted.bam_coverage" name="wtc11_1_3_sorted.bam Coverage" snpThreshold="0.2" visible="true">
+            <DataRange baseline="0.0" drawBaseline="true" flipAxis="false" maximum="5023.0" minimum="0.0" type="LINEAR"/>
+        </Track>
+        <Track attributeKey="wtc11_1_3_sorted.bam Junctions" autoScale="false" clazz="org.broad.igv.sam.SpliceJunctionTrack" fontSize="10" groupByStrand="false" height="60" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/label/wtc11_1_3_sorted.bam_junctions" maxdepth="50" name="wtc11_1_3_sorted.bam Junctions" visible="false"/>
+        <Track attributeKey="wtc11_1_3_sorted.bam" clazz="org.broad.igv.sam.AlignmentTrack" color="185,185,185" displayMode="EXPANDED" experimentType="THIRD_GEN" fontSize="10" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/talon/label/wtc11_1_3_sorted.bam" name="wtc11_1_3_sorted.bam" visible="true">
+            <RenderOptions/>
+        </Track>
+    </Panel>
+    <Panel height="1526" name="FeaturePanel" width="1171">
+        <Track attributeKey="Reference sequence" clazz="org.broad.igv.track.SequenceTrack" fontSize="10" id="Reference sequence" name="Reference sequence" sequenceTranslationStrandValue="POSITIVE" shouldShowTranslation="true" visible="true"/>
+        <Track attributeKey="annot.sorted.gtf" clazz="org.broad.igv.track.FeatureTrack" color="255,0,204" displayMode="SQUISHED" featureVisibilityWindow="1000000" fontSize="10" groupByStrand="false" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/ref/human/annot.sorted.gtf" name="v29" visible="true"/>
+        <Track attributeKey="cerberus.sorted.gtf" clazz="org.broad.igv.track.FeatureTrack" displayMode="SQUISHED" featureVisibilityWindow="188034200" fontSize="10" groupByStrand="false" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/cerberus/cerberus.sorted.gtf" name="ENCODE" visible="true"/>
+        <Track attributeKey="cerberus.sorted.gtf" clazz="org.broad.igv.track.FeatureTrack" color="0,204,0" displayMode="SQUISHED" featureVisibilityWindow="1401325" fontSize="10" groupByStrand="false" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/isoquant/cerberus/cerberus.sorted.gtf" name="IsoQuant+Cerberus" visible="true"/>
+        <Track attributeKey="transcript_models.sorted.gtf" clazz="org.broad.igv.track.FeatureTrack" color="255,153,51" displayMode="EXPANDED" featureVisibilityWindow="2209293" fontSize="10" groupByStrand="false" id="/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/isoquant/wtc11_unfiltered_correction/transcript-discovery/transcript_models.sorted.gtf" name="IsoQuant unfiltered + correction" visible="true"/>
+    </Panel>
+    <PanelLayout dividerFractions="0.0066518847006651885,0.24944567627494457,0.49889135254988914,0.7483370288248337"/>
+    <HiddenAttributes>
+        <Attribute name="DATA FILE"/>
+        <Attribute name="DATA TYPE"/>
+        <Attribute name="NAME"/>
+    </HiddenAttributes>
+</Session>

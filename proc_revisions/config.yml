@@ -246,25 +246,25 @@ lr:
     matching_events: data/{species}/lr/suppa/{event}_combined.tsv
 
   isoquant:
-    gene_ab: data/{species}/lr/isoquant/reference_based/gene_grouped_tpm.tsv
-    known_ab: data/{species}/lr/isoquant/reference_based/transcript_grouped_tpm.tsv
-    novel_ab: data/{species}/lr/isoquant/transcript-discovery/transcript_model_grouped_tpm.tsv
-    gtf: data/{species}/lr/isoquant/transcript-discovery/transcript_models.gtf
-    ab_fmt: data/{species}/lr/isoquant/abundance_formatted.tsv
+    gene_ab: data/{species}/lr/isoquant/unfiltered/reference_based/gene_grouped_tpm.tsv
+    known_ab: data/{species}/lr/isoquant/unfiltered/reference_based/transcript_grouped_tpm.tsv
+    novel_ab: data/{species}/lr/isoquant/unfiltered/transcript-discovery/transcript_model_grouped_tpm.tsv
+    gtf: data/{species}/lr/isoquant/unfiltered/transcript-discovery/transcript_models.gtf
+    ab_fmt: data/{species}/lr/isoquant/unfiltered/abundance_formatted.tsv
 
     cerberus:
-      ics: data/{species}/lr/isoquant/cerberus/ics.tsv
-      ends: data/{species}/lr/isoquant/cerberus/{end_mode}.bed
-      ca: data/{species}/lr/isoquant/cerberus/cerberus_ref.h5
-      ca_annot: data/{species}/lr/isoquant/cerberus/cerberus_annot.h5
-      gtf: data/{species}/lr/isoquant/cerberus/cerberus.gtf
-      ab: data/{species}/lr/isoquant/cerberus/cerberus_abundance.tsv
+      ics: data/{species}/lr/isoquant/unfiltered/cerberus/ics.tsv
+      ends: data/{species}/lr/isoquant/unfiltered/cerberus/{end_mode}.bed
+      ca: data/{species}/lr/isoquant/unfiltered/cerberus/cerberus_ref.h5
+      ca_annot: data/{species}/lr/isoquant/unfiltered/cerberus/cerberus_annot.h5
+      gtf: data/{species}/lr/isoquant/unfiltered/cerberus/cerberus.gtf
+      ab: data/{species}/lr/isoquant/unfiltered/cerberus/cerberus_abundance.tsv
     tracks:
-      gp: data/{species}/lr/isoquant/tracks/isoquant_wtc11.gp
-      bgp: data/{species}/lr/isoquant/tracks/isoquant_wtc11.bgp
-      bgp_sort: data/{species}/lr/isoquant/tracks/isoquant_wtc11_sorted.bgp
-      bgp_sort_filt: data/{species}/lr/isoquant/tracks/isoquant_wtc11_sorted_filtered.bgp
-      bb: data/{species}/lr/isoquant/tracks/isoquant_wtc11.bb
+      gp: data/{species}/lr/isoquant/unfiltered/tracks/isoquant_wtc11.gp
+      bgp: data/{species}/lr/isoquant/unfiltered/tracks/isoquant_wtc11.bgp
+      bgp_sort: data/{species}/lr/isoquant/unfiltered/tracks/isoquant_wtc11_sorted.bgp
+      bgp_sort_filt: data/{species}/lr/isoquant/unfiltered/tracks/isoquant_wtc11_sorted_filtered.bgp
+      bb: data/{species}/lr/isoquant/unfiltered/tracks/isoquant_wtc11.bb
 
 
 

@@ -25,8 +25,22 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-# from .utils import *
-from utils import *
+from .utils import *
+# from utils import *
+
+def get_feat_triplet_colors(cats=None):
+    tss = '#56B4E9'
+    tes = '#E69F00'
+    splicing = '#CC79A7'
+    triplet = '#009E73'
+    c_dict = {'tss': tss,
+              'ic': splicing,
+              'tes': tes,
+              'triplet': triplet}
+    order = ['triplet', 'tss', 'ic', 'tes']
+
+    c_dict, order = rm_color_cats(c_dict, order, cats)
+    return c_dict, order
 
 def get_ccre_colors():
     pls = '#FF0000'
@@ -497,7 +511,7 @@ def plot_biosamp_det(df,
         ylabel = '# {}s'.format(how.upper())
 
     if groupby == 'sample':
-        xlabel = '# samples'
+        xlabel = '# samples * conditions'
     elif groupby == 'biosample':
         xlabel = '# ENCODE biosamples'
     elif groupby == 'tissue':
@@ -506,9 +520,9 @@ def plot_biosamp_det(df,
         xlabel = '# celltypes'
     elif groupby == 'library':
         if sample == 'cell_line':
-            xlabel = '# cell line libraries'
+            xlabel = '# cell line samples'
         elif sample == 'tissue':
-            xlabel = '# tissue libraries'
+            xlabel = '# tissue samples'
         else:
             xlabel = '# libraries'
 
@@ -2679,7 +2693,7 @@ def plot_obs_human_simplex_with_centroid(h5, gene, fig_dir, **kwargs):
                 legend=False,
                 jitter=True,
                 subset={'source': ['v40', 'obs_det', 'sample_det', 'sample_det_centroid']},
-                size_scale=0.5,
+                size_scale=0.2,
                 fname=fname)
 
 def plot_perc_one_feat(df, feat, opref='figures/'):
@@ -3302,7 +3316,7 @@ def plot_human_mouse_simplex(ca, m_ca, h_gene, m_gene, odir):
                 legend=False,
                 jitter=True,
                 subset=subset,
-                size_scale=0.5,
+                size_scale=0.2,
                 fname='{}/simplex_{}.pdf'.format(odir, h_gene.lower()))
 
     # mouse
@@ -3322,7 +3336,7 @@ def plot_human_mouse_simplex(ca, m_ca, h_gene, m_gene, odir):
                 legend=False,
                 jitter=True,
                 subset=subset,
-                size_scale=0.5,
+                size_scale=0.2,
                 fname='{}/simplex_mouse_{}.pdf'.format(odir, m_gene.lower()))
 
 def plot_end_support_by_ic_novelty(filt_ab,
@@ -3373,8 +3387,33 @@ def plot_end_support_by_ic_novelty(filt_ab,
     temp['perc'] = (temp['n_transcripts']/temp['n_total_transcripts'])*100
     print(temp)
 
+    c_dict, order = get_ic_nov_colors(cats=temp.novelty.unique().tolist())
+    temp['novelty'] = temp['novelty'].astype('category')
+    temp['novelty'] = temp['novelty'].cat.reorder_categories(order, ordered=True)
+    cats = ['Supported', 'Novel']
+    temp['support'] = temp['support'].astype('category')
+    temp['support'] = temp['support'].cat.reorder_categories(cats, ordered=True)
 
-    # sns.barplot(data=temp, x='novelty', y='n_transcripts', hue='support')
-    sns.barplot(data=temp, x='novelty', y='perc', hue='support')
+    ax = sns.barplot(data=temp, x='novelty', y='perc', hue='support')
+    ax.set(xlabel='EC novelty', ylabel='% of transcripts / EC novelty')
+
+    for bar_group, cat in zip(ax.containers, cats):
+        for bar, cat2 in zip(bar_group, order):
+            c = c_dict[cat2]
+            c_dict_2, order_2 = get_shade_colors(c, cats)
+            bar.set_facecolor(c_dict_2[cat])
+
+
+#     for bar_group, desaturate_value in zip(ax.containers, [0.5, 1]):
+#         for bar, color in zip(bar_group, plt.cm.Set2.colors):
+#             bar.set_facecolor(sns.desaturate(color, desaturate_value))
+
+#     ax.legend(handles=[tuple(bar_group) for bar_group in ax.containers],
+#               labels=[bar_group.get_label() for bar_group in ax.containers],
+#               title=ax.legend_.get_title().get_text(),
+#               handlelength=4, handler_map={tuple: HandlerTuple(ndivide=None, pad=0.1)})
+
+    ax.spines['right'].set_visible(False)
+    ax.spines['top'].set_visible(False)
 
     plt.savefig(ofile, dpi=500)

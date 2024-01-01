@@ -43,7 +43,7 @@ def get_datasets(species='human',
         df = df.loc[~df.matching_mouse_samples.isnull()]
 
     datasets = df.dataset.tolist()
-    
+
     if isinstance(ab_df, pd.DataFrame):
         datasets_temp = [c for c in ab_df.columns if c in datasets]
         datasets = datasets_temp
@@ -1108,7 +1108,7 @@ def add_feat(df, col, kind, as_index=False, as_number=False,
     Returns:
         df (pandas DataFrame): DF w/ additional "kind" col
     """
-    
+
     if col == 'index':
         df['temp_tid'] = df.index.tolist()
     else:
@@ -1356,6 +1356,21 @@ def get_feat_psi(df, feat, **kwargs):
 
     return df
 
+
+def get_tissue_metadata_old():
+    """
+    Get the biosample <--> higher level biosample mapping
+
+    Returns:
+        tissue (pandas DataFrame): DataFrame containing original
+            biosample_term_name as well as higher level version
+    """
+
+    d = os.path.dirname(__file__)
+    fname = f'{d}/ref/human/tissue_metadata.csv'
+    tissue = pd.read_csv(fname)
+    return tissue
+
 def get_det_table(df,
                   groupby='library',
                   min_tpm=0,
@@ -1381,8 +1396,6 @@ def get_det_table(df,
         except:
             nov = ['Known']
 
-
-
     # add min_tpm to kwargs as it's needed for both
     # functions
     kwargs['min_tpm'] = min_tpm
@@ -1390,7 +1403,7 @@ def get_det_table(df,
     # kwargs['groupby'] = groupby
     # calc TPM per library on desired samples
     df, tids = get_tpm_table(df, **kwargs)
-
+    
     df = df.transpose()
     df.index.name = 'dataset'
     df.reset_index(inplace=True)
@@ -1402,12 +1415,28 @@ def get_det_table(df,
         # df['biosample'] = df.dataset.str.rsplit('_', n=2, expand=True)[0]
         # df.drop(['dataset'], axis=1, inplace=True)
 
-        # record the highest TPM value per biosample
-        tissue_df = get_tissue_metadata(species=kwargs['species'])
-        tissue_df = tissue_df[['dataset', 'sample']]
-        df = df.merge(tissue_df, how='left', on='dataset')
-        df.drop('dataset', axis=1, inplace=True)
-        df.rename({'sample': 'biosample'}, axis=1, inplace=True)
+        if kwargs['how'] != 'sr':
+            # record the highest TPM value per biosample
+            tissue_df = get_tissue_metadata(species=kwargs['species'])
+            tissue_df = tissue_df[['dataset', 'sample']]
+            df = df.merge(tissue_df, how='left', on='dataset')
+            df.drop('dataset', axis=1, inplace=True)
+            df.rename({'sample': 'biosample'}, axis=1, inplace=True)
+            
+        elif kwargs['how'] == 'sr':
+            # add biosample name (ie without rep information)
+            df['biosample'] = df.dataset.str.rsplit('_', n=2, expand=True)[0]
+            df.drop(['dataset'], axis=1, inplace=True)
+
+            # record the highest TPM value per biosample
+            tissue_df = get_tissue_metadata_old()
+            tissue_df = tissue_df[['tissue', 'biosample']]
+
+            df = df.merge(tissue_df, how='left', on='biosample')
+            df.loc[df.tissue.isnull(), 'tissue'] = df.loc[df.tissue.isnull(), 'biosample']
+            df.drop('biosample', axis=1, inplace=True)
+            df.rename({'tissue': 'biosample'}, axis=1, inplace=True)
+            
 
         print('Found {} total samples'.format(len(df.biosample.unique().tolist())))
         df = df.groupby('biosample').max()
@@ -1920,7 +1949,7 @@ def get_tpm_table(df,
 
     """
     kwargs['species'] = species
-    
+
     if how == 'sr':
         df, ids = get_sr_tpm_table(df, groupby, min_tpm, gene_subset, save, **kwargs)
         # limit only to samples that are in lr
@@ -2080,16 +2109,30 @@ def get_tpm_table(df,
             df = df.transpose()
             df.reset_index(inplace=True)
             df.rename({'index':'dataset'}, axis=1, inplace=True)
+            if 'how' not in kwargs.keys():
+                kwargs['how'] = how
+                
+            if kwargs['how'] != 'sr':
+                # record the highest TPM value per biosample
+                tissue_df = get_tissue_metadata(species=kwargs['species'])
+                tissue_df = tissue_df[['dataset', 'sample']]
+                df = df.merge(tissue_df, how='left', on='dataset')
+                df.drop('dataset', axis=1, inplace=True)
+                df.rename({'sample': 'biosample'}, axis=1, inplace=True)
 
-            # add biosample name (ie without rep information)
+            elif kwargs['how'] == 'sr':
+                # add biosample name (ie without rep information)
+                df['biosample'] = df.dataset.str.rsplit('_', n=2, expand=True)[0]
+                df.drop(['dataset'], axis=1, inplace=True)
 
-            # record the avg TPM value per biosample
-            tissue_df = get_tissue_metadata(kwargs['species'])
-            tissue_df = tissue_df[['dataset', 'sample']]
+                # record the highest TPM value per biosample
+                tissue_df = get_tissue_metadata_old()
+                tissue_df = tissue_df[['tissue', 'biosample']]
 
-            df = df.merge(tissue_df, how='left', on='dataset')
-            df.drop('dataset', axis=1, inplace=True)
-            df.rename({'sample': 'biosample'}, axis=1, inplace=True)
+                df = df.merge(tissue_df, how='left', on='biosample')
+                df.loc[df.tissue.isnull(), 'tissue'] = df.loc[df.tissue.isnull(), 'biosample']
+                df.drop('biosample', axis=1, inplace=True)
+                df.rename({'tissue': 'biosample'}, axis=1, inplace=True)
 
             print('Found {} total samples'.format(len(df.biosample.unique().tolist())))
 
@@ -4180,10 +4223,10 @@ def explode_ic(ic):
 
 def get_ss_sj_from_ic(ic, ref_sources, how, rm_spikes):
     ic = ic.copy(deep=True)
-    
+
     if rm_spikes:
         ic = ic.loc[~(ic.Chromosome.str.contains('SIRV'))&~(ic.Chromosome.str.contains('ERCC'))]
-    
+
     # get coords of each splice site in each splice junction
     df = explode_ic(ic)
     df['Start'] = df['sj_coords'].str[0].astype(int)

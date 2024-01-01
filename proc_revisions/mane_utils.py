@@ -13,10 +13,10 @@ import swan_vis as swan
 p = os.path.dirname(os.path.dirname(os.getcwd()))
 sys.path.append(p)
 
-# from .utils import *
-# from .plotting import *
-from utils import *
-from plotting import *
+from .utils import *
+from .plotting import *
+# from utils import *
+# from plotting import *
 
 def get_exp_gene_subset(ab, min_tpm,
                         obs_col,
@@ -167,9 +167,9 @@ def get_mane_feats(ca, df, feat, obs_col, id_col, id_col_2, t_orig_metadata):
 
     return df
 
-def plot_tpms(temp, feat, how, x='mane', y='princ'):
+def plot_tpms(temp, feat, how, opref, x='mane', y='princ'):
 
-    fig_dir = 'figures/'
+    # fig_dir = 'figures/'
 
     princ_col = f'{feat}_{how}_{y}'
     mane_col = f'{feat}_{how}_{x}'
@@ -235,7 +235,7 @@ def plot_tpms(temp, feat, how, x='mane', y='princ'):
                       colors=color, linestyles='dashed',
                       linewidth=2)
 
-    fname = f'{fig_dir}/{x}_vs_{y}_{feat}_{how}.pdf'
+    fname = f'{opref}{x}_vs_{y}_{feat}_{how}.pdf'
     plt.savefig(fname, dpi=800, bbox_inches='tight')
 
 def get_loopers(sg):
@@ -354,12 +354,13 @@ def plot_ranked_feats(df, feat, obs_col,
     n_num = temp.loc[temp['rank']!='1'].counts.sum()
     print(f'{(n_num/n)*100:.2f}% ({n_num}/{n}) ranked gene / library combinations where predominant {feat_label} is not MANE')
 
-    fname = f'{opref}/{x}_{feat}s_by_rank_hist.pdf'
+    fname = f'{opref}{x}_{feat}s_by_rank_hist.pdf'
     plt.savefig(fname, dpi=800, bbox_inches='tight')
 
 def plot_perc_samples_mane(temp,
                            feat,
                            obs_col,
+                           opref='figures/',
                            binwidth=5):
 
     temp = temp.copy(deep=True)
@@ -438,14 +439,14 @@ def plot_perc_samples_mane(temp,
     else:
         xlabel = '% of {}s where predominant\ntranscript is MANE'.format(label_col)
     if obs_col == 'dataset':
-        ax.set(ylabel=ylabel, xlabel=xlabel, ylim=(0, 7263))
+        ax.set(ylabel=ylabel, xlabel=xlabel, ylim=(0, 8500))
     elif obs_col == 'sample':
         ax.set(ylabel=ylabel, xlabel=xlabel, ylim=(0, 5000))
 
     ax.tick_params(axis='x', rotation=90)
     _ = plt.xticks(fontsize=16)
 
-    fname = f'figures/{obs_col}_{feat}_perc_samples_mane.pdf'
+    fname = f'{opref}{obs_col}_{feat}_perc_samples_mane.pdf'
     plt.savefig(fname, dpi=800, bbox_inches='tight')
 
 
@@ -486,7 +487,7 @@ def plot_major_principal_feat_counts(df, feat, obs_col, opref='figures/', **kwar
 
     ax.set(ylabel=ylabel, xlabel=xlabel, ylim=(0,9500))
 
-    fname = '{}/mane_vs_principal_{}_{}_hist.pdf'.format(opref, feat, obs_col)
+    fname = '{}_mane_vs_principal_{}_{}_hist.pdf'.format(opref, feat, obs_col)
     plt.savefig(fname, dpi=800, bbox_inches='tight')
 
 def get_mp_df_table(sg, ca,
@@ -638,15 +639,16 @@ def mane_analysis(sg, ca,
         temp['mp_perc'] = (temp['n_{}s_mp'.format(obs_col)]/temp['n_{}s'.format(obs_col)])*100
         n_num = len(temp.loc[temp.mp_perc < 80, 'gid'].unique())
         print('{:.2f}% ({}/{}) of genes have a non-MANE predominant {} in 80% of expressed {}s'.format((n_num/n)*100, n_num, n, feat, obs_col))
-        plot_major_principal_feat_counts(temp, feat, obs_col, opref='figures/')
+        plot_major_principal_feat_counts(temp, feat, obs_col, opref=f'figures/{obs_col}')
         plot_perc_samples_mane(temp,
                                feat,
                                obs_col,
+                               opref=f'figures/{obs_col}',
                                binwidth=5)
 
         # plot mane features based on their ranks
         plot_ranked_feats(mp_df, feat, obs_col, x='mane',
-                          opref='figures/',
+                          opref=f'figures/{obs_col}',
                           figsize=(4,4.5))
 
         # plot secondary isoform tpm vs. mane when mane == principal
@@ -655,7 +657,7 @@ def mane_analysis(sg, ca,
         temp = temp.loc[temp[f'{feat}_tpm_sec']>0]
         n_num = len(temp.index)
         print('{:.2f}% ({}/{}) of gene / {} combos where MANE is predominant {} also have a secondary expressed {}'.format((n_num/n)*100, n_num, n, obs_col, feat, feat))
-        plot_tpms(temp, feat, 'tpm', x='mane', y='sec')
+        plot_tpms(temp, feat, 'tpm', opref=f'figures/{obs_col}', x='mane', y='sec')
         # sns.displot(temp, x='log_triplet_tpm_sec', kind='hist')
         # plt.xticks(np.arange(0, 11, 1.0))
         # break
@@ -666,8 +668,8 @@ def mane_analysis(sg, ca,
         temp = temp.loc[temp['{}_tpm_mane'.format(feat)]>0]
         n_num = len(temp.index)
         print('{:.2f}% ({}/{}) of gene / {} combos  where predominant {} is not MANE have MANE expression'.format((n_num/n)*100, n_num, n, obs_col, feat))
-        plot_tpms(temp, feat, 'tpm')
-        plot_tpms(temp, feat, 'pi')
+        plot_tpms(temp, feat, 'tpm', opref=f'figures/{obs_col}')
+        plot_tpms(temp, feat, 'pi', opref=f'figures/{obs_col}')
 
         temp['tpm_diff'] = temp['{}_tpm_princ'.format(feat)] - temp['{}_tpm_mane'.format(feat)]
         temp['log_tpm_diff'] = temp['log_{}_tpm_princ'.format(feat)] - temp['log_{}_tpm_mane'.format(feat)]

@@ -92,7 +92,8 @@ def format_isoquant_ab(ab, lib_meta, ofile):
     df['transcript_ID'] = df['annot_transcript_id']
     df.columns = [c.split('.')[0] for c in df.columns]
     df.drop('#feature_id', axis=1, inplace=True)
-    m = dict([(entry['ENCODE_alignments_id'], entry['dataset']) for ind, entry in meta[['dataset', 'ENCODE_alignments_id']].iterrows()])
+    # m = dict([(entry['ENCODE_alignments_id'], entry['dataset']) for ind, entry in meta[['dataset', 'ENCODE_alignments_id']].iterrows()])
+    m = dict([(entry['ENCODE_alignments_id'], entry['dataset']) for ind, entry in meta[['dataset', 'ENCODE_unfiltered_alignments_id']].iterrows()])
     df.columns = [m[c] if 'ENCFF' in c else c for c in df.columns]
 
     df.to_csv(ofile, sep='\t', index=False)

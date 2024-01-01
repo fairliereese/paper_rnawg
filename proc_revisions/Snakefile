@@ -61,6 +61,7 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
+        rules.all_gtex.input,
         rules.all_subsample.input,
         rules.all_isoquant.input,
         rules.all_intropolis.input,

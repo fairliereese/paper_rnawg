@@ -13,10 +13,10 @@ import swan_vis as swan
 p = os.path.dirname(os.path.dirname(os.getcwd()))
 sys.path.append(p)
 
-from .utils import *
-from .plotting import *
-# from utils import *
-# from plotting import *
+# from .utils import *
+# from .plotting import *
+from utils import *
+from plotting import *
 
 def get_exp_gene_subset(ab, min_tpm,
                         obs_col,

@@ -25,8 +25,8 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-from .utils import *
-# from utils import *
+# from .utils import *
+from utils import *
 
 def get_feat_triplet_colors(cats=None):
     tss = '#56B4E9'

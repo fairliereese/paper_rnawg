@@ -64,7 +64,7 @@ def format_gtex_abundance(ifile, ofile):
     df = pd.read_csv(ifile, sep='\t')
     df['annot_transcript_id'] = df.transcript
     df['annot_transcript_name'] = df.transcript
-    df['transcript_ID'] = df.transcript_ID
+    df['transcript_ID'] = df.transcript
     df.drop('transcript', axis=1, inplace=True)
     df.to_csv(ofile, sep='\t', index=False)
 

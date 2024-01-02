@@ -60,8 +60,37 @@ use rule gunzip as gz_gtex_ab with:
     output:
         out = config['gtex']['ab']
 
+def format_gtex_abundance(ifile, ofile):
+    df = pd.read_csv(ifile, sep='\t')
+    df['annot_transcript_id'] = df.transcript
+    df['annot_transcript_name'] = df.transcript
+    df['transcript_ID'] = df.transcript_ID
+    df.drop('transcript', axis=1, inplace=True)
+    df.to_csv(ofile, sep='\t', index=False)
+
+rule gtex_fmt_ab:
+    input:
+        ab = config['gtex']['ab']
+    resources:
+        threads = 1,
+        mem_gb = 4
+    output:
+        ab = config['gtex']['ab_fmt']
+    run:
+        format_gtex_abundance(input.ab, output.ab)
+
+use rule cerb_ab_ids as cerb_ab_ids_gtex with:
+    input:
+        h5 = config['lr']['cerberus']['ca_annot'],
+        ab = config['gtex']['ab_fmt']
+    params:
+        source = 'gtex',
+        agg = True
+    output:
+        ab = config['gtex']['cerberus']['ab']
+
 rule all_gtex:
     input:
         expand(config['gtex']['cerberus']['gtf'],
                species='human'),
-        expand(config['gtex']['ab'], species='human')
+        expand(config['gtex']['cerberus']['ab'], species='human')

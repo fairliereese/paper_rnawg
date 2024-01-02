@@ -288,6 +288,7 @@ gtex:
     ab_link: https://storage.cloud.google.com/adult-gtex/long-read-data/v9/long-read-RNA-seq/quantification_flair_filter.tpm.txt.gz
     ab_gz: data/{species}/gtex/gtex_abundance.tsv.gz
     ab: data/{species}/gtex/gtex_abundance.tsv
+    ab_fmt: data/{species}/gtex/gtex_abundance_formatted.tsv
 
     cerberus:
       ics: data/{species}/gtex/cerberus/ics.tsv
@@ -295,6 +296,8 @@ gtex:
       ca: data/{species}/gtex/cerberus/gtex_cerberus.h5
       cerb_ids: data/{species}/gtex/cerberus/cerb_ids.tsv
       gtf: data/{species}/gtex/cerberus/cerberus.gtf
+      ab: data/{species}/gtex/cerberus/cerberus_abundance.tsv
+
 
     suppa:
       gtf: data/{species}/gtex/suppa/cerberus_filtered.gtf

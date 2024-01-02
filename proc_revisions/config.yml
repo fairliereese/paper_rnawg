@@ -285,6 +285,9 @@ gtex:
     gtf_gz: data/{species}/gtex/flair_filter_transcripts.gtf.gz
     gtf: data/{species}/gtex/flair_filter_transcripts.gtf
     filt_gtf: data/{species}/gtex/flair_filter_transcripts_no_novel_genes.gtf
+    ab_link: https://storage.cloud.google.com/adult-gtex/long-read-data/v9/long-read-RNA-seq/quantification_flair_filter.tpm.txt.gz
+    ab_gz: data/{species}/gtex/gtex_abundance.tsv.gz
+    ab: data/{species}/gtex/gtex_abundance.tsv
 
     cerberus:
       ics: data/{species}/gtex/cerberus/ics.tsv

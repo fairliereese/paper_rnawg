@@ -48,7 +48,20 @@ use rule cerb_gtf_ids as cerb_gtf_ids_new_gtex with:
     output:
         gtf = config['gtex']['cerberus']['gtf']
 
+use rule dl as dl_gtex_ab with:
+    params:
+        link = config['gtex']['ab_link']
+    output:
+        out = temporary(config['gtex']['ab_gz'])
+
+use rule gunzip as gz_gtex_ab with:
+    input:
+        gz = config['gtex']['ab_gz']
+    output:
+        out = config['gtex']['ab']
+
 rule all_gtex:
     input:
         expand(config['gtex']['cerberus']['gtf'],
-               species='human')
+               species='human'),
+        expand(config['gtex']['ab'], species='human')

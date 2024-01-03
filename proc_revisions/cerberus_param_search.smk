@@ -15,8 +15,8 @@ wildcard_constraints:
     end_mode='|'.join([re.escape(x) for x in end_modes]),
     tss_dist='|'.join([re.escape(x) for x in tss_dists]),
     tes_dist='|'.join([re.escape(x) for x in tes_dists]),
-    tss_dist='|'.join([re.escape(x) for x in tss_slacks]),
-    tes_dist='|'.join([re.escape(x) for x in tes_slacks]),
+    tss_slack='|'.join([re.escape(x) for x in tss_slacks]),
+    tes_slack='|'.join([re.escape(x) for x in tes_slacks]),
     tss_agg_dist='|'.join([re.escape(x) for x in tss_agg_dists]),
     tes_agg_dist='|'.join([re.escape(x) for x in tes_agg_dists])
 

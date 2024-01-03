@@ -62,7 +62,6 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
-        rules.all_cerberus_param_search,
         rules.all_gtex.input,
         rules.all_subsample.input,
         rules.all_isoquant.input,

@@ -336,7 +336,7 @@ rule param_cerb_agg_ics:
 ########################## Cerberus annotation #################################
 ################################################################################
 
-use rule cerb_annot as param_cerberus_annotate with:
+use rule cerb_annot as param_cerberus_annotate_ref_new with:
     input:
         gtf = config['ref']['new_gtf'],
         h5 = config['lr']['param_search']['cerberus']['ca']
@@ -346,7 +346,7 @@ use rule cerb_annot as param_cerberus_annotate with:
     output:
         h5 = config['ref']['param_search']['cerberus']['new_ca']
 
-use rule cerb_annot as param_cerberus_annotate with:
+use rule cerb_annot as param_cerberus_annotate_ref_new with:
     input:
         gtf = config['ref']['talon']['gtf'],
         h5 = config['ref']['param_search']['cerberus']['new_ca']

@@ -801,7 +801,7 @@ rule param_calc_triplets:
 ################################## GTEX ################################## ####
 #################################################################################
 
-use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends with:
+use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_gtex with:
     input:
         gtf = config['gtex']['filt_gtf']
     output:
@@ -810,25 +810,7 @@ use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends with:
         slack = lambda wc:get_slack(wc),
         dist = lambda wc:get_dist(wc)
 
-use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics with:
-    input:
-        gtf = config['gtex']['filt_gtf']
-    output:
-        ics = config['gtex']['param_search']['cerberus']['ics']
-
-################################################################################
-######################## Gtex ##################################################
-################################################################################
-use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends with:
-    input:
-        gtf = config['gtex']['filt_gtf']
-    output:
-        ends = config['gtex']['param_search']['cerberus']['ends']
-    params:
-        slack = lambda wc:get_slack(wc),
-        dist = lambda wc:get_dist(wc)
-
-use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics with:
+use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_gtex with:
     input:
         gtf = config['gtex']['filt_gtf']
     output:

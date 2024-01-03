@@ -504,7 +504,7 @@ def filt_unsup_ism(filt_ab, cerberus_h5, wildcards, ofile):
     df = df.loc[df.annot_transcript_id.isin(keep_tids)]
     df.to_csv(ofile, sep='\t', index=False)
 
-rule cerb_filt_unsup_ism:
+rule param_cerb_filt_unsup_ism:
     input:
         ab = config['lr']['param_search']['cerberus']['ab'],
         ca = config['lr']['param_search']['cerberus']['ca_annot']

@@ -347,6 +347,29 @@ rule param_cerb_agg_ics:
             -o {output.ics}"
 
 ################################################################################
+######################### Cerberus annotation ##################################
+################################################################################
+rule cerberus_write_ref:
+    input:
+        tss = expand(config['lr']['param_search']['cerberus']['agg_ends'],
+                     end_mode='tss',
+                     allow_missing=True)[0],
+        tes = expand(config['lr']['param_search']['cerberus']['agg_ends'],
+                     end_mode='tes',
+                     allow_missing=True)[0],
+        ics = config['lr']['param_search']['cerberus']['agg_ics']
+    resources:
+        mem_gb = 56,
+        threads = 1
+    output:
+        h5 = config['lr']['param_search']['cerberus']['ca']
+    run:
+        cerberus.write_reference(input.tss,
+                                 input.tes,
+                                 input.ics,
+                                 output.h5)
+
+################################################################################
 ########################## Cerberus annotation #################################
 ################################################################################
 

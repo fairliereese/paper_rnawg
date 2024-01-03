@@ -349,7 +349,7 @@ rule param_cerb_agg_ics:
 ################################################################################
 ######################### Cerberus annotation ##################################
 ################################################################################
-rule cerberus_write_ref:
+rule param_cerberus_write_ref:
     input:
         tss = expand(config['lr']['param_search']['cerberus']['agg_ends'],
                      end_mode='tss',

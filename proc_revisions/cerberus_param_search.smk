@@ -36,7 +36,7 @@ use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_old with:
     output:
         ends = config['ref']['param_search']['cerberus']['ends']
     params:
-        slack = lambda wc:get_slack(wc)
+        slack = lambda wc:get_slack(wc),
         dist = lambda wc:get_dist(wc)
 
 use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_ref_old with:
@@ -52,7 +52,7 @@ use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_new with:
     output:
         ends = config['ref']['param_search']['cerberus']['new_ends']
     params:
-        slack = lambda wc:get_slack(wc)
+        slack = lambda wc:get_slack(wc),
         dist = lambda wc:get_dist(wc)
 
 use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_ref_new with:
@@ -68,7 +68,7 @@ use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_lr_ref with:
     output:
         ends = config['lr']['param_search']['cerberus']['ends']
     params:
-        slack = lambda wc:get_slack(wc)
+        slack = lambda wc:get_slack(wc),
         dist = lambda wc:get_dist(wc)
 
 use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_lr with:

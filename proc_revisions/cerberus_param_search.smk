@@ -346,7 +346,7 @@ use rule cerb_annot as param_cerberus_annotate_ref_new with:
     output:
         h5 = config['ref']['param_search']['cerberus']['new_ca']
 
-use rule cerb_annot as param_cerberus_annotate_ref_new with:
+use rule cerb_annot as param_cerberus_annotate_ref with:
     input:
         gtf = config['ref']['talon']['gtf'],
         h5 = config['ref']['param_search']['cerberus']['new_ca']

@@ -50,6 +50,7 @@ include: 'suppa.smk'
 include: 'intropolis.smk'
 include: 'isoquant.smk'
 include: 'subsample.smk'
+include: 'cerberus_param_search.smk'
 
 ############# snakemake settings stuff
 wildcard_constraints:
@@ -61,6 +62,7 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
+        rules.all_cerberus_param_search,
         rules.all_gtex.input,
         rules.all_subsample.input,
         rules.all_isoquant.input,

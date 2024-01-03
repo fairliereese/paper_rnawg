@@ -25,6 +25,25 @@ params:
       slack: 50
       agg_slack: 20
 
+    param_search:
+      cerberus:
+      # tss:
+      #   dist: [0, 10, 25, 50, 100]
+      #   slack: [0, 10, 25, 50, 100]
+      #   agg_slack: [0, 10, 20]
+      # tes:
+      #   dist: [0, 10, 25, 50, 100]
+      #   slack: [0, 10, 25, 50, 100]
+      #   agg_slack: [0, 10, 20]
+        tss:
+          dist: [10]
+          slack: [50]
+          agg_slack: [0]
+        tes:
+          dist: [10]
+          slack: [50]
+          agg_slack: [0]
+
 ref:
   ucsc:
     as_link: https://genome.ucsc.edu/goldenPath/help/examples/bigGenePred.as
@@ -103,6 +122,24 @@ ref:
     new_gtf_t_info: ref/{species}/cerberus/new_annot_t_info.tsv
     new_gtf_g_info: ref/{species}/cerberus/new_annot_g_info.tsv
     new_ca: ref/{species}/cerberus/new_ca.h5
+
+  param_search:
+    cerberus:
+      ics: ref/{species}/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/ics.tsv
+      ends: ref/{species}/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/{end_mode}.bed
+      new_ics: ref/{species}/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/new_ics.tsv
+      new_ends: ref/{species}/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/new_{end_mode}.bed
+
+      gtf: ref/{species}/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/annot.gtf
+      gtf_t_info: ref/{species}/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/annot_t_info.tsv
+      gtf_g_info: ref/{species}/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/annot_g_info.tsv
+      ca: ref/{species}/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/ca.h5
+
+      new_gtf: ref/{species}/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/new_annot.gtf
+      new_gtf_t_info: ref/{species}/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/new_annot_t_info.tsv
+      new_gtf_g_info: ref/{species}/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/new_annot_g_info.tsv
+      new_ca: ref/{species}/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/new_ca.h5
+
 
   tracks:
     as: ref/{species}/tracks/{obs_col}/track_meta.as
@@ -198,7 +235,6 @@ lr:
       gene_summary: data/{species}/lr/subsample/gene_summary.tsv
       transcript_summary: data/{species}/lr/subsample/transcript_summary.tsv
 
-
   swan:
     sg: data/{species}/lr/swan/swan_graph.p
 
@@ -206,6 +242,35 @@ lr:
     major_isos: data/{species}/lr/{obs_col}_major_isos.tsv
     triplets: data/{species}/lr/{obs_col}_triplets.tsv
     fusion_t_coords: data/{species}/lr/{obs_col}/{sample}_fusion_t_coords.tsv
+
+  param_search:
+    cerberus:
+      ics: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/ics.tsv
+      agg_ics_cfg: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/agg/ic_config.csv
+      agg_ics: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/agg/ics.tsv
+
+      ends: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/{end_mode}.bed
+      agg_ends_cfg: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/agg/{end_mode}_config.csv
+      agg_ends: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/agg/{end_mode}.bed
+
+      ca: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus_ref.h5
+      ca_annot: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus_annot.h5
+      ca_triplets: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/{obs_col}_cerberus_triplets.h5
+
+      gtf: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus.gtf
+      gtf_t_info: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus_t_info.tsv
+      gtf_g_info: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus_g_info.tsv
+      ab: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus_abundance.tsv
+      filt_ab: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus_filtered_abundance.tsv
+
+    swan:
+      sg: data/{species}/lr/param_search/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/swan/swan_graph.p
+
+    analysis:
+      major_isos: data/{species}/lr/param_search/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/{obs_col}_major_isos.tsv
+      triplets: data/{species}/lr/param_search/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/{obs_col}_triplets.tsv
+      # fusion_t_coords: data/{species}/lr/param_search/{obs_col}/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/{sample}_fusion_t_coords.tsv
+
 
   tracks:
     as: ref/genepred_format.as
@@ -266,12 +331,6 @@ lr:
       bgp_sort_filt: data/{species}/lr/isoquant/unfiltered/tracks/isoquant_wtc11_sorted_filtered.bgp
       bb: data/{species}/lr/isoquant/unfiltered/tracks/isoquant_wtc11.bb
 
-
-
-
-
-
-
   mane:
     exp_gene_subset: data/{species}/lr/exp_gids_{obs_col}.tsv
     pi_tpm:
@@ -297,6 +356,15 @@ gtex:
       cerb_ids: data/{species}/gtex/cerberus/cerb_ids.tsv
       gtf: data/{species}/gtex/cerberus/cerberus.gtf
       ab: data/{species}/gtex/cerberus/cerberus_abundance.tsv
+
+    param_search:
+      cerberus:
+        ics: data/{species}/gtex/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/ics.tsv
+        ends: data/{species}/gtex/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/{end_mode}.bed
+        ca: data/{species}/gtex/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/gtex_cerberus.h5
+        # cerb_ids: data/{species}/gtex/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerb_ids.tsv
+        # gtf: data/{species}/gtex/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus.gtf
+        # ab: data/{species}/gtex/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus_abundance.tsv
 
 
     suppa:

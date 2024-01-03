@@ -184,12 +184,13 @@ rule tracks_bigbed_iq:
 
 rule all_isoquant:
     input:
-        expand(config['lr']['isoquant']['tracks']['bb'],
-               species='human'),
         expand(config['lr']['isoquant']['cerberus']['gtf'],
                species='human'),
         expand(config['lr']['isoquant']['cerberus']['ab'],
               species='human')
+
+              # expand(config['lr']['isoquant']['tracks']['bb'],
+              #        species='human'),
         # expand(config['lr']['isoquant']['cerberus']['ics'],
         #        species='human'),
         # expand(config['lr']['isoquant']['cerberus']['ends'],

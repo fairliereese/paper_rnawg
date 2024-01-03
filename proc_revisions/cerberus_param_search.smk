@@ -11,6 +11,23 @@ wildcard_constraints:
 #################################################################################
 ##################### Ref. ends / ics for Cerberus #############################
 ################################################################################
+def get_slack(wc):
+    if wc.end_mode == 'tss':
+        return wc.tss_slack
+    elif wc.end_mode == 'tes':
+        return wc.tes_slack
+
+def get_dist(wc):
+    if wc.end_mode == 'tss':
+        return wc.tss_dist
+    elif wc.end_mode == 'tes':
+        return wc.tes_dist
+
+def get_agg_dist(wc):
+    if wc.end_mode == 'tss':
+        return wc.tss_agg_dist
+    elif wc.end_mode == 'tes':
+        return wc.tes_agg_dist
 
 # old refs
 use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_old with:
@@ -19,8 +36,8 @@ use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_old with:
     output:
         ends = config['ref']['param_search']['cerberus']['ends']
     params:
-        slack = lambda wc:config['params']['cerberus'][wc.end_mode]['slack'],
-        dist = lambda wc:config['params']['cerberus'][wc.end_mode]['dist']
+        slack = lambda wc:get_slack(wc)
+        dist = lambda wc:get_dist(wc)
 
 use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_ref_old with:
     input:
@@ -35,8 +52,8 @@ use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_new with:
     output:
         ends = config['ref']['param_search']['cerberus']['new_ends']
     params:
-        slack = lambda wc:config['params']['cerberus'][wc.end_mode]['slack'],
-        dist = lambda wc:config['params']['cerberus'][wc.end_mode]['dist']
+        slack = lambda wc:get_slack(wc)
+        dist = lambda wc:get_dist(wc)
 
 use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_ref_new with:
     input:
@@ -51,8 +68,8 @@ use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_lr_ref with:
     output:
         ends = config['lr']['param_search']['cerberus']['ends']
     params:
-        slack = lambda wc:config['params']['cerberus'][wc.end_mode]['slack'],
-        dist = lambda wc:config['params']['cerberus'][wc.end_mode]['dist']
+        slack = lambda wc:get_slack(wc)
+        dist = lambda wc:get_dist(wc)
 
 use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_lr with:
     input:
@@ -145,15 +162,7 @@ rule param_cerb_agg_human_tss_config:
         threads = 1,
         mem_gb = 1
     output:
-        cfg = lambda wc: expand(config['lr']['param_search']['cerberus']['agg_ends_cfg'],
-                     species='human',
-                     end_mode='tss',
-                     tss_dist=wc.tss_dist,
-                     tes_dist=wc.tes_dist,
-                     tss_slack=wc.tss_slack,
-                     tes_slack=wc.tes_slack,
-                     tss_agg_dist=wc.tss_agg_dist,
-                     tes_agg_dist=wc.tes_agg_dist)[0]
+        cfg = config['lr']['param_search']['cerberus']['agg_ends_cfg']
     run:
         files = [input.v40,
                  input.v29,
@@ -230,15 +239,7 @@ rule param_cerb_agg_human_tes_config:
         sources = ['v40', 'v29', 'lapa', 'gtex',
                    'pas', 'polya_atlas']
     output:
-        cfg = expand(config['lr']['param_search']['cerberus']['agg_ends_cfg'],
-                     species='human',
-                     end_mode='tes',
-                     tss_dist=wc.tss_dist,
-                     tes_dist=wc.tes_dist,
-                     tss_slack=wc.tss_slack,
-                     tes_slack=wc.tes_slack,
-                     tss_agg_dist=wc.tss_agg_dist,
-                     tes_agg_dist=wc.tes_agg_dist)[0]
+        cfg = config['lr']['param_search']['cerberus']['agg_ends_cfg'],
     run:
          files = [input.v40,
                   input.v29,
@@ -288,8 +289,7 @@ rule param_cerb_agg_ics_human_config:
         mem_gb = 1,
         threads = 1
     output:
-        cfg = lambda wc: expand(config['lr']['param_search']['cerberus']['agg_ics_cfg'],
-                     species='human')[0]
+        cfg = config['lr']['param_search']['cerberus']['agg_ics_cfg']
     run:
         files = [input.v40, input.v29, input.lapa, input.gtex]
         refs = params.refs
@@ -307,7 +307,7 @@ rule cerb_agg_ends:
         mem_gb = 64,
         threads = 1
     params:
-        agg_slack = lambda wc:config['params']['cerberus'][wc.end_mode]['agg_slack']
+        agg_slack = lambda wc:get_agg_dist(wc)
     output:
         bed = config['lr']['param_search']['cerberus']['agg_ends']
     shell:

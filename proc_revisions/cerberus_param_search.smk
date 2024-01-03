@@ -561,7 +561,7 @@ def make_sg(input, params, wildcards):
 #         df.drop('gid_stable', axis=1, inplace=True)
 #         df.to_csv(output.ab, sep='\t', index=False)
 
-rule swan_init:
+rule param_swan_init:
     input:
         annot = config['ref']['param_search']['cerberus']['new_gtf'],
         ab = config['lr']['param_search']['cerberus']['filt_ab'],
@@ -645,7 +645,7 @@ rule swan_init:
 ################################################################################
 #################################### From analysis.smk #########################
 ################################################################################
-rule major_isos:
+rule param_major_isos:
     input:
         sg = rules.swan_init.output.sg,
         filt_ab = rules.swan_init.input.ab,
@@ -668,7 +668,7 @@ rule major_isos:
                        gene_subset=params.gene_subset)
 
 
-rule calc_triplets:
+rule param_calc_triplets:
     input:
         swan_file = config['lr']['swan']['sg'],
         h5 = config['lr']['param_search']['cerberus']['ca_annot'],

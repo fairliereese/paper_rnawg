@@ -13,7 +13,7 @@ wildcard_constraints:
 ################################################################################
 
 # old refs
-use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends with:
+use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_old with:
     input:
         gtf = config['ref']['talon']['gtf']
     output:
@@ -22,14 +22,14 @@ use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends with:
         slack = lambda wc:config['params']['cerberus'][wc.end_mode]['slack'],
         dist = lambda wc:config['params']['cerberus'][wc.end_mode]['dist']
 
-use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics with:
+use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_ref_old with:
     input:
         gtf = config['ref']['talon']['gtf']
     output:
         ics = config['ref']['param_search']['cerberus']['ics']
 
 # new refs
-use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends with:
+use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_new with:
     input:
         gtf = config['ref']['new_gtf']
     output:
@@ -38,14 +38,14 @@ use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends with:
         slack = lambda wc:config['params']['cerberus'][wc.end_mode]['slack'],
         dist = lambda wc:config['params']['cerberus'][wc.end_mode]['dist']
 
-use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics with:
+use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_ref_new with:
     input:
         gtf = config['ref']['new_gtf']
     output:
         ics = config['ref']['param_search']['cerberus']['new_ics']
 
 # data refs -- from lapa
-use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_lr with:
+use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_lr_ref with:
     input:
         gtf = config['lr']['lapa']['filt']['gtf']
     output:

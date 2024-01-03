@@ -299,7 +299,13 @@ rule param_cerb_agg_ics_human_config:
                      tss_agg_dist=wc.tss_agg_dist,
                      tes_agg_dist=wc.tes_agg_dist)[0],
         gtex = lambda wc: expand(config['gtex']['param_search']['cerberus']['ics'],
-                      species='human')[0]
+                      species='human',
+                      tss_dist=wc.tss_dist,
+                      tes_dist=wc.tes_dist,
+                      tss_slack=wc.tss_slack,
+                      tes_slack=wc.tes_slack,
+                      tss_agg_dist=wc.tss_agg_dist,
+                      tes_agg_dist=wc.tes_agg_dist))[0]
     params:
         sources = ['v40', 'v29', 'lapa', 'gtex'],
         refs = [True, True, False, False]

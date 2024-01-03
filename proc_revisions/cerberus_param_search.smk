@@ -27,21 +27,21 @@ wildcard_constraints:
 ################################################################################
 def get_slack(wc):
     if wc.end_mode == 'tss':
-        return wc.tss_slack
+        return int(wc.tss_slack)
     elif wc.end_mode == 'tes':
-        return wc.tes_slack
+        return int(wc.tes_slack)
 
 def get_dist(wc):
     if wc.end_mode == 'tss':
-        return wc.tss_dist
+        return int(wc.tss_dist)
     elif wc.end_mode == 'tes':
-        return wc.tes_dist
+        return int(wc.tes_dist)
 
 def get_agg_dist(wc):
     if wc.end_mode == 'tss':
-        return wc.tss_agg_dist
+        return int(wc.tss_agg_dist)
     elif wc.end_mode == 'tes':
-        return wc.tes_agg_dist
+        return int(wc.tes_agg_dist)
 
 # old refs
 use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_old with:

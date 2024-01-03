@@ -681,12 +681,10 @@ tes_slacks = config['params']['param_search']['cerberus']['tes']['slack']
 tss_agg_dists = config['params']['param_search']['cerberus']['tss']['agg_slack']
 tes_agg_dists = config['params']['param_search']['cerberus']['tes']['agg_slack']
 
-
-
 rule all_cerberus_param_search:
     input:
         expand(config['lr']['param_search']['analysis']['major_isos'],
-               species='human,
+               species='human',
                obs_col='sample',
                tss_dist=tss_dists,
                tes_dist=tes_dists,

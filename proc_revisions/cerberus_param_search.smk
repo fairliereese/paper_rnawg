@@ -65,7 +65,7 @@ use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_lr with:
 ################################################################################
 
 #### agg stuff
-rule cerb_agg_human_tss_config:
+rule param_cerb_agg_human_tss_config:
     input:
         v40 = expand(config['ref']['param_search']['cerberus']['new_ends'],
                      species='human',
@@ -146,7 +146,7 @@ rule cerb_agg_human_tss_config:
         df['sources'] = params.sources
         df.to_csv(output.cfg, sep=',', header=None, index=False)
 
-rule cerb_agg_human_tes_config_:
+rule param_cerb_agg_human_tes_config:
     input:
         v40 = expand(config['ref']['param_search']['cerberus']['new_ends'],
                      species='human',
@@ -193,7 +193,7 @@ rule cerb_agg_human_tes_config_:
          df['sources'] = params.sources
          df.to_csv(output.cfg, sep=',', header=None, index=False)
 
-rule cerb_agg_ics_human_config:
+rule param_cerb_agg_ics_human_config:
     input:
         v40 = expand(config['ref']['param_search']['cerberus']['new_ics'],
                      species='human')[0],

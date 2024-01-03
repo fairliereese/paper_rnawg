@@ -12,13 +12,13 @@ tss_agg_dists = config['params']['param_search']['cerberus']['tss']['agg_slack']
 tes_agg_dists = config['params']['param_search']['cerberus']['tes']['agg_slack']
 
 wildcard_constraints:
-    end_mode='|'.join([re.escape(x) for str(x) in end_modes]),
-    tss_dist='|'.join([re.escape(x) for str(x) in tss_dists]),
-    tes_dist='|'.join([re.escape(x) for str(x) in tes_dists]),
-    tss_slack='|'.join([re.escape(x) for str(x) in tss_slacks]),
-    tes_slack='|'.join([re.escape(x) for str(x) in tes_slacks]),
-    tss_agg_dist='|'.join([re.escape(x) for str(x) in tss_agg_dists]),
-    tes_agg_dist='|'.join([re.escape(x) for str(x) in tes_agg_dists])
+    end_mode='|'.join([re.escape(x) for x in end_modes]),
+    tss_dist='|'.join([re.escape(str(x)) for x in tss_dists]),
+    tes_dist='|'.join([re.escape(str(x)) for x in tes_dists]),
+    tss_slack='|'.join([re.escape(str(x)) for x in tss_slacks]),
+    tes_slack='|'.join([re.escape(str(x)) for x in tes_slacks]),
+    tss_agg_dist='|'.join([re.escape(str(x)) for x in tss_agg_dists]),
+    tes_agg_dist='|'.join([re.escape(str(x)) for x in tes_agg_dists])
 
 #################################################################################
 ##################### Ref. ends / ics for Cerberus #############################

@@ -299,7 +299,12 @@ rule param_cerb_agg_ics_human_config:
                      tss_agg_dist=wc.tss_agg_dist,
                      tes_agg_dist=wc.tes_agg_dist)[0],
         gtex = lambda wc: expand(config['gtex']['param_search']['cerberus']['ics'],
-                      species='human')[0]
+                      species='human',tss_dist=wc.tss_dist,
+                      tes_dist=wc.tes_dist,
+                      tss_slack=wc.tss_slack,
+                      tes_slack=wc.tes_slack,
+                      tss_agg_dist=wc.tss_agg_dist,
+                      tes_agg_dist=wc.tes_agg_dist)[0]
     params:
         sources = ['v40', 'v29', 'lapa', 'gtex'],
         refs = [True, True, False, False]
@@ -796,6 +801,24 @@ rule param_calc_triplets:
 ################################## GTEX ################################## ####
 #################################################################################
 
+use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends with:
+    input:
+        gtf = config['gtex']['filt_gtf']
+    output:
+        ends = config['gtex']['param_search']['cerberus']['ends']
+    params:
+        slack = lambda wc:get_slack(wc),
+        dist = lambda wc:get_dist(wc)
+
+use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics with:
+    input:
+        gtf = config['gtex']['filt_gtf']
+    output:
+        ics = config['gtex']['param_search']['cerberus']['ics']
+
+################################################################################
+######################## Gtex ##################################################
+################################################################################
 use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends with:
     input:
         gtf = config['gtex']['filt_gtf']

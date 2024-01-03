@@ -300,7 +300,7 @@ rule param_cerb_agg_ics_human_config:
         df['source'] = sources
         df.to_csv(output.cfg, header=None, index=False, sep=',')
 
-rule cerb_agg_ends:
+rule param_cerb_agg_ends:
     input:
         cfg = config['lr']['param_search']['cerberus']['agg_ends_cfg']
     resources:
@@ -319,7 +319,7 @@ rule cerb_agg_ends:
             -o {output.bed}
         """
 
-rule cerb_agg_ics:
+rule param_cerb_agg_ics:
     input:
         cfg = config['lr']['param_search']['cerberus']['agg_ics_cfg']
     resources:

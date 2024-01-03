@@ -176,7 +176,9 @@ rule param_cerb_agg_human_tss_config:
         threads = 1,
         mem_gb = 1
     output:
-        cfg = config['lr']['param_search']['cerberus']['agg_ends_cfg']
+        cfg = expand(config['lr']['param_search']['cerberus']['agg_ends_cfg'],
+                     allow_missing=True,
+                     end_mode='tss')
     run:
         files = [input.v40,
                  input.v29,
@@ -253,7 +255,9 @@ rule param_cerb_agg_human_tes_config:
         sources = ['v40', 'v29', 'lapa', 'gtex',
                    'pas', 'polya_atlas']
     output:
-        cfg = config['lr']['param_search']['cerberus']['agg_ends_cfg'],
+        cfg = expand(config['lr']['param_search']['cerberus']['agg_ends_cfg'],
+                     allow_missing=True,
+                     end_mode='tes')
     run:
          files = [input.v40,
                   input.v29,

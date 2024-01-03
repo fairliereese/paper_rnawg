@@ -401,7 +401,7 @@ use rule cerb_gtf_ids as param_cerb_gtf_ids_lr with:
     output:
         gtf = config['lr']['param_search']['cerberus']['gtf']
 
-use rule cerb_gtf_ids as param_cerb_gtf_ids with:
+use rule cerb_gtf_ids as param_cerb_gtf_ids_ref with:
     input:
         h5 = config['lr']['param_search']['cerberus']['ca_annot'],
         gtf = config['ref']['talon']['gtf']
@@ -412,7 +412,7 @@ use rule cerb_gtf_ids as param_cerb_gtf_ids with:
     output:
         gtf = config['ref']['param_search']['cerberus']['gtf']
 
-use rule cerb_gtf_ids as param_cerb_gtf_ids with:
+use rule cerb_gtf_ids as param_cerb_gtf_ids_ref_new with:
     input:
         h5 = config['lr']['param_search']['cerberus']['ca_annot'],
         gtf = config['ref']['new_gtf']

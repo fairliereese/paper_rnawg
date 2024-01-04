@@ -178,7 +178,7 @@ rule param_cerb_agg_human_tss_config:
     output:
         cfg = expand(config['lr']['param_search']['cerberus']['agg_ends_cfg'],
                      allow_missing=True,
-                     end_mode='tss')
+                     end_mode='tss')[0]
     run:
         files = [input.v40,
                  input.v29,
@@ -257,7 +257,7 @@ rule param_cerb_agg_human_tes_config:
     output:
         cfg = expand(config['lr']['param_search']['cerberus']['agg_ends_cfg'],
                      allow_missing=True,
-                     end_mode='tes')
+                     end_mode='tes')[0]
     run:
          files = [input.v40,
                   input.v29,

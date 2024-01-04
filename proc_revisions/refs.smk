@@ -364,3 +364,48 @@ use rule get_g_info as g_info_lr with:
         tf_file = config['ref']['tfs']
     output:
         o = config['lr']['cerberus']['gtf_g_info']
+
+use rule dl as dl_phastcons with:
+  params:
+    link = config['ref']['phastcons100']['link']
+  output:
+    out = config['ref']['phastcons100']['txt_gz']
+
+use rule gunzip as gunzip_phastcons with:
+  input:
+    gz = config['ref']['phastcons100']['txt_gz']
+  output:
+    out = config['ref']['phastcons100']['txt']
+
+use rule dl as dl_repeats with:
+  params:
+    link = config['ref']['repeats']['link']
+  output:
+    out = config['ref']['repeats']['txt_gz']
+
+use rule gunzip as gunzip_repeats with:
+  input:
+    gz = config['ref']['repeats']['txt_gz']
+  output:
+    out = config['ref']['repeats']['txt']
+
+rule get_alu_bed:
+    input:
+        txt = config['ref']['repeats']['txt']
+    resources:
+        threads = 1,
+        mem_gb = 8
+    output:
+        bed = config['ref']['repeats']['alu_bed']
+    run:
+        df = pd.read_csv(input.txt, sep='\t', header=None,
+                 usecols=[5,6,7,9,12],
+                 names=['Chromosome', 'Start', 'End','Strand', 'Name'])
+        df = df.loc[df.Name=='Alu']
+        df.drop('Name', axis=1, inplace=True)
+        pr.PyRanges(df).to_bed(output.bed)
+
+rule all_refs:
+    input:
+        config['ref']['phastcons100']['txt'],
+        config['ref']['repeats']['alu_bed']

@@ -45,6 +45,15 @@ params:
         agg_slack: [0]
 
 ref:
+  phastcons100:
+    link: https://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/phastConsElements100way.txt.gz
+    txt_gz: ref/phastcons_100_elements.txt.gz
+    txt: ref/phastcons_100_elements.txt
+  repeats:
+    link: http://hgdownload.soe.ucsc.edu/goldenPath/hg38/database/rmsk.txt.gz
+    txt_gz: ref/human/rmsk.txt.gz
+    txt: ref/human/rmsk.txt
+    alu_bed: ref/human/alu.bed
   ucsc:
     as_link: https://genome.ucsc.edu/goldenPath/help/examples/bigGenePred.as
     as: ref/bigGenePred.as

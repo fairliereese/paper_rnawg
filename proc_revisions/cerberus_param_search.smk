@@ -46,7 +46,7 @@ def get_agg_dist(wc, end_mode=None):
     except:
         if end_mode == 'tss':
             return int(wc.tss_agg_dist)
-        elif wc.end_mode == 'tes':
+        elif end_mode == 'tes':
             return int(wc.tes_agg_dist)
 
 # old refs

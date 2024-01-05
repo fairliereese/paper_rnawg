@@ -48,7 +48,7 @@ use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_old with:
     input:
         gtf = config['ref']['talon']['gtf']
     output:
-        ends = config['ref']['param_search']['cerberus']['ends']
+        ends = temporary(config['ref']['param_search']['cerberus']['ends'])
     params:
         slack = lambda wc:get_slack(wc),
         dist = lambda wc:get_dist(wc)
@@ -57,14 +57,14 @@ use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_ref_old with:
     input:
         gtf = config['ref']['talon']['gtf']
     output:
-        ics = config['ref']['param_search']['cerberus']['ics']
+        ics = temporary(config['ref']['param_search']['cerberus']['ics'])
 
 # new refs
 use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_new with:
     input:
         gtf = config['ref']['new_gtf']
     output:
-        ends = config['ref']['param_search']['cerberus']['new_ends']
+        ends = temporary(config['ref']['param_search']['cerberus']['new_ends'])
     params:
         slack = lambda wc:get_slack(wc),
         dist = lambda wc:get_dist(wc)
@@ -73,14 +73,14 @@ use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_ref_new with:
     input:
         gtf = config['ref']['new_gtf']
     output:
-        ics = config['ref']['param_search']['cerberus']['new_ics']
+        ics = temporary(config['ref']['param_search']['cerberus']['new_ics'])
 
 # data refs -- from lapa
 use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_lr_ref with:
     input:
         gtf = config['lr']['lapa']['filt']['gtf']
     output:
-        ends = config['lr']['param_search']['cerberus']['ends']
+        ends = temporary(config['lr']['param_search']['cerberus']['ends'])
     params:
         slack = lambda wc:get_slack(wc),
         dist = lambda wc:get_dist(wc)
@@ -89,7 +89,7 @@ use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_lr with:
     input:
         gtf = config['lr']['lapa']['filt']['gtf']
     output:
-        ics = config['lr']['param_search']['cerberus']['ics']
+        ics = temporary(config['lr']['param_search']['cerberus']['ics'])
 
 ################################################################################
 ######################### Cerberus aggregation #################################
@@ -176,9 +176,9 @@ rule param_cerb_agg_human_tss_config:
         threads = 1,
         mem_gb = 1
     output:
-        cfg = expand(config['lr']['param_search']['cerberus']['agg_ends_cfg'],
+        cfg = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends_cfg'],
                      allow_missing=True,
-                     end_mode='tss')[0]
+                     end_mode='tss')[0])
     run:
         files = [input.v40,
                  input.v29,
@@ -255,9 +255,9 @@ rule param_cerb_agg_human_tes_config:
         sources = ['v40', 'v29', 'lapa', 'gtex',
                    'pas', 'polya_atlas']
     output:
-        cfg = expand(config['lr']['param_search']['cerberus']['agg_ends_cfg'],
+        cfg = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends_cfg'],
                      allow_missing=True,
-                     end_mode='tes')[0]
+                     end_mode='tes')[0])
     run:
          files = [input.v40,
                   input.v29,
@@ -312,7 +312,7 @@ rule param_cerb_agg_ics_human_config:
         mem_gb = 1,
         threads = 1
     output:
-        cfg = config['lr']['param_search']['cerberus']['agg_ics_cfg']
+        cfg = temporary(config['lr']['param_search']['cerberus']['agg_ics_cfg'])
     run:
         files = [input.v40, input.v29, input.lapa, input.gtex]
         refs = params.refs
@@ -332,7 +332,7 @@ rule param_cerb_agg_ends:
     params:
         agg_slack = lambda wc:get_agg_dist(wc)
     output:
-        bed = config['lr']['param_search']['cerberus']['agg_ends']
+        bed = temporary(config['lr']['param_search']['cerberus']['agg_ends'])
     shell:
         """
         cerberus agg_ends \
@@ -349,7 +349,7 @@ rule param_cerb_agg_ics:
         mem_gb = 28,
         threads = 1
     output:
-        ics = config['lr']['param_search']['cerberus']['agg_ics']
+        ics = temporary(config['lr']['param_search']['cerberus']['agg_ics'])
     shell:
         "cerberus agg_ics \
             --input {input.cfg} \
@@ -371,7 +371,7 @@ rule param_cerberus_write_ref:
         mem_gb = 56,
         threads = 1
     output:
-        h5 = config['lr']['param_search']['cerberus']['ca']
+        h5 = temporary(config['lr']['param_search']['cerberus']['ca'])
     run:
         cerberus.write_reference(input.tss,
                                  input.tes,
@@ -390,7 +390,7 @@ use rule cerb_annot as param_cerberus_annotate_ref_new with:
         source = lambda wc:config['ref'][wc.species]['new_gtf_ver'],
         gene_source = None
     output:
-        h5 = config['ref']['param_search']['cerberus']['new_ca']
+        h5 = temporary(config['ref']['param_search']['cerberus']['new_ca'])
 
 use rule cerb_annot as param_cerberus_annotate_ref with:
     input:
@@ -400,7 +400,7 @@ use rule cerb_annot as param_cerberus_annotate_ref with:
         source = lambda wc:config['ref'][wc.species]['gtf_ver'],
         gene_source = lambda wc:config['ref'][wc.species]['new_gtf_ver']
     output:
-        h5 = config['ref']['param_search']['cerberus']['ca']
+        h5 = temporary(config['ref']['param_search']['cerberus']['ca'])
 
 use rule cerb_annot as param_cerberus_annotate_gtex with:
     input:
@@ -410,7 +410,7 @@ use rule cerb_annot as param_cerberus_annotate_gtex with:
         source = 'gtex',
         gene_source = lambda wc:config['ref'][wc.species]['new_gtf_ver']
     output:
-        h5 = config['gtex']['param_search']['cerberus']['ca']
+        h5 = temporary(config['gtex']['param_search']['cerberus']['ca'])
 
 use rule cerb_annot as param_cerberus_annotate_lr with:
     input:
@@ -420,7 +420,7 @@ use rule cerb_annot as param_cerberus_annotate_lr with:
         source = 'lapa',
         gene_source = lambda wc:config['ref'][wc.species]['new_gtf_ver']
     output:
-        h5 = config['lr']['param_search']['cerberus']['ca_annot']
+        h5 = temporary(config['lr']['param_search']['cerberus']['ca_annot'])
 
 ################################################################################
 ###################### Cerberus update abundance ###############################
@@ -434,7 +434,7 @@ use rule cerb_ab_ids as param_cerb_ab_ids_lr with:
         source = 'lapa',
         agg = True
     output:
-        ab = config['lr']['param_search']['cerberus']['ab']
+        ab = temporary(config['lr']['param_search']['cerberus']['ab'])
 
 use rule cerb_gtf_ids as param_cerb_gtf_ids_lr with:
     input:
@@ -445,7 +445,7 @@ use rule cerb_gtf_ids as param_cerb_gtf_ids_lr with:
         update_ends = True,
         agg = True
     output:
-        gtf = config['lr']['param_search']['cerberus']['gtf']
+        gtf = temporary(config['lr']['param_search']['cerberus']['gtf'])
 
 use rule cerb_gtf_ids as param_cerb_gtf_ids_ref with:
     input:
@@ -456,7 +456,7 @@ use rule cerb_gtf_ids as param_cerb_gtf_ids_ref with:
         update_ends = True,
         agg = True
     output:
-        gtf = config['ref']['param_search']['cerberus']['gtf']
+        gtf = temporary(config['ref']['param_search']['cerberus']['gtf'])
 
 use rule cerb_gtf_ids as param_cerb_gtf_ids_ref_new with:
     input:
@@ -467,7 +467,7 @@ use rule cerb_gtf_ids as param_cerb_gtf_ids_ref_new with:
         update_ends = True,
         agg = True
     output:
-        gtf = config['ref']['param_search']['cerberus']['new_gtf']
+        gtf = temporary(config['ref']['param_search']['cerberus']['new_gtf'])
 
 #
 # ################################################################################
@@ -558,7 +558,7 @@ rule param_cerb_filt_unsup_ism:
         threads = 1,
         mem_gb = 32
     output:
-        filt_ab = config['lr']['param_search']['cerberus']['filt_ab']
+        filt_ab = temporary(config['lr']['param_search']['cerberus']['filt_ab'])
     run:
         filt_unsup_ism(input.ab, input.ca, wildcards, output.filt_ab)
 
@@ -620,7 +620,7 @@ rule param_swan_init:
         mem_gb = 64,
         threads = 1
     output:
-        sg = config['lr']['param_search']['swan']['sg']
+        sg = temporary(config['lr']['param_search']['swan']['sg'])
     run:
         make_sg(input, params, wildcards)
 #
@@ -805,7 +805,7 @@ use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_gtex with:
     input:
         gtf = config['gtex']['filt_gtf']
     output:
-        ends = config['gtex']['param_search']['cerberus']['ends']
+        ends = temporary(config['gtex']['param_search']['cerberus']['ends'])
     params:
         slack = lambda wc:get_slack(wc),
         dist = lambda wc:get_dist(wc)
@@ -814,7 +814,7 @@ use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_gtex with:
     input:
         gtf = config['gtex']['filt_gtf']
     output:
-        ics = config['gtex']['param_search']['cerberus']['ics']
+        ics = temporary(config['gtex']['param_search']['cerberus']['ics'])
 
 
 rule all_cerberus_param_search:

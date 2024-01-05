@@ -237,12 +237,12 @@ lr:
       tss: data/{species}/lr/cerberus/dataset/{dataset}_cerberus_tss.bed
 
   subsample:
-      ab: data/{species}/lr/subsample/unfilt_talon_abundance_{subsample_depth}_{subsample_rep}.tsv
-      filt_ab: data/{species}/lr/subsample/cerberus_filtered_abundance_{subsample_depth}_{subsample_rep}.tsv
-      ca_triplets: data/{species}/lr/subsample/cerberus_annot_{subsample_depth}_{subsample_rep}.h5
+    ab: data/{species}/lr/subsample/unfilt_talon_abundance_{subsample_depth}_{subsample_rep}.tsv
+    filt_ab: data/{species}/lr/subsample/cerberus_filtered_abundance_{subsample_depth}_{subsample_rep}.tsv
+    ca_triplets: data/{species}/lr/subsample/cerberus_annot_{subsample_depth}_{subsample_rep}.h5
 
-      gene_summary: data/{species}/lr/subsample/gene_summary.tsv
-      transcript_summary: data/{species}/lr/subsample/transcript_summary.tsv
+    gene_summary: data/{species}/lr/subsample/gene_summary.tsv
+    transcript_summary: data/{species}/lr/subsample/transcript_summary.tsv
 
   swan:
     sg: data/{species}/lr/swan/swan_graph.p
@@ -251,6 +251,9 @@ lr:
     major_isos: data/{species}/lr/{obs_col}_major_isos.tsv
     triplets: data/{species}/lr/{obs_col}_triplets.tsv
     fusion_t_coords: data/{species}/lr/{obs_col}/{sample}_fusion_t_coords.tsv
+
+  protein_pred:
+    summary: data/{species}/lr/protein_pred/protein_summary.tsv
 
   param_search:
     cerberus:

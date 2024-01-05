@@ -37,17 +37,11 @@ def get_dist(wc):
     elif wc.end_mode == 'tes':
         return int(wc.tes_dist)
 
-def get_agg_dist(wc, end_mode=None):
-    try:
-        if wc.end_mode == 'tss':
-            return int(wc.tss_agg_dist)
-        elif wc.end_mode == 'tes':
-            return int(wc.tes_agg_dist)
-    except:
-        if end_mode == 'tss':
-            return int(wc.tss_agg_dist)
-        elif end_mode == 'tes':
-            return int(wc.tes_agg_dist)
+def get_agg_dist(end_mode):
+    if end_mode == 'tss':
+        return int(wc.tss_agg_dist)
+    elif end_mode == 'tes':
+        return int(wc.tes_agg_dist)
 
 # old refs
 use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_old with:
@@ -404,7 +398,8 @@ rule param_cerb_agg_ends_tss:
         mem_gb = 64,
         threads = 1
     params:
-        agg_slack = lambda wc:get_agg_dist(wc, end_mode='tss')
+        end_mod = 'tss',
+        agg_slack = lambda wc:get_agg_dist('tss')
     output:
         bed = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends'],
                                allow_missing=True,
@@ -414,7 +409,7 @@ rule param_cerb_agg_ends_tss:
         """
         cerberus agg_ends \
             --input {input.cfg} \
-            --mode {wildcards.end_mode} \
+            --mode {params.tss} \
             --slack {params.agg_slack} \
             -o {output.bed}
         """
@@ -475,7 +470,8 @@ rule param_cerb_agg_ends_tes:
         mem_gb = 64,
         threads = 1
     params:
-        agg_slack = lambda wc:get_agg_dist(wc, end_mode='tes')
+        end_mode = 'tes',
+        agg_slack = lambda wc:get_agg_dist('tes')
     output:
         bed = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends'],
                                allow_missing=True,
@@ -485,7 +481,7 @@ rule param_cerb_agg_ends_tes:
         """
         cerberus agg_ends \
             --input {input.cfg} \
-            --mode {wildcards.end_mode} \
+            --mode {params.end_mode} \
             --slack {params.agg_slack} \
             -o {output.bed}
         """

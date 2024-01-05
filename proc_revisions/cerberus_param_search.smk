@@ -323,16 +323,158 @@ rule param_cerb_agg_ics_human_config:
         df['source'] = sources
         df.to_csv(output.cfg, header=None, index=False, sep=',')
 
-rule param_cerb_agg_ends:
+rule param_cerb_agg_ends_tss:
     input:
-        cfg = config['lr']['param_search']['cerberus']['agg_ends_cfg']
+        cfg = lambda wc: expand(config['lr']['param_search']['cerberus']['agg_ends_cfg'],
+                                species='human',
+                                end_mode='tss',
+                                tss_dist=wc.tss_dist,
+                                tes_dist=wc.tes_dist,
+                                tss_slack=wc.tss_slack,
+                                tes_slack=wc.tes_slack,
+                                tss_agg_dist=wc.tss_agg_dist,
+                                tes_agg_dist=wc.tes_agg_dist)[0],
+        v40 = lambda wc: expand(config['ref']['param_search']['cerberus']['new_ends'],
+                     species='human',
+                     end_mode='tss',
+                     tss_dist=wc.tss_dist,
+                     tes_dist=wc.tes_dist,
+                     tss_slack=wc.tss_slack,
+                     tes_slack=wc.tes_slack,
+                     tss_agg_dist=wc.tss_agg_dist,
+                     tes_agg_dist=wc.tes_agg_dist)[0],
+        v29 = lambda wc: expand(config['ref']['param_search']['cerberus']['ends'],
+                     species='human',
+                     end_mode='tss',
+                     tss_dist=wc.tss_dist,
+                     tes_dist=wc.tes_dist,
+                     tss_slack=wc.tss_slack,
+                     tes_slack=wc.tes_slack,
+                     tss_agg_dist=wc.tss_agg_dist,
+                     tes_agg_dist=wc.tes_agg_dist)[0],
+        lapa = lambda wc: expand(config['lr']['param_search']['cerberus']['ends'],
+                      species='human',
+                      end_mode='tss',
+                      tss_dist=wc.tss_dist,
+                      tes_dist=wc.tes_dist,
+                      tss_slack=wc.tss_slack,
+                      tes_slack=wc.tes_slack,
+                      tss_agg_dist=wc.tss_agg_dist,
+                      tes_agg_dist=wc.tes_agg_dist)[0],
+        gtex = lambda wc: expand(config['gtex']['param_search']['cerberus']['ends'],
+                      end_mode='tss',
+                      species='human',
+                      tss_dist=wc.tss_dist,
+                      tes_dist=wc.tes_dist,
+                      tss_slack=wc.tss_slack,
+                      tes_slack=wc.tes_slack,
+                      tss_agg_dist=wc.tss_agg_dist,
+                      tes_agg_dist=wc.tes_agg_dist)[0],
+        encode_cage = expand(config['cage']['merged'],
+                             species='human'),
+        fantom_cage = expand(config['fantom']['bed'],
+                             species='human')[0],
+        encode_rampage = expand(config['rampage']['merged'],
+                                species='human')[0],
+        pls = expand(config['ccre']['bed_format'],
+                     species='human',
+                     ccre_type='pls')[0],
+        pels = expand(config['ccre']['bed_format'],
+                      species='human',
+                      ccre_type='pels')[0],
+        dels = expand(config['ccre']['bed_format'],
+                      species='human',
+                      ccre_type='dels')[0],
+        h3k4me3 = expand(config['ccre']['bed_format'],
+                         species='human',
+                         ccre_type='ca_h3k4me3')[0],
+        lrgasp_cage = expand(config['lrgasp_cage']['merged'],
+                             species='human')[0],
+        encode_procap = expand(config['procap']['merged'],
+                               species='human')[0],
+        pol2 = expand(config['pol2']['merged'],
+                      species='human')[0]
     resources:
         mem_gb = 64,
         threads = 1
     params:
         agg_slack = lambda wc:get_agg_dist(wc)
     output:
-        bed = temporary(config['lr']['param_search']['cerberus']['agg_ends'])
+        bed = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends'],
+                               allow_missing=True,
+                               species='human',
+                               end_mode='tss'))[0]
+    shell:
+        """
+        cerberus agg_ends \
+            --input {input.cfg} \
+            --mode {wildcards.end_mode} \
+            --slack {params.agg_slack} \
+            -o {output.bed}
+        """
+
+rule param_cerb_agg_ends_tes:
+    input:
+        cfg = lambda wc: expand(config['lr']['param_search']['cerberus']['agg_ends_cfg'],
+                     species='human',
+                     end_mode='tes',
+                     tss_dist=wc.tss_dist,
+                     tes_dist=wc.tes_dist,
+                     tss_slack=wc.tss_slack,
+                     tes_slack=wc.tes_slack,
+                     tss_agg_dist=wc.tss_agg_dist,
+                     tes_agg_dist=wc.tes_agg_dist)[0],
+        v40 = lambda wc: expand(config['ref']['param_search']['cerberus']['new_ends'],
+                     species='human',
+                     end_mode='tes',
+                     tss_dist=wc.tss_dist,
+                     tes_dist=wc.tes_dist,
+                     tss_slack=wc.tss_slack,
+                     tes_slack=wc.tes_slack,
+                     tss_agg_dist=wc.tss_agg_dist,
+                     tes_agg_dist=wc.tes_agg_dist)[0],
+        v29 = lambda wc: expand(config['ref']['param_search']['cerberus']['ends'],
+                     species='human',
+                     end_mode='tes',
+                     tss_dist=wc.tss_dist,
+                     tes_dist=wc.tes_dist,
+                     tss_slack=wc.tss_slack,
+                     tes_slack=wc.tes_slack,
+                     tss_agg_dist=wc.tss_agg_dist,
+                     tes_agg_dist=wc.tes_agg_dist)[0],
+        lapa = lambda wc: expand(config['lr']['param_search']['cerberus']['ends'],
+                      species='human',
+                      end_mode='tes',
+                      tss_dist=wc.tss_dist,
+                      tes_dist=wc.tes_dist,
+                      tss_slack=wc.tss_slack,
+                      tes_slack=wc.tes_slack,
+                      tss_agg_dist=wc.tss_agg_dist,
+                      tes_agg_dist=wc.tes_agg_dist)[0],
+        gtex = lambda wc: expand(config['gtex']['param_search']['cerberus']['ends'],
+                      end_mode='tes',
+                      species='human',
+                      tss_dist=wc.tss_dist,
+                      tes_dist=wc.tes_dist,
+                      tss_slack=wc.tss_slack,
+                      tes_slack=wc.tes_slack,
+                      tss_agg_dist=wc.tss_agg_dist,
+                      tes_agg_dist=wc.tes_agg_dist)[0],
+        pas = expand(config['pas']['ends_formatted'],
+                species='human',
+                end_mode='tes')[0],
+        atlas = expand(config['polya_atlas']['bed_formatted'],
+                       species='human')[0]
+    resources:
+        mem_gb = 64,
+        threads = 1
+    params:
+        agg_slack = lambda wc:get_agg_dist(wc)
+    output:
+        bed = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends'],
+                               allow_missing=True,
+                               species='human',
+                               end_mode='tes'))[0]
     shell:
         """
         cerberus agg_ends \
@@ -344,7 +486,45 @@ rule param_cerb_agg_ends:
 
 rule param_cerb_agg_ics:
     input:
-        cfg = config['lr']['param_search']['cerberus']['agg_ics_cfg']
+        cfg = lambda wc: expand(config['lr']['param_search']['cerberus']['agg_ics_cfg'],
+                        species='human',
+                        tss_dist=wc.tss_dist,
+                        tes_dist=wc.tes_dist,
+                        tss_slack=wc.tss_slack,
+                        tes_slack=wc.tes_slack,
+                        tss_agg_dist=wc.tss_agg_dist,
+                        tes_agg_dist=wc.tes_agg_dist)[0],
+        v40 = lambda wc: expand(config['ref']['param_search']['cerberus']['new_ics'],
+                     species='human',
+                     tss_dist=wc.tss_dist,
+                     tes_dist=wc.tes_dist,
+                     tss_slack=wc.tss_slack,
+                     tes_slack=wc.tes_slack,
+                     tss_agg_dist=wc.tss_agg_dist,
+                     tes_agg_dist=wc.tes_agg_dist)[0],
+        v29 = lambda wc: expand(config['ref']['param_search']['cerberus']['ics'],
+                     species='human',
+                     tss_dist=wc.tss_dist,
+                     tes_dist=wc.tes_dist,
+                     tss_slack=wc.tss_slack,
+                     tes_slack=wc.tes_slack,
+                     tss_agg_dist=wc.tss_agg_dist,
+                     tes_agg_dist=wc.tes_agg_dist)[0],
+        lapa = lambda wc: expand(config['lr']['param_search']['cerberus']['ics'],
+                     species='human',
+                     tss_dist=wc.tss_dist,
+                     tes_dist=wc.tes_dist,
+                     tss_slack=wc.tss_slack,
+                     tes_slack=wc.tes_slack,
+                     tss_agg_dist=wc.tss_agg_dist,
+                     tes_agg_dist=wc.tes_agg_dist)[0],
+        gtex = lambda wc: expand(config['gtex']['param_search']['cerberus']['ics'],
+                      species='human',tss_dist=wc.tss_dist,
+                      tes_dist=wc.tes_dist,
+                      tss_slack=wc.tss_slack,
+                      tes_slack=wc.tes_slack,
+                      tss_agg_dist=wc.tss_agg_dist,
+                      tes_agg_dist=wc.tes_agg_dist)[0]
     resources:
         mem_gb = 28,
         threads = 1

@@ -38,10 +38,13 @@ def get_dist(wc):
         return int(wc.tes_dist)
 
 def get_agg_dist(wc):
-    if wc.end_mode == 'tss':
-        return int(wc.tss_agg_dist)
-    elif wc.end_mode == 'tes':
-        return int(wc.tes_agg_dist)
+    try:
+        if wc.end_mode == 'tss':
+            return int(wc.tss_agg_dist)
+        elif wc.end_mode == 'tes':
+            return int(wc.tes_agg_dist)
+    except:
+        import pdb; pdb.set_trace()
 
 # old refs
 use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_old with:

@@ -37,14 +37,17 @@ def get_dist(wc):
     elif wc.end_mode == 'tes':
         return int(wc.tes_dist)
 
-def get_agg_dist(wc):
+def get_agg_dist(wc, end_mode=None):
     try:
         if wc.end_mode == 'tss':
             return int(wc.tss_agg_dist)
         elif wc.end_mode == 'tes':
             return int(wc.tes_agg_dist)
     except:
-        import pdb; pdb.set_trace()
+        if end_mode == 'tss':
+            return int(wc.tss_agg_dist)
+        elif wc.end_mode == 'tes':
+            return int(wc.tes_agg_dist)
 
 # old refs
 use rule cerb_gtf_to_bed as param_cerb_get_gtf_ends_ref_old with:
@@ -401,12 +404,12 @@ rule param_cerb_agg_ends_tss:
         mem_gb = 64,
         threads = 1
     params:
-        agg_slack = lambda wc:get_agg_dist(wc)
+        agg_slack = lambda wc:get_agg_dist(wc, end_mode='tss')
     output:
         bed = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends'],
                                allow_missing=True,
                                species='human',
-                               end_mode='tss')[0])
+                               end_mode='tss'))[0]
     shell:
         """
         cerberus agg_ends \
@@ -472,7 +475,7 @@ rule param_cerb_agg_ends_tes:
         mem_gb = 64,
         threads = 1
     params:
-        agg_slack = lambda wc:get_agg_dist(wc)
+        agg_slack = lambda wc:get_agg_dist(wc, end_mode='tes')
     output:
         bed = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends'],
                                allow_missing=True,

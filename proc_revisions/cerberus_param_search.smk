@@ -398,7 +398,7 @@ rule param_cerb_agg_ends_tss:
         mem_gb = 64,
         threads = 1
     params:
-        end_mod = 'tss',
+        end_mode = 'tss',
         agg_slack = lambda wc:get_agg_dist(wc, 'tss')
     output:
         bed = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends'],

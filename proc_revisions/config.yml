@@ -27,14 +27,14 @@ params:
 
   param_search:
     cerberus:
-    tss:
-      dist: [0, 25, 50, 100]
-      slack: [0, 25, 50, 100]
-      agg_slack: [0, 20]
-    tes:
-      dist: [0, 25, 50, 100]
-      slack: [0, 25, 50, 100]
-      agg_slack: [0, 20]
+      tss:
+        dist: [0, 25, 50, 100]
+        slack: [0, 25, 50, 100]
+        agg_slack: [0, 20]
+      tes:
+        dist: [0, 25, 50, 100]
+        slack: [0, 25, 50, 100]
+        agg_slack: [0, 20]
       # tss:
       #   dist: [10]
       #   slack: [50]

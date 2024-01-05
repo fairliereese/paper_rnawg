@@ -406,7 +406,7 @@ rule param_cerb_agg_ends_tss:
         bed = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends'],
                                allow_missing=True,
                                species='human',
-                               end_mode='tss'))[0]
+                               end_mode='tss')[0])
     shell:
         """
         cerberus agg_ends \
@@ -477,7 +477,7 @@ rule param_cerb_agg_ends_tes:
         bed = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends'],
                                allow_missing=True,
                                species='human',
-                               end_mode='tes'))[0]
+                               end_mode='tes')[0])
     shell:
         """
         cerberus agg_ends \

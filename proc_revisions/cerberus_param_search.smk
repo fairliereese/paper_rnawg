@@ -409,7 +409,7 @@ rule param_cerb_agg_ends_tss:
         """
         cerberus agg_ends \
             --input {input.cfg} \
-            --mode {params.tss} \
+            --mode {params.end_mode} \
             --slack {params.agg_slack} \
             -o {output.bed}
         """

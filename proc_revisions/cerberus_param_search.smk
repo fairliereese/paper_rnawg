@@ -37,7 +37,7 @@ def get_dist(wc):
     elif wc.end_mode == 'tes':
         return int(wc.tes_dist)
 
-def get_agg_dist(end_mode):
+def get_agg_dist(wc, end_mode):
     if end_mode == 'tss':
         return int(wc.tss_agg_dist)
     elif end_mode == 'tes':
@@ -399,7 +399,7 @@ rule param_cerb_agg_ends_tss:
         threads = 1
     params:
         end_mod = 'tss',
-        agg_slack = lambda wc:get_agg_dist('tss')
+        agg_slack = lambda wc:get_agg_dist(wc, 'tss')
     output:
         bed = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends'],
                                allow_missing=True,
@@ -471,7 +471,7 @@ rule param_cerb_agg_ends_tes:
         threads = 1
     params:
         end_mode = 'tes',
-        agg_slack = lambda wc:get_agg_dist('tes')
+        agg_slack = lambda wc:get_agg_dist(wc, 'tes')
     output:
         bed = temporary(expand(config['lr']['param_search']['cerberus']['agg_ends'],
                                allow_missing=True,

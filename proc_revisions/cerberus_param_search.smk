@@ -610,7 +610,8 @@ use rule cerb_annot as param_cerberus_annotate_lr with:
 
 use rule cerb_ab_ids as param_cerb_ab_ids_lr with:
     input:
-        h5 = config['lr']['param_search']['cerberus']['ca_annot'],
+        # h5 = config['lr']['param_search']['cerberus']['ca_annot'], TODO
+        h5 = config['lr']['param_search']['cerberus']['ca_fix_trip'],
         ab = config['lr']['lapa']['filt']['filt_ab']
     params:
         source = 'lapa',
@@ -620,7 +621,8 @@ use rule cerb_ab_ids as param_cerb_ab_ids_lr with:
 
 use rule cerb_gtf_ids as param_cerb_gtf_ids_lr with:
     input:
-        h5 = config['lr']['param_search']['cerberus']['ca_annot'],
+        # h5 = config['lr']['param_search']['cerberus']['ca_annot'], # TODO
+        h5 = config['lr']['param_search']['cerberus']['ca_fix_trip'],
         gtf = config['lr']['lapa']['filt']['gtf']
     params:
         source = 'lapa',
@@ -631,7 +633,8 @@ use rule cerb_gtf_ids as param_cerb_gtf_ids_lr with:
 
 use rule cerb_gtf_ids as param_cerb_gtf_ids_ref with:
     input:
-        h5 = config['lr']['param_search']['cerberus']['ca_annot'],
+        h5 = config['lr']['param_search']['cerberus']['ca_fix_trip'],
+        # h5 = config['lr']['param_search']['cerberus']['ca_annot'], TODO
         gtf = config['ref']['talon']['gtf']
     params:
         source = lambda wc:config['ref'][wc.species]['gtf_ver'],
@@ -642,7 +645,8 @@ use rule cerb_gtf_ids as param_cerb_gtf_ids_ref with:
 
 use rule cerb_gtf_ids as param_cerb_gtf_ids_ref_new with:
     input:
-        h5 = config['lr']['param_search']['cerberus']['ca_annot'],
+        # h5 = config['lr']['param_search']['cerberus']['ca_annot'],
+        h5 = config['lr']['param_search']['cerberus']['ca_fix_trip'],
         gtf = config['ref']['new_gtf']
     params:
         source = lambda wc:config['ref'][wc.species]['new_gtf_ver'],
@@ -735,7 +739,8 @@ def filt_unsup_ism(filt_ab, cerberus_h5, wildcards, ofile):
 rule param_cerb_filt_unsup_ism:
     input:
         ab = config['lr']['param_search']['cerberus']['ab'],
-        ca = config['lr']['param_search']['cerberus']['ca_annot']
+        # ca = config['lr']['param_search']['cerberus']['ca_annot'] # TODO
+        ca = config['lr']['param_search']['cerberus']['ca_fix_trip'],
     resources:
         threads = 1,
         mem_gb = 32
@@ -875,9 +880,9 @@ rule param_swan_init:
 ################################################################################
 rule param_major_isos:
     input:
-        sg = rules.swan_init.output.sg,
-        filt_ab = rules.swan_init.input.ab,
-        g_info = config['ref']['cerberus']['new_gtf_g_info']
+        sg = swan_file = config['lr']['param_search']['swan']['sg'],
+        filt_ab = config['lr']['param_search']['cerberus']['filt_ab'],
+        g_info = config['ref']['param_search']['cerberus']['new_gtf_g_info']
     resources:
         mem_gb = 16,
         threads = 8
@@ -913,7 +918,7 @@ rule fix_triplets_oops:
 rule param_calc_triplets:
     input:
         swan_file = config['lr']['param_search']['swan']['sg'],
-        # h5 = config['lr']['param_search']['cerberus']['ca_annot'], # TODO temp fix
+        # h5 = config['lr']['param_search']['cerberus']['ca_annot'], # TODO
         h5 = config['lr']['param_search']['cerberus']['ca_fix_trip'],
         filt_ab = config['lr']['param_search']['cerberus']['filt_ab'],
         major_isos = config['lr']['param_search']['analysis']['major_isos'],
@@ -1013,6 +1018,19 @@ use rule cerb_gtf_to_ics as param_cerb_get_gtf_ics_gtex with:
     output:
         ics = temporary(config['gtex']['param_search']['cerberus']['ics'])
 
+use rule get_t_info as param_t_info_new_ref with:
+    input:
+        gtf = config['ref']['param_search']['cerberus']['new_gtf'],
+        tf_file = config['ref']['tfs']
+    output:
+        o = config['ref']['param_search']['cerberus']['new_gtf_t_info']
+
+use rule get_g_info as param_g_info_new_ref with:
+    input:
+        gtf = config['ref']['param_search']['cerberus']['new_gtf'],
+        tf_file = config['ref']['tfs']
+    output:
+        o = config['ref']['param_search']['cerberus']['new_gtf_g_info']
 
 rule all_cerberus_param_search:
     input:
@@ -1034,6 +1052,8 @@ rule all_cerberus_param_search:
                tes_slack=tes_slacks,
                tss_agg_dist=tss_agg_dists,
                tes_agg_dist=tes_agg_dists)
+
+
 
 # rule all_cerberus:
 #     input:

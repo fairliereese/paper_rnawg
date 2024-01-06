@@ -610,8 +610,7 @@ use rule cerb_annot as param_cerberus_annotate_lr with:
 
 use rule cerb_ab_ids as param_cerb_ab_ids_lr with:
     input:
-        # h5 = config['lr']['param_search']['cerberus']['ca_annot'], TODO
-        h5 = config['lr']['param_search']['cerberus']['ca_fix_trip'],
+        h5 = config['lr']['param_search']['cerberus']['ca_annot'],
         ab = config['lr']['lapa']['filt']['filt_ab']
     params:
         source = 'lapa',
@@ -621,8 +620,7 @@ use rule cerb_ab_ids as param_cerb_ab_ids_lr with:
 
 use rule cerb_gtf_ids as param_cerb_gtf_ids_lr with:
     input:
-        # h5 = config['lr']['param_search']['cerberus']['ca_annot'], # TODO
-        h5 = config['lr']['param_search']['cerberus']['ca_fix_trip'],
+        h5 = config['lr']['param_search']['cerberus']['ca_annot'],
         gtf = config['lr']['lapa']['filt']['gtf']
     params:
         source = 'lapa',
@@ -633,8 +631,7 @@ use rule cerb_gtf_ids as param_cerb_gtf_ids_lr with:
 
 use rule cerb_gtf_ids as param_cerb_gtf_ids_ref with:
     input:
-        h5 = config['lr']['param_search']['cerberus']['ca_fix_trip'],
-        # h5 = config['lr']['param_search']['cerberus']['ca_annot'], TODO
+        h5 = config['lr']['param_search']['cerberus']['ca_annot'],
         gtf = config['ref']['talon']['gtf']
     params:
         source = lambda wc:config['ref'][wc.species]['gtf_ver'],
@@ -739,8 +736,7 @@ def filt_unsup_ism(filt_ab, cerberus_h5, wildcards, ofile):
 rule param_cerb_filt_unsup_ism:
     input:
         ab = config['lr']['param_search']['cerberus']['ab'],
-        # ca = config['lr']['param_search']['cerberus']['ca_annot'] # TODO
-        ca = config['lr']['param_search']['cerberus']['ca_fix_trip'],
+        ca = config['lr']['param_search']['cerberus']['ca_annot']
     resources:
         threads = 1,
         mem_gb = 32
@@ -901,25 +897,24 @@ rule param_major_isos:
                        gene_subset=params.gene_subset)
 
 
-# temp fix -- remove triplets TODO
-rule fix_triplets_oops:
-    input:
-        h5 = config['lr']['param_search']['cerberus']['ca_annot']
-    resources:
-        threads = 1,
-        mem_gb = 16
-    output:
-        h5 = config['lr']['param_search']['cerberus']['ca_fix_trip']
-    run:
-        ca = cerberus.read(input.h5)
-        ca.triplets = None
-        ca.write(output.h5)
+# # temp fix -- remove triplets TODO
+# rule fix_triplets_oops:
+#     input:
+#         h5 = config['lr']['param_search']['cerberus']['ca_annot']
+#     resources:
+#         threads = 1,
+#         mem_gb = 16
+#     output:
+#         h5 = config['lr']['param_search']['cerberus']['ca_fix_trip']
+#     run:
+#         ca = cerberus.read(input.h5)
+#         ca.triplets = None
+#         ca.write(output.h5)
 
 rule param_calc_triplets:
     input:
         swan_file = config['lr']['param_search']['swan']['sg'],
-        # h5 = config['lr']['param_search']['cerberus']['ca_annot'], # TODO
-        h5 = config['lr']['param_search']['cerberus']['ca_fix_trip'],
+        h5 = config['lr']['param_search']['cerberus']['ca_annot'],
         filt_ab = config['lr']['param_search']['cerberus']['filt_ab'],
         major_isos = config['lr']['param_search']['analysis']['major_isos'],
     params:

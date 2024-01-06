@@ -794,22 +794,22 @@ def make_sg(input, params, wildcards):
 #         df.drop('gid_stable', axis=1, inplace=True)
 #         df.to_csv(output.ab, sep='\t', index=False)
 
-# rule param_swan_init:
-#     input:
-#         annot = config['ref']['param_search']['cerberus']['new_gtf'],
-#         ab = config['lr']['param_search']['cerberus']['filt_ab'],
-#         gene_ab = config['lr']['talon']['ab_stable_gid'],
-#         gtf = config['lr']['param_search']['cerberus']['gtf'],
-#         meta = config['lr']['meta']
-#     params:
-#         prefix = config['lr']['param_search']['swan']['sg'].replace('.p', '')
-#     resources:
-#         mem_gb = 64,
-#         threads = 1
-#     output:
-#         sg = temporary(config['lr']['param_search']['swan']['sg'])
-#     run:
-#         make_sg(input, params, wildcards)
+rule param_swan_init:
+    input:
+        annot = config['ref']['param_search']['cerberus']['new_gtf'],
+        ab = config['lr']['param_search']['cerberus']['filt_ab'],
+        gene_ab = config['lr']['talon']['ab_stable_gid'],
+        gtf = config['lr']['param_search']['cerberus']['gtf'],
+        meta = config['lr']['meta']
+    params:
+        prefix = config['lr']['param_search']['swan']['sg'].replace('.p', '')
+    resources:
+        mem_gb = 64,
+        threads = 1
+    output:
+        sg = temporary(config['lr']['param_search']['swan']['sg'])
+    run:
+        make_sg(input, params, wildcards)
 #
 # ################################################################################
 # # get ends for milad's tss prediction
@@ -880,7 +880,7 @@ def make_sg(input, params, wildcards):
 ################################################################################
 rule param_major_isos:
     input:
-        sg = swan_file = config['lr']['param_search']['swan']['sg'],
+        sg = config['lr']['param_search']['swan']['sg'],
         filt_ab = config['lr']['param_search']['cerberus']['filt_ab'],
         g_info = config['ref']['param_search']['cerberus']['new_gtf_g_info']
     resources:

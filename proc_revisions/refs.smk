@@ -389,6 +389,19 @@ use rule gunzip as gunzip_repeats with:
   output:
     out = config['ref']['repeats']['txt']
 
+use rule dl as dl_aa with:
+  params:
+    link = config['ref']['new_gtf_aa_link']
+  output:
+    out = temporary(config['ref']['new_gtf_aa_gz'])
+
+use rule gunzip as gunzip_aa with:
+  input:
+    gz = config['ref']['new_gtf_aa_gz']
+  output:
+    out = config['ref']['new_gtf_aa']
+
+
 rule get_alu_bed:
     input:
         txt = config['ref']['repeats']['txt']
@@ -408,4 +421,6 @@ rule get_alu_bed:
 rule all_refs:
     input:
         config['ref']['phastcons100']['txt'],
-        config['ref']['repeats']['alu_bed']
+        config['ref']['repeats']['alu_bed'],
+        expand(config['ref']['new_gtf_aa'],
+               species='human')

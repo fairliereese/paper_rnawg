@@ -898,7 +898,7 @@ rule param_major_isos:
 
 rule param_calc_triplets:
     input:
-        swan_file = config['lr']['swan']['sg'],
+        swan_file = config['lr']['param_search']['swan']['sg'],
         h5 = config['lr']['param_search']['cerberus']['ca_annot'],
         filt_ab = config['lr']['param_search']['cerberus']['filt_ab'],
         major_isos = config['lr']['param_search']['analysis']['major_isos'],

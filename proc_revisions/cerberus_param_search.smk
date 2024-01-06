@@ -642,8 +642,7 @@ use rule cerb_gtf_ids as param_cerb_gtf_ids_ref with:
 
 use rule cerb_gtf_ids as param_cerb_gtf_ids_ref_new with:
     input:
-        # h5 = config['lr']['param_search']['cerberus']['ca_annot'],
-        h5 = config['lr']['param_search']['cerberus']['ca_fix_trip'],
+        h5 = config['lr']['param_search']['cerberus']['ca_annot'],
         gtf = config['ref']['new_gtf']
     params:
         source = lambda wc:config['ref'][wc.species]['new_gtf_ver'],

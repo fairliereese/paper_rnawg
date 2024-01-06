@@ -896,10 +896,25 @@ rule param_major_isos:
                        gene_subset=params.gene_subset)
 
 
+# temp fix -- remove triplets TODO
+rule fix_triplets_oops:
+    input:
+        h5 = config['lr']['param_search']['cerberus']['ca_annot']
+    resources:
+        threads = 1,
+        mem_gb = 16
+    output:
+        h5 = config['lr']['param_search']['cerberus']['ca_fix_trip']
+    run:
+        ca = cerberus.read(input.h5)
+        ca.triplets = None
+        ca.write(output.h5)
+
 rule param_calc_triplets:
     input:
         swan_file = config['lr']['param_search']['swan']['sg'],
-        h5 = config['lr']['param_search']['cerberus']['ca_annot'],
+        # h5 = config['lr']['param_search']['cerberus']['ca_annot'], # TODO temp fix
+        h5 = config['lr']['param_search']['cerberus']['ca_fix_trip'],
         filt_ab = config['lr']['param_search']['cerberus']['filt_ab'],
         major_isos = config['lr']['param_search']['analysis']['major_isos'],
     params:

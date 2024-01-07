@@ -213,6 +213,7 @@ def get_corr_t_summary(files, full_ab, ofile, params):
         depth = entry.depth
         rep =  entry.depth
         for g in gene_subsets:
+            import pdb; pdb.set_trace()
             ab_df = pd.read_csv(full_ab, sep='\t')
             ab_df, _ = get_tpm_table(ab_df,
                                  how='iso',

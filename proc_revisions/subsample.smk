@@ -1,4 +1,4 @@
-sample_depths = [.1, .15, .2, .4, .6, .8, .9, 1]
+sample_depths = [.1, .15, .2, .4, .6, .8, .9]
 sample_reps = [i for i in range(10)]
 sample_gene_subsets = ['polya', 'protein_coding', 'pseudogene', 'lncRNA']
 

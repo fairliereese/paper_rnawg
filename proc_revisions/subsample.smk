@@ -213,41 +213,41 @@ def get_corr_t_summary(files, full_ab, ofile, params):
     file = entry.file
     depth = entry.depth
     rep =  entry.depth
-    for g in gene_subsets:
-        ab_df = pd.read_csv(full_ab, sep='\t')
-        ab_df, _ = get_tpm_table(ab_df,
-                             how='iso',
-                             gene_subset=g,
-                             min_tpm=min_tpm,
-                              groupby='sample',
-                             sample=['wtc11'])
-        ab_df = ab_df.reset_index()
-        ab_df.rename({'index': 'tid'}, axis=1, inplace=True)
-
-        sub_ab_df = pd.read_csv(file, sep='\t')
-        sub_ab_df, _ = get_tpm_table(sub_ab_df,
-                             how='iso',
-                             gene_subset=g,
-                             min_tpm=min_tpm,
+        for g in gene_subsets:
+            ab_df = pd.read_csv(full_ab, sep='\t')
+            ab_df, _ = get_tpm_table(ab_df,
+                                 how='iso',
+                                 gene_subset=g,
+                                 min_tpm=min_tpm,
                                   groupby='sample',
-                             sample=['wtc11'])
-        sub_ab_df = sub_ab_df.reset_index()
-        sub_ab_df.rename({'index': 'tid'}, axis=1, inplace=True)
+                                 sample=['wtc11'])
+            ab_df = ab_df.reset_index()
+            ab_df.rename({'index': 'tid'}, axis=1, inplace=True)
 
-        # intersection (only correlate stuff detected in both)
-        temp = ab_df.merge(sub_ab_df, how='inner',
-              on='tid',
-              suffixes=('_full', '_subs'))
+            sub_ab_df = pd.read_csv(file, sep='\t')
+            sub_ab_df, _ = get_tpm_table(sub_ab_df,
+                                 how='iso',
+                                 gene_subset=g,
+                                 min_tpm=min_tpm,
+                                      groupby='sample',
+                                 sample=['wtc11'])
+            sub_ab_df = sub_ab_df.reset_index()
+            sub_ab_df.rename({'index': 'tid'}, axis=1, inplace=True)
 
-        x = 'wtc11_full'
-        y = 'wtc11_subs'
-        rho, p = st.spearmanr(temp[x].tolist(), temp[y].tolist())
-        r, p2 = st.pearsonr(temp[x].tolist(), temp[y].tolist())
-        spearman_corrs.append(r)
-        pearson_corrs.append(rho)
-        gs.append(g)
-        reps.append(rep)
-        depths.append(depth)
+            # intersection (only correlate stuff detected in both)
+            temp = ab_df.merge(sub_ab_df, how='inner',
+                  on='tid',
+                  suffixes=('_full', '_subs'))
+
+            x = 'wtc11_full'
+            y = 'wtc11_subs'
+            rho, p = st.spearmanr(temp[x].tolist(), temp[y].tolist())
+            r, p2 = st.pearsonr(temp[x].tolist(), temp[y].tolist())
+            spearman_corrs.append(r)
+            pearson_corrs.append(rho)
+            gs.append(g)
+            reps.append(rep)
+            depths.append(depth)
 
     corr_df = pd.DataFrame()
     corr_df['depth'] = depths

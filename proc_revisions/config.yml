@@ -249,6 +249,10 @@ lr:
     gene_summary: data/{species}/lr/subsample/gene_summary.tsv
     transcript_summary: data/{species}/lr/subsample/transcript_summary.tsv
 
+    gene_corr_summary: data/{species}/lr/subsample/gene_corr_summary.tsv
+    transcript_corr_summary: data/{species}/lr/subsample/transcript_corr_summary.tsv
+
+
   swan:
     sg: data/{species}/lr/swan/swan_graph.p
 

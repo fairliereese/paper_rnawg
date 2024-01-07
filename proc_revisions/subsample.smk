@@ -210,9 +210,9 @@ def get_corr_t_summary(files, full_ab, ofile, params):
     min_tpm = params['min_tpm']
 
     for ind, entry in file_df.iterrows():
-    file = entry.file
-    depth = entry.depth
-    rep =  entry.depth
+        file = entry.file
+        depth = entry.depth
+        rep =  entry.depth
         for g in gene_subsets:
             ab_df = pd.read_csv(full_ab, sep='\t')
             ab_df, _ = get_tpm_table(ab_df,

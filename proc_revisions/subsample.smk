@@ -193,7 +193,6 @@ rule subsample_wtc11_gene:
                              output.ab)
 
 def get_corr_t_summary(files, full_ab, ofile, params):
-    files = [subs_filt_ab]
 
     file_df = pd.DataFrame()
     file_df['file'] = list(files)

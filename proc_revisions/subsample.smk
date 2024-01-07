@@ -358,7 +358,8 @@ rule all_subsample:
                species='human'),
         expand(config['lr']['subsample']['transcript_summary'],
                species='human'),
-        expand(config['lr']['subsample']['transcript_corr_summary'])
+        expand(config['lr']['subsample']['transcript_corr_summary'],
+               species='human')
         # expand(config['lr']['subsample']['ca_triplets'],
         #        species='human',
         #        subsample_depth=sample_depths,

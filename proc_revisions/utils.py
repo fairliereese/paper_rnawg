@@ -3262,7 +3262,7 @@ def get_centroids(ca,
                   gene_subset=None,
                   ver=None,
                   **kwargs):
-
+    
     # subset on source
     df = ca.triplets.loc[ca.triplets.source == source].copy(deep=True)
 
@@ -3285,7 +3285,11 @@ def get_centroids(ca,
         gene_df = gene_df[['gid_stable', 'biotype']]
         df = df.merge(gene_df, how='left',
                       left_on='gid', right_on='gid_stable')
-        df = df.loc[df.biotype==gene_subset]
+        if gene_subset == 'polya':
+            gene_subset = get_polya_cats()
+        else:
+            gene_subset = [gene_subset]
+        df = df.loc[df.biotype.isin(gene_subset)]
 
         df.drop(['biotype', 'gid_stable'], axis=1, inplace=True)
 
@@ -4288,94 +4292,94 @@ def get_ss_sj_from_ic(ic, ref_sources, how, rm_spikes):
 
     return df, ic_df
 
-def get_sj_from_ic(ic, ref_sources, rm_spikes=True):
-    """
-    Get a splice junction table from an intron chain table.
-    Retain source and novelty information.
+# def get_sj_from_ic(ic, ref_sources, rm_spikes=True):
+#     """
+#     Get a splice junction table from an intron chain table.
+#     Retain source and novelty information.
 
-    Parameters:
-        ic (pandas DataFrame): DataFrame formatted as cerberus ic table
-        ref_sources (list of str): List of sources to use as references
-        rm_spikes (bool): Remove spike ins
+#     Parameters:
+#         ic (pandas DataFrame): DataFrame formatted as cerberus ic table
+#         ref_sources (list of str): List of sources to use as references
+#         rm_spikes (bool): Remove spike ins
 
-    Returns:
-        df (pandas DataFrame): DataFrame with entries for each splice junction
-        ic_df (pandas DataFrame): DataFrame with entries for each splice junction /
-            intron chain combination
+#     Returns:
+#         df (pandas DataFrame): DataFrame with entries for each splice junction
+#         ic_df (pandas DataFrame): DataFrame with entries for each splice junction /
+#             intron chain combination
 
-    """
-    return get_ss_sj_from_ic(ic, ref_sources, 'sj', rm_spikes)
+#     """
+#     return get_ss_sj_from_ic(ic, ref_sources, 'sj', rm_spikes)
 
-def get_ss_from_ic(ic, rm_spikes=True):
-    """
-    Get a splice junction table from an intron chain table.
-    Retain source and novelty information.
+# def get_ss_from_ic(ic, rm_spikes=True):
+#     """
+#     Get a splice junction table from an intron chain table.
+#     Retain source and novelty information.
 
-    Parameters:
-        ic (pandas DataFrame): DataFrame formatted as cerberus ic table
-        ref_sources (list of str): List of sources to use as references
-        rm_spikes (bool): Remove spike ins
+#     Parameters:
+#         ic (pandas DataFrame): DataFrame formatted as cerberus ic table
+#         ref_sources (list of str): List of sources to use as references
+#         rm_spikes (bool): Remove spike ins
 
-    Returns:
-        df (pandas DataFrame): DataFrame with entries for each splice site
-        ic_df (pandas DataFrame): DataFrame with entries for each splice site /
-            intron chain combination
-    """
-    return get_ss_sj_from_ic(ic, ref_sources, 'ss')
+#     Returns:
+#         df (pandas DataFrame): DataFrame with entries for each splice site
+#         ic_df (pandas DataFrame): DataFrame with entries for each splice site /
+#             intron chain combination
+#     """
+#     return get_ss_sj_from_ic(ic, ref_sources, 'ss')
 
-def get_sj_files(h5, ref_sources, sj_ofile, sj_ic_ofile):
-    """
-    Save a file with splice junctions from cerberus intron chains
+# def get_sj_files(h5, ref_sources, sj_ofile, sj_ic_ofile):
+#     """
+#     Save a file with splice junctions from cerberus intron chains
 
-    Parameters:
-        h5 (str): Path to Cerberus h5 object
-        ref_sources (list of str): List of source names to consider
-            as known sources
-    """
-    ca = cerberus.read(h5)
+#     Parameters:
+#         h5 (str): Path to Cerberus h5 object
+#         ref_sources (list of str): List of source names to consider
+#             as known sources
+#     """
+#     ca = cerberus.read(h5)
 
-    sj_df, sj_ic_df = get_sj_from_ic(ca.ic, ref_sources)
-    sj_df = add_ss_type_to_intron(sj_df)
+#     sj_df, sj_ic_df = get_sj_from_ic(ca.ic, ref_sources)
+#     sj_df = add_ss_type_to_intron(sj_df)
 
-    # get novelty of the sss as well and add to the thing
-    ss_df, ss_ic_df = get_ss_from_ic(ca.ic, ref_sources)
-    sj_ic_df = add_ss_type_to_intron(sj_ic_df)
+#     # get novelty of the sss as well and add to the thing
+#     ss_df, ss_ic_df = get_ss_from_ic(ca.ic, ref_sources)
+#     sj_ic_df = add_ss_type_to_intron(sj_ic_df)
 
-    # merge this in with the sj-level info
-    for s in ss_df.ss_type.unique():
-        nov_col = f'{s}_novelty'
-        keep_cols = ['Chromosome', 'Start', 'Strand', 'gene_id', 'novelty']
+#     # merge this in with the sj-level info
+#     for s in ss_df.ss_type.unique():
+#         nov_col = f'{s}_novelty'
+#         keep_cols = ['Chromosome', 'Start', 'Strand', 'gene_id', 'novelty']
 
-        temp = ss_df.loc[ss_df.ss_type==s].copy(deep=True)
-        temp = temp[keep_cols]
-        temp.rename({'novelty':nov_col,
-                     'Start':s}, axis=1, inplace=True)
+#         temp = ss_df.loc[ss_df.ss_type==s].copy(deep=True)
+#         temp = temp[keep_cols]
+#         temp.rename({'novelty':nov_col,
+#                      'Start':s}, axis=1, inplace=True)
 
-        sj_df = sj_df.merge(temp,
-                            how='left',
-                            on=['Chromosome', 'Strand', 'gene_id', s])
-        sj_ic_df = sj_ic_df.merge(temp,
-                                  how='left',
-                                  on=['Chromosome', 'Strand', 'gene_id', s])
+#         sj_df = sj_df.merge(temp,
+#                             how='left',
+#                             on=['Chromosome', 'Strand', 'gene_id', s])
+#         sj_ic_df = sj_ic_df.merge(temp,
+#                                   how='left',
+#                                   on=['Chromosome', 'Strand', 'gene_id', s])
 
-    sj_df.to_csv(sj_ofile, sep='\t', index=False)
-    sj_ic_df.to_csv(sj_ic_ofile, sep='\t', index=False)
+#     sj_df.to_csv(sj_ofile, sep='\t', index=False)
+#     sj_ic_df.to_csv(sj_ic_ofile, sep='\t', index=False)
 
-def get_ss_files(h5, ref_sources, ss_ofile, ss_ic_ofile):
-    """
-    Save a file with splice sites from cerberus intron chains
+# def get_ss_files(h5, ref_sources, ss_ofile, ss_ic_ofile):
+#     """
+#     Save a file with splice sites from cerberus intron chains
 
-    Parameters:
-        h5 (str): Path to Cerberus h5 object
-        ref_sources (list of str): List of source names to consider
-            as known sources
-    """
-    ca = cerberus.read(h5)
+#     Parameters:
+#         h5 (str): Path to Cerberus h5 object
+#         ref_sources (list of str): List of source names to consider
+#             as known sources
+#     """
+#     ca = cerberus.read(h5)
 
-    ss_df, ss_ic_df = get_ss_from_ic(ca.ic, ref_sources)
+#     ss_df, ss_ic_df = get_ss_from_ic(ca.ic, ref_sources)
 
-    ss_df.to_csv(ss_ofile, sep='\t', index=False)
-    ss_ic_df.to_csv(ss_ic_ofile, sep='\t', index=False)
+#     ss_df.to_csv(ss_ofile, sep='\t', index=False)
+#     ss_ic_df.to_csv(ss_ic_ofile, sep='\t', index=False)
 
 def get_sample_gtf(ab, gtf, min_tpm, sample, species, ofile):
     """

@@ -1805,7 +1805,6 @@ def plot_browser_isos(ca, sg, gene,
 
     # NMD and ORF
     # TODO - update
-    print('PLEASE UPDATE ME WHEN U HAVE PROTEIN RESULTS')
     if pp_summary:
         pp_df = pd.read_csv(pp_summary, sep='\t')
         pp_df.rename({'tid': 'transcript_id'}, axis=1, inplace=True)
@@ -1865,8 +1864,8 @@ def plot_browser_isos(ca, sg, gene,
         ax2 = sg.plot_browser(tid, y=y, x=x, h=h, w=w, color=color,
                               ax=ax2, linewidth=linewidth)
 
-        print('TODO - also add this back in')
-        # ax2 = plot_cds(entry, sg, x, y_cds, h_cds, ax2, color)
+        # print('TODO - also add this back in')
+        ax2 = plot_cds(entry, sg, x, y_cds, h_cds, ax2, color)
 
         i+=1
 

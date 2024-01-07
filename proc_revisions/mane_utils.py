@@ -13,10 +13,10 @@ import swan_vis as swan
 p = os.path.dirname(os.path.dirname(os.getcwd()))
 sys.path.append(p)
 
-# from .utils import *
-# from .plotting import *
-from utils import *
-from plotting import *
+from .utils import *
+from .plotting import *
+# from utils import *
+# from plotting import *
 
 def get_exp_gene_subset(ab, min_tpm,
                         obs_col,
@@ -441,7 +441,7 @@ def plot_perc_samples_mane(temp,
     if obs_col == 'dataset':
         ax.set(ylabel=ylabel, xlabel=xlabel, ylim=(0, 8500))
     elif obs_col == 'sample':
-        ax.set(ylabel=ylabel, xlabel=xlabel, ylim=(0, 5000))
+        ax.set(ylabel=ylabel, xlabel=xlabel, ylim=(0, 6000))
 
     ax.tick_params(axis='x', rotation=90)
     _ = plt.xticks(fontsize=16)
@@ -509,16 +509,17 @@ def get_mp_df_table(sg, ca,
 
         # get exp gene file
         d = os.path.dirname(__file__)
-        config_file = f'{d}/../figures/snakemake/config.yml'
+        config_file = f'{d}/../proc_revisions/config.yml'
         with open(config_file) as f:
             config = yaml.safe_load(f)
 
-        exp_gene_fname = f'{d}/../figures/'+expand(config['data']['exp_gene_subset'], species='human', obs_col=obs_col)[0]
+        # TODO
+        exp_gene_fname = f'{d}/../proc_revisions/'+expand(config['lr']['mane']['exp_gene_subset'], species='human', obs_col=obs_col)[0]
         print(exp_gene_fname)
 
         # get pi / tpm table
-
-        fname = f'{d}/../figures/'+expand(config['data']['pi_tpm'][feat], species='human', obs_col=obs_col)[0]
+        # TODO
+        fname = f'{d}/../proc_revisions/'+expand(config['lr']['mane']['pi_tpm'][feat], species='human', obs_col=obs_col)[0]
         print(fname)
         df = pd.read_csv(fname, sep='\t')
 

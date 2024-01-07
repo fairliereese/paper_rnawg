@@ -90,6 +90,7 @@ ref:
 
   # additional data
   tfs: ref/{species}/biomart_tf_gids.tsv
+  orth_genes: ref/biomart_human_to_mouse.tsv
 
   # vM21 or v29
   gtf_gz: ref/{species}/annot.gtf.gz

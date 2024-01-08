@@ -240,11 +240,11 @@ def get_corr_t_summary(files, full_ab, ofile, params):
 
             x = 'wtc11_full'
             y = 'wtc11_subs'
-            try:
-                rho, p = st.spearmanr(temp[x].tolist(), temp[y].tolist())
-                r, p2 = st.pearsonr(temp[x].tolist(), temp[y].tolist())
-            except:
-                import pdb; pdb.set_trace()
+            # try:
+            rho, p = st.spearmanr(temp[x].tolist(), temp[y].tolist())
+            r, p2 = st.pearsonr(temp[x].tolist(), temp[y].tolist())
+            # except:
+            #     import pdb; pdb.set_trace()
             spearman_corrs.append(r)
             pearson_corrs.append(rho)
             gs.append(g)
@@ -272,11 +272,95 @@ rule subsample_wtc11_transcript_corr_summary:
         threads = 2
     params:
         min_tpm = 0,
-        gene_subsets = ['protein_conding', 'lncRNA', 'pseudogene']
+        gene_subsets = sample_gene_subsets
     output:
         ofile = config['lr']['subsample']['transcript_corr_summary']
     run:
         get_corr_t_summary(input.files, input.filt_ab, output.ofile, params)
+
+def get_corr_g_summary(files, full_ab, ofile, params):
+
+    file_df = pd.DataFrame()
+    file_df['file'] = list(files)
+    file_df['depth'] = file_df.file.str.rsplit('_', n=2, expand=True)[1]
+    file_df['rep'] = file_df.file.str.rsplit('_', n=1, expand=True)[1].str.rsplit('.', n=1, expand=True)[0]
+
+    spearman_corrs = []
+    pearson_corrs = []
+    gs = []
+    reps = []
+    depths = []
+
+    gene_subsets = params['gene_subsets']
+    min_tpm = params['min_tpm']
+
+    for ind, entry in file_df.iterrows():
+        file = entry.file
+        depth = entry.depth
+        rep =  entry.depth
+        for g in gene_subsets:
+            ab_df = pd.read_csv(full_ab, sep='\t')
+            ab_df, _ = get_tpm_table(ab_df,
+                                 how='gene',
+                                 gene_subset=g,
+                                 min_tpm=min_tpm,
+                                  groupby='sample',
+                                 sample=['wtc11'])
+            ab_df = ab_df.reset_index()
+            ab_df.rename({'index': 'tid'}, axis=1, inplace=True)
+
+            sub_ab_df = pd.read_csv(file, sep='\t')
+            sub_ab_df, _ = get_tpm_table(sub_ab_df,
+                                 how='gene',
+                                 gene_subset=g,
+                                 min_tpm=min_tpm,
+                                      groupby='sample',
+                                 sample=['wtc11'])
+            sub_ab_df = sub_ab_df.reset_index()
+            sub_ab_df.rename({'index': 'tid'}, axis=1, inplace=True)
+
+            # intersection (only correlate stuff detected in both)
+            temp = ab_df.merge(sub_ab_df, how='inner',
+                  on='tid',
+                  suffixes=('_full', '_subs'))
+
+            x = 'wtc11_full'
+            y = 'wtc11_subs'
+            rho, p = st.spearmanr(temp[x].tolist(), temp[y].tolist())
+            r, p2 = st.pearsonr(temp[x].tolist(), temp[y].tolist())
+            spearman_corrs.append(r)
+            pearson_corrs.append(rho)
+            gs.append(g)
+            reps.append(rep)
+            depths.append(depth)
+
+    corr_df = pd.DataFrame()
+    corr_df['depth'] = depths
+    corr_df['rep'] = reps
+    corr_df['gene_subset'] = gs
+    corr_df['pearson_r'] = pearson_corrs
+    corr_df['spearman_rho'] = spearman_corrs
+    corr_df.to_csv(ofile, sep='\t', index=False)
+
+rule subsample_wtc11_gene_corr_summary:
+    input:
+        files = expand(config['lr']['subsample']['ab'],
+               species='human',
+               subsample_depth=sample_depths,
+               subsample_rep=sample_reps),
+        filt_ab = expand(config['lr']['talon']['fusion_fix']['ab'],
+                species='human')[0]
+    resources:
+        mem_gb = 32,
+        threads = 2
+    params:
+        min_tpm = 0,
+        gene_subsets = sample_gene_subsets
+    output:
+        ofile = config['lr']['subsample']['gene_corr_summary']
+    run:
+        get_corr_g_summary(input.files, input.filt_ab, output.ofile, params)
+
 
 rule subsample_wtc11_gene_summary:
     input:
@@ -361,7 +445,9 @@ rule all_subsample:
         expand(config['lr']['subsample']['transcript_summary'],
                species='human'),
         expand(config['lr']['subsample']['transcript_corr_summary'],
-               species='human')
+               species='human'),
+        expand(config['lr']['subsample']['gene_corr_summary'],
+              species='human')
         # expand(config['lr']['subsample']['ca_triplets'],
         #        species='human',
         #        subsample_depth=sample_depths,

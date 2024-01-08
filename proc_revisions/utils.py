@@ -25,6 +25,24 @@ from tqdm import tqdm
 from snakemake.io import expand
 import upsetplot
 
+# limit to same samples from the gtex paper?
+def get_gtex_match_samples():
+    samples = ['adipose',
+               'brain',
+               'brain_ad',
+               'hmec',
+               'mcf10a',
+               'mcf7',
+               'heart',
+               'liver',
+               'lung',
+               'muscle',
+               'h9_panc_beta',
+               'h9_panc_progen',
+               'panc1',
+               'k562']
+    return samples
+
 
 def get_datasets(species='human',
                  classification=None,
@@ -1403,7 +1421,7 @@ def get_det_table(df,
     # kwargs['groupby'] = groupby
     # calc TPM per library on desired samples
     df, tids = get_tpm_table(df, **kwargs)
-    
+
     df = df.transpose()
     df.index.name = 'dataset'
     df.reset_index(inplace=True)
@@ -1422,7 +1440,7 @@ def get_det_table(df,
             df = df.merge(tissue_df, how='left', on='dataset')
             df.drop('dataset', axis=1, inplace=True)
             df.rename({'sample': 'biosample'}, axis=1, inplace=True)
-            
+
         elif kwargs['how'] == 'sr':
             # add biosample name (ie without rep information)
             df['biosample'] = df.dataset.str.rsplit('_', n=2, expand=True)[0]
@@ -1436,7 +1454,7 @@ def get_det_table(df,
             df.loc[df.tissue.isnull(), 'tissue'] = df.loc[df.tissue.isnull(), 'biosample']
             df.drop('biosample', axis=1, inplace=True)
             df.rename({'tissue': 'biosample'}, axis=1, inplace=True)
-            
+
 
         print('Found {} total samples'.format(len(df.biosample.unique().tolist())))
         df = df.groupby('biosample').max()
@@ -1826,6 +1844,7 @@ def get_sr_tpm_table(df,
     if min_tpm:
         print('Enforcing minimum TPM')
         print('Total # genes detected: {}'.format(len(df.index)))
+        # import pdb; pdb.set_trace()
         df = df.loc[(df >= min_tpm).any(axis=1)]
         print('# genes >= {} tpm: {}'.format(min_tpm, len(df.index)))
 
@@ -2000,7 +2019,9 @@ def get_tpm_table(df,
         if how == 'gene':
             id_col = 'gid_stable'
             nov_col = 'gene_novelty'
-            nov = ['Known']
+            # nov = ['Known']
+            if not nov:
+                nov = ['Known']
         elif how == 'iso':
             id_col = 'annot_transcript_id'
             nov_col = 'transcript_novelty'
@@ -2095,6 +2116,7 @@ def get_tpm_table(df,
         if min_tpm:
             print('Enforcing minimum TPM')
             print('Total # {}s detected: {}'.format(how, len(df.index)))
+            # import pdb; pdb.set_trace()
             df = df.loc[(df >= min_tpm).any(axis=1)]
             print('# {}s >= {} tpm: {}'.format(how, min_tpm, len(df.index)))
 
@@ -2111,7 +2133,7 @@ def get_tpm_table(df,
             df.rename({'index':'dataset'}, axis=1, inplace=True)
             if 'how' not in kwargs.keys():
                 kwargs['how'] = how
-                
+
             if kwargs['how'] != 'sr':
                 # record the highest TPM value per biosample
                 tissue_df = get_tissue_metadata(species=kwargs['species'])
@@ -3262,7 +3284,7 @@ def get_centroids(ca,
                   gene_subset=None,
                   ver=None,
                   **kwargs):
-    
+
     # subset on source
     df = ca.triplets.loc[ca.triplets.source == source].copy(deep=True)
 
@@ -3319,7 +3341,6 @@ def compute_dists(cas,
         Preprocess cerberus annot according to input settings
         """
 
-        import pdb; pdb.set_trace()
         # get triplets for source
         df = ca.triplets.loc[ca.triplets.source == source].copy(deep=True)
 

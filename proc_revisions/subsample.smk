@@ -1,6 +1,7 @@
 sample_depths = [.1, .15, .2, .4, .6, .8, .9]
 sample_reps = [i for i in range(10)]
 sample_gene_subsets = ['polya', 'protein_coding', 'pseudogene', 'lncRNA']
+sample_sets = ['inner', 'outer']
 
 def read_annot_to_counts(df):
     """
@@ -192,7 +193,7 @@ rule subsample_wtc11_gene:
                              wildcards.subsample_depth,
                              output.ab)
 
-def get_corr_t_summary(files, full_ab, ofile, params):
+def get_corr_t_summary(files, full_ab, ofile, params, wc):
 
     file_df = pd.DataFrame()
     file_df['file'] = list(files)
@@ -234,12 +235,15 @@ def get_corr_t_summary(files, full_ab, ofile, params):
             sub_ab_df.rename({'index': 'tid'}, axis=1, inplace=True)
 
             # intersection (only correlate stuff detected in both)
-            temp = ab_df.merge(sub_ab_df, how='inner',
+            temp = ab_df.merge(sub_ab_df, how=wc.subsample_set,
                   on='tid',
                   suffixes=('_full', '_subs'))
 
             x = 'wtc11_full'
             y = 'wtc11_subs'
+            for col in [x,y]:
+                temp[col] = temp[col].fillna(0)
+
             # try:
             rho, p = st.spearmanr(temp[x].tolist(), temp[y].tolist())
             r, p2 = st.pearsonr(temp[x].tolist(), temp[y].tolist())
@@ -276,9 +280,9 @@ rule subsample_wtc11_transcript_corr_summary:
     output:
         ofile = config['lr']['subsample']['transcript_corr_summary']
     run:
-        get_corr_t_summary(input.files, input.filt_ab, output.ofile, params)
+        get_corr_t_summary(input.files, input.filt_ab, output.ofile, params, wc)
 
-def get_corr_g_summary(files, full_ab, ofile, params):
+def get_corr_g_summary(files, full_ab, ofile, params, wc):
 
     file_df = pd.DataFrame()
     file_df['file'] = list(files)
@@ -320,12 +324,15 @@ def get_corr_g_summary(files, full_ab, ofile, params):
             sub_ab_df.rename({'index': 'tid'}, axis=1, inplace=True)
 
             # intersection (only correlate stuff detected in both)
-            temp = ab_df.merge(sub_ab_df, how='inner',
+            temp = ab_df.merge(sub_ab_df, how=wc.subsample_set,
                   on='tid',
                   suffixes=('_full', '_subs'))
 
             x = 'wtc11_full'
             y = 'wtc11_subs'
+            for col in [x,y]:
+                temp[col] = temp[col].fillna(0)
+
             rho, p = st.spearmanr(temp[x].tolist(), temp[y].tolist())
             r, p2 = st.pearsonr(temp[x].tolist(), temp[y].tolist())
             spearman_corrs.append(r)
@@ -359,7 +366,9 @@ rule subsample_wtc11_gene_corr_summary:
     output:
         ofile = config['lr']['subsample']['gene_corr_summary']
     run:
-        get_corr_g_summary(input.files, input.filt_ab, output.ofile, params)
+        get_corr_g_summary(input.files, input.filt_ab, output.ofile,
+                           params,
+                           wc)
 
 
 rule subsample_wtc11_gene_summary:
@@ -445,9 +454,11 @@ rule all_subsample:
         expand(config['lr']['subsample']['transcript_summary'],
                species='human'),
         expand(config['lr']['subsample']['transcript_corr_summary'],
-               species='human'),
+               species='human',
+               subsample_set=sample_sets),
         expand(config['lr']['subsample']['gene_corr_summary'],
-              species='human')
+              species='human',
+              subsample_set=sample_sets)
         # expand(config['lr']['subsample']['ca_triplets'],
         #        species='human',
         #        subsample_depth=sample_depths,

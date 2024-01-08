@@ -213,7 +213,6 @@ def get_corr_t_summary(files, full_ab, ofile, params):
         depth = entry.depth
         rep =  entry.depth
         for g in gene_subsets:
-            import pdb; pdb.set_trace()
             ab_df = pd.read_csv(full_ab, sep='\t')
             ab_df, _ = get_tpm_table(ab_df,
                                  how='iso',
@@ -229,7 +228,7 @@ def get_corr_t_summary(files, full_ab, ofile, params):
                                  how='iso',
                                  gene_subset=g,
                                  min_tpm=min_tpm,
-                                      groupby='sample',
+                                 groupby='sample',
                                  sample=['wtc11'])
             sub_ab_df = sub_ab_df.reset_index()
             sub_ab_df.rename({'index': 'tid'}, axis=1, inplace=True)
@@ -241,8 +240,11 @@ def get_corr_t_summary(files, full_ab, ofile, params):
 
             x = 'wtc11_full'
             y = 'wtc11_subs'
-            rho, p = st.spearmanr(temp[x].tolist(), temp[y].tolist())
-            r, p2 = st.pearsonr(temp[x].tolist(), temp[y].tolist())
+            try:
+                rho, p = st.spearmanr(temp[x].tolist(), temp[y].tolist())
+                r, p2 = st.pearsonr(temp[x].tolist(), temp[y].tolist())
+            except:
+                import pdb; pdb.set_trace()
             spearman_corrs.append(r)
             pearson_corrs.append(rho)
             gs.append(g)

@@ -2104,10 +2104,10 @@ def get_tpm_table(df,
         for d in dataset_cols:
             tpm_col = '{}_tpm'.format(d)
             total_col = '{}_total'.format(d)
-            try:
-                df[total_col] = df[d].sum()
-            except:
-                import pdb; pdb.set_trace()
+            print(df.head())
+            print(df.columns)
+            print(df[d])
+            df[total_col] = df[d].sum()
             df[tpm_col] = (df[d]*1000000)/df[total_col]
             tpm_cols.append(tpm_col)
         df = df[tpm_cols]

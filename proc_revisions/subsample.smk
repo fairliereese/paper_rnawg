@@ -241,11 +241,8 @@ def get_corr_t_summary(files, full_ab, ofile, params):
 
             x = 'wtc11_full'
             y = 'wtc11_subs'
-            try:
-                rho, p = st.spearmanr(temp[x].tolist(), temp[y].tolist())
-                r, p2 = st.pearsonr(temp[x].tolist(), temp[y].tolist())
-            except:
-                import pdb; pdb.set_trace()
+            rho, p = st.spearmanr(temp[x].tolist(), temp[y].tolist())
+            r, p2 = st.pearsonr(temp[x].tolist(), temp[y].tolist())
             spearman_corrs.append(r)
             pearson_corrs.append(rho)
             gs.append(g)

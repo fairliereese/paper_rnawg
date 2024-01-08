@@ -351,7 +351,7 @@ rule subsample_wtc11_gene_corr_summary:
         filt_ab = expand(config['lr']['talon']['fusion_fix']['ab'],
                 species='human')[0]
     resources:
-        mem_gb = 32,
+        mem_gb = 128,
         threads = 2
     params:
         min_tpm = 0,

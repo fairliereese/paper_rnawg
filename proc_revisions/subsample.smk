@@ -280,7 +280,7 @@ rule subsample_wtc11_transcript_corr_summary:
     output:
         ofile = config['lr']['subsample']['transcript_corr_summary']
     run:
-        get_corr_t_summary(input.files, input.filt_ab, output.ofile, params, wc)
+        get_corr_t_summary(input.files, input.filt_ab, output.ofile, params, wildcards)
 
 def get_corr_g_summary(files, full_ab, ofile, params, wc):
 
@@ -368,7 +368,7 @@ rule subsample_wtc11_gene_corr_summary:
     run:
         get_corr_g_summary(input.files, input.filt_ab, output.ofile,
                            params,
-                           wc)
+                           wildcards)
 
 
 rule subsample_wtc11_gene_summary:

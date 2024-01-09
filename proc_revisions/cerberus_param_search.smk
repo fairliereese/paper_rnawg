@@ -988,6 +988,7 @@ rule param_summarize_triplets:
             n = len(temp.index)
             temp2 = entry.to_frame().transpose()
             temp2 = temp2.loc[temp2.index.repeat(n)]
+            import pdb; pdb.set_trace()
             temp = pd.concat([temp, temp2], axis=1)
             summ_df = pd.concat([summ_df, temp], axis=0)
         summ_df.to_csv(output.ofile, sep='\t', index=False)

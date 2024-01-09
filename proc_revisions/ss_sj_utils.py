@@ -14,8 +14,8 @@ import pyranges as pr
 p = os.getcwd()
 sys.path.append(p)
 
-# from .utils import *
-from utils import *
+from .utils import *
+# from utils import *
 
 def add_ss_type_to_intron(df):
     """
@@ -111,22 +111,30 @@ def get_source_table(df):
     return df
 
 # chatgpt wrote this for me thanx chatgpt
-def sequential_pairs(x):
+def sequential_pairs(x, exon=False):
     """
     Get sequential pairs of tuples in list.
     Example: [1,2,3,4] -> [(1,2),(3,4)]
     """
     p = []
-    for i in range(0, len(x) - 1, 2):
+    if exon:
+        start = 1
+    else:
+        start = 0
+    for i in range(start, len(x) - 1, 2):
         p.append((x[i], x[i + 1]))
     return p
 
-def explode_ic(ic):
+def explode_ic(ic, exon):
     """
     Explode an ic df to long form with splice junction entries
     """
     # remove the monoexonic entries
     ic = ic.loc[~(ic.Coordinates == '-')]
+    
+    # if we're getting exons, also get rid of 2-exon stuff
+    if exon:
+        ic = ic.loc[ic.Coordinates.str.count('-')>1]
 
     # explode into series of ss coords
     keep_cols = ['Chromosome', 'Coordinates',
@@ -137,17 +145,17 @@ def explode_ic(ic):
     df['ss_coords'] = df.Coordinates.str.split('-')
 
     # get pairs of sss to form sjs
-    df['sj_coords'] = df.ss_coords.apply(sequential_pairs)
+    df['sj_coords'] = df.ss_coords.apply(sequential_pairs, exon=exon)
     df = df.explode('sj_coords')
     df.drop(['Coordinates', 'ss_coords'], axis=1, inplace=True)
 
     return df
 
-def get_ss_sj_from_ic(ic, ref_sources, how):
+def get_ss_sj_from_ic(ic, ref_sources, how, exon=False):
     ic = ic.copy(deep=True)
 
     # get coords of each splice site in each splice junction
-    df = explode_ic(ic)
+    df = explode_ic(ic, exon)
     df['Start'] = df['sj_coords'].str[0].astype(int)
     df['End'] = df['sj_coords'].str[1].astype(int)
     df.drop('sj_coords', axis=1, inplace=True)
@@ -203,9 +211,25 @@ def get_ss_sj_from_ic(ic, ref_sources, how):
         merge_cols += ['End']
     ic_df = ic_df.merge(df, how='left',
                         on=merge_cols)
-
-
+    
     return df, ic_df
+
+def get_exon_from_ic(ic, ref_sources):
+    """
+    Get an exon table from an intron chain table.
+    Retain source and novelty information.
+
+    Parameters:
+        ic (pandas DataFrame): DataFrame formatted as cerberus ic table
+        ref_sources (list of str): List of sources to use as references
+
+    Returns:
+        df (pandas DataFrame): DataFrame with entries for each exon
+        ic_df (pandas DataFrame): DataFrame with entries for each exon /
+            intron chain combination
+
+    """
+    return get_ss_sj_from_ic(ic, ref_sources, 'sj', exon=True)
 
 def get_sj_from_ic(ic, ref_sources):
     """

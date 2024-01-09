@@ -950,7 +950,7 @@ rule param_calc_triplets:
 
 rule param_summarize_triplets:
     input:
-        files = expand(config['lr']['param_search']['cerberus']['ca_triplets'],
+        files = expand(config['lr']['param_search']['analysis']['triplets'],
                species='human',
                obs_col='sample',
                tss_dist=tss_dists,

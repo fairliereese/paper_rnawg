@@ -958,7 +958,7 @@ rule param_summarize_triplets:
                tss_slack=tss_slacks,
                tes_slack=tes_slacks,
                tss_agg_dist=tss_agg_dists,
-               tes_agg_dist=tes_agg_dists)[:2]
+               tes_agg_dist=tes_agg_dists)
         # ref = expand(config['lr']['cerberus']['ca_triplets'],
         #              species='human',
         #              obs_col='sample')[0]

@@ -971,7 +971,7 @@ rule param_summarize_triplets:
         ofile = config['lr']['param_search']['cerberus']['trip_summary']
     run:
         df = pd.DataFrame()
-        df['file'] = input.files
+        df['file'] = list(input.files)
         df['temp'] = df.file.str.rsplit('/', n=2, expand=True)[1]
         temp2 = df.temp.str.split('_', expand=True)
         cols = ['tss_dist', 'tes_dist',

@@ -983,7 +983,6 @@ rule param_summarize_triplets:
 
         summ_df = pd.DataFrame()
         for ind, entry in df.iterrows():
-            import pdb; pdb.set_trace()
             temp = pd.read_csv(entry.file, sep='\t')
             temp = temp.loc[temp.source.isin(params.sources)]
             n = len(temp.index)

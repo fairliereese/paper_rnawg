@@ -39,7 +39,7 @@ def get_gtex_match_samples():
                'muscle',
                'h9_panc_beta',
                'h9_panc_progen',
-               'panc1',
+               'panc1', 
                'k562']
     return samples
 
@@ -1421,7 +1421,7 @@ def get_det_table(df,
     # kwargs['groupby'] = groupby
     # calc TPM per library on desired samples
     df, tids = get_tpm_table(df, **kwargs)
-
+    
     df = df.transpose()
     df.index.name = 'dataset'
     df.reset_index(inplace=True)
@@ -1440,7 +1440,7 @@ def get_det_table(df,
             df = df.merge(tissue_df, how='left', on='dataset')
             df.drop('dataset', axis=1, inplace=True)
             df.rename({'sample': 'biosample'}, axis=1, inplace=True)
-
+            
         elif kwargs['how'] == 'sr':
             # add biosample name (ie without rep information)
             df['biosample'] = df.dataset.str.rsplit('_', n=2, expand=True)[0]
@@ -1454,7 +1454,7 @@ def get_det_table(df,
             df.loc[df.tissue.isnull(), 'tissue'] = df.loc[df.tissue.isnull(), 'biosample']
             df.drop('biosample', axis=1, inplace=True)
             df.rename({'tissue': 'biosample'}, axis=1, inplace=True)
-
+            
 
         print('Found {} total samples'.format(len(df.biosample.unique().tolist())))
         df = df.groupby('biosample').max()
@@ -2000,6 +2000,7 @@ def get_tpm_table(df,
             temp = pd.DataFrame(data=get_datasets(species=species), columns=['dataset'])
             temp = add_sample(temp, species=species)
             temp = temp.loc[temp['sample'].isin(sample)]
+            temp = temp.drop_duplicates()
             dataset_cols = temp['dataset'].tolist()
         elif sample == 'cell_line' or sample == 'tissue':
             print('Subsetting for {} datasets'.format(sample))
@@ -2104,9 +2105,6 @@ def get_tpm_table(df,
         for d in dataset_cols:
             tpm_col = '{}_tpm'.format(d)
             total_col = '{}_total'.format(d)
-            print(df.head())
-            print(df.columns)
-            print(df[d])
             df[total_col] = df[d].sum()
             df[tpm_col] = (df[d]*1000000)/df[total_col]
             tpm_cols.append(tpm_col)
@@ -2136,7 +2134,7 @@ def get_tpm_table(df,
             df.rename({'index':'dataset'}, axis=1, inplace=True)
             if 'how' not in kwargs.keys():
                 kwargs['how'] = how
-
+                
             if kwargs['how'] != 'sr':
                 # record the highest TPM value per biosample
                 tissue_df = get_tissue_metadata(species=kwargs['species'])
@@ -3287,7 +3285,7 @@ def get_centroids(ca,
                   gene_subset=None,
                   ver=None,
                   **kwargs):
-
+    
     # subset on source
     df = ca.triplets.loc[ca.triplets.source == source].copy(deep=True)
 

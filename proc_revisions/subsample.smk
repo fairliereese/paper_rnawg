@@ -318,7 +318,7 @@ def get_corr_g_summary(files, full_ab, ofile, params, wc):
                                  how='gene',
                                  gene_subset=g,
                                  min_tpm=min_tpm,
-                                      groupby='sample',
+                                 groupby='sample',
                                  sample=['wtc11'])
             sub_ab_df = sub_ab_df.reset_index()
             sub_ab_df.rename({'index': 'tid'}, axis=1, inplace=True)
@@ -449,16 +449,17 @@ rule subsample_wtc11_gene_summary:
 
 rule all_subsample:
     input:
-        expand(config['lr']['subsample']['gene_summary'],
-               species='human'),
-        expand(config['lr']['subsample']['transcript_summary'],
-               species='human'),
-        expand(config['lr']['subsample']['transcript_corr_summary'],
-               species='human',
-               subsample_set=sample_sets),
-        expand(config['lr']['subsample']['gene_corr_summary'],
-              species='human',
-              subsample_set=sample_sets)
+        # expand(config['lr']['subsample']['gene_summary'],
+        #        species='human'),
+        # expand(config['lr']['subsample']['transcript_summary'],
+        #        species='human'),
+        # expand(config['lr']['subsample']['transcript_corr_summary'],
+        #        species='human',
+        #        subsample_set=sample_sets),
+        # expand(config['lr']['subsample']['gene_corr_summary'],
+        #       species='human',
+        #       subsample_set=sample_sets)
+
         # expand(config['lr']['subsample']['ca_triplets'],
         #        species='human',
         #        subsample_depth=sample_depths,

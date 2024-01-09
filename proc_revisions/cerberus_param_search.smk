@@ -948,6 +948,50 @@ rule param_calc_triplets:
                               min_tpm=params.min_tpm,
                               gene_subset=params.gene_subset)
 
+rule param_summarize_triplets:
+    input:
+        files = expand(config['lr']['param_search']['cerberus']['ca_triplets'],
+               species='human',
+               obs_col='sample',
+               tss_dist=tss_dists,
+               tes_dist=tes_dists,
+               tss_slack=tss_slacks,
+               tes_slack=tes_slacks,
+               tss_agg_dist=tss_agg_dists,
+               tes_agg_dist=tes_agg_dists)[:2]
+        # ref = expand(config['lr']['cerberus']['ca_triplets'],
+        #              species='human',
+        #              obs_col='sample')[0]
+    params:
+        sources = ['obs_det', 'obs_major']
+    resources:
+        mem_gb = 128,
+        threads = 8
+    output:
+        ofile = config['lr']['param_search']['cerberus']['trip_summary']
+    run:
+        df = pd.DataFrame()
+        df['file'] = input.files
+        df['temp'] = df.file.str.rsplit('/', n=2, expand=True)[1]
+        temp2 = df.temp.str.split('_', expand=True)
+        cols = ['tss_dist', 'tes_dist',
+                'tss_slack', 'tes_slack',
+                'tss_agg_dist', 'tes_agg_dist']
+        temp2.columns = cols
+        df.drop('temp', axis=1, inplace=True)
+        df = pd.concat([df, temp2], axis=1)
+
+        summ_df = pd.DataFrame()
+        for ind, entry in df.iterrows():
+            temp = pd.read_csv(entry.file, sep='\t')
+            temp = temp.loc[temp.source.isin(params.sources)]
+            n = len(temp.index)
+            temp2 = entry.to_frame().transpose()
+            temp2 = temp2.loc[temp2.index.repeat(n)]
+            temp = pd.concat([temp, temp2], axis=1)
+            summ_df = pd.concat([summ_df, temp], axis=0)
+        summ_df.to_csv(output.ofile, sep='\t', index=False)
+
 # def get_fusion_sample_t_coords(ab, gtf, min_tpm, sample, species, ofile):
 #     """
 #     Get genomic start / stop coords for transcripts expressed in
@@ -1028,6 +1072,8 @@ use rule get_g_info as param_g_info_new_ref with:
 
 rule all_cerberus_param_search:
     input:
+        expand(config['lr']['param_search']['cerberus']['trip_summary'],
+               species='human')
         expand(config['lr']['param_search']['analysis']['major_isos'],
                species='human',
                obs_col='sample',

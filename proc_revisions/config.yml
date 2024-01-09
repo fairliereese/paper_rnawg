@@ -277,6 +277,8 @@ lr:
       ca_annot: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus_annot.h5
       ca_triplets: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/{obs_col}_cerberus_triplets.h5
 
+      trip_summary: data/{species}/lr/param_search/triplet_summary.tsv
+
       gtf: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus.gtf
       gtf_t_info: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus_t_info.tsv
       gtf_g_info: data/{species}/lr/param_search/cerberus/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/cerberus_g_info.tsv

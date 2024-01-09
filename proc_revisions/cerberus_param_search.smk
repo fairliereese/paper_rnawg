@@ -1073,7 +1073,7 @@ use rule get_g_info as param_g_info_new_ref with:
 rule all_cerberus_param_search:
     input:
         expand(config['lr']['param_search']['cerberus']['trip_summary'],
-               species='human')
+               species='human'),
         expand(config['lr']['param_search']['analysis']['major_isos'],
                species='human',
                obs_col='sample',

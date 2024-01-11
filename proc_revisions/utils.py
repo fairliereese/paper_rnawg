@@ -65,6 +65,7 @@ def get_datasets(species='human',
     if isinstance(ab_df, pd.DataFrame):
         datasets_temp = [c for c in ab_df.columns if c in datasets]
         datasets = datasets_temp
+    datasets = list(set(datasets))
     return datasets
 
 def get_lr_samples():

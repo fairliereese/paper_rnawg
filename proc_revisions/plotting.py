@@ -28,6 +28,16 @@ sys.path.append(p)
 # from .utils import *
 from utils import *
 
+def get_gene_nov_colors(cats=None):
+    c_dict = {'Known': '#009E73',
+              'Intergenic': '#f49da3',
+              'Fusion': '#8697bb'}
+    order = ['Known', 'Fusion', 'Intergenic']
+
+    c_dict, order = rm_color_cats(c_dict, order, cats)
+    return c_dict, order
+
+
 def get_feat_triplet_colors(cats=None):
     tss = '#56B4E9'
     tes = '#E69F00'
@@ -3069,9 +3079,9 @@ def sector_sankey(h5,
     # limit to sources
     df1 = ca.triplets.loc[ca.triplets.source==source1].copy(deep=True)
     df2 = ca.triplets.loc[ca.triplets.source==source2].copy(deep=True)
-
     # merge on gitd
     df = df1.merge(df2, how='outer', on='gid', suffixes=(f'_{source1}', f'_{source2}'))
+
 
     # limit to gene subset
     if gene_subset:
@@ -3082,14 +3092,22 @@ def sector_sankey(h5,
         df = df.loc[df.biotype_category == gene_subset]
         df.drop(['biotype_category', 'gid_stable'], axis=1, inplace=True)
 
+    df_back = df.copy(deep=True)
+
     # count numer of things
     gb_cols = [f'sector_{source1}', f'sector_{source2}']
     keep_cols = gb_cols + ['gid']
     df = df[keep_cols].groupby(gb_cols).count().reset_index()
 
+    # fig = plot_sankey(df,
+    #                   source='sector_obs_det',
+    #                   sink='sector_obs_major',
+    #                   counts='gid',
+    #                   color='sector',
+    #                   title='')
     fig = plot_sankey(df,
-                      source='sector_obs_det',
-                      sink='sector_obs_major',
+                      source=gb_cols[0],
+                      sink=gb_cols[1],
                       counts='gid',
                       color='sector',
                       title='')
@@ -3097,7 +3115,7 @@ def sector_sankey(h5,
     w = 1.8792590838529746*h
     pio.write_image(fig, ofile, width=w, height=h)
 
-    return df
+    return df, df_back
 
 def plot_sankey(df,
                 source,

@@ -14,8 +14,8 @@ import pyranges as pr
 p = os.getcwd()
 sys.path.append(p)
 
-from .utils import *
-# from utils import *
+# from .utils import *
+from utils import *
 
 def add_ss_type_to_intron(df):
     """
@@ -131,7 +131,7 @@ def explode_ic(ic, exon):
     """
     # remove the monoexonic entries
     ic = ic.loc[~(ic.Coordinates == '-')]
-    
+
     # if we're getting exons, also get rid of 2-exon stuff
     if exon:
         ic = ic.loc[ic.Coordinates.str.count('-')>1]
@@ -211,7 +211,7 @@ def get_ss_sj_from_ic(ic, ref_sources, how, exon=False):
         merge_cols += ['End']
     ic_df = ic_df.merge(df, how='left',
                         on=merge_cols)
-    
+
     return df, ic_df
 
 def get_exon_from_ic(ic, ref_sources):

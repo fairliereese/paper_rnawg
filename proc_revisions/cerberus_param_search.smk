@@ -1053,6 +1053,7 @@ def get_dists(trip_file,
             ref_source = 'obs_det'
             comp = 'det'
         ca.triplets = pd.concat([trip_df, ref_trip_back], axis=0)
+        ver = 'v40_cerberus'
         dist_df = compute_dists([ca, ca],
                        [param_source,
                        ref_source],

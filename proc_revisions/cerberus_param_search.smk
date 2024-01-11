@@ -1058,7 +1058,7 @@ def get_dists(trip_file,
                        [param_source,
                        ref_source],
                        gene_subsets=[gene_subset, gene_subset],
-                       ver=[ver,  ver],
+                       ver=[ver, ver],
                        gene_merge=['gid', 'gid'])
 
         # formatting

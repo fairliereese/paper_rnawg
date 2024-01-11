@@ -1,0 +1,7 @@
+name: cpat
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - cpat=3.0.4

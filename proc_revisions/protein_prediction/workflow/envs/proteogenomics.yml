@@ -1,0 +1,31 @@
+# Adapted from LRP repo with bumped python version.
+# Source: https://github.com/sheynkman-lab/Long-Read-Proteogenomics/blob/main/environment.yml
+name: proteogenomics-base
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  # General utils
+  - python=3.10.0
+  - markdown
+  - pymdown-extensions
+  - pygments
+  - multiqc
+  - biopython
+  - numpy
+  - pandas=1.5.1
+  - gtfparse=1.2.1
+  - xlsxwriter
+  - pybedtools
+
+  - bioconda:blast
+  - bioconda:star
+  - bioconda:bedtools
+  - bioconda:ucsc-gtftogenepred
+  - bioconda:ucsc-genepredtobed
+  - bioconda:cdna_cupcake
+  - bioconda:gffread
+
+  - pip:
+      - git+https://github.com/dnwissel/SQANTI3_pip.git@95d98d28218bc067ad48f40543ef93c2d5413afa

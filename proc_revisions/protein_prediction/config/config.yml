@@ -1,0 +1,20 @@
+queries:
+  - human
+  - mouse
+species:
+  - human
+  - mouse
+annotation_versions:
+  - v29
+  - vM21
+reference_name: gencode
+minimum_orf_length_nt: 100
+top_orf_cpat: 50
+cpat_first_cutoff_human: 0.725
+cpat_second_cutoff_human: 0.364
+cpat_first_cutoff_mouse: 0.721
+cpat_second_cutoff_mouse: 0.440
+blast_e_value: 1.0e-10
+min_snakemake_version: "7.30.1"
+mambaforge_version: "23.3.1-0"
+per_rule_threads_multi: 6

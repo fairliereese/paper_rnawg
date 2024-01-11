@@ -994,6 +994,140 @@ rule param_summarize_triplets:
             summ_df = pd.concat([summ_df, temp], axis=0, ignore_index=True)
         summ_df.to_csv(output.ofile, sep='\t', index=False)
 
+def get_dists(trip_file,
+              h5,
+              ofile):
+    trip_df = pd.read_csv(trip_file, sep='\t')
+    # trip_df = pd.read_csv(input.trip_file, sep='\t')
+
+    # ca = cerberus.read(input.h5)
+    ca = cerberus.read(h5)
+    ref_trip_back = ca.triplets.copy(deep=True)
+
+    df = pd.DataFrame()
+    df['file'] = [trip_file]
+    # df['file'] = list(input.trip_file)
+
+    df['temp'] = df.file.str.rsplit('/', n=2, expand=True)[1]
+    temp2 = df.temp.str.split('_', expand=True)
+    cols = ['tss_dist', 'tes_dist',
+            'tss_slack', 'tes_slack',
+            'tss_agg_dist', 'tes_agg_dist']
+    temp2.columns = cols
+    df.drop('temp', axis=1, inplace=True)
+    df = pd.concat([df, temp2], axis=1)
+    df['merge_col'] = 1
+
+    # restrict to obs_det and obs_major
+    print(len(trip_df.index))
+    trip_df = trip_df.loc[trip_df.source.isin(['obs_det', 'obs_major'])]
+    print(len(trip_df.index))
+    trip_df['merge_col'] = 1
+
+    # add the metadata
+    trip_df = trip_df.merge(df, how='left', on='merge_col')
+
+    # rename source
+    param_combo = trip_df['tss_dist'].astype(str)+'_'+\
+                   trip_df['tes_dist'].astype(str)+'_'+\
+                   trip_df['tss_slack'].astype(str)+'_'+\
+                   trip_df['tes_slack'].astype(str)+'_'+\
+                   trip_df['tss_agg_dist'].astype(str)+'_'+\
+                   trip_df['tes_agg_dist'].astype(str)
+
+    assert len(param_combo.unique().tolist()) == 1
+    param_combo = param_combo.unique().tolist()[0]
+
+    trip_df['source'] = trip_df['source']+'_'+param_combo
+
+    trip_df.drop('merge_col', axis=1, inplace=True)
+
+    # loop through det and major
+    all_dist_df = pd.DataFrame()
+    for param_source in trip_df.source.unique():
+        if 'major' in param_source:
+            ref_source = 'obs_major'
+            comp = 'major'
+        else:
+            ref_source = 'obs_det'
+            comp = 'det'
+        ca.triplets = pd.concat([trip_df, ref_trip_back], axis=0)
+        dist_df = compute_dists([ca, ca],
+                       [param_source,
+                       ref_source],
+                       gene_subsets=[gene_subset, gene_subset],
+                       ver=[ver,  ver],
+                       gene_merge=['gid', 'gid'])
+
+        # formatting
+        dist_df.drop('source_'+param_source, axis=1, inplace=True)
+        dist_df['source'] = param_source
+        dist_df['comparison'] = comp
+        new_cols = [c if param_combo not in c else c.split('_'+ref_source+'_'+param_combo)[0] for c in dist_df.columns]
+        dist_df.columns = new_cols
+        new_cols = [c if ref_source not in c else c.split('_'+ref_source)[0]+'_obs' for c in dist_df.columns]
+        dist_df.columns = new_cols
+        dist_df['same_sect'] = dist_df['sector'] == dist_df['sector_obs']
+        drop_cols = ['gname', 'sample', 'gene_tpm', 'file', 'biotype', 'gname_obs',
+                     'sample_obs', 'gene_tpm_obs', 'file_obs', 'tss_dist_obs',
+                     'tes_dist_obs', 'tss_slack_obs', 'tes_slack_obs', 'tss_agg_dist_obs',
+                     'tes_agg_dist_obs', 'gid_stable_obs', 'biotype_obs','source']
+        dist_df.drop(drop_cols, axis=1, inplace=True)
+
+
+        all_dist_df = pd.concat([all_dist_df, dist_df], axis=0)
+    all_dist_df.to_csv(ofile, sep='\t', index=False)
+
+rule param_summarize_dists:
+    input:
+        files = expand(config['lr']['param_search']['analysis']['dists'],
+               species='human',
+               obs_col='sample',
+               tss_dist=tss_dists,
+               tes_dist=tes_dists,
+               tss_slack=tss_slacks,
+               tes_slack=tes_slacks,
+               tss_agg_dist=tss_agg_dists,
+               tes_agg_dist=tes_agg_dists)
+    resources:
+        mem_gb = 128,
+        threads = 8
+    output:
+        ofile = config['lr']['param_search']['cerberus']['dist_summary']
+    run:
+        df = pd.DataFrame()
+        df['file'] = list(input.files)
+        df['temp'] = df.file.str.rsplit('/', n=2, expand=True)[1]
+        # temp2 = df.temp.str.split('_', expand=True)
+        # cols = ['tss_dist', 'tes_dist',
+        #         'tss_slack', 'tes_slack',
+        #         'tss_agg_dist', 'tes_agg_dist']
+        # temp2.columns = cols
+        # df.drop('temp', axis=1, inplace=True)
+        # df = pd.concat([df, temp2], axis=1)
+
+        summ_df = pd.DataFrame()
+        for ind, entry in df.iterrows():
+            temp = pd.read_csv(entry.file, sep='\t')
+            summ_df = pd.concat([summ_df, temp], axis=0, ignore_index=True)
+        summ_df.to_csv(output.ofile, sep='\t', index=False)
+
+rule param_dists:
+    input:
+        trip_file = config['lr']['param_search']['analysis']['triplets'],
+        h5 = config['lr']['cerberus']['ca_triplets']
+    resources:
+        threads = 1,
+        mem_gb = 64
+    params:
+        gene_subset = 'protein_coding'
+    output:
+        tsv = config['lr']['param_search']['analysis']['dists']
+    run:
+        get_dists(input.trip_file,
+                  input.h5,
+                  output.tsv)
+
 # def get_fusion_sample_t_coords(ab, gtf, min_tpm, sample, species, ofile):
 #     """
 #     Get genomic start / stop coords for transcripts expressed in
@@ -1074,17 +1208,17 @@ use rule get_g_info as param_g_info_new_ref with:
 
 rule all_cerberus_param_search:
     input:
-        expand(config['lr']['param_search']['cerberus']['trip_summary'],
+        expand(config['lr']['param_search']['cerberus']['dist_summary'],
                species='human'),
-        # expand(config['lr']['param_search']['analysis']['major_isos'],
-        #        species='human',
-        #        obs_col='sample',
-        #        tss_dist=tss_dists,
-        #        tes_dist=tes_dists,
-        #        tss_slack=tss_slacks,
-        #        tes_slack=tes_slacks,
-        #        tss_agg_dist=tss_agg_dists,
-        #        tes_agg_dist=tes_agg_dists),
+        expand(config['lr']['param_search']['analysis']['dists'],
+               species='human',
+               obs_col='sample',
+               tss_dist=tss_dists,
+               tes_dist=tes_dists,
+               tss_slack=tss_slacks,
+               tes_slack=tes_slacks,
+               tss_agg_dist=tss_agg_dists,
+               tes_agg_dist=tes_agg_dists)
         # expand(config['lr']['param_search']['cerberus']['ca_triplets'],
         #        species='human',
         #        obs_col='sample',

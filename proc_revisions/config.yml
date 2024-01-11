@@ -291,6 +291,8 @@ lr:
     analysis:
       major_isos: data/{species}/lr/param_search/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/{obs_col}_major_isos.tsv
       triplets: data/{species}/lr/param_search/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/{obs_col}_triplets.tsv
+      dists: data/{species}/lr/param_search/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/{obs_col}_triplet_dists.tsv
+      dist_summary: data/{species}/lr/param_search/dist_summary.tsv
       # fusion_t_coords: data/{species}/lr/param_search/{obs_col}/{tss_dist}_{tes_dist}_{tss_slack}_{tes_slack}_{tss_agg_dist}_{tes_agg_dist}/{sample}_fusion_t_coords.tsv
 
 

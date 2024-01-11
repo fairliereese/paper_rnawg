@@ -996,6 +996,7 @@ rule param_summarize_triplets:
 
 def get_dists(trip_file,
               h5,
+              gene_subset,
               ofile):
     trip_df = pd.read_csv(trip_file, sep='\t')
     # trip_df = pd.read_csv(input.trip_file, sep='\t')
@@ -1126,6 +1127,7 @@ rule param_dists:
     run:
         get_dists(input.trip_file,
                   input.h5,
+                  params.gene_subset,
                   output.tsv)
 
 # def get_fusion_sample_t_coords(ab, gtf, min_tpm, sample, species, ofile):

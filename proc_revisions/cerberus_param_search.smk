@@ -1093,7 +1093,7 @@ rule param_summarize_dists:
         mem_gb = 128,
         threads = 8
     output:
-        ofile = config['lr']['param_search']['cerberus']['dist_summary']
+        ofile = config['lr']['param_search']['analysis']['dist_summary']
     run:
         df = pd.DataFrame()
         df['file'] = list(input.files)
@@ -1208,7 +1208,7 @@ use rule get_g_info as param_g_info_new_ref with:
 
 rule all_cerberus_param_search:
     input:
-        expand(config['lr']['param_search']['cerberus']['dist_summary'],
+        expand(config['lr']['param_search']['analysis']['dist_summary'],
                species='human'),
         expand(config['lr']['param_search']['analysis']['dists'],
                species='human',

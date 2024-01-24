@@ -25,8 +25,8 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-# from .utils import *
-from utils import *
+from .utils import *
+# from utils import *
 
 def get_gene_nov_colors(cats=None):
     c_dict = {'Known': '#009E73',
@@ -2511,8 +2511,8 @@ def plot_ends_per_ic(df, ca,
                  log_scale=(False, True))
 
 
-    ylabel = '# ICs'
-    xlabel = '# {}s / IC'.format(feat.upper())
+    ylabel = '# ECs'
+    xlabel = '# {}s / EC'.format(feat.upper())
     # ax.fig.get_axes()[0].set_yscale('log')
     # ax.fig.get_axes()[0].xaxis.set_major_formatter(FormatStrFormatter('%d'))
     _ = ax.set(xlabel=xlabel, ylabel=ylabel)
@@ -2524,7 +2524,7 @@ def plot_ends_per_ic(df, ca,
     # _ = ax.set_yscale("log")
 
     # plt.savefig(fname, dpi=300, bbox_inches='tight')
-    plt.savefig(fname, dpi=700)
+    plt.savefig(fname, dpi=700, bbox_inches='tight')
 
     # do a lil math
     temp['one_end'] = temp[feat]==1

@@ -1,0 +1,10 @@
+name: default
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.10.0
+  - typeguard=4.1.0
+  - pandas=1.5.3
+  - biopython=1.81

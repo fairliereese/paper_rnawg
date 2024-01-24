@@ -1,0 +1,8 @@
+name: orfanage
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - libcblas=3.9.0
+  - orfanage=1.1.0

@@ -57,7 +57,7 @@ rule swan_die:
         # sg = config['lr']['swan']['sg'],
         # meta = config['lr']['meta'],
     resources:
-        mem_gb = 128,
+        mem_gb = 32,
         threads = 8
     output:
         out = expand(config['lr']['analysis']['du'],

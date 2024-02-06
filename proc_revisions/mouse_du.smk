@@ -29,22 +29,22 @@ def get_du_tc_cfg_entries():
                   feat=feats)
     return files
 
-    rule swan_die:
-        input:
-            sg = config['lr']['swan']['sg'],
-            meta = config['lr']['meta']
-        resources:
-            mem_gb = 128,
-            threads = 8
-        output:
-            out = config['lr']['analysis']['du']
-        run:
-            sg = swan.read(input.sg)
-            die, genes = sg.die_gene_test(obs_col=wildcards.obs_col,
-                                          obs_conditions=[wildcards.obs_cond1,
-                                                          wildcards.obs_cond2],
-                                          kind=wildcards.feat)
-            die.to_csv(output.out, sep='\t')
+rule swan_die:
+    input:
+        sg = config['lr']['swan']['sg'],
+        meta = config['lr']['meta']
+    resources:
+        mem_gb = 128,
+        threads = 8
+    output:
+        out = config['lr']['analysis']['du']
+    run:
+        sg = swan.read(input.sg)
+        die, genes = sg.die_gene_test(obs_col=wildcards.obs_col,
+                                      obs_conditions=[wildcards.obs_cond1,
+                                                      wildcards.obs_cond2],
+                                      kind=wildcards.feat)
+        die.to_csv(output.out, sep='\t')
 
 
 

@@ -35,6 +35,21 @@ def get_du_tc_cfg_entries():
                   feat=feats)
     return files
 
+obs_col = 'sample'
+feats = ['tss', 'tes', 'ic', 'iso']
+s = get_tc_mouse_samples(config)
+combos = [c for c in itertools.combinations(s, 2) if c[0].split('_')[0]==c[1].split('_')[0]]
+obs_cond1 = [c[0] for c in combos]
+obs_cond2 = [c[1] for c in combos]
+files = expand(expand(config['lr']['analysis']['du'],
+              zip,
+              obs_cond1=obs_cond1,
+              obs_cond2=obs_cond2,
+              allow_missing=True),
+              obs_col='sample',
+              species='mouse',
+              feat=feats)
+
 rule swan_die:
     input:
         sg = expand(config['lr']['swan']['sg'], species='mouse')[0],
@@ -58,7 +73,14 @@ rule swan_die:
 
 rule all_du:
     input:
-        get_du_tc_cfg_entries()[0]
+    expand(expand(config['lr']['analysis']['du'],
+                  zip,
+                  obs_cond1='adrenal_10d',
+                  obs_cond2='adrenal_14d',
+                  allow_missing=True),
+                  obs_col='sample',
+                  species='mouse',
+                  feat=feats)
         # expand(config['lr']['analysis']['du'],
         #               zip,
         #               obs_cond1='adrenal_10d',

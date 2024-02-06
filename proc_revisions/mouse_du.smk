@@ -4,6 +4,7 @@ wildcard_constraints:
     obs_cond1='|'.join([re.escape(x) for x in lr_df['sample'].unique().tolist()]),
     obs_cond2='|'.join([re.escape(x) for x in lr_df['sample'].unique().tolist()]),
     feat='|'.join([re.escape(x) for x in ['tss', 'tes', 'ic', 'iso']]),
+    obs_col='sample|dataset'
 
 def get_tc_mouse_samples(config):
     m_lib_meta = expand(config['lr']['meta'], species='mouse')[0]

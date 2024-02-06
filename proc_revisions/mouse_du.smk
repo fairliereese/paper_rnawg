@@ -16,6 +16,7 @@ def get_du_tc_cfg_entries():
     """
     obs_col = 'sample'
     feats = ['tss', 'tes', 'ic', 'iso']
+    s = get_tc_mouse_samples()
     combos = [c for c in itertools.combinations(s, 2) if c[0].split('_')[0]==c[1].split('_')[0]]
     obs_cond1 = [c[0] for c in combos]
     obs_cond2 = [c[1] for c in combos]
@@ -31,7 +32,8 @@ def get_du_tc_cfg_entries():
 
     rule swan_die:
         input:
-            sg = config['lr']['swan']['sg']
+            sg = config['lr']['swan']['sg'],
+            meta = config['lr']['meta']
         resources:
             mem_gb = 128,
             threads = 8

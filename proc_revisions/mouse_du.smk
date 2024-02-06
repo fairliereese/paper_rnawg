@@ -73,14 +73,14 @@ rule swan_die:
 
 rule all_du:
     input:
-    expand(expand(config['lr']['analysis']['du'],
-                  zip,
-                  obs_cond1='adrenal_10d',
-                  obs_cond2='adrenal_14d',
-                  allow_missing=True),
-                  obs_col='sample',
-                  species='mouse',
-                  feat=feats)
+        expand(expand(config['lr']['analysis']['du'],
+                      zip,
+                      obs_cond1='adrenal_10d',
+                      obs_cond2='adrenal_14d',
+                      allow_missing=True),
+                      obs_col='sample',
+                      species='mouse',
+                      feat=feats)
         # expand(config['lr']['analysis']['du'],
         #               zip,
         #               obs_cond1='adrenal_10d',

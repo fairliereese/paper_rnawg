@@ -259,6 +259,7 @@ lr:
     major_isos: data/{species}/lr/{obs_col}_major_isos.tsv
     triplets: data/{species}/lr/{obs_col}_triplets.tsv
     fusion_t_coords: data/{species}/lr/{obs_col}/{sample}_fusion_t_coords.tsv
+    du: data/{species}/lr/du/{obs_cond1}_vs_{obs_cond2}_{obs_col}_du_{feat}.tsv
 
   protein_pred:
     summary: data/{species}/lr/protein_pred/protein_summary.tsv

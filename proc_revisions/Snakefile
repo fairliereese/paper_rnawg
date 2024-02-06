@@ -63,6 +63,7 @@ wildcard_constraints:
 ############ rules
 rule all:
     input:
+        rules.all_swan.input,
         rules.all_du.input
         # rules.all_subsample.input,
         # rules.all_cerberus_param_search.input,
@@ -74,7 +75,6 @@ rule all:
         # rules.all_suppa.input,
         # rules.all_gtex.input,
         # rules.all_cerberus.input,
-        # rules.all_swan.input,
         # rules.all_bigwig.input,
         # rules.all_read_lens.input,
         # rules.all_analysis.input,

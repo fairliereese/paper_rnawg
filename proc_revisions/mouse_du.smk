@@ -2,12 +2,11 @@ import itertools
 
 def get_tc_mouse_samples(config):
     m_lib_meta = expand(config['lr']['meta'], species='mouse')[0]
-    df = pd.read_csv(m_lib_meta, sep='\t')
+    temp = pd.read_csv(m_lib_meta, sep='\t')
     tc_tissues = ['muscle', 'hippocampus', 'cortex', 'adrenal gland', 'heart']
     tc_times = ['18-20mo', '2mo', '4d', '25d', '14d', '36d', '10d']
-    meta.head()
-    s = meta.loc[(meta.general_tissue_cell_type.isin(tc_tissues))&\
-             (meta.age.isin(tc_times)), 'sample'].unique().tolist()
+    s = temp.loc[(temp.general_tissue_cell_type.isin(tc_tissues))&\
+             (temp.age.isin(tc_times)), 'sample'].unique().tolist()
     return s
 
 def get_du_tc_cfg_entries():

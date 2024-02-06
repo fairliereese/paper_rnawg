@@ -51,7 +51,7 @@ include: 'intropolis.smk'
 include: 'isoquant.smk'
 include: 'subsample.smk'
 include: 'cerberus_param_search.smk'
-include: 'mouse_du.smk'
+# include: 'mouse_du.smk'
 
 ############# snakemake settings stuff
 wildcard_constraints:

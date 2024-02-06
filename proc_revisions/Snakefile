@@ -64,7 +64,7 @@ wildcard_constraints:
 rule all:
     input:
         rules.all_swan.input,
-        rules.all_du.input
+        # rules.all_du.input
         # rules.all_subsample.input,
         # rules.all_cerberus_param_search.input,
         # rules.all_refs.input,

@@ -50,4 +50,4 @@ rule swan_die:
 
 rule all_du:
     input:
-        get_du_tc_cfg_entries()
+        get_du_tc_cfg_entries()[0]

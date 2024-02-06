@@ -25,8 +25,8 @@ import sys
 p = os.getcwd()
 sys.path.append(p)
 
-from .utils import *
-# from utils import *
+# from .utils import *
+from utils import *
 
 def get_gene_nov_colors(cats=None):
     c_dict = {'Known': '#009E73',
@@ -1196,6 +1196,7 @@ def plot_n_feat_per_gene(h5,
 
     leg_labels = [b_dict[o] for o in order]
     plt.legend(leg_labels, bbox_to_anchor=(.6, 1.05))
+
     ax = plt.gca()
     leg = ax.get_legend()
     shade_dict, _ = get_shade_colors('#000000', order)

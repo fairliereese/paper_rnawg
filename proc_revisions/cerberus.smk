@@ -790,7 +790,7 @@ rule all_cerberus:
     input:
         expand(config['lr']['talon']['ics'], species=species),
         get_output_cerb_get_human_tss_ends('human', lr_df),
-        expand(rules.cerb_gtf_ids_lr.output, species=species),
+        expand(rules.cerb_gtf_ids_lr.output, species=species)
 
 
 #         expand(rules.cerb_gtf_ids_new_ref.output, species=species),

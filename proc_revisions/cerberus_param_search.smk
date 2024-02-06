@@ -12,8 +12,8 @@ tss_agg_dists = config['params']['param_search']['cerberus']['tss']['agg_slack']
 tes_agg_dists = config['params']['param_search']['cerberus']['tes']['agg_slack']
 
 wildcard_constraints:
-    obs_col='sample',
-    species='human',
+    obs_col='sample|dataset',
+    species='human|mouse',
     end_mode='|'.join([re.escape(x) for x in end_modes]),
     tss_dist='|'.join([re.escape(str(x)) for x in tss_dists]),
     tes_dist='|'.join([re.escape(str(x)) for x in tes_dists]),

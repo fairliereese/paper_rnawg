@@ -61,7 +61,8 @@ rule swan_die:
         threads = 8
     output:
         out = expand(config['lr']['analysis']['du'],
-                     species='mouse')
+                     species='mouse',
+                     allow_missing=True)
     run:
         sg = swan.read(input.sg)
         die, genes = sg.die_gene_test(obs_col=wildcards.obs_col,

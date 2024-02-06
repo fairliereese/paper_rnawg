@@ -39,8 +39,8 @@ rule swan_die:
     input:
         sg = expand(config['lr']['swan']['sg'], species='mouse')[0],
         meta = expand(config['lr']['meta'], species='mouse')[0]
-        sg = config['lr']['swan']['sg'],
-        meta = config['lr']['meta'],
+        # sg = config['lr']['swan']['sg'],
+        # meta = config['lr']['meta'],
     resources:
         mem_gb = 128,
         threads = 8

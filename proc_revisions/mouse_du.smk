@@ -55,4 +55,11 @@ rule swan_die:
 
 rule all_du:
     input:
-        get_du_tc_cfg_entries()[0]
+        expand(config['lr']['analysis']['du'],
+                      zip,
+                      obs_cond1='adrenal_10d',
+                      obs_cond2='adrenal_14d',
+                      obs_col='sample',
+                      species='mouse',
+                      feat='iso')
+        # get_du_tc_cfg_entries()[0]

@@ -80,7 +80,7 @@ rule all_du:
                       allow_missing=True),
                       obs_col='sample',
                       species='mouse',
-                      feat=feats)
+                      feat='iso')
         # expand(config['lr']['analysis']['du'],
         #               zip,
         #               obs_cond1='adrenal_10d',

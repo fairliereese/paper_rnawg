@@ -52,17 +52,18 @@ def get_du_tc_cfg_entries():
 
 rule swan_die:
     input:
-        sg = expand(config['lr']['swan']['sg'], species='mouse')[0],
-        meta = expand(config['lr']['meta'], species='mouse')[0]
-        # sg = config['lr']['swan']['sg'],
-        # meta = config['lr']['meta'],
+        sg = config['lr']['swan']['sg'],
+        meta = config['lr']['meta']
+        # sg = expand(config['lr']['swan']['sg'], species='mouse')[0],
+        # meta = expand(config['lr']['meta'], species='mouse')[0]
     resources:
         mem_gb = 32,
         threads = 8
     output:
-        out = expand(config['lr']['analysis']['du'],
-                     species='mouse',
-                     allow_missing=True)
+        out = config['lr']['analysis']['du']
+        # out = expand(config['lr']['analysis']['du'],
+        #              species='mouse',
+        #              allow_missing=True)
     run:
         sg = swan.read(input.sg)
         die, genes = sg.die_gene_test(obs_col=wildcards.obs_col,

@@ -371,6 +371,18 @@ use rule dl as dl_phastcons with:
   output:
     out = config['ref']['phastcons100']['txt_gz']
 
+use rule dl as dl_phastcons_bw with:
+  params:
+    link = config['ref']['phastcons100']['bw_link']
+  output:
+    out = config['ref']['phastcons100']['bw']
+
+use rule dl as dl_phastcons4_bw with:
+  params:
+    link = config['ref']['phastcons4']['bw_link']
+  output:
+    out = config['ref']['phastcons4']['bw']
+
 use rule gunzip as gunzip_phastcons with:
   input:
     gz = config['ref']['phastcons100']['txt_gz']

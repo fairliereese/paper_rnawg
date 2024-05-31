@@ -1,0 +1,51 @@
+
+Plot the distribution of genes in each sector by Sample 
+
+```{r eval=FALSE}
+
+library(tidyverse)
+library(ggbeeswarm)
+library(cowplot)
+theme_set(theme_cowplot())
+
+# load the dataframe 
+df <- read.delim(
+    '~/Documents/sample_sector_perc_genes_for_sam.tsv', sep='\t', header=1
+)
+
+# set order of sectors 
+df$sector <- factor(
+    as.character(df$sector), levels = c('tss', 'splicing', 'tes', 'mixed', 'simple')
+)
+
+# define the sector colors
+sector_colors <- c(
+    tss = '#56B4E9',
+    tes = '#E69F00',
+    splicing = '#CC79A7',
+    simple = '#000000',
+    mixed = '#B7B7B7'
+)
+
+# define the sample color scheme
+sample_colors <- df %>% select(c(sample_display, sample_color_hex_code)) %>%
+    distinct()
+sample_cp <- sample_colors$sample_color_hex_code 
+names(sample_cp) <- sample_colors$sample_display
+
+# make the ggplot 
+p <- ggplot(df, aes(x=sector, y=perc, color=sample_display)) + 
+    geom_half_boxplot(inherit.aes=FALSE, data=df, aes(x=sector, y=perc, fill=sector)) +
+    ggbeeswarm::geom_beeswarm(side=1) +
+    guides(color="none", fill="none") + 
+    scale_color_manual(values=sample_cp) + 
+    scale_fill_manual(values=sector_colors) +
+    theme(
+        panel.grid.major.y = element_line(color='grey50', linewidth=0.5),
+    ) + ylab('Percentage of genes in sector') + xlab('')
+
+pdf(paste0("~/Desktop/bees.pdf"),height=5, width=7)
+p
+dev.off()
+
+```

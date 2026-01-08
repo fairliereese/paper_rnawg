@@ -75,7 +75,7 @@ def render_swan_tab(sg):
             st.markdown("---")
             ordered_sample_names = st.multiselect(
                 "Select and reorder TPM columns:",
-                options=sample_names, default=sample_names,
+                options=sample_names, default=[],
                 format_func=lambda x: sample_display_map.get(x, x),
                 help="Click to select, deselect, and drag to reorder the TPM columns."
             )
@@ -101,14 +101,6 @@ def render_swan_tab(sg):
                             grouping_column = None
             except Exception:
                 grouping_column = None
-            # Option to combine ISM transcripts into their known transcript when plotting
-            combine_ism_with_known = st.checkbox(
-                "Combine ISM and Known TPMs",
-                value=True,
-                help=("If enabled, ISM transcript TPMs (IDs ending with 'i') will be added to the matching known "
-                      "transcript (same ID without the trailing 'i') for display purposes, but only when the known "
-                      "transcript is expressed. This affects the Transcript-Level Abundance table and heatmap.")
-            )
 
             # actually make the plot
             run = st.button('Run')
@@ -121,35 +113,36 @@ def render_swan_tab(sg):
                 if gene_name_lower in gene_map_lower:
                     gene_name = gene_map_lower[gene_name_lower]
                     transcripts_for_gene = sg.t_df[sg.t_df['gname'] == gene_name]
-                    ensembl_gene_id = transcripts_for_gene['gid'].iloc[0] if not transcripts_for_gene.empty else "N/A"
+                    gid = transcripts_for_gene['gid'].iloc[0] if not transcripts_for_gene.empty else "N/A"
 
                     # Initialize a variable to hold the colorbar figure
                     colorbar_fig = None
 
-                    st.header(f"{gene_name} ({ensembl_gene_id})")
+                    st.header(f"{gene_name} ({gid})")
 
+                    # gene-level swan graph
                     try:
-
-                        # gene-level swan graph
                         sg.plot_graph(gene_name, indicate_novel=True)
                         st.pyplot(plt.gcf())
                         plt.clf()
                         plt.close('all')
+                    except Exception as e:
+                        st.error(f"An error occurred while generating the gene-level SwanGraph for {gene_name}: {e}")
+                        st.exception(e)
 
-                        def color_df_col(df, col, color_dict):
+                    def color_df_col(df, col, color_dict):
+                        styles = pd.DataFrame('', index=df.index, columns=df.columns)
 
-                            styles = pd.DataFrame('', index=df.index, columns=df.columns)
+                        for idx, row in df.iterrows():
+                            color_key = row['color']
+                            hex_color = color_dict.get(color_key)
+                            if hex_color is not None:
+                                styles.loc[idx, col] = f'background-color: {hex_color}'
 
-                            for idx, row in df.iterrows():
-                                color_key = row['color']
-                                hex_color = color_dict.get(color_key)
+                        return styles
 
-                                if hex_color is not None:
-                                    styles.loc[idx, col] = f'background-color: {hex_color}'
-
-                            return styles
-
-                        # section showing individual details
+                    # section showing individual details
+                    try:
                         with st.expander("Show Swan Gene Details"):
 
                             # transcript info
@@ -185,142 +178,107 @@ def render_swan_tab(sg):
                                 color_dict=sg.pg.get_color_dict(),
                                 axis=None))
 
-
                     except Exception as e:
-                        st.error(f"An error occurred while generating the splice graph for '{gene_name}': {e}")
+                        st.error(f"An error occurred while retreiving Swan gene details for {gene_name}: {e}")
                         st.exception(e)
 
+                    # dataframe of requested gene expression across samples
+                    if ordered_sample_names:
 
-        #
-        #             except Exception as e:
-        #                 st.error(f"An error occurred while generating the splice graph for '{gene_name}': {e}")
-        #                 st.exception(e)
-        #
-        #             if ordered_sample_names:
-        #                 st.subheader("Gene-Level Abundance (TPM)")
-        #                 try:
-        #                     all_transcript_ids = transcripts_for_gene.index.tolist()
-        #                     gene_tpm_df = sg.adata[:, all_transcript_ids].to_df(layer='tpm')
-        #                     gene_level_tpm = gene_tpm_df.sum(axis=1)
-        #
-        #                     # Reorder based on sidebar selection and format for display
-        #                     ordered_gene_tpm = gene_level_tpm.reindex(ordered_sample_names)
-        #                     display_df = pd.DataFrame(ordered_gene_tpm).T
-        #                     display_df.index = [gene_name]
-        #                     # Create a multi-row display table with sample names and TPM values
-        #                     # First, create a DataFrame with the original data
-        #                     original_df = display_df.copy()
-        #
-        #                     # Create a MultiIndex for rows: (display_name, original_name, tpm_value)
-        #                     row_labels = []
-        #                     row_data = []
-        #
-        #                     # Add the display names row
-        #                     display_names = [sample_display_map.get(c, c) for c in original_df.columns]
-        #                     row_labels.append('Display Name')
-        #                     row_data.append(display_names)
-        #
-        #                     # Add the TPM values row
-        #                     tpm_values = []
-        #                     for x in original_df.iloc[0]:
-        #                         if isinstance(x, (int, float)):
-        #                             tpm_values.append(f"{x:.1f}")
-        #                         else:
-        #                             tpm_values.append(str(x))
-        #                     row_labels.append('TPM Value')
-        #                     row_data.append(tpm_values)
-        #
-        #                     # Create the new DataFrame with MultiIndex rows
-        #                     multi_index_df = pd.DataFrame(row_data, index=row_labels, columns=original_df.columns)
-        #
-        #                     # Apply styling to make it more readable
-        #                     # Remove the format call that was causing issues and apply styling differently
-        #                     styled_df = multi_index_df.style.set_properties(**{'text-align': 'center'})
-        #
-        #                     st.dataframe(styled_df)
-        #                     # Build a violin plot of gene-level TPM. Use `condition` in the obs as the category
-        #                     # if available, otherwise fall back to a single category so the distribution is shown.
-        #                     try:
-        #                         plot_df = pd.DataFrame({'TPM': gene_level_tpm, 'sample': gene_level_tpm.index})
-        #
-        #                         # Determine grouping series using sidebar `grouping_column` if provided
-        #                         obs_for_plot = None
-        #                         try:
-        #                             if grouping_column:
-        #                                 # Try obs_df first
-        #                                 if obs_df is not None and grouping_column in obs_df.columns:
-        #                                     obs_for_plot = obs_df[grouping_column].reindex(plot_df['sample'])
-        #                                 # Fallback to sg.adata.obs
-        #                                 if (obs_for_plot is None or obs_for_plot.isna().all()) and hasattr(sg, 'adata') and grouping_column in sg.adata.obs.columns:
-        #                                     obs_for_plot = sg.adata.obs[grouping_column].reindex(plot_df['sample'])
-        #                         except Exception:
-        #                             obs_for_plot = None
-        #
-        #                         # If user didn't select grouping_column or it yielded no groups, try 'condition' (legacy default)
-        #                         if (obs_for_plot is None or obs_for_plot.isna().all()):
-        #                             try:
-        #                                 if obs_df is not None and 'condition' in obs_df.columns:
-        #                                     obs_for_plot = obs_df['condition'].reindex(plot_df['sample'])
-        #                             except Exception:
-        #                                 obs_for_plot = None
-        #                             try:
-        #                                 if (obs_for_plot is None or obs_for_plot.isna().all()) and hasattr(sg, 'adata') and 'condition' in sg.adata.obs.columns:
-        #                                     obs_for_plot = sg.adata.obs['condition'].reindex(plot_df['sample'])
-        #                             except Exception:
-        #                                 obs_for_plot = None
-        #
-        #                         if obs_for_plot is not None and not obs_for_plot.isna().all():
-        #                             plot_df['group'] = obs_for_plot.fillna('Unknown').astype(str).values
-        #                             x_col = 'group'
-        #                         else:
-        #                             plot_df['group'] = 'All samples'
-        #                             x_col = 'group'
-        #
-        #                         fig = px.violin(plot_df, x=x_col, y='TPM', box=True, points='all', hover_data=['sample'],
-        #                                         title=f"Gene-Level TPM Distribution for {gene_name}")
-        #                         plotly_config = {
-        #                             "width": 'stretch'
-        #                         }
-        #                         st.plotly_chart(fig, config=plotly_config)
-        #                     except Exception as e:
-        #                         st.warning(f"Could not render violin plot: {e}")
-        #
-        #                 except Exception as e:
-        #                     st.error(f"Could not calculate gene-level TPM: {e}")
+                        st.subheader("Gene-level abundance (TPM)")
+
+                        subset_sg = sg.subset_on_gene_sg(gid=gid, datasets=ordered_sample_names)
+                        temp = subset_sg.get_transcript_abundance(kind='tpm')
+                        temp = (
+                            temp.set_index('tid')
+                            .sum(axis=0)
+                            .to_frame()
+                            .transpose()
+                        )
+                        temp2 = temp.style.set_properties(**{'text-align': 'center'})
+                        st.dataframe(temp2, hide_index=True)
+
+                        # violin plot
+                        if grouping_column:
+                            temp = temp.transpose().reset_index()
+                            temp.columns = ['dataset', 'tpm']
+                            temp = temp.merge(sg.adata.obs[['dataset', grouping_column]].reset_index(drop=True),
+                                       how='left',
+                                       on='dataset')
+
+                            fig = px.violin(
+                                temp,
+                                x=grouping_column,
+                                y='tpm',
+                                box=True,
+                                points='all',
+                                hover_data=['dataset'],
+                                title=f"Gene-Level TPMs for {gene_name}")
+                            plotly_config = {
+                                "width": 'stretch'
+                            }
+                            st.plotly_chart(fig, config=plotly_config)
+
+                        # # Build a violin plot of gene-level TPM. Use `condition` in the obs as the category
+                        # # if available, otherwise fall back to a single category so the distribution is shown.
+                        # # try:
+                        # plot_df = pd.DataFrame({'TPM': gene_level_tpm, 'sample': gene_level_tpm.index})
+                        #
+                        # # Determine grouping series using sidebar `grouping_column` if provided
+                        # obs_for_plot = None
+                        # try:
+                        #     if grouping_column:
+                        #         # Try obs_df first
+                        #         if obs_df is not None and grouping_column in obs_df.columns:
+                        #             obs_for_plot = obs_df[grouping_column].reindex(plot_df['sample'])
+                        #         # Fallback to sg.adata.obs
+                        #         if (obs_for_plot is None or obs_for_plot.isna().all()) and hasattr(sg, 'adata') and grouping_column in sg.adata.obs.columns:
+                        #             obs_for_plot = sg.adata.obs[grouping_column].reindex(plot_df['sample'])
+                        # except Exception:
+                        #     obs_for_plot = None
+                        #
+                        # # If user didn't select grouping_column or it yielded no groups, try 'condition' (legacy default)
+                        # if (obs_for_plot is None or obs_for_plot.isna().all()):
+                        #     try:
+                        #         if obs_df is not None and 'condition' in obs_df.columns:
+                        #             obs_for_plot = obs_df['condition'].reindex(plot_df['sample'])
+                        #     except Exception:
+                        #         obs_for_plot = None
+                        #     try:
+                        #         if (obs_for_plot is None or obs_for_plot.isna().all()) and hasattr(sg, 'adata') and 'condition' in sg.adata.obs.columns:
+                        #             obs_for_plot = sg.adata.obs['condition'].reindex(plot_df['sample'])
+                        #     except Exception:
+                        #         obs_for_plot = None
+                        #
+                        # if obs_for_plot is not None and not obs_for_plot.isna().all():
+                        #     plot_df['group'] = obs_for_plot.fillna('Unknown').astype(str).values
+                        #     x_col = 'group'
+                        # else:
+                        #     plot_df['group'] = 'All samples'
+                        #     x_col = 'group'
+                        #
+                        # fig = px.violin(plot_df, x=x_col, y='TPM', box=True, points='all', hover_data=['sample'],
+                        #                 title=f"Gene-Level TPM Distribution for {gene_name}")
+                        # plotly_config = {
+                        #     "width": 'stretch'
+                        # }
+                        # st.plotly_chart(fig, config=plotly_config)
+
+                        # except Exception as e:
+                        #     st.warning(f"Could not render violin plot: {e}")
+
+                        # except Exception as e:
+                        #     st.error(f"Could not calculate gene-level TPM: {e}")
         #
         #                 st.subheader("Transcript-Level Abundance (TPM)")
         #                 try:
-        #                     gene_tpm_df = sg.adata[:, all_transcript_ids].to_df(layer='tpm')
+        #                     gene_tpm_df = sg.adata[:, tids].to_df(layer='tpm')
         #
         #                     # Create a display copy that may combine ISM transcripts into their known counterpart
         #                     display_tpm_df = gene_tpm_df.copy()
         #                     combined_ism_info = []  # list of tuples (ism_id, base_id, n_samples_combined)
         #                     combined_transcript_ids = set()  # Track which transcripts had ISM values combined with them
-        #                     if combine_ism_with_known:
-        #                         # Find ISM transcripts (IDs that end with 'i') and try to combine per-sample
-        #                         ism_cols = [c for c in display_tpm_df.columns if str(c).endswith('i')]
-        #                         for ism in ism_cols:
-        #                             base = ism[:-1]
-        #                             if base in display_tpm_df.columns:
-        #                                 # For samples where the base transcript is expressed (>0), add ISM TPM to base
-        #                                 try:
-        #                                     base_vals = display_tpm_df[base]
-        #                                     ism_vals = display_tpm_df[ism]
-        #                                     mask = base_vals > 0
-        #                                     n_combined = int(mask.sum())
-        #                                     if n_combined > 0:
-        #                                         # Add ism values to base where mask is True
-        #                                         display_tpm_df.loc[mask, base] = base_vals[mask] + ism_vals[mask]
-        #                                         # Zero-out the ISM values where they were aggregated
-        #                                         display_tpm_df.loc[mask, ism] = 0
-        #                                         combined_ism_info.append((ism, base, n_combined))
-        #                                         # Track that the base transcript had ISM values combined with it
-        #                                         combined_transcript_ids.add(base)
-        #                                 except Exception:
-        #                                     # If any operation fails, skip combining for this pair
-        #                                     continue
-        #                     else:
-        #                         display_tpm_df = gene_tpm_df
+        #                     display_tpm_df = gene_tpm_df
         #
         #                     # Drop any ISM-only columns that are now all-zero (fully aggregated)
         #                     try:

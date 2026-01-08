@@ -19,12 +19,11 @@ def render_simplex_tab():
             st.markdown("### Simplex View Options")
 
             # triplet set picker
-            triplet_set = st.multiselect(
+            triplet_set = st.selectbox(
                 label='Triplet set',
-                options=ca.triplets.source.unique().tolist(),
-                default="sample_det"
+                options=ca.triplets.source.unique().tolist()
             )
-            triplet_set = check_multiselect(triplet_set, 'triplet subset')
+            # triplet_set = check_multiselect(triplet_set, 'triplet subset')
 
             # gene picker -- limit to genes in this triplet set
             gnames = (ca.triplets.loc[ca.triplets.source==triplet_set]
@@ -46,8 +45,8 @@ def render_simplex_tab():
             else:
                 disabled = True
 
-            gname = st.multiselect(label='Gene name', options=gnames, default=def_gname, disabled=disabled)
-            gname = check_multiselect(gname, 'gene name')
+            gname = st.selectbox(label='Gene name', options=gnames, disabled=disabled)
+            # gname = check_multiselect(gname, 'gene name')
 
             scatter = st.checkbox("Scatter")
             density = st.checkbox('Density (takes a while to compute)')
@@ -55,11 +54,11 @@ def render_simplex_tab():
 
             # marker size
             num_cols = ca.triplets.select_dtypes(include="number").columns.tolist()
-            marker_size = st.multiselect(label='Marker size', options=sorted(num_cols))
-            marker_size = check_multiselect(marker_size, 'marker size')
+            marker_size = st.selectbox(label='Marker size', options=sorted(num_cols))
+            # marker_size = check_multiselect(marker_size, 'marker size')
 
-            marker_color = st.multiselect(label='Marker color', options=sorted(ca.triplets.columns))
-            marker_color = check_multiselect(marker_color, 'marker color')
+            marker_color = st.selectbox(label='Marker color', options=sorted(ca.triplets.columns))
+            # marker_color = check_multiselect(marker_color, 'marker color')
 
 
             # "advanced"

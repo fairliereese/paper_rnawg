@@ -98,7 +98,7 @@ def render_gene_simplex_tab():
                 if legend and scatter: legend_scatter = True
                 if legend and density: legend_density = True
 
-                ca.plot_simplex(
+                df = ca.plot_simplex(
                     subset={'source': triplet_set},
                     gene=gname,
                     scatter=scatter,
@@ -130,3 +130,7 @@ def render_gene_simplex_tab():
                 st.pyplot(plt.gcf())
                 plt.clf()
                 plt.close('all')
+
+                data_expander = st.expander("Data in this plot")
+                with data_expander:
+                    st.dataframe(df, hide_index=True)

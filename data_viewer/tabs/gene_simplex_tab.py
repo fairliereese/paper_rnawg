@@ -63,13 +63,21 @@ def render_gene_simplex_tab():
 
 
             # "advanced"
+            adv_expander = st.expander("Advanced")
+            with adv_expander:
+
+                # sector boundaries
+                tss_thresh = st.slider(
+                              "TSS-high threshold",
+                              0.0, 1.0, 0.5)
+                tes_thresh = st.slider(
+                              "TES-high threshold",
+                              0.0, 1.0, 0.5)
+                spl_thresh = st.slider(
+                              "Splicing-high threshold",
+                              0.0, 1.0, 0.5)
 
             # log continuous marker colors
-
-            # sector boundaries
-            sect_alpha=0.5
-            sect_beta=0.5
-            sect_gamma=0.5
 
 
             # actually make the plot
@@ -111,7 +119,12 @@ def render_gene_simplex_tab():
 
                     sectors=True,
                     legend=legend_scatter,
-                    density_cbar=legend_density
+                    density_cbar=legend_density,
+
+                    # sector boundaries
+                    sect_alpha=tss_thresh,
+                    sect_beta=tes_thresh,
+                    sect_gamma=spl_thresh
                 )
 
                 st.pyplot(plt.gcf())

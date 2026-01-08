@@ -50,7 +50,27 @@ def render_gene_simplex_tab():
             gname = check_multiselect(gname, 'gene name')
 
             scatter = st.checkbox("Scatter")
-            density = st.checkbox('Density')
+            density = st.checkbox('Density (takes a while to compute)')
+            legend = st.checkbox('Legend')
+
+            # marker size
+            num_cols = ca.triplets.select_dtypes(include="number").columns.tolist()
+            marker_size = st.multiselect(label='Marker size', options=sorted(num_cols))
+            marker_size = check_multiselect(marker_size, 'marker size')
+
+            marker_color = st.multiselect(label='Marker color', options=sorted(ca.triplets.columns))
+            marker_color = check_multiselect(marker_color, 'marker color')
+
+
+            # "advanced"
+
+            # log continuous marker colors
+
+            # sector boundaries
+            sect_alpha=0.5
+            sect_beta=0.5
+            sect_gamma=0.5
+
 
             # actually make the plot
             run = st.button('Plot')
@@ -65,15 +85,33 @@ def render_gene_simplex_tab():
                     st.header(f"{triplet_set} triplets for: `{gname}` (Ensembl ID: `{gid}`)")
                 else:
                     st.header(f"{triplet_set} triplets")
-                # c_dict, order = get_biosample_colors()
+
+                legend_scatter = legend_density = False
+                if legend and scatter: legend_scatter = True
+                if legend and density: legend_density = True
+
                 ca.plot_simplex(
                     subset={'source': triplet_set},
                     gene=gname,
                     scatter=scatter,
+
                     density=density,
+                    density_scale=100,
+                    log_density=True,
+                    density_cmap='Purples',
+
+                    # marker size stuff
+                    size=marker_size,
+                    log_size=True,
+
                     size_scale=.75,
-                    hue='sample',
-                    density_cmap='Purples'
+
+                    # marker color
+                    hue=marker_color,
+
+                    sectors=True,
+                    legend=legend_scatter,
+                    density_cbar=legend_density
                 )
 
                 st.pyplot(plt.gcf())

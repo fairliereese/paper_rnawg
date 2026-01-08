@@ -1,0 +1,476 @@
+# Gene View Tab Implementation
+
+# borrowed from here
+# https://github.com/mortazavilab/swanViewer/blob/main/tabs/gene_view_tab.py
+
+import streamlit as st
+import pandas as pd
+from swan_vis.swangraph import SwanGraph
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import matplotlib as mpl
+import plotly.express as px
+import io
+import itertools
+from utils import *
+
+def render_swan_tab(sg):
+    """Render the Gene View tab content."""
+    if sg is not None:
+        if 'tname' in sg.t_df.columns:
+            missing_tn_mask = sg.t_df['tname'].isna()
+            if missing_tn_mask.any():
+                missing_tids = sg.t_df.index[missing_tn_mask]
+                sg.t_df.loc[missing_tn_mask, 'tname'] = missing_tids
+
+        all_genes = sg.t_df['gname'].dropna().astype(str).unique().tolist()
+        gene_map_lower = {g.lower(): g for g in all_genes}
+
+        def_gname = None
+        if len(all_genes) > 1:
+            all_genes = sorted(all_genes)
+            if 'ELN' in all_genes:
+                def_gname = 'ELN'
+            else:
+                def_gname = all_genes[0]
+            disabled = False
+        else:
+            disabled = True
+
+        geneExpander = st.sidebar.expander("Transcript structure / expression view controls", expanded=False)
+        with geneExpander:
+            st.markdown("### Transcript structure / expression view options")
+            gene_name_input = st.multiselect(label='Gene name', options=all_genes, default=def_gname, disabled=disabled)
+            gene_name_input = check_multiselect(gene_name_input, 'gene name')
+
+            sample_names = sg.adata.obs_names.tolist()
+            # Build a display-name mapping: prefer `condition_replicate` when available
+            # First look for `sg.obs.data` as requested, otherwise fall back to `sg.adata.obs`.
+            obs_df = None
+            try:
+                if hasattr(sg, 'obs') and hasattr(sg.obs, 'data'):
+                    obs_df = sg.obs.data
+                elif hasattr(sg, 'adata') and hasattr(sg.adata, 'obs'):
+                    obs_df = sg.adata.obs
+            except Exception:
+                obs_df = None
+
+            sample_display_map = {s: s for s in sample_names}
+            if obs_df is not None and 'condition' in obs_df.columns and 'replicate' in obs_df.columns:
+                for s in sample_names:
+                    try:
+                        # Try to align by sample name index; fall back to original name on failure
+                        row = obs_df.loc[s]
+                        cond = '' if pd.isna(row['condition']) else str(row['condition'])
+                        rep = '' if pd.isna(row['replicate']) else str(row['replicate'])
+                        if cond and rep:
+                            sample_display_map[s] = f"{cond} {rep}"
+                        elif cond:
+                            sample_display_map[s] = cond
+                        elif rep:
+                            sample_display_map[s] = rep
+                    except Exception:
+                        # leave the original sample name
+                        sample_display_map[s] = s
+            st.markdown("---")
+            ordered_sample_names = st.multiselect(
+                "Select and reorder TPM columns:",
+                options=sample_names, default=sample_names,
+                format_func=lambda x: sample_display_map.get(x, x),
+                help="Click to select, deselect, and drag to reorder the TPM columns."
+            )
+            tpm_display_format = st.radio(
+                "TPM Display Format:",
+                ["Numbers", "Heatmap"],
+                help="Choose how to display TPM values in the tables."
+            )
+            # Allow the user to choose which obs column to group the violin plot by
+            grouping_column = None
+            try:
+                if obs_df is not None:
+                    obs_columns = [c for c in obs_df.columns.tolist() if obs_df[c].nunique() > 1]
+                    if 'condition' in obs_columns:
+                        default_group = 'condition'
+                    elif obs_columns:
+                        default_group = obs_columns[0]
+                    else:
+                        default_group = None
+                    if obs_columns:
+                        grouping_column = st.selectbox('Group violin plot by (obs column):', options=['(none)'] + obs_columns, index=(obs_columns.index(default_group) + 1) if default_group in obs_columns else 0)
+                        if grouping_column == '(none)':
+                            grouping_column = None
+            except Exception:
+                grouping_column = None
+            # Option to combine ISM transcripts into their known transcript when plotting
+            combine_ism_with_known = st.checkbox(
+                "Combine ISM and Known TPMs",
+                value=True,
+                help=("If enabled, ISM transcript TPMs (IDs ending with 'i') will be added to the matching known "
+                      "transcript (same ID without the trailing 'i') for display purposes, but only when the known "
+                      "transcript is expressed. This affects the Transcript-Level Abundance table and heatmap.")
+            )
+
+            # actually make the plot
+            run = st.button('Run')
+
+
+        if run:
+
+            if gene_name_input:
+                gene_name_lower = gene_name_input.lower()
+                if gene_name_lower in gene_map_lower:
+                    gene_name = gene_map_lower[gene_name_lower]
+                    transcripts_for_gene = sg.t_df[sg.t_df['gname'] == gene_name]
+                    ensembl_gene_id = transcripts_for_gene['gid'].iloc[0] if not transcripts_for_gene.empty else "N/A"
+
+                    # Initialize a variable to hold the colorbar figure
+                    colorbar_fig = None
+
+                    st.header(f"{gene_name} ({ensembl_gene_id})")
+
+                    try:
+
+                        # gene-level swan graph
+                        sg.plot_graph(gene_name, indicate_novel=True)
+                        st.pyplot(plt.gcf())
+                        plt.clf()
+                        plt.close('all')
+
+                        def color_df_col(df, col, color_dict):
+
+                            styles = pd.DataFrame('', index=df.index, columns=df.columns)
+
+                            for idx, row in df.iterrows():
+                                color_key = row['color']
+                                hex_color = color_dict.get(color_key)
+
+                                if hex_color is not None:
+                                    styles.loc[idx, col] = f'background-color: {hex_color}'
+
+                            return styles
+
+                        # section showing individual details
+                        with st.expander("Show Swan Gene Details"):
+
+                            # transcript info
+                            keep_cols = ['tname', 'gid', 'gname',
+                                'tss_id', 'ic_id', 'tes_id',
+                                'loc_path', 'annotation', 'novelty']
+                            keep_cols = [c for c in keep_cols if c in sg.pg.t_df.columns]
+
+                            st.write(f"Transcripts for **{gene_name}**:")
+                            st.dataframe(sg.pg.t_df[keep_cols])
+
+                            # vertex info
+                            keep_cols = ['chrom', 'coord', 'vertex_id', 'annotation',
+                                         'TSS', 'internal', 'TES', 'color']
+                            keep_cols = [c for c in keep_cols if c in sg.pg.loc_df.columns]
+                            sg.pg.loc_df['hex_color'] = sg.pg.loc_df['color'].map(sg.pg.get_color_dict())
+                            st.write(f"Vertices for **{gene_name}**:")
+                            st.dataframe(sg.pg.loc_df[keep_cols].style.apply(
+                                color_df_col,
+                                col='vertex_id',
+                                color_dict=sg.pg.get_color_dict(),
+                                axis=None))
+
+                            # edge info
+                            keep_cols = ['v1', 'v2', 'strand', 'edge_type', 'edge_id',
+                                         'annotation', 'color']
+                            keep_cols = [c for c in keep_cols if c in sg.pg.edge_df.columns]
+                            sg.pg.loc_df['hex_color'] = sg.pg.edge_df['color'].map(sg.pg.get_color_dict())
+                            st.write(f"Edges for **{gene_name}**:")
+                            st.dataframe(sg.pg.edge_df[keep_cols].style.apply(
+                                color_df_col,
+                                col='edge_id',
+                                color_dict=sg.pg.get_color_dict(),
+                                axis=None))
+
+
+                    except Exception as e:
+                        st.error(f"An error occurred while generating the splice graph for '{gene_name}': {e}")
+                        st.exception(e)
+
+
+        #
+        #             except Exception as e:
+        #                 st.error(f"An error occurred while generating the splice graph for '{gene_name}': {e}")
+        #                 st.exception(e)
+        #
+        #             if ordered_sample_names:
+        #                 st.subheader("Gene-Level Abundance (TPM)")
+        #                 try:
+        #                     all_transcript_ids = transcripts_for_gene.index.tolist()
+        #                     gene_tpm_df = sg.adata[:, all_transcript_ids].to_df(layer='tpm')
+        #                     gene_level_tpm = gene_tpm_df.sum(axis=1)
+        #
+        #                     # Reorder based on sidebar selection and format for display
+        #                     ordered_gene_tpm = gene_level_tpm.reindex(ordered_sample_names)
+        #                     display_df = pd.DataFrame(ordered_gene_tpm).T
+        #                     display_df.index = [gene_name]
+        #                     # Create a multi-row display table with sample names and TPM values
+        #                     # First, create a DataFrame with the original data
+        #                     original_df = display_df.copy()
+        #
+        #                     # Create a MultiIndex for rows: (display_name, original_name, tpm_value)
+        #                     row_labels = []
+        #                     row_data = []
+        #
+        #                     # Add the display names row
+        #                     display_names = [sample_display_map.get(c, c) for c in original_df.columns]
+        #                     row_labels.append('Display Name')
+        #                     row_data.append(display_names)
+        #
+        #                     # Add the TPM values row
+        #                     tpm_values = []
+        #                     for x in original_df.iloc[0]:
+        #                         if isinstance(x, (int, float)):
+        #                             tpm_values.append(f"{x:.1f}")
+        #                         else:
+        #                             tpm_values.append(str(x))
+        #                     row_labels.append('TPM Value')
+        #                     row_data.append(tpm_values)
+        #
+        #                     # Create the new DataFrame with MultiIndex rows
+        #                     multi_index_df = pd.DataFrame(row_data, index=row_labels, columns=original_df.columns)
+        #
+        #                     # Apply styling to make it more readable
+        #                     # Remove the format call that was causing issues and apply styling differently
+        #                     styled_df = multi_index_df.style.set_properties(**{'text-align': 'center'})
+        #
+        #                     st.dataframe(styled_df)
+        #                     # Build a violin plot of gene-level TPM. Use `condition` in the obs as the category
+        #                     # if available, otherwise fall back to a single category so the distribution is shown.
+        #                     try:
+        #                         plot_df = pd.DataFrame({'TPM': gene_level_tpm, 'sample': gene_level_tpm.index})
+        #
+        #                         # Determine grouping series using sidebar `grouping_column` if provided
+        #                         obs_for_plot = None
+        #                         try:
+        #                             if grouping_column:
+        #                                 # Try obs_df first
+        #                                 if obs_df is not None and grouping_column in obs_df.columns:
+        #                                     obs_for_plot = obs_df[grouping_column].reindex(plot_df['sample'])
+        #                                 # Fallback to sg.adata.obs
+        #                                 if (obs_for_plot is None or obs_for_plot.isna().all()) and hasattr(sg, 'adata') and grouping_column in sg.adata.obs.columns:
+        #                                     obs_for_plot = sg.adata.obs[grouping_column].reindex(plot_df['sample'])
+        #                         except Exception:
+        #                             obs_for_plot = None
+        #
+        #                         # If user didn't select grouping_column or it yielded no groups, try 'condition' (legacy default)
+        #                         if (obs_for_plot is None or obs_for_plot.isna().all()):
+        #                             try:
+        #                                 if obs_df is not None and 'condition' in obs_df.columns:
+        #                                     obs_for_plot = obs_df['condition'].reindex(plot_df['sample'])
+        #                             except Exception:
+        #                                 obs_for_plot = None
+        #                             try:
+        #                                 if (obs_for_plot is None or obs_for_plot.isna().all()) and hasattr(sg, 'adata') and 'condition' in sg.adata.obs.columns:
+        #                                     obs_for_plot = sg.adata.obs['condition'].reindex(plot_df['sample'])
+        #                             except Exception:
+        #                                 obs_for_plot = None
+        #
+        #                         if obs_for_plot is not None and not obs_for_plot.isna().all():
+        #                             plot_df['group'] = obs_for_plot.fillna('Unknown').astype(str).values
+        #                             x_col = 'group'
+        #                         else:
+        #                             plot_df['group'] = 'All samples'
+        #                             x_col = 'group'
+        #
+        #                         fig = px.violin(plot_df, x=x_col, y='TPM', box=True, points='all', hover_data=['sample'],
+        #                                         title=f"Gene-Level TPM Distribution for {gene_name}")
+        #                         plotly_config = {
+        #                             "width": 'stretch'
+        #                         }
+        #                         st.plotly_chart(fig, config=plotly_config)
+        #                     except Exception as e:
+        #                         st.warning(f"Could not render violin plot: {e}")
+        #
+        #                 except Exception as e:
+        #                     st.error(f"Could not calculate gene-level TPM: {e}")
+        #
+        #                 st.subheader("Transcript-Level Abundance (TPM)")
+        #                 try:
+        #                     gene_tpm_df = sg.adata[:, all_transcript_ids].to_df(layer='tpm')
+        #
+        #                     # Create a display copy that may combine ISM transcripts into their known counterpart
+        #                     display_tpm_df = gene_tpm_df.copy()
+        #                     combined_ism_info = []  # list of tuples (ism_id, base_id, n_samples_combined)
+        #                     combined_transcript_ids = set()  # Track which transcripts had ISM values combined with them
+        #                     if combine_ism_with_known:
+        #                         # Find ISM transcripts (IDs that end with 'i') and try to combine per-sample
+        #                         ism_cols = [c for c in display_tpm_df.columns if str(c).endswith('i')]
+        #                         for ism in ism_cols:
+        #                             base = ism[:-1]
+        #                             if base in display_tpm_df.columns:
+        #                                 # For samples where the base transcript is expressed (>0), add ISM TPM to base
+        #                                 try:
+        #                                     base_vals = display_tpm_df[base]
+        #                                     ism_vals = display_tpm_df[ism]
+        #                                     mask = base_vals > 0
+        #                                     n_combined = int(mask.sum())
+        #                                     if n_combined > 0:
+        #                                         # Add ism values to base where mask is True
+        #                                         display_tpm_df.loc[mask, base] = base_vals[mask] + ism_vals[mask]
+        #                                         # Zero-out the ISM values where they were aggregated
+        #                                         display_tpm_df.loc[mask, ism] = 0
+        #                                         combined_ism_info.append((ism, base, n_combined))
+        #                                         # Track that the base transcript had ISM values combined with it
+        #                                         combined_transcript_ids.add(base)
+        #                                 except Exception:
+        #                                     # If any operation fails, skip combining for this pair
+        #                                     continue
+        #                     else:
+        #                         display_tpm_df = gene_tpm_df
+        #
+        #                     # Drop any ISM-only columns that are now all-zero (fully aggregated)
+        #                     try:
+        #                         zero_ism_cols = [c for c in display_tpm_df.columns if str(c).endswith('i') and (display_tpm_df[c] == 0).all()]
+        #                         if zero_ism_cols:
+        #                             display_tpm_df = display_tpm_df.drop(columns=zero_ism_cols)
+        #                     except Exception:
+        #                         pass
+        #
+        #                     transcript_sums = display_tpm_df.sum(axis=0)
+        #                     sorted_transcript_ids = transcript_sums.sort_values(ascending=False).index.tolist()
+        #                 except Exception:
+        #                     # Fall back to original list if anything goes wrong
+        #                     display_tpm_df = pd.DataFrame(index=[]) if 'gene_tpm_df' not in locals() else gene_tpm_df.copy()
+        #                     sorted_transcript_ids = all_transcript_ids
+        #
+        #                 if tpm_display_format == "Heatmap" and not display_tpm_df.empty:
+        #                     # compute min/max across only the ordered/selected samples so color mapping matches displayed columns
+        #                     try:
+        #                         heatmap_df = display_tpm_df[ordered_sample_names]
+        #                     except Exception:
+        #                         heatmap_df = display_tpm_df
+        #                     min_val, max_val = heatmap_df.min().min(), heatmap_df.max().max()
+        #                     if max_val > 0:
+        #                         fig, ax = plt.subplots(figsize=(3, 0.6))
+        #                         fig.subplots_adjust(bottom=0.7)
+        #                         norm = mcolors.Normalize(vmin=min_val, vmax=max_val)
+        #                         cb = mpl.colorbar.ColorbarBase(ax, cmap=plt.get_cmap("Reds"), norm=norm, orientation='horizontal')
+        #                         cb.set_label('TPM')
+        #                         colorbar_fig = fig # Store the figure
+        #                         plt.clf() # Clear the figure from the main thread
+        #                         plt.close(fig)  # Close the figure to free memory
+        #
+        #                 n_selected_samples = len(ordered_sample_names)
+        #                 col_spec = [2, 2, 3, 3] + [1] * n_selected_samples
+        #
+        #                 header_cols = st.columns(col_spec)
+        #                 header_cols[0].markdown("##### Isoform ID")
+        #                 header_cols[1].markdown("##### Genomic Locus")
+        #                 header_cols[2].markdown("##### Swan Graph View")
+        #                 header_cols[3].markdown("##### Browser View")
+        #                 for i, name in enumerate(ordered_sample_names):
+        #                     display_name = sample_display_map.get(name, name)
+        #                     header_cols[4 + i].markdown(f"##### {display_name}")
+        #                 st.divider()
+        #
+        #                 for tid in sorted_transcript_ids:
+        #                     row_cols = st.columns(col_spec)
+        #                     # Indicate if this transcript had ISM values combined with it
+        #                     if combine_ism_with_known and tid in combined_transcript_ids:
+        #                         row_cols[0].markdown(f"**`{tid}`** (+ ISM)")
+        #                     else:
+        #                         row_cols[0].markdown(f"**`{tid}`**")
+        #
+        #                     with row_cols[1]:
+        #                         try:
+        #                             loc_path = sg.t_df.loc[tid, 'loc_path']
+        #                             if loc_path:
+        #                                 first_v_id, last_v_id = loc_path[0], loc_path[-1]
+        #                                 chrom = sg.loc_df.loc[first_v_id, 'chrom']
+        #                                 coord1, coord2 = sg.loc_df.loc[first_v_id, 'coord'], sg.loc_df.loc[last_v_id, 'coord']
+        #                                 start, stop = min(coord1, coord2), max(coord1, coord2)
+        #                                 st.markdown(f"`{chrom}:{start}-{stop}`")
+        #                             else:
+        #                                 st.caption("N/A")
+        #                         except Exception:
+        #                             st.caption("Error")
+        #
+        #                     with row_cols[2]:
+        #                         try:
+        #                             sg.plot_transcript_path(tid, browser=False, indicate_novel=True)
+        #                             buf = io.BytesIO()
+        #                             plt.savefig(buf, format="png", dpi=150, bbox_inches='tight')
+        #                             st.image(buf, width='stretch')
+        #                             plt.clf()
+        #                             plt.close('all')
+        #                         except Exception: st.warning(f"Plot failed for {tid}.")
+        #
+        #                     with row_cols[3]:
+        #                         try:
+        #                             sg.plot_transcript_path(tid, browser=True)
+        #                             buf = io.BytesIO()
+        #                             plt.savefig(buf, format="png", dpi=150, bbox_inches='tight')
+        #                             st.image(buf, width='stretch')
+        #                             plt.clf()
+        #                             plt.close('all')
+        #                         except Exception: st.warning(f"Plot failed for {tid}.")
+        #
+        #                     try:
+        #                         # Prefer the display TPM (which may have ISMs combined). Fall back to original adata if needed.
+        #                         if tid in display_tpm_df.columns:
+        #                             tpm_series = display_tpm_df[tid]
+        #                         else:
+        #                             # Last-resort: try to read from sg.adata
+        #                             tpm_series = sg.adata[:, tid].to_df(layer='tpm').iloc[:, 0]
+        #                         for i, s_name in enumerate(ordered_sample_names):
+        #                             tpm_val = tpm_series.get(s_name, 0)
+        #                             col_index = 4 + i
+        #                             display_name = sample_display_map.get(s_name, s_name)
+        #                             if tpm_display_format == "Numbers":
+        #                                 row_cols[col_index].write(f"{tpm_val:.1f}")
+        #                             else:
+        #                                 if max_val > 0:
+        #                                     norm = mcolors.Normalize(vmin=min_val, vmax=max_val)
+        #                                     cmap = plt.get_cmap("Reds")
+        #                                     color_hex = mcolors.to_hex(cmap(norm(tpm_val)))
+        #                                     text_color = "white" if norm(tpm_val) > 0.6 else "black"
+        #                                     html = f"""<div style="background-color:{color_hex}; color:{text_color}; padding: 10px; border-radius: 5px; text-align: center;">{tpm_val:.1f}</div>"""
+        #                                     row_cols[col_index].markdown(html, unsafe_allow_html=True)
+        #                                 else:
+        #                                     row_cols[col_index].write(f"{tpm_val:.1f}")
+        #
+        #                     except Exception:
+        #                          for i in range(n_selected_samples):
+        #                             row_cols[4 + i].caption("N/A")
+        #                     st.divider()
+        #             else:
+        #                 st.error(f"No transcripts found for gene '{gene_name}'.")
+        #
+        #             # Display the color bar at the bottom if it was created
+        #             if tpm_display_format == "Heatmap" and not display_tpm_df.empty:
+        #                 col1, col2, col3 = st.columns((1,5,1))
+        #                 min_val, max_val = display_tpm_df.min().min(), display_tpm_df.max().max()
+        #                 if max_val > 0:
+        #                     fig, ax = plt.subplots(figsize=(3, 0.6))
+        #                     fig.subplots_adjust(bottom=0.1)
+        #                     norm = mcolors.Normalize(vmin=min_val, vmax=max_val)
+        #                     cb = mpl.colorbar.ColorbarBase(ax, cmap=plt.get_cmap("Reds"), norm=norm, orientation='horizontal')
+        #                     cb.set_label('TPM')
+        #                     #colorbar_fig = fig # Store the figure
+        #                     #st.pyplot(colorbar_fig)
+        #                     buf = io.BytesIO()
+        #                     plt.savefig(buf, format="png", dpi=150, bbox_inches='tight')
+        #                     with col3:
+        #                         st.image(buf, width='content')
+        #                         plt.clf()
+        #         else:
+        #             st.error(f"Gene '{gene_name_input}' not found.")
+        #
+        #         # If we combined any ISMs, show a small informational line under the header
+        #         try:
+        #             if combine_ism_with_known and 'combined_ism_info' in locals() and combined_ism_info:
+        #                 # Build a short human-friendly string listing combined ISMs (limit to first 8 items)
+        #                 parts = [f"{ism}→{base}({n})" for ism, base, n in combined_ism_info]
+        #                 if len(parts) > 8:
+        #                     parts = parts[:8] + [f"...(+{len(combined_ism_info)-8} more)"]
+        #                     info_str = "Combined ISMs: " + ", ".join(parts)
+        #                     st.caption(info_str)
+        #         except Exception:
+        #             # Don't let UI break if caption rendering fails
+        #                 pass
+        # else:
+        #     st.info("Please upload all three required files in the sidebar to begin exploring.")

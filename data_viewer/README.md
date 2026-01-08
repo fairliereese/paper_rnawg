@@ -1,6 +1,7 @@
 ```bash
 h5=/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/cerberus/sample_cerberus_triplets.h5
-streamlit run data_viewer/main.py --server.maxUploadSize 2000 -- --h5 $h5
+sg=/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/swan/swan_graph.p
+streamlit run data_viewer/main.py --server.maxUploadSize 2000 -- --h5 $h5 --sg $sg
 
 ```
 
@@ -29,4 +30,9 @@ ca.plot_simplex(
     legend=True
 )
 plt.show()
+```
+
+```python
+import swan_vis as swan
+sg = swan.read('/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/swan/swan_graph.p')
 ```

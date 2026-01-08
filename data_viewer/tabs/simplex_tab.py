@@ -3,7 +3,7 @@ import cerberus
 import matplotlib.pyplot as plt
 from utils import *
 
-def render_gene_simplex_tab():
+def render_simplex_tab():
     """
     Original simplex dorito plot
     """
@@ -90,7 +90,8 @@ def render_gene_simplex_tab():
                 # if gname and triplet_set:
                 if gname:
                     gid = ca.triplets.loc[ca.triplets.gname==gname].gid.values[0]
-                    st.header(f"{triplet_set} triplets for: `{gname}` (Ensembl ID: `{gid}`)")
+                    # genecards_link = f'https://www.genecards.org/Search/Keyword?queryString=%20%5Ball%5D%20%20(%20%20{gid}%20%20)%20&advanced=true'
+                    st.header(f"{triplet_set} triplets for {gname} ({gid})")
                 else:
                     st.header(f"{triplet_set} triplets")
 
@@ -131,6 +132,6 @@ def render_gene_simplex_tab():
                 plt.clf()
                 plt.close('all')
 
-                data_expander = st.expander("Data in this plot")
+                data_expander = st.expander("Data table")
                 with data_expander:
                     st.dataframe(df, hide_index=True)

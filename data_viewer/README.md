@@ -34,5 +34,23 @@ plt.show()
 
 ```python
 import swan_vis as swan
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import matplotlib as mpl
+
 sg = swan.read('/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/swan/swan_graph.p')
+
+gid = 'ENSG00000067225'
+subset_sg = sg.subset_on_gene_sg(gid=gid, datasets=['ovary_1_1', 'ovary_2_1', 'ovary_3_1'])
+temp = subset_sg.get_transcript_abundance(kind='tpm')
+temp.set_index('tid', inplace=True)
+min_val, max_val = temp.min().min(), temp.max().max()
+temp = temp.loc[temp.sum(axis=1) > 0]
+N_T_TPM_META_COLS = 4
+tid = 'ENSG00000049540[1,156,3]'
+for i,c in enumerate(temp.columns):
+  tpm_val = temp.loc[tid, c]
+  row_cols[i+N_T_TPM_META_COLS].write(f"{tpm_val:.1f}")
+
+
 ```

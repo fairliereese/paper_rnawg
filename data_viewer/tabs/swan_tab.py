@@ -14,6 +14,8 @@ import io
 import itertools
 from utils import *
 
+N_T_TPM_META_COLS = 4 # number of metadata columns used for the TPM table
+
 def render_swan_tab(sg):
     """Render the Gene View tab content."""
     if sg is not None:
@@ -40,8 +42,8 @@ def render_swan_tab(sg):
         geneExpander = st.sidebar.expander("Transcript structure / expression view controls", expanded=False)
         with geneExpander:
             st.markdown("### Transcript structure / expression view options")
-            gene_name_input = st.multiselect(label='Gene name', options=all_genes, default=def_gname, disabled=disabled)
-            gene_name_input = check_multiselect(gene_name_input, 'gene name')
+            gene_name_input = st.selectbox(label='Gene name', options=all_genes)
+            # gene_name_input = check_multiselect(gene_name_input, 'gene name')
 
             sample_names = sg.adata.obs_names.tolist()
             # Build a display-name mapping: prefer `condition_replicate` when available
@@ -79,6 +81,9 @@ def render_swan_tab(sg):
                 format_func=lambda x: sample_display_map.get(x, x),
                 help="Click to select, deselect, and drag to reorder the TPM columns."
             )
+            # add_all_samples = st.button('Add all')
+            # rm_all_samples = st.button('Remove all')
+
             tpm_display_format = st.radio(
                 "TPM Display Format:",
                 ["Numbers", "Heatmap"],
@@ -164,7 +169,8 @@ def render_swan_tab(sg):
                                 color_df_col,
                                 col='vertex_id',
                                 color_dict=sg.pg.get_color_dict(),
-                                axis=None))
+                                axis=None),
+                                hide_index=True)
 
                             # edge info
                             keep_cols = ['v1', 'v2', 'strand', 'edge_type', 'edge_id',
@@ -176,7 +182,8 @@ def render_swan_tab(sg):
                                 color_df_col,
                                 col='edge_id',
                                 color_dict=sg.pg.get_color_dict(),
-                                axis=None))
+                                axis=None),
+                                hide_index=True)
 
                     except Exception as e:
                         st.error(f"An error occurred while retreiving Swan gene details for {gene_name}: {e}")
@@ -189,88 +196,137 @@ def render_swan_tab(sg):
 
                         subset_sg = sg.subset_on_gene_sg(gid=gid, datasets=ordered_sample_names)
                         temp = subset_sg.get_transcript_abundance(kind='tpm')
-                        temp = (
+                        gene_temp = (
                             temp.set_index('tid')
                             .sum(axis=0)
                             .to_frame()
                             .transpose()
                         )
-                        temp2 = temp.style.set_properties(**{'text-align': 'center'})
+                        temp2 = gene_temp.style.set_properties(**{'text-align': 'center'})
                         st.dataframe(temp2, hide_index=True)
 
                         # violin plot
-                        if grouping_column:
-                            temp = temp.transpose().reset_index()
-                            temp.columns = ['dataset', 'tpm']
-                            temp = temp.merge(sg.adata.obs[['dataset', grouping_column]].reset_index(drop=True),
-                                       how='left',
-                                       on='dataset')
+                        try:
+                            if grouping_column:
+                                gene_temp = gene_temp.transpose().reset_index()
+                                gene_temp.columns = ['dataset', 'tpm']
+                                gene_temp = gene_temp.merge(sg.adata.obs[['dataset', grouping_column]].reset_index(drop=True),
+                                           how='left',
+                                           on='dataset')
 
-                            fig = px.violin(
-                                temp,
-                                x=grouping_column,
-                                y='tpm',
-                                box=True,
-                                points='all',
-                                hover_data=['dataset'],
-                                title=f"Gene-Level TPMs for {gene_name}")
-                            plotly_config = {
-                                "width": 'stretch'
-                            }
-                            st.plotly_chart(fig, config=plotly_config)
+                                fig = px.violin(
+                                    gene_temp,
+                                    x=grouping_column,
+                                    y='tpm',
+                                    box=True,
+                                    points='all',
+                                    hover_data=['dataset'],
+                                    title=f"Gene-Level TPMs for {gene_name}")
+                                plotly_config = {
+                                    "width": 'stretch'
+                                }
+                                st.plotly_chart(fig, config=plotly_config)
 
-                        # # Build a violin plot of gene-level TPM. Use `condition` in the obs as the category
-                        # # if available, otherwise fall back to a single category so the distribution is shown.
-                        # # try:
-                        # plot_df = pd.DataFrame({'TPM': gene_level_tpm, 'sample': gene_level_tpm.index})
-                        #
-                        # # Determine grouping series using sidebar `grouping_column` if provided
-                        # obs_for_plot = None
-                        # try:
-                        #     if grouping_column:
-                        #         # Try obs_df first
-                        #         if obs_df is not None and grouping_column in obs_df.columns:
-                        #             obs_for_plot = obs_df[grouping_column].reindex(plot_df['sample'])
-                        #         # Fallback to sg.adata.obs
-                        #         if (obs_for_plot is None or obs_for_plot.isna().all()) and hasattr(sg, 'adata') and grouping_column in sg.adata.obs.columns:
-                        #             obs_for_plot = sg.adata.obs[grouping_column].reindex(plot_df['sample'])
-                        # except Exception:
-                        #     obs_for_plot = None
-                        #
-                        # # If user didn't select grouping_column or it yielded no groups, try 'condition' (legacy default)
-                        # if (obs_for_plot is None or obs_for_plot.isna().all()):
-                        #     try:
-                        #         if obs_df is not None and 'condition' in obs_df.columns:
-                        #             obs_for_plot = obs_df['condition'].reindex(plot_df['sample'])
-                        #     except Exception:
-                        #         obs_for_plot = None
-                        #     try:
-                        #         if (obs_for_plot is None or obs_for_plot.isna().all()) and hasattr(sg, 'adata') and 'condition' in sg.adata.obs.columns:
-                        #             obs_for_plot = sg.adata.obs['condition'].reindex(plot_df['sample'])
-                        #     except Exception:
-                        #         obs_for_plot = None
-                        #
-                        # if obs_for_plot is not None and not obs_for_plot.isna().all():
-                        #     plot_df['group'] = obs_for_plot.fillna('Unknown').astype(str).values
-                        #     x_col = 'group'
-                        # else:
-                        #     plot_df['group'] = 'All samples'
-                        #     x_col = 'group'
-                        #
-                        # fig = px.violin(plot_df, x=x_col, y='TPM', box=True, points='all', hover_data=['sample'],
-                        #                 title=f"Gene-Level TPM Distribution for {gene_name}")
-                        # plotly_config = {
-                        #     "width": 'stretch'
-                        # }
-                        # st.plotly_chart(fig, config=plotly_config)
+                        except Exception as e:
+                            st.warning(f"Could not render violin plot: {e}")
 
-                        # except Exception as e:
-                        #     st.warning(f"Could not render violin plot: {e}")
+                        st.subheader("Transcript-Level Abundance (TPM)")
 
-                        # except Exception as e:
-                        #     st.error(f"Could not calculate gene-level TPM: {e}")
-        #
-        #                 st.subheader("Transcript-Level Abundance (TPM)")
+                        # all values are actual tpms
+                        temp.set_index('tid', inplace=True)
+                        temp['total_tpm'] = temp.sum(axis=1)
+
+                        # filter out unexpressed
+                        temp = temp.loc[temp['total_tpm'] > 0]
+
+                        # sort by total expression
+                        temp = temp.sort_values(by='total_tpm', ascending=False)
+
+                        # finally remove sum col.
+                        temp.drop('total_tpm', axis=1, inplace=True)
+
+                        # columns
+                        col_spec = [2, 2, 3, 3] + [1] * len(temp.columns)
+                        header_cols = st.columns(col_spec)
+                        header_cols[0].markdown("###### Isoform ID")
+                        header_cols[1].markdown("###### Genomic Locus")
+                        header_cols[2].markdown("###### Swan Graph View")
+                        header_cols[3].markdown("###### Browser View")
+                        for i, name in enumerate(temp.columns):
+                            display_name = sample_display_map.get(name, name)
+                            header_cols[N_T_TPM_META_COLS + i].markdown(f"##### {display_name}")
+                        st.divider()
+
+                        # colorbar scaling init
+                        min_val, max_val = temp.min().min(), temp.max().max()
+                        norm = mcolors.Normalize(vmin=min_val, vmax=max_val)
+                        cmap = plt.get_cmap("Reds")
+
+                        # get info for each transcript
+                        for tid in temp.index.tolist():
+
+                          # row setup
+                          row_cols = st.columns(col_spec)
+
+                          # col 0: transcript id
+                          with row_cols[0]:
+                              st.markdown(f"**`{tid}`**")
+
+                          # col 1: human-readable transcript coords
+                          with row_cols[1]:
+                              coord_min, coord_max = subset_sg.get_transcript_min_max(tid)
+                              chrom = subset_sg.get_transcript_chrom(tid)
+                              st.markdown(f'`{chrom}:{coord_min}-{coord_max}`')
+
+                          # col 2: swan graph
+                          with row_cols[2]:
+                              sg.plot_transcript_path(tid, browser=False, indicate_novel=True)
+                              buf = io.BytesIO()
+                              plt.savefig(buf, format="png", dpi=150, bbox_inches='tight')
+                              st.image(buf)
+                              plt.clf()
+                              plt.close('all')
+
+                          # col 3: browser plot
+                          with row_cols[3]:
+                              sg.plot_transcript_path(tid, browser=True)
+                              buf = io.BytesIO()
+                              plt.savefig(buf, format="png", dpi=150, bbox_inches='tight')
+                              st.image(buf)
+                              plt.clf()
+                              plt.close('all')
+
+                          # cols 4+: TPM (either heatmap or numbers)
+                          for i,c in enumerate(temp.columns):
+                              tpm_val = temp.loc[tid, c]
+
+                              if tpm_display_format == "Numbers":
+                                  row_cols[i+N_T_TPM_META_COLS].write(f"{tpm_val:.1f}")
+                              elif tpm_display_format == 'Heatmap':
+                                  if max_val > 0:
+                                    color_hex = mcolors.to_hex(cmap(norm(tpm_val)))
+                                    text_color = "white" if norm(tpm_val) > 0.6 else "black"
+                                    html = f"""<div style="background-color:{color_hex}; color:{text_color}; padding: 10px; border-radius: 5px; text-align: center;">{tpm_val:.1f}</div>"""
+                                    row_cols[i+N_T_TPM_META_COLS].markdown(html, unsafe_allow_html=True)
+
+                    # finally add the colorbar
+                    if tpm_display_format == "Heatmap":
+                        col1, col2, col3 = st.columns((1,5,1))
+                        if max_val > 0:
+                            fig, ax = plt.subplots(figsize=(3, 0.6))
+                            fig.subplots_adjust(bottom=0.1)
+                            cb = mpl.colorbar.ColorbarBase(ax, cmap=cmap, norm=norm, orientation='horizontal')
+                            cb.set_label('TPM')
+                            buf = io.BytesIO()
+                            plt.savefig(buf, format="png", dpi=150, bbox_inches='tight')
+                            with col3:
+                                st.image(buf)
+                                plt.clf()
+
+
+
+
+
         #                 try:
         #                     gene_tpm_df = sg.adata[:, tids].to_df(layer='tpm')
         #

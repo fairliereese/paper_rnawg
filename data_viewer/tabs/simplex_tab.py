@@ -123,8 +123,8 @@ def render_simplex_tab():
 
                     # sector boundaries
                     sect_alpha=tss_thresh,
-                    sect_beta=tes_thresh,
-                    sect_gamma=spl_thresh
+                    sect_beta=spl_thresh,
+                    sect_gamma=tes_thresh
                 )
 
                 st.pyplot(plt.gcf())

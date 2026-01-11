@@ -98,6 +98,18 @@ def render_simplex_tab():
                 if legend and scatter: legend_scatter = True
                 if legend and density: legend_density = True
 
+                # use colors in here
+                if marker_color in ['sample', 'sample_display'] :
+                    temp = ca.triplets[['sample', 'hex_color']]
+                    temp = (
+                        temp
+                        .loc[temp['sample'].notnull()]
+                        .drop_duplicates()
+                        .set_index('sample')
+                    )
+                    cmap = temp.squeeze().to_dict()
+                else: cmap = None
+
                 df = ca.plot_simplex(
                     subset={'source': triplet_set},
                     gene=gname,
@@ -116,6 +128,7 @@ def render_simplex_tab():
 
                     # marker color
                     hue=marker_color,
+                    cmap=cmap,
 
                     sectors=True,
                     legend=legend_scatter,

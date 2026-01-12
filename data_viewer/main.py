@@ -136,6 +136,7 @@ def main():
 
         st.markdown("---")
 
+
         # if no SwanGraph was loaded, add option to upload file on the sidebar
         uploaded_file = st.file_uploader("Upload SwanGraph", type=[".p"])
         if not st.session_state.data_loaded:

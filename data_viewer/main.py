@@ -128,31 +128,31 @@ def main():
     load_data(cli_args.h5)
     load_swan_data(cli_args.sg)
 
-    # if no CerberusAnnotation was loaded, add option to upload file on the sidebar
-    upload_expander = st.sidebar.expander("Upload files", expanded=False)
-    with upload_expander:
-
-        uploaded_file = st.file_uploader("Upload CerberusAnnotation", type=["h5"])
-        if not st.session_state.data_loaded:
-            if uploaded_file is not None:
-                import tempfile
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".h5") as tmp:
-                    tmp.write(uploaded_file.getbuffer())
-                    file_to_load = tmp.name
-                    load_data(file_to_load)
-
-        st.markdown("---")
-
-
-        # if no SwanGraph was loaded, add option to upload file on the sidebar
-        uploaded_file = st.file_uploader("Upload SwanGraph", type=[".p"])
-        if not st.session_state.data_loaded:
-            if uploaded_file is not None:
-                import tempfile
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".p") as tmp:
-                    tmp.write(uploaded_file.getbuffer())
-                    swan_file_to_load = tmp.name
-                    load_swan_data(swan_file_to_load)
+    # # if no CerberusAnnotation was loaded, add option to upload file on the sidebar
+    # upload_expander = st.sidebar.expander("Upload files", expanded=False)
+    # with upload_expander:
+    #
+    #     uploaded_file = st.file_uploader("Upload CerberusAnnotation", type=["h5"])
+    #     if not st.session_state.data_loaded:
+    #         if uploaded_file is not None:
+    #             import tempfile
+    #             with tempfile.NamedTemporaryFile(delete=False, suffix=".h5") as tmp:
+    #                 tmp.write(uploaded_file.getbuffer())
+    #                 file_to_load = tmp.name
+    #                 load_data(file_to_load)
+    #
+    #     st.markdown("---")
+    #
+    #
+    #     # if no SwanGraph was loaded, add option to upload file on the sidebar
+    #     uploaded_file = st.file_uploader("Upload SwanGraph", type=[".p"])
+    #     if not st.session_state.data_loaded:
+    #         if uploaded_file is not None:
+    #             import tempfile
+    #             with tempfile.NamedTemporaryFile(delete=False, suffix=".p") as tmp:
+    #                 tmp.write(uploaded_file.getbuffer())
+    #                 swan_file_to_load = tmp.name
+    #                 load_swan_data(swan_file_to_load)
 
     # creating tabs for each visualization
     tab_simplex_view, tab_swan_view, = st.tabs(["Simplex View", "Transcript structure / expression view"])

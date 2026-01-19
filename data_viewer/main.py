@@ -131,9 +131,6 @@ def main():
     # logo
     st.sidebar.image(f"{d}/cerberus_logo.png", width=300)
 
-    ##### DATA LOADING
-    load_data(st.session_state.loaded_from_disk_path)
-    load_swan_data(st.session_state.swan_loaded_from_disk_path)
     # load data from cmd line
     # load_data(cli_args.h5)
     # load_swan_data(cli_args.sg)
@@ -170,12 +167,6 @@ def main():
     from tabs.simplex_tab import render_simplex_tab
     from tabs.swan_tab import render_swan_tab
 
-    with tab_simplex_view:
-        render_simplex_tab()
-
-    with tab_swan_view:
-        render_swan_tab()
-
     with tab_landing:
         st.markdown('## Welcome to the ENCODE4 long-read RNA-seq data viewer')
 
@@ -190,24 +181,16 @@ def main():
     if go_species:
         st.session_state.loaded_from_disk_path = f'{d}/{species.lower()}_triplets.h5'
         st.session_state.swan_loaded_from_disk_path = f'{d}/{species.lower()}_swan.p'
+        load_data(st.session_state.loaded_from_disk_path)
+        load_swan_data(st.session_state.swan_loaded_from_disk_path)
 
-    # # testing
-    # if st.session_state.data_loaded:
-    #     st.write(st.session_state.ca.tss.head(1).source)
+    with tab_simplex_view:
+        render_simplex_tab()
 
-    # # if we have a file path, load
-    # if file_to_load is not None and st.session_state.ca is None:
-
-    # # testing -- display something from the ca
-    # ca = cerberus.read(cli_args.h5)
-    # print(f"Loaded CerberusAnnotation from {cli_args.h5}")
-    # st.session_state.loaded_session_cache[fname] = ca
-    #
-    # st.session_state.ca = ca
+    with tab_swan_view:
+        render_swan_tab()
 
     st.markdown("---")
-
-
 
 if __name__ == "__main__":
     main()

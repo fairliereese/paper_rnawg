@@ -26,6 +26,7 @@ def render_swan_tab():
 
     with geneExpander:
         st.markdown("### Transcript structure / expression view options")
+        st.markdown("---")
         if not st.session_state.swan_data_loaded:
             st.info("Load data to enable options")
             return

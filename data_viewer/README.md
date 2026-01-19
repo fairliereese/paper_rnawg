@@ -1,4 +1,13 @@
 ```bash
+wget link -o ./human_triplets.h5
+wget link -o ./mouse_triplets.h5
+wget link -o ./human_swan.p
+wget link -o ./mouse_swan.p
+
+
+```
+
+```bash
 # human
 h5=/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/data_viewer/human_triplets.h5
 sg=/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/swan/swan_graph.p

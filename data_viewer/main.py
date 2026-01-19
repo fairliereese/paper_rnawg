@@ -22,20 +22,20 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-def get_cli_args():
-    """Parses command-line arguments for file paths."""
-    parser = argparse.ArgumentParser(description='ENCODE4 LR-RNA-seq viewer')
-    parser.add_argument('--h5', type=str, help='Path to a saved Cerberus h5 file')
-    parser.add_argument('--sg', type=str, help='Path to a saved SwanGraph (pickle) file')
-    args, _ = parser.parse_known_args()
-    return args
+# def get_cli_args():
+#     """Parses command-line arguments for file paths."""
+#     parser = argparse.ArgumentParser(description='ENCODE4 LR-RNA-seq viewer')
+#     parser.add_argument('--h5', type=str, help='Path to a saved Cerberus h5 file')
+#     parser.add_argument('--sg', type=str, help='Path to a saved SwanGraph (pickle) file')
+#     args, _ = parser.parse_known_args()
+#     return args
 
 def load_swan_data(fname):
     """
     Load SwanGraph into streamlit space
     """
 
-    if fname and st.session_state.get('sg') is None:
+    if fname:
         try:
             # check if we've already loaded this session file
             if fname in st.session_state.swan_loaded_session_cache:
@@ -69,7 +69,7 @@ def load_data(fname):
     Load CerberusAnnotation into streamlit space
     """
 
-    if fname and st.session_state.get('ca') is None:
+    if fname:
         try:
             # check if we've already loaded this session file
             if fname in st.session_state.loaded_session_cache:
@@ -101,11 +101,19 @@ def load_data(fname):
 # main
 def main():
 
-    cli_args = get_cli_args()
+    # cli_args = get_cli_args()
 
     ##### INIT SESSION VARS
-    st.session_state.data_loaded = False
-    st.session_state.swan_data_loaded = False
+    if "data_loaded" not in st.session_state:
+        st.session_state.data_loaded = False
+    if "swan_data_loaded" not in st.session_state:
+        st.session_state.swan_data_loaded = False
+
+    if 'loaded_from_disk_path' not in st.session_state:
+        st.session_state.loaded_from_disk_path = None
+    if 'swan_loaded_from_disk_path' not in st.session_state:
+        st.session_state.swan_loaded_from_disk_path = None
+
 
     # cache for loaded session files to avoid reloading
     if not hasattr(st.session_state, 'loaded_session_cache'):
@@ -124,9 +132,11 @@ def main():
     st.sidebar.image(f"{d}/cerberus_logo.png", width=300)
 
     ##### DATA LOADING
+    load_data(st.session_state.loaded_from_disk_path)
+    load_swan_data(st.session_state.swan_loaded_from_disk_path)
     # load data from cmd line
-    load_data(cli_args.h5)
-    load_swan_data(cli_args.sg)
+    # load_data(cli_args.h5)
+    # load_swan_data(cli_args.sg)
 
     # # if no CerberusAnnotation was loaded, add option to upload file on the sidebar
     # upload_expander = st.sidebar.expander("Upload files", expanded=False)
@@ -155,7 +165,7 @@ def main():
     #                 load_swan_data(swan_file_to_load)
 
     # creating tabs for each visualization
-    tab_simplex_view, tab_swan_view, = st.tabs(["Simplex View", "Transcript structure / expression view"])
+    tab_landing, tab_simplex_view, tab_swan_view, = st.tabs(["Home", "Simplex view", "Transcript structure / expression view"])
 
     from tabs.simplex_tab import render_simplex_tab
     from tabs.swan_tab import render_swan_tab
@@ -164,9 +174,23 @@ def main():
         render_simplex_tab()
 
     with tab_swan_view:
-        render_swan_tab(st.session_state.sg)
+        render_swan_tab()
 
-    #
+    with tab_landing:
+        st.markdown('## Welcome to the ENCODE4 long-read RNA-seq data viewer')
+
+        st.markdown('#### Select species to begin')
+        species = st.selectbox(
+            label='Species',
+            options=['Human', 'Mouse']
+        )
+        st.species = species
+        go_species = st.button('Go')
+
+    if go_species:
+        st.session_state.loaded_from_disk_path = f'{d}/{species.lower()}_triplets.h5'
+        st.session_state.swan_loaded_from_disk_path = f'{d}/{species.lower()}_swan.p'
+
     # # testing
     # if st.session_state.data_loaded:
     #     st.write(st.session_state.ca.tss.head(1).source)

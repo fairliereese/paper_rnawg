@@ -105,7 +105,6 @@ def render_simplex_tab():
 
             st.markdown("#### Other")
 
-
             # log continuous marker colors
 
             # change density kernel size (also default should be lower)

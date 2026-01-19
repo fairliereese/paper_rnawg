@@ -16,15 +16,22 @@ def render_simplex_tab():
         with st.sidebar.expander("Simplex view controls",):
             st.markdown("### Simplex view options")
 
+            st.markdown("---")
+
+            st.markdown("#### Data subset options")
+
+
             # triplet set picker
             triplet_set = st.selectbox(
                 label='Triplet set',
                 options=ca.triplets.source.unique().tolist()
             )
 
+            temp_triplet_set = ca.triplets.loc[ca.triplets.source==triplet_set]
+
             # gene picker -- limit to genes in this triplet set -- precomputing
             # and storing in a dict would make this much quicker
-            gnames = (ca.triplets.loc[ca.triplets.source==triplet_set]
+            gnames = (temp_triplet_set
                 .gname
                 .dropna()
                 .astype(str)
@@ -46,23 +53,44 @@ def render_simplex_tab():
             gname = st.selectbox(label='Gene name', options=gnames, disabled=disabled)
             # gname = check_multiselect(gname, 'gene name')
 
+            st.markdown("#### Plot type (select at least 1)")
             scatter = st.checkbox("Scatter")
-            density = st.checkbox('Density (takes a while to compute)')
-            legend = st.checkbox('Legend')
+            density = st.checkbox('Density')
+
+            st.markdown("#### Marker style options")
+
 
             # marker size
-            num_cols = ca.triplets.select_dtypes(include="number").columns.tolist()
+            num_cols = (
+                temp_triplet_set
+                .select_dtypes(include="number")
+                .dropna(axis=1, how='all')
+                .columns
+                .tolist()
+            )
             marker_size = st.selectbox(label='Marker size', options=sorted(num_cols))
             # marker_size = check_multiselect(marker_size, 'marker size')
 
-            marker_color = st.selectbox(label='Marker color', options=sorted(ca.triplets.columns))
+            all_cols = (
+                temp_triplet_set
+                .dropna(axis=1, how='all')
+                .columns
+                .tolist()
+            )
+            marker_color = st.selectbox(label='Marker color', options=all_cols)
+            legend = st.checkbox('Legend')
+
             # marker_color = check_multiselect(marker_color, 'marker color')
 
+            st.markdown("---")
+            st.markdown("### Advanced")
 
-            st.markdown("##### Advanced")
 
             # adv_expander = st.expander("Advanced")
             # with adv_expander:
+
+            st.markdown("#### Threshold options")
+
 
             # sector boundaries
             tss_thresh = st.slider(
@@ -75,6 +103,9 @@ def render_simplex_tab():
                           "Splicing-high threshold",
                           0.0, 1.0, 0.5)
 
+            st.markdown("#### Other")
+
+
             # log continuous marker colors
 
             # change density kernel size (also default should be lower)
@@ -86,6 +117,10 @@ def render_simplex_tab():
             # actually make the plot
             run = st.button('Plot')
 
+        if run:
+            if not scatter and not density:
+                st.write('Please check at least one of "Scatter" or "Density"')
+                run = False
 
         if run:
 

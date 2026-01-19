@@ -202,7 +202,12 @@ def render_swan_tab(sg):
                             .to_frame()
                             .transpose()
                         )
-                        temp2 = gene_temp.style.set_properties(**{'text-align': 'center'})
+                        temp2 = (
+                            gene_temp
+                                .style
+                                .set_properties(**{'text-align': 'center'})
+                                .format('{:.1f}')
+                        )
                         st.dataframe(temp2, hide_index=True)
 
                         # violin plot
@@ -230,7 +235,7 @@ def render_swan_tab(sg):
                         except Exception as e:
                             st.warning(f"Could not render violin plot: {e}")
 
-                        st.subheader("Transcript-Level Abundance (TPM)")
+                        st.subheader("Transcript-level abundance (TPM)")
 
                         # all values are actual tpms
                         temp.set_index('tid', inplace=True)

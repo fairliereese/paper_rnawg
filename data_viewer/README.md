@@ -1,7 +1,15 @@
 ```bash
+# human
 h5=/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/data_viewer/human_triplets.h5
 sg=/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/human/lr/swan/swan_graph.p
 streamlit run data_viewer/main.py --server.maxUploadSize 2000 -- --h5 $h5 --sg $sg
+
+# mouse
+h5=/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/data_viewer/mouse_triplets.h5
+sg=/Users/fairliereese/Documents/programming/mortazavi_lab/data/paper_rnawg/proc_revisions/data/mouse/lr/swan/swan_graph.p
+streamlit run data_viewer/main.py --server.maxUploadSize 2000 -- --h5 $h5 --sg $sg
+
+
 
 ```
 

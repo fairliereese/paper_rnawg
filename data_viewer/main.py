@@ -12,9 +12,12 @@ import swan_vis as swan
 
 __version__ = '0.0.1'
 
+
+d = os.path.dirname(__file__)
+
 st.set_page_config(
     page_title="ENCODE4 Long-read RNA-seq Viewer",
-    page_icon="🧬",
+    page_icon=f"{d}/cerberus_logo.png",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -117,6 +120,9 @@ def main():
     if not hasattr(st.session_state, 'swan_ui_loaded_session_cache'):
         st.session_state.swan_ui_loaded_session_cache = {}
 
+    # logo
+    st.sidebar.image(f"{d}/cerberus_logo.png", width=300)
+
     ##### DATA LOADING
     # load data from cmd line
     load_data(cli_args.h5)
@@ -125,6 +131,7 @@ def main():
     # if no CerberusAnnotation was loaded, add option to upload file on the sidebar
     upload_expander = st.sidebar.expander("Upload files", expanded=False)
     with upload_expander:
+
         uploaded_file = st.file_uploader("Upload CerberusAnnotation", type=["h5"])
         if not st.session_state.data_loaded:
             if uploaded_file is not None:

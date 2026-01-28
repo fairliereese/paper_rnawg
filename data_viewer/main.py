@@ -184,11 +184,14 @@ def main():
         go_species = st.button('Go')
 
     if go_species:
+        
+        # when switching, turn this off while loading
+        st.session_state.data_loaded = False
+        st.session_state.swan_data_loaded = False
+
         st.session_state.loaded_from_disk_path = f'{d}/data/{species.lower()}_triplets.h5'
         st.session_state.swan_loaded_from_disk_path = f'{d}/data/{species.lower()}_swan.p'
         with st.spinner("Loading data…"):
-            st.write(st.session_state.loaded_from_disk_path)
-            st.write(st.session_state.swan_loaded_from_disk_path)
             load_data(st.session_state.loaded_from_disk_path)
             load_swan_data(st.session_state.swan_loaded_from_disk_path)
 

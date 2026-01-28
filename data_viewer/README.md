@@ -1,5 +1,5 @@
 ## ENCODE4 LR-RNA-seq data viewer
-We've made it simple to visualize the ENCODE4 long-read RNA-seq data using both [Cerberus](https://github.com/mortazavilab/cerberus) and [Swan](https://github.com/mortazavilab/swan_vis) by
+We've made it simple to visualize the ENCODE4 long-read RNA-seq data using both [Cerberus](https://github.com/mortazavilab/cerberus) and [Swan](https://github.com/mortazavilab/swan_vis) using this user-hosted data viewer. It runs using Docker so no software download is necessary. 
 
 #### Use instructions
 1. Download data and Docker image

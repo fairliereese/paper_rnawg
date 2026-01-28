@@ -1,3 +1,8 @@
+import os
+os.environ["STREAMLIT_SERVER_HEADLESS"] = "true"
+os.environ["STREAMLIT_LOG_LEVEL"] = "debug"
+
+
 import streamlit as st
 import pandas as pd
 import tempfile
@@ -179,10 +184,13 @@ def main():
         go_species = st.button('Go')
 
     if go_species:
-        st.session_state.loaded_from_disk_path = f'{d}/{species.lower()}_triplets.h5'
-        st.session_state.swan_loaded_from_disk_path = f'{d}/{species.lower()}_swan.p'
-        load_data(st.session_state.loaded_from_disk_path)
-        load_swan_data(st.session_state.swan_loaded_from_disk_path)
+        st.session_state.loaded_from_disk_path = f'{d}/data/{species.lower()}_triplets.h5'
+        st.session_state.swan_loaded_from_disk_path = f'{d}/data/{species.lower()}_swan.p'
+        with st.spinner("Loading data…"):
+            st.write(st.session_state.loaded_from_disk_path)
+            st.write(st.session_state.swan_loaded_from_disk_path)
+            load_data(st.session_state.loaded_from_disk_path)
+            load_swan_data(st.session_state.swan_loaded_from_disk_path)
 
     with tab_simplex_view:
         render_simplex_tab()

@@ -1,9 +1,21 @@
 ```bash
+#
 wget link -o ./human_triplets.h5
 wget link -o ./mouse_triplets.h5
 wget link -o ./human_swan.p
 wget link -o ./mouse_swan.p
 
+
+
+# run docker
+docker run --rm \
+  -p 8501:8501 \
+  -v $(pwd):/app \
+  streamlit-test
+
+
+# interactive docker
+docker run --rm -it -v $(pwd):/app -w /app streamlit-test bash
 
 ```
 
@@ -70,4 +82,22 @@ for i,c in enumerate(temp.columns):
   row_cols[i+N_T_TPM_META_COLS].write(f"{tpm_val:.1f}")
 
 
+```
+
+# build docker
+```bash
+docker build -t streamlit-test .
+
+```
+
+```bash
+source /opt/conda/etc/profile.d/conda.sh
+conda activate app_env
+
+```
+```python
+import pandas as pd
+h5='data/human_triplets.h5'
+key='tss'
+df = pd.read_hdf(h5, key=key)
 ```

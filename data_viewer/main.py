@@ -184,8 +184,23 @@ def main():
         go_species = st.button('Go')
 
     if go_species:
-        
-        # when switching, turn this off while loading
+        # Clear previous data
+        for k in [
+            "ca",
+            "sg",
+            "loaded_session_cache",
+            "swan_loaded_session_cache",
+        ]:
+            if k in st.session_state:
+                del st.session_state[k]
+
+        # Re-initialize required caches
+        st.session_state.loaded_session_cache = {}
+        st.session_state.swan_loaded_session_cache = {}
+
+        import gc
+        gc.collect()
+
         st.session_state.data_loaded = False
         st.session_state.swan_data_loaded = False
 

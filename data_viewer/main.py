@@ -183,32 +183,118 @@ def main():
         st.species = species
         go_species = st.button('Go')
 
-    if go_species:
-        # Clear previous data
-        for k in [
-            "ca",
-            "sg",
-            "loaded_session_cache",
-            "swan_loaded_session_cache",
-        ]:
-            if k in st.session_state:
-                del st.session_state[k]
+        # information
+        gene_triplets_info_expander = st.expander("Information about gene triplets")
+        with gene_triplets_info_expander:
+            st.info("""
+            ### What are gene triplets?
 
-        # Re-initialize required caches
-        st.session_state.loaded_session_cache = {}
-        st.session_state.swan_loaded_session_cache = {}
+            Gene triplets summarize **relative isoform usage** for genes with three major transcript categories.
+            All triplets shown here are computed **only from polyA genes**.
 
-        import gc
-        gc.collect()
+            Different *triplet sets* correspond to different subsets of transcripts used in the computation.
+            Use this guide to understand what each option represents.
+            """)
 
-        st.session_state.data_loaded = False
-        st.session_state.swan_data_loaded = False
+            st.markdown("## Human triplet sets")
 
-        st.session_state.loaded_from_disk_path = f'{d}/data/{species.lower()}_triplets.h5'
-        st.session_state.swan_loaded_from_disk_path = f'{d}/data/{species.lower()}_swan.p'
-        with st.spinner("Loading data…"):
-            load_data(st.session_state.loaded_from_disk_path)
-            load_swan_data(st.session_state.swan_loaded_from_disk_path)
+            st.markdown("""
+            **`v40`**
+            All annotated transcripts from **GENCODE v40** genes.
+
+            **`gtex`**
+            Triplets computed from the **GTEx long-read RNA-seq dataset**
+            (Glinos et al., Nature 2022).
+
+            **`lapa`**
+            All transcripts detected **post-LAPA**, unfiltered
+            (i.e. before transcript-level filtering in the pipeline).
+
+            **`v29`**
+            All annotated transcripts from **GENCODE v29** genes.
+
+            **`obs_det`**
+            All **observed transcripts** detected in the dataset
+            (aggregated across samples).
+
+            **`obs_major`**
+            Only the **major (most highly expressed)** observed transcript per gene
+            (aggregated across samples).
+
+            **`sample_det`**
+            Transcripts **detected per condition**, computed at the condition level.
+
+            **`sample_major`**
+            Major transcripts per gene **within each conditions**.
+
+            **`obs_mm_det`**
+            Observed transcripts from **human conditions matched to mouse conditions**
+            (for cross-species comparisons).
+
+            **`obs_mm_major`**
+            Major observed transcripts from **human conditions matched to mouse conditions**.
+
+            **`all`**
+            Aggregate of all transcript sets.
+            """)
+
+            st.markdown("## Mouse triplet sets")
+
+            st.markdown("""
+            **`vM25`**
+            All annotated transcripts from **GENCODE vM25** genes.
+
+            **`vM21`**
+            All annotated transcripts from **GENCODE vM21** genes.
+
+            **`lapa`**
+            All transcripts detected **post-LAPA**, unfiltered.
+
+            **`obs_det`**
+            All **observed transcripts** detected in the dataset
+            (aggregated across samples).
+
+            **`obs_major`**
+            Only the **major observed transcript** per gene
+            (aggregated across samples).
+
+            **`sample_det`**
+            Transcripts **detected per conditions**, computed at the conditions level.
+
+            **`sample_major`**
+            Major transcripts per gene **within each conditions**.
+
+            **`all`**
+            Aggregate of transcript sets.
+            """)
+
+        if go_species:
+            # Clear previous data
+            for k in [
+                "ca",
+                "sg",
+                "loaded_session_cache",
+                "swan_loaded_session_cache",
+            ]:
+                if k in st.session_state:
+                    del st.session_state[k]
+
+            # Re-initialize required caches
+            st.session_state.loaded_session_cache = {}
+            st.session_state.swan_loaded_session_cache = {}
+
+            import gc
+            gc.collect()
+
+            st.session_state.data_loaded = False
+            st.session_state.swan_data_loaded = False
+
+            st.session_state.loaded_from_disk_path = f'{d}/data/{species.lower()}_triplets.h5'
+            st.session_state.swan_loaded_from_disk_path = f'{d}/data/{species.lower()}_swan.p'
+            with st.spinner("Loading data…"):
+                load_data(st.session_state.loaded_from_disk_path)
+                load_swan_data(st.session_state.swan_loaded_from_disk_path)
+
 
     with tab_simplex_view:
         render_simplex_tab()

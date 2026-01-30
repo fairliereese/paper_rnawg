@@ -6,6 +6,8 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     ca-certificates \
     openssl \
+    pkg-config \
+    libhdf5-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /wheels

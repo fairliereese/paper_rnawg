@@ -24,7 +24,9 @@ def render_simplex_tab():
         # triplet set picker
         triplet_set = st.selectbox(
             label='Triplet set',
-            options=ca.triplets.source.unique().tolist()
+            options=ca.triplets.source.unique().tolist(),
+            help="""See home tab "Information about gene triplets" section"""
+
         )
 
         temp_triplet_set = ca.triplets.loc[ca.triplets.source==triplet_set]

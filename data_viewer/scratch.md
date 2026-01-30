@@ -103,6 +103,15 @@ key='tss'
 df = pd.read_hdf(h5, key=key)
 ```
 
+Making multiarch image
+```bash
+docker buildx create --use
+docker buildx build \
+    --platform linux/amd64,linux/arm64 \
+    -t ghcr.io/fairliereese/encode4-viewer:latest \
+    --push .
+```
+
 pushing to GHCR
 ```bash
 echo $GHCR_TOKEN
@@ -126,3 +135,9 @@ Go to:
 GitHub → Packages → your image
 
 Package settings → Change visibility → Public -->
+
+to see whats in latest
+```bash
+docker buildx imagetools inspect ghcr.io/fairliereese/encode4-viewer:latest
+
+```

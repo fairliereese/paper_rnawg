@@ -31,7 +31,7 @@ bash download_data.sh
 ```bash
 docker run --rm \
   -p 8501:8501 \
-  -v $(pwd):/app \
+  -v $(pwd)/data:/data \
   ghcr.io/fairliereese/encode4-viewer:latest
 ```
 

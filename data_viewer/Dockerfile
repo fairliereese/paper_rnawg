@@ -40,7 +40,6 @@ RUN conda run -n app_env pip wheel \
     git+https://github.com/mortazavilab/swan_vis.git \
     git+https://github.com/mortazavilab/cerberus.git
 
-
 # ------------ runtime stage---------------
 FROM continuumio/miniconda3:latest
 
@@ -69,7 +68,12 @@ RUN conda run -n app_env pip install --no-cache-dir /wheels/* \
     && rm -rf /wheels \
     && rm -rf /opt/conda/pkgs/*
 
+WORKDIR /app
+COPY *.py /app/
+COPY *.png /app/
+COPY tabs/*.py /app/tabs/
+
 SHELL ["conda", "run", "-n", "app_env", "/bin/bash", "-c"]
 
 EXPOSE 8501
-CMD ["conda", "run", "--no-capture-output", "-n", "app_env", "streamlit", "run", "main.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["conda", "run", "--no-capture-output", "-n", "app_env", "streamlit", "run", "/app/main.py", "--server.port=8501", "--server.address=0.0.0.0"]

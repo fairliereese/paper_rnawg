@@ -11,12 +11,19 @@ streamlit run data_viewer/main.py
 # run docker
 docker run --rm \
   -p 8501:8501 \
-  -v $(pwd):/app \
+  -v $(pwd)/data:/data \
+  streamlit-test
+
+# run docker outside of data_viewer folder
+docker run --rm \
+  -p 8501:8501 \
+  -v $(pwd)/data_viewer/data:/data \
   streamlit-test
 
 
 # interactive docker
-docker run --rm -it -v $(pwd):/app -w /app streamlit-test bash
+docker run --rm -it -v $(pwd)/data:/data streamlit-test bash
+
 
 ```
 
@@ -123,6 +130,7 @@ docker push ghcr.io/fairliereese/encode4-viewer:latest
 docker pull ghcr.io/fairliereese/encode4-viewer:latest
 docker run -p 8501:8501 ghcr.io/fairliereese/encode4-viewer:latest
 
+docker run --rm -it -v $(pwd)/data:/data ghcr.io/fairliereese/encode4-viewer:latest bash
 ```
 
 <!-- Important) Make it public -->

@@ -183,6 +183,34 @@ def main():
         st.species = species
         go_species = st.button('Go')
 
+        if go_species:
+            # Clear previous data
+            for k in [
+                "ca",
+                "sg",
+                "loaded_session_cache",
+                "swan_loaded_session_cache",
+            ]:
+                if k in st.session_state:
+                    del st.session_state[k]
+
+            # Re-initialize required caches
+            st.session_state.loaded_session_cache = {}
+            st.session_state.swan_loaded_session_cache = {}
+
+            import gc
+            gc.collect()
+
+            st.session_state.data_loaded = False
+            st.session_state.swan_data_loaded = False
+
+            st.session_state.loaded_from_disk_path = f'/data/{species.lower()}_triplets.h5'
+            st.session_state.swan_loaded_from_disk_path = f'/data/{species.lower()}_swan.p'
+            with st.spinner("Loading data…"):
+                load_data(st.session_state.loaded_from_disk_path)
+                load_swan_data(st.session_state.swan_loaded_from_disk_path)
+
+
         # information
         gene_triplets_info_expander = st.expander("Information about gene triplets")
         with gene_triplets_info_expander:
@@ -267,34 +295,6 @@ def main():
             **`all`**
             Aggregate of transcript sets.
             """)
-
-        if go_species:
-            # Clear previous data
-            for k in [
-                "ca",
-                "sg",
-                "loaded_session_cache",
-                "swan_loaded_session_cache",
-            ]:
-                if k in st.session_state:
-                    del st.session_state[k]
-
-            # Re-initialize required caches
-            st.session_state.loaded_session_cache = {}
-            st.session_state.swan_loaded_session_cache = {}
-
-            import gc
-            gc.collect()
-
-            st.session_state.data_loaded = False
-            st.session_state.swan_data_loaded = False
-
-            st.session_state.loaded_from_disk_path = f'{d}/data/{species.lower()}_triplets.h5'
-            st.session_state.swan_loaded_from_disk_path = f'{d}/data/{species.lower()}_swan.p'
-            with st.spinner("Loading data…"):
-                load_data(st.session_state.loaded_from_disk_path)
-                load_swan_data(st.session_state.swan_loaded_from_disk_path)
-
 
     with tab_simplex_view:
         render_simplex_tab()

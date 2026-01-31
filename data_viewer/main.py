@@ -15,6 +15,10 @@ import matplotlib as mpl
 import cerberus
 import swan_vis as swan
 
+SESSION_VARS = ['ca', 'ca_path',
+    'sg', 'sg_path',
+    'gnames', 'num_cols', 'all_cols']
+
 __version__ = '0.0.1'
 
 
@@ -27,282 +31,41 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# def get_cli_args():
-#     """Parses command-line arguments for file paths."""
-#     parser = argparse.ArgumentParser(description='ENCODE4 LR-RNA-seq viewer')
-#     parser.add_argument('--h5', type=str, help='Path to a saved Cerberus h5 file')
-#     parser.add_argument('--sg', type=str, help='Path to a saved SwanGraph (pickle) file')
-#     args, _ = parser.parse_known_args()
-#     return args
+def init_session_state():
+    defaults = {c: None for c in SESSION_VARS}
 
-def load_swan_data(fname):
-    """
-    Load SwanGraph into streamlit space
-    """
+    for k, v in defaults.items():
+        st.session_state.setdefault(k, v)
 
-    if fname:
-        try:
-            # check if we've already loaded this session file
-            if fname in st.session_state.swan_loaded_session_cache:
-                sg = st.session_state.swan_loaded_session_cache[fname]
-            else:
-                sg = swan.read(fname)
-                print(f"Loaded SwanGraph from {fname}")
-                # Cache the loaded session
-                st.session_state.swan_loaded_session_cache[fname] = sg
-            st.session_state.sg = sg
-
-            st.session_state.swan_data_loaded = True
-
-            # mark that this session was loaded
-            st.session_state.swan_loaded_from_disk = True
-            st.session_state.swan_loaded_from_disk_path = fname
-
-            # store a user-friendly filename to display in UI
-            try:
-                # for CLI loads, display full absolute path to be explicit
-                st.session_state.swan_loaded_from_disk_filename = os.path.abspath(fname)
-            except Exception:
-                st.session_state.swan_loaded_from_disk_filename = fname
-
-        except Exception as e:
-            st.error(f"Failed to load file: {e}")
-            st.stop()
-
-def load_data(fname):
-    """
-    Load CerberusAnnotation into streamlit space
-    """
-
-    if fname:
-        try:
-            # check if we've already loaded this session file
-            if fname in st.session_state.loaded_session_cache:
-                ca = st.session_state.loaded_session_cache[fname]
-            else:
-                ca = cerberus.read(fname)
-                print(f"Loaded CerberusAnnotation from {fname}")
-                # Cache the loaded session
-                st.session_state.loaded_session_cache[fname] = ca
-            st.session_state.ca = ca
-
-            st.session_state.data_loaded = True
-
-            # mark that this session was loaded
-            st.session_state.loaded_from_disk = True
-            st.session_state.loaded_from_disk_path = fname
-
-            # store a user-friendly filename to display in UI
-            try:
-                # for CLI loads, display full absolute path to be explicit
-                st.session_state.loaded_from_disk_filename = os.path.abspath(fname)
-            except Exception:
-                st.session_state.loaded_from_disk_filename = fname
-
-        except Exception as e:
-            st.error(f"Failed to load file: {e}")
-            st.stop()
-
-# main
 def main():
+    init_session_state()
 
-    # cli_args = get_cli_args()
-
-    ##### INIT SESSION VARS
-    if "data_loaded" not in st.session_state:
-        st.session_state.data_loaded = False
-    if "swan_data_loaded" not in st.session_state:
-        st.session_state.swan_data_loaded = False
-
-    if 'loaded_from_disk_path' not in st.session_state:
-        st.session_state.loaded_from_disk_path = None
-    if 'swan_loaded_from_disk_path' not in st.session_state:
-        st.session_state.swan_loaded_from_disk_path = None
-
-
-    # cache for loaded session files to avoid reloading
-    if not hasattr(st.session_state, 'loaded_session_cache'):
-        st.session_state.loaded_session_cache = {}
-    if not hasattr(st.session_state, 'swan_loaded_session_cache'):
-        st.session_state.swan_loaded_session_cache = {}
-
-
-    # add cache for UI-loaded session files
-    if not hasattr(st.session_state, 'ui_loaded_session_cache'):
-        st.session_state.ui_loaded_session_cache = {}
-    if not hasattr(st.session_state, 'swan_ui_loaded_session_cache'):
-        st.session_state.swan_ui_loaded_session_cache = {}
-
-    # logo
     st.sidebar.image(f"{d}/cerberus_logo.png", width=300)
 
-    # load data from cmd line
-    # load_data(cli_args.h5)
-    # load_swan_data(cli_args.sg)
+    tab_landing, tab_simplex, tab_swan = st.tabs([
+        'Home',
+        'Simplex view',
+        'Swan view'
+    ])
 
-    # # if no CerberusAnnotation was loaded, add option to upload file on the sidebar
-    # upload_expander = st.sidebar.expander("Upload files", expanded=False)
-    # with upload_expander:
-    #
-    #     uploaded_file = st.file_uploader("Upload CerberusAnnotation", type=["h5"])
-    #     if not st.session_state.data_loaded:
-    #         if uploaded_file is not None:
-    #             import tempfile
-    #             with tempfile.NamedTemporaryFile(delete=False, suffix=".h5") as tmp:
-    #                 tmp.write(uploaded_file.getbuffer())
-    #                 file_to_load = tmp.name
-    #                 load_data(file_to_load)
-    #
-    #     st.markdown("---")
-    #
-    #
-    #     # if no SwanGraph was loaded, add option to upload file on the sidebar
-    #     uploaded_file = st.file_uploader("Upload SwanGraph", type=[".p"])
-    #     if not st.session_state.data_loaded:
-    #         if uploaded_file is not None:
-    #             import tempfile
-    #             with tempfile.NamedTemporaryFile(delete=False, suffix=".p") as tmp:
-    #                 tmp.write(uploaded_file.getbuffer())
-    #                 swan_file_to_load = tmp.name
-    #                 load_swan_data(swan_file_to_load)
-
-    # creating tabs for each visualization
-    tab_landing, tab_simplex_view, tab_swan_view, = st.tabs(["Home", "Simplex view", "Transcript structure / expression view"])
-
-    from tabs.simplex_tab import render_simplex_tab
+    from tabs.landing_tab import render_landing_tab
     from tabs.swan_tab import render_swan_tab
+    from tabs.simplex_tab import render_simplex_tab
 
     with tab_landing:
-        st.markdown('## Welcome to the ENCODE4 long-read RNA-seq data viewer')
+        render_landing_tab(SESSION_VARS)
 
-        st.markdown('#### Select species to begin')
-        species = st.selectbox(
-            label='Species',
-            options=['Human', 'Mouse']
-        )
-        st.species = species
-        go_species = st.button('Go')
+    with tab_simplex:
+        if st.session_state.ca is None:
+            st.info("No data loaded yet.")
+        else:
+            render_simplex_tab()
 
-        if go_species:
-            # Clear previous data
-            for k in [
-                "ca",
-                "sg",
-                "loaded_session_cache",
-                "swan_loaded_session_cache",
-            ]:
-                if k in st.session_state:
-                    del st.session_state[k]
-
-            # Re-initialize required caches
-            st.session_state.loaded_session_cache = {}
-            st.session_state.swan_loaded_session_cache = {}
-
-            import gc
-            gc.collect()
-
-            st.session_state.data_loaded = False
-            st.session_state.swan_data_loaded = False
-
-            st.session_state.loaded_from_disk_path = f'/data/{species.lower()}_triplets.h5'
-            st.session_state.swan_loaded_from_disk_path = f'/data/{species.lower()}_swan.p'
-            with st.spinner("Loading data…"):
-                load_data(st.session_state.loaded_from_disk_path)
-                load_swan_data(st.session_state.swan_loaded_from_disk_path)
-
-
-        # information
-        gene_triplets_info_expander = st.expander("Information about gene triplets")
-        with gene_triplets_info_expander:
-            st.info("""
-            ### What are gene triplets?
-
-            Gene triplets summarize **relative isoform usage** for genes with three major transcript categories.
-            All triplets shown here are computed **only from polyA genes**.
-
-            Different *triplet sets* correspond to different subsets of transcripts used in the computation.
-            Use this guide to understand what each option represents.
-            """)
-
-            st.markdown("## Human triplet sets")
-
-            st.markdown("""
-            **`v40`**
-            All annotated transcripts from **GENCODE v40** genes.
-
-            **`gtex`**
-            Triplets computed from the **GTEx long-read RNA-seq dataset**
-            (Glinos et al., Nature 2022).
-
-            **`lapa`**
-            All transcripts detected **post-LAPA**, unfiltered
-            (i.e. before transcript-level filtering in the pipeline).
-
-            **`v29`**
-            All annotated transcripts from **GENCODE v29** genes.
-
-            **`obs_det`**
-            All **observed transcripts** detected in the dataset
-            (aggregated across samples).
-
-            **`obs_major`**
-            Only the **major (most highly expressed)** observed transcript per gene
-            (aggregated across samples).
-
-            **`sample_det`**
-            Transcripts **detected per condition**, computed at the condition level.
-
-            **`sample_major`**
-            Major transcripts per gene **within each conditions**.
-
-            **`obs_mm_det`**
-            Observed transcripts from **human conditions matched to mouse conditions**
-            (for cross-species comparisons).
-
-            **`obs_mm_major`**
-            Major observed transcripts from **human conditions matched to mouse conditions**.
-
-            **`all`**
-            Aggregate of all transcript sets.
-            """)
-
-            st.markdown("## Mouse triplet sets")
-
-            st.markdown("""
-            **`vM25`**
-            All annotated transcripts from **GENCODE vM25** genes.
-
-            **`vM21`**
-            All annotated transcripts from **GENCODE vM21** genes.
-
-            **`lapa`**
-            All transcripts detected **post-LAPA**, unfiltered.
-
-            **`obs_det`**
-            All **observed transcripts** detected in the dataset
-            (aggregated across samples).
-
-            **`obs_major`**
-            Only the **major observed transcript** per gene
-            (aggregated across samples).
-
-            **`sample_det`**
-            Transcripts **detected per conditions**, computed at the conditions level.
-
-            **`sample_major`**
-            Major transcripts per gene **within each conditions**.
-
-            **`all`**
-            Aggregate of transcript sets.
-            """)
-
-    with tab_simplex_view:
-        render_simplex_tab()
-
-    with tab_swan_view:
-        render_swan_tab()
-
-    st.markdown("---")
+    with tab_swan:
+        if st.session_state.sg is None:
+            st.info("No data loaded yet.")
+        else:
+            render_swan_tab()
 
 if __name__ == "__main__":
     main()

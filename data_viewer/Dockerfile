@@ -22,7 +22,10 @@ ssl_verify: false\n" > /opt/conda/.condarc
 ENV CONDA_SSL_VERIFY=no
 
 RUN conda create -y -n app_env python=3.8
-RUN conda run -n app_env conda install -y -c conda-forge pytables=3.8.0 hdf5
+RUN conda run -n app_env conda install -y -c conda-forge \
+  pytables=3.8.0 \
+  h5py=3.11.0 \
+  hdf5
 RUN conda run -n app_env pip install --no-cache-dir --upgrade pip wheel
 
 RUN conda run -n app_env pip wheel \
@@ -34,7 +37,6 @@ RUN conda run -n app_env pip wheel \
     scanpy==1.9.8 \
     scipy==1.10.1 \
     pyranges==0.1.4 \
-    h5py==3.11.0 \
     plotly \
     git+https://github.com/fairliereese/python-ternary \
     git+https://github.com/mortazavilab/swan_vis.git \
